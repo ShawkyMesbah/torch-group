@@ -1,10 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "@supabase/supabase-js": "^2.49.4",
-    "react-hook-form": "^7.56.2",
-    "sonner": "^2.0.3"
-=======
   "name": "torch-group",
   "version": "0.1.0",
   "private": true,
@@ -15,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
+    "react-hook-form": "^7.56.2",
+    "sonner": "^2.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "next": "15.3.1"
@@ -29,6 +26,5 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "@eslint/eslintrc": "^3"
->>>>>>> 045bd6ba3afc14cb0686447e7e9bf1c285d83879
   }
 }
