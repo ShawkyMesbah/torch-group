@@ -1,0 +1,104 @@
+# Cursor Rules
+
+## Instructions
+
+- Record fixes for mistakes or corrections to avoid repetition in the `Lessons` section.
+- Organize thoughts and plan steps before starting a task in the `Scratchpad` section.
+- Clear old tasks if necessary.
+- Use todo markers for progress tracking:
+  - `[X]` Completed tasks
+  - `[ ]` Pending tasks
+- Update Scratchpad after completing subtasks.
+- Reflect and plan after milestones for better task management.
+- Always refer to Scratchpad before planning the next step.
+
+## Lessons
+
+
+## Scratchpad
+
+
+
+#### Phase 1: Project Setup and Configuration
+- [X] Initialize Next.js 15 project with TypeScript
+- [X] Configure TailwindCSS and PostCSS
+- [X] Set up project structure (pages, components, libs, etc.)
+- [X] Install and configure dependencies:
+  - [X] Shadcn UI components
+  - [X] Lucide icons
+  - [X] Zod for schema validation
+  - [X] Zustand for state management
+  - [X] Resend for email functionality
+  - [X] Uploadthing for file uploads
+  - [X] Prisma ORM
+  - [X] Supabase for PostgreSQL database
+  - [X] next-auth@beta for authentication
+
+#### Phase 2: Database and Authentication
+- [ ] Set up Supabase project and PostgreSQL database
+- [ ] Define Prisma schema with required models:
+  - [ ] Users (admin, staff)
+  - [ ] Pages (home, about, services, etc.)
+  - [ ] Blog posts
+  - [ ] Projects/Case studies
+  - [ ] Team members
+  - [ ] Contact messages
+- [ ] Configure Prisma client
+- [ ] Implement next-auth authentication with Supabase
+- [ ] Create user roles and permissions
+
+#### Phase 3: Frontend Development - Public Website
+- [ ] Design and implement layout components
+  - [ ] Header with navigation
+  - [ ] Footer
+  - [ ] Hero sections
+  - [ ] CTAs
+- [ ] Create public pages:
+  - [ ] Home page
+  - [ ] About page
+  - [ ] Services page
+  - [ ] Projects/Portfolio page
+  - [ ] Team page
+  - [ ] Blog with individual post pages
+  - [ ] Contact page
+- [ ] Implement responsive design
+- [ ] Add animations and transitions
+
+#### Phase 4: Admin Dashboard Development
+- [ ] Create dashboard layout with Shadcn UI
+- [ ] Implement authentication and authorization checks
+- [ ] Build dashboard pages:
+  - [ ] Dashboard overview/analytics
+  - [ ] Content management (pages, blog posts)
+  - [ ] User management
+  - [ ] Project/case study management
+  - [ ] Team member management
+  - [ ] Contact message management
+- [ ] Implement CRUD operations for all entities
+- [ ] Create form components with Zod validation
+
+#### Phase 5: Backend API Development
+- [ ] Implement API routes for all resources
+- [ ] Set up middleware for authentication
+- [ ] Create services for business logic
+- [ ] Implement file upload functionality with Uploadthing
+- [ ] Configure email sending with Resend
+
+#### Phase 6: State Management and Integration
+- [ ] Set up Zustand stores for global state
+- [ ] Implement data fetching and caching strategies
+- [ ] Connect frontend to API endpoints
+- [ ] Optimize data loading and performance
+
+#### Phase 7: Testing and Quality Assurance
+- [ ] Write unit tests for components and API routes
+- [ ] Perform integration testing
+- [ ] Test responsiveness across devices
+- [ ] Conduct security and performance audits
+
+#### Phase 8: Deployment and Launch
+- [ ] Set up CI/CD pipeline
+- [ ] Configure production environment
+- [ ] Deploy to hosting provider
+- [ ] Set up monitoring and error tracking
+- [ ] Perform final QA and launch
