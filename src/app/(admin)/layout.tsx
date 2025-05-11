@@ -41,6 +41,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </Link>
             </li>
             <li>
+              <Link href="/dashboard/talents" className="block p-2 rounded hover:bg-gray-100">
+                Talents
+              </Link>
+            </li>
+            <li>
               <Link href="/dashboard/messages" className="block p-2 rounded hover:bg-gray-100">
                 Messages
               </Link>
@@ -60,7 +65,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-white shadow-sm p-4 flex justify-between items-center">
           <h2 className="text-lg font-semibold">Dashboard</h2>
@@ -77,7 +82,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </header>
 
         {/* Page Content */}
-        <main className="p-6">
+        <main className="p-6 overflow-auto flex-1">
           {children}
         </main>
       </div>

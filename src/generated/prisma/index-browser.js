@@ -193,6 +193,18 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TalentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  role: 'role',
+  category: 'category',
+  bio: 'bio',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -223,13 +235,29 @@ exports.Role = exports.$Enums.Role = {
   STAFF: 'STAFF'
 };
 
+exports.TalentCategory = exports.$Enums.TalentCategory = {
+  DESIGN: 'DESIGN',
+  MUSIC: 'MUSIC',
+  PERFORMANCE: 'PERFORMANCE',
+  TECHNOLOGY: 'TECHNOLOGY',
+  MARKETING: 'MARKETING',
+  OTHER: 'OTHER'
+};
+
+exports.TalentStatus = exports.$Enums.TalentStatus = {
+  ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
+  HIDDEN: 'HIDDEN'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Page: 'Page',
   BlogPost: 'BlogPost',
   Project: 'Project',
   TeamMember: 'TeamMember',
-  ContactMessage: 'ContactMessage'
+  ContactMessage: 'ContactMessage',
+  Talent: 'Talent'
 };
 
 /**

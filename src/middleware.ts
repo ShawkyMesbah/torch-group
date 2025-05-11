@@ -1,9 +1,12 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+export async function middleware(request: NextRequest) {
+  const { nextUrl } = request;
+  
+  // Get the token from the NextAuth.js JWT
+  const token = await getToken({ req: request });
+  const isLoggedIn = !!token;
 
   // Public routes that don't require authentication
   const isPublicRoute = [
@@ -34,7 +37,7 @@ export default auth((req) => {
   }
 
   return NextResponse.next();
-});
+}
 
 // Export middleware config
 export const config = {

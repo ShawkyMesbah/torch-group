@@ -43,6 +43,11 @@ export type TeamMember = $Result.DefaultSelection<Prisma.$TeamMemberPayload>
  * 
  */
 export type ContactMessage = $Result.DefaultSelection<Prisma.$ContactMessagePayload>
+/**
+ * Model Talent
+ * 
+ */
+export type Talent = $Result.DefaultSelection<Prisma.$TalentPayload>
 
 /**
  * Enums
@@ -55,11 +60,40 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const TalentCategory: {
+  DESIGN: 'DESIGN',
+  MUSIC: 'MUSIC',
+  PERFORMANCE: 'PERFORMANCE',
+  TECHNOLOGY: 'TECHNOLOGY',
+  MARKETING: 'MARKETING',
+  OTHER: 'OTHER'
+};
+
+export type TalentCategory = (typeof TalentCategory)[keyof typeof TalentCategory]
+
+
+export const TalentStatus: {
+  ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
+  HIDDEN: 'HIDDEN'
+};
+
+export type TalentStatus = (typeof TalentStatus)[keyof typeof TalentStatus]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type TalentCategory = $Enums.TalentCategory
+
+export const TalentCategory: typeof $Enums.TalentCategory
+
+export type TalentStatus = $Enums.TalentStatus
+
+export const TalentStatus: typeof $Enums.TalentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -245,6 +279,16 @@ export class PrismaClient<
     * ```
     */
   get contactMessage(): Prisma.ContactMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.talent`: Exposes CRUD operations for the **Talent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Talents
+    * const talents = await prisma.talent.findMany()
+    * ```
+    */
+  get talent(): Prisma.TalentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -690,7 +734,8 @@ export namespace Prisma {
     BlogPost: 'BlogPost',
     Project: 'Project',
     TeamMember: 'TeamMember',
-    ContactMessage: 'ContactMessage'
+    ContactMessage: 'ContactMessage',
+    Talent: 'Talent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -709,7 +754,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "page" | "blogPost" | "project" | "teamMember" | "contactMessage"
+      modelProps: "user" | "page" | "blogPost" | "project" | "teamMember" | "contactMessage" | "talent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1157,6 +1202,80 @@ export namespace Prisma {
           }
         }
       }
+      Talent: {
+        payload: Prisma.$TalentPayload<ExtArgs>
+        fields: Prisma.TalentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TalentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TalentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>
+          }
+          findFirst: {
+            args: Prisma.TalentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TalentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>
+          }
+          findMany: {
+            args: Prisma.TalentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>[]
+          }
+          create: {
+            args: Prisma.TalentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>
+          }
+          createMany: {
+            args: Prisma.TalentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TalentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>[]
+          }
+          delete: {
+            args: Prisma.TalentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>
+          }
+          update: {
+            args: Prisma.TalentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>
+          }
+          deleteMany: {
+            args: Prisma.TalentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TalentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TalentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>[]
+          }
+          upsert: {
+            args: Prisma.TalentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TalentPayload>
+          }
+          aggregate: {
+            args: Prisma.TalentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTalent>
+          }
+          groupBy: {
+            args: Prisma.TalentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TalentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TalentCountArgs<ExtArgs>
+            result: $Utils.Optional<TalentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1247,6 +1366,7 @@ export namespace Prisma {
     project?: ProjectOmit
     teamMember?: TeamMemberOmit
     contactMessage?: ContactMessageOmit
+    talent?: TalentOmit
   }
 
   /* Types for Logging */
@@ -7801,6 +7921,1053 @@ export namespace Prisma {
 
 
   /**
+   * Model Talent
+   */
+
+  export type AggregateTalent = {
+    _count: TalentCountAggregateOutputType | null
+    _min: TalentMinAggregateOutputType | null
+    _max: TalentMaxAggregateOutputType | null
+  }
+
+  export type TalentMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    role: string | null
+    category: $Enums.TalentCategory | null
+    bio: string | null
+    imageUrl: string | null
+    status: $Enums.TalentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TalentMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    role: string | null
+    category: $Enums.TalentCategory | null
+    bio: string | null
+    imageUrl: string | null
+    status: $Enums.TalentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TalentCountAggregateOutputType = {
+    id: number
+    name: number
+    role: number
+    category: number
+    bio: number
+    imageUrl: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TalentMinAggregateInputType = {
+    id?: true
+    name?: true
+    role?: true
+    category?: true
+    bio?: true
+    imageUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TalentMaxAggregateInputType = {
+    id?: true
+    name?: true
+    role?: true
+    category?: true
+    bio?: true
+    imageUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TalentCountAggregateInputType = {
+    id?: true
+    name?: true
+    role?: true
+    category?: true
+    bio?: true
+    imageUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TalentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Talent to aggregate.
+     */
+    where?: TalentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Talents to fetch.
+     */
+    orderBy?: TalentOrderByWithRelationInput | TalentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TalentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Talents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Talents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Talents
+    **/
+    _count?: true | TalentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TalentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TalentMaxAggregateInputType
+  }
+
+  export type GetTalentAggregateType<T extends TalentAggregateArgs> = {
+        [P in keyof T & keyof AggregateTalent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTalent[P]>
+      : GetScalarType<T[P], AggregateTalent[P]>
+  }
+
+
+
+
+  export type TalentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TalentWhereInput
+    orderBy?: TalentOrderByWithAggregationInput | TalentOrderByWithAggregationInput[]
+    by: TalentScalarFieldEnum[] | TalentScalarFieldEnum
+    having?: TalentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TalentCountAggregateInputType | true
+    _min?: TalentMinAggregateInputType
+    _max?: TalentMaxAggregateInputType
+  }
+
+  export type TalentGroupByOutputType = {
+    id: string
+    name: string
+    role: string
+    category: $Enums.TalentCategory
+    bio: string
+    imageUrl: string | null
+    status: $Enums.TalentStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: TalentCountAggregateOutputType | null
+    _min: TalentMinAggregateOutputType | null
+    _max: TalentMaxAggregateOutputType | null
+  }
+
+  type GetTalentGroupByPayload<T extends TalentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TalentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TalentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TalentGroupByOutputType[P]>
+            : GetScalarType<T[P], TalentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TalentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    category?: boolean
+    bio?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["talent"]>
+
+  export type TalentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    category?: boolean
+    bio?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["talent"]>
+
+  export type TalentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    category?: boolean
+    bio?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["talent"]>
+
+  export type TalentSelectScalar = {
+    id?: boolean
+    name?: boolean
+    role?: boolean
+    category?: boolean
+    bio?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TalentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "role" | "category" | "bio" | "imageUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["talent"]>
+
+  export type $TalentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Talent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      role: string
+      category: $Enums.TalentCategory
+      bio: string
+      imageUrl: string | null
+      status: $Enums.TalentStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["talent"]>
+    composites: {}
+  }
+
+  type TalentGetPayload<S extends boolean | null | undefined | TalentDefaultArgs> = $Result.GetResult<Prisma.$TalentPayload, S>
+
+  type TalentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TalentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TalentCountAggregateInputType | true
+    }
+
+  export interface TalentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Talent'], meta: { name: 'Talent' } }
+    /**
+     * Find zero or one Talent that matches the filter.
+     * @param {TalentFindUniqueArgs} args - Arguments to find a Talent
+     * @example
+     * // Get one Talent
+     * const talent = await prisma.talent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TalentFindUniqueArgs>(args: SelectSubset<T, TalentFindUniqueArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Talent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TalentFindUniqueOrThrowArgs} args - Arguments to find a Talent
+     * @example
+     * // Get one Talent
+     * const talent = await prisma.talent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TalentFindUniqueOrThrowArgs>(args: SelectSubset<T, TalentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Talent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentFindFirstArgs} args - Arguments to find a Talent
+     * @example
+     * // Get one Talent
+     * const talent = await prisma.talent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TalentFindFirstArgs>(args?: SelectSubset<T, TalentFindFirstArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Talent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentFindFirstOrThrowArgs} args - Arguments to find a Talent
+     * @example
+     * // Get one Talent
+     * const talent = await prisma.talent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TalentFindFirstOrThrowArgs>(args?: SelectSubset<T, TalentFindFirstOrThrowArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Talents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Talents
+     * const talents = await prisma.talent.findMany()
+     * 
+     * // Get first 10 Talents
+     * const talents = await prisma.talent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const talentWithIdOnly = await prisma.talent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TalentFindManyArgs>(args?: SelectSubset<T, TalentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Talent.
+     * @param {TalentCreateArgs} args - Arguments to create a Talent.
+     * @example
+     * // Create one Talent
+     * const Talent = await prisma.talent.create({
+     *   data: {
+     *     // ... data to create a Talent
+     *   }
+     * })
+     * 
+     */
+    create<T extends TalentCreateArgs>(args: SelectSubset<T, TalentCreateArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Talents.
+     * @param {TalentCreateManyArgs} args - Arguments to create many Talents.
+     * @example
+     * // Create many Talents
+     * const talent = await prisma.talent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TalentCreateManyArgs>(args?: SelectSubset<T, TalentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Talents and returns the data saved in the database.
+     * @param {TalentCreateManyAndReturnArgs} args - Arguments to create many Talents.
+     * @example
+     * // Create many Talents
+     * const talent = await prisma.talent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Talents and only return the `id`
+     * const talentWithIdOnly = await prisma.talent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TalentCreateManyAndReturnArgs>(args?: SelectSubset<T, TalentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Talent.
+     * @param {TalentDeleteArgs} args - Arguments to delete one Talent.
+     * @example
+     * // Delete one Talent
+     * const Talent = await prisma.talent.delete({
+     *   where: {
+     *     // ... filter to delete one Talent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TalentDeleteArgs>(args: SelectSubset<T, TalentDeleteArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Talent.
+     * @param {TalentUpdateArgs} args - Arguments to update one Talent.
+     * @example
+     * // Update one Talent
+     * const talent = await prisma.talent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TalentUpdateArgs>(args: SelectSubset<T, TalentUpdateArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Talents.
+     * @param {TalentDeleteManyArgs} args - Arguments to filter Talents to delete.
+     * @example
+     * // Delete a few Talents
+     * const { count } = await prisma.talent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TalentDeleteManyArgs>(args?: SelectSubset<T, TalentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Talents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Talents
+     * const talent = await prisma.talent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TalentUpdateManyArgs>(args: SelectSubset<T, TalentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Talents and returns the data updated in the database.
+     * @param {TalentUpdateManyAndReturnArgs} args - Arguments to update many Talents.
+     * @example
+     * // Update many Talents
+     * const talent = await prisma.talent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Talents and only return the `id`
+     * const talentWithIdOnly = await prisma.talent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TalentUpdateManyAndReturnArgs>(args: SelectSubset<T, TalentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Talent.
+     * @param {TalentUpsertArgs} args - Arguments to update or create a Talent.
+     * @example
+     * // Update or create a Talent
+     * const talent = await prisma.talent.upsert({
+     *   create: {
+     *     // ... data to create a Talent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Talent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TalentUpsertArgs>(args: SelectSubset<T, TalentUpsertArgs<ExtArgs>>): Prisma__TalentClient<$Result.GetResult<Prisma.$TalentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Talents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentCountArgs} args - Arguments to filter Talents to count.
+     * @example
+     * // Count the number of Talents
+     * const count = await prisma.talent.count({
+     *   where: {
+     *     // ... the filter for the Talents we want to count
+     *   }
+     * })
+    **/
+    count<T extends TalentCountArgs>(
+      args?: Subset<T, TalentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TalentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Talent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TalentAggregateArgs>(args: Subset<T, TalentAggregateArgs>): Prisma.PrismaPromise<GetTalentAggregateType<T>>
+
+    /**
+     * Group by Talent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TalentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TalentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TalentGroupByArgs['orderBy'] }
+        : { orderBy?: TalentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TalentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTalentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Talent model
+   */
+  readonly fields: TalentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Talent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TalentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Talent model
+   */
+  interface TalentFieldRefs {
+    readonly id: FieldRef<"Talent", 'String'>
+    readonly name: FieldRef<"Talent", 'String'>
+    readonly role: FieldRef<"Talent", 'String'>
+    readonly category: FieldRef<"Talent", 'TalentCategory'>
+    readonly bio: FieldRef<"Talent", 'String'>
+    readonly imageUrl: FieldRef<"Talent", 'String'>
+    readonly status: FieldRef<"Talent", 'TalentStatus'>
+    readonly createdAt: FieldRef<"Talent", 'DateTime'>
+    readonly updatedAt: FieldRef<"Talent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Talent findUnique
+   */
+  export type TalentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * Filter, which Talent to fetch.
+     */
+    where: TalentWhereUniqueInput
+  }
+
+  /**
+   * Talent findUniqueOrThrow
+   */
+  export type TalentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * Filter, which Talent to fetch.
+     */
+    where: TalentWhereUniqueInput
+  }
+
+  /**
+   * Talent findFirst
+   */
+  export type TalentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * Filter, which Talent to fetch.
+     */
+    where?: TalentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Talents to fetch.
+     */
+    orderBy?: TalentOrderByWithRelationInput | TalentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Talents.
+     */
+    cursor?: TalentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Talents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Talents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Talents.
+     */
+    distinct?: TalentScalarFieldEnum | TalentScalarFieldEnum[]
+  }
+
+  /**
+   * Talent findFirstOrThrow
+   */
+  export type TalentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * Filter, which Talent to fetch.
+     */
+    where?: TalentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Talents to fetch.
+     */
+    orderBy?: TalentOrderByWithRelationInput | TalentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Talents.
+     */
+    cursor?: TalentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Talents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Talents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Talents.
+     */
+    distinct?: TalentScalarFieldEnum | TalentScalarFieldEnum[]
+  }
+
+  /**
+   * Talent findMany
+   */
+  export type TalentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * Filter, which Talents to fetch.
+     */
+    where?: TalentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Talents to fetch.
+     */
+    orderBy?: TalentOrderByWithRelationInput | TalentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Talents.
+     */
+    cursor?: TalentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Talents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Talents.
+     */
+    skip?: number
+    distinct?: TalentScalarFieldEnum | TalentScalarFieldEnum[]
+  }
+
+  /**
+   * Talent create
+   */
+  export type TalentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Talent.
+     */
+    data: XOR<TalentCreateInput, TalentUncheckedCreateInput>
+  }
+
+  /**
+   * Talent createMany
+   */
+  export type TalentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Talents.
+     */
+    data: TalentCreateManyInput | TalentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Talent createManyAndReturn
+   */
+  export type TalentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Talents.
+     */
+    data: TalentCreateManyInput | TalentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Talent update
+   */
+  export type TalentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Talent.
+     */
+    data: XOR<TalentUpdateInput, TalentUncheckedUpdateInput>
+    /**
+     * Choose, which Talent to update.
+     */
+    where: TalentWhereUniqueInput
+  }
+
+  /**
+   * Talent updateMany
+   */
+  export type TalentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Talents.
+     */
+    data: XOR<TalentUpdateManyMutationInput, TalentUncheckedUpdateManyInput>
+    /**
+     * Filter which Talents to update
+     */
+    where?: TalentWhereInput
+    /**
+     * Limit how many Talents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Talent updateManyAndReturn
+   */
+  export type TalentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * The data used to update Talents.
+     */
+    data: XOR<TalentUpdateManyMutationInput, TalentUncheckedUpdateManyInput>
+    /**
+     * Filter which Talents to update
+     */
+    where?: TalentWhereInput
+    /**
+     * Limit how many Talents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Talent upsert
+   */
+  export type TalentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Talent to update in case it exists.
+     */
+    where: TalentWhereUniqueInput
+    /**
+     * In case the Talent found by the `where` argument doesn't exist, create a new Talent with this data.
+     */
+    create: XOR<TalentCreateInput, TalentUncheckedCreateInput>
+    /**
+     * In case the Talent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TalentUpdateInput, TalentUncheckedUpdateInput>
+  }
+
+  /**
+   * Talent delete
+   */
+  export type TalentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+    /**
+     * Filter which Talent to delete.
+     */
+    where: TalentWhereUniqueInput
+  }
+
+  /**
+   * Talent deleteMany
+   */
+  export type TalentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Talents to delete
+     */
+    where?: TalentWhereInput
+    /**
+     * Limit how many Talents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Talent without action
+   */
+  export type TalentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Talent
+     */
+    select?: TalentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Talent
+     */
+    omit?: TalentOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7903,6 +9070,21 @@ export namespace Prisma {
   };
 
   export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+  export const TalentScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    role: 'role',
+    category: 'category',
+    bio: 'bio',
+    imageUrl: 'imageUrl',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TalentScalarFieldEnum = (typeof TalentScalarFieldEnum)[keyof typeof TalentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8011,6 +9193,34 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'TalentCategory'
+   */
+  export type EnumTalentCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TalentCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'TalentCategory[]'
+   */
+  export type ListEnumTalentCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TalentCategory[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TalentStatus'
+   */
+  export type EnumTalentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TalentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TalentStatus[]'
+   */
+  export type ListEnumTalentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TalentStatus[]'>
     
 
 
@@ -8472,6 +9682,78 @@ export namespace Prisma {
     isRead?: BoolWithAggregatesFilter<"ContactMessage"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ContactMessage"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ContactMessage"> | Date | string
+  }
+
+  export type TalentWhereInput = {
+    AND?: TalentWhereInput | TalentWhereInput[]
+    OR?: TalentWhereInput[]
+    NOT?: TalentWhereInput | TalentWhereInput[]
+    id?: StringFilter<"Talent"> | string
+    name?: StringFilter<"Talent"> | string
+    role?: StringFilter<"Talent"> | string
+    category?: EnumTalentCategoryFilter<"Talent"> | $Enums.TalentCategory
+    bio?: StringFilter<"Talent"> | string
+    imageUrl?: StringNullableFilter<"Talent"> | string | null
+    status?: EnumTalentStatusFilter<"Talent"> | $Enums.TalentStatus
+    createdAt?: DateTimeFilter<"Talent"> | Date | string
+    updatedAt?: DateTimeFilter<"Talent"> | Date | string
+  }
+
+  export type TalentOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    bio?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TalentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TalentWhereInput | TalentWhereInput[]
+    OR?: TalentWhereInput[]
+    NOT?: TalentWhereInput | TalentWhereInput[]
+    name?: StringFilter<"Talent"> | string
+    role?: StringFilter<"Talent"> | string
+    category?: EnumTalentCategoryFilter<"Talent"> | $Enums.TalentCategory
+    bio?: StringFilter<"Talent"> | string
+    imageUrl?: StringNullableFilter<"Talent"> | string | null
+    status?: EnumTalentStatusFilter<"Talent"> | $Enums.TalentStatus
+    createdAt?: DateTimeFilter<"Talent"> | Date | string
+    updatedAt?: DateTimeFilter<"Talent"> | Date | string
+  }, "id">
+
+  export type TalentOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    bio?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TalentCountOrderByAggregateInput
+    _max?: TalentMaxOrderByAggregateInput
+    _min?: TalentMinOrderByAggregateInput
+  }
+
+  export type TalentScalarWhereWithAggregatesInput = {
+    AND?: TalentScalarWhereWithAggregatesInput | TalentScalarWhereWithAggregatesInput[]
+    OR?: TalentScalarWhereWithAggregatesInput[]
+    NOT?: TalentScalarWhereWithAggregatesInput | TalentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Talent"> | string
+    name?: StringWithAggregatesFilter<"Talent"> | string
+    role?: StringWithAggregatesFilter<"Talent"> | string
+    category?: EnumTalentCategoryWithAggregatesFilter<"Talent"> | $Enums.TalentCategory
+    bio?: StringWithAggregatesFilter<"Talent"> | string
+    imageUrl?: StringNullableWithAggregatesFilter<"Talent"> | string | null
+    status?: EnumTalentStatusWithAggregatesFilter<"Talent"> | $Enums.TalentStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Talent"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Talent"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -8988,6 +10270,90 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TalentCreateInput = {
+    id?: string
+    name: string
+    role: string
+    category: $Enums.TalentCategory
+    bio: string
+    imageUrl?: string | null
+    status?: $Enums.TalentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TalentUncheckedCreateInput = {
+    id?: string
+    name: string
+    role: string
+    category: $Enums.TalentCategory
+    bio: string
+    imageUrl?: string | null
+    status?: $Enums.TalentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TalentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumTalentCategoryFieldUpdateOperationsInput | $Enums.TalentCategory
+    bio?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTalentStatusFieldUpdateOperationsInput | $Enums.TalentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TalentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumTalentCategoryFieldUpdateOperationsInput | $Enums.TalentCategory
+    bio?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTalentStatusFieldUpdateOperationsInput | $Enums.TalentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TalentCreateManyInput = {
+    id?: string
+    name: string
+    role: string
+    category: $Enums.TalentCategory
+    bio: string
+    imageUrl?: string | null
+    status?: $Enums.TalentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TalentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumTalentCategoryFieldUpdateOperationsInput | $Enums.TalentCategory
+    bio?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTalentStatusFieldUpdateOperationsInput | $Enums.TalentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TalentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumTalentCategoryFieldUpdateOperationsInput | $Enums.TalentCategory
+    bio?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTalentStatusFieldUpdateOperationsInput | $Enums.TalentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9420,6 +10786,76 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumTalentCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentCategory | EnumTalentCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentCategoryFilter<$PrismaModel> | $Enums.TalentCategory
+  }
+
+  export type EnumTalentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentStatus | EnumTalentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentStatusFilter<$PrismaModel> | $Enums.TalentStatus
+  }
+
+  export type TalentCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    bio?: SortOrder
+    imageUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TalentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    bio?: SortOrder
+    imageUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TalentMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    bio?: SortOrder
+    imageUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumTalentCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentCategory | EnumTalentCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentCategoryWithAggregatesFilter<$PrismaModel> | $Enums.TalentCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTalentCategoryFilter<$PrismaModel>
+    _max?: NestedEnumTalentCategoryFilter<$PrismaModel>
+  }
+
+  export type EnumTalentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentStatus | EnumTalentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentStatusWithAggregatesFilter<$PrismaModel> | $Enums.TalentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTalentStatusFilter<$PrismaModel>
+    _max?: NestedEnumTalentStatusFilter<$PrismaModel>
+  }
+
   export type BlogPostCreateNestedManyWithoutAuthorInput = {
     create?: XOR<BlogPostCreateWithoutAuthorInput, BlogPostUncheckedCreateWithoutAuthorInput> | BlogPostCreateWithoutAuthorInput[] | BlogPostUncheckedCreateWithoutAuthorInput[]
     connectOrCreate?: BlogPostCreateOrConnectWithoutAuthorInput | BlogPostCreateOrConnectWithoutAuthorInput[]
@@ -9498,6 +10934,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPostsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostsInput, UserUpdateWithoutPostsInput>, UserUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type EnumTalentCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.TalentCategory
+  }
+
+  export type EnumTalentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TalentStatus
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9685,6 +11129,40 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumTalentCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentCategory | EnumTalentCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentCategoryFilter<$PrismaModel> | $Enums.TalentCategory
+  }
+
+  export type NestedEnumTalentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentStatus | EnumTalentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentStatusFilter<$PrismaModel> | $Enums.TalentStatus
+  }
+
+  export type NestedEnumTalentCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentCategory | EnumTalentCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentCategory[] | ListEnumTalentCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentCategoryWithAggregatesFilter<$PrismaModel> | $Enums.TalentCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTalentCategoryFilter<$PrismaModel>
+    _max?: NestedEnumTalentCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTalentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TalentStatus | EnumTalentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TalentStatus[] | ListEnumTalentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTalentStatusWithAggregatesFilter<$PrismaModel> | $Enums.TalentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTalentStatusFilter<$PrismaModel>
+    _max?: NestedEnumTalentStatusFilter<$PrismaModel>
   }
 
   export type BlogPostCreateWithoutAuthorInput = {
