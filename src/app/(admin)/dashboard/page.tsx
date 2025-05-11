@@ -1,7 +1,22 @@
-export default function DashboardPage() {
+import { auth } from "@/lib/auth";
+
+export default async function DashboardPage() {
+  const session = await auth();
+  const user = session?.user;
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Dashboard Overview</h1>
+      
+      {/* User welcome */}
+      {user && (
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <h2 className="text-lg font-medium mb-2">Welcome, {user.name || 'User'}</h2>
+          <p className="text-sm text-gray-500">
+            Role: {user.role || 'Staff'} | Email: {user.email}
+          </p>
+        </div>
+      )}
       
       {/* Dashboard Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

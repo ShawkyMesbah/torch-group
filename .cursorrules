@@ -36,16 +36,16 @@
 
 #### Phase 2: Database and Authentication
 - [ ] Set up Supabase project and PostgreSQL database
-- [ ] Define Prisma schema with required models:
-  - [ ] Users (admin, staff)
-  - [ ] Pages (home, about, services, etc.)
-  - [ ] Blog posts
-  - [ ] Projects/Case studies
-  - [ ] Team members
-  - [ ] Contact messages
-- [ ] Configure Prisma client
-- [ ] Implement next-auth authentication with Supabase
-- [ ] Create user roles and permissions
+- [X] Define Prisma schema with required models:
+  - [X] Users (admin, staff)
+  - [X] Pages (home, about, services, etc.)
+  - [X] Blog posts
+  - [X] Projects/Case studies
+  - [X] Team members
+  - [X] Contact messages
+- [X] Configure Prisma client
+- [X] Implement next-auth authentication with Supabase
+- [X] Create user roles and permissions
 
 #### Phase 3: Frontend Development - Public Website
 - [ ] Design and implement layout components
