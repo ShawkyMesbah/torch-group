@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@/generated/prisma";
 import { auth } from "@/lib/auth";
+import { isAuthorized } from "@/lib/authorization";
 
 const prisma = new PrismaClient();
 
@@ -16,6 +17,13 @@ export async function GET(request: NextRequest) {
     if (!session || !session.user) {
       return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
+      });
+    }
+    
+    // Check if user has at least STAFF role
+    if (!isAuthorized(session, "STAFF")) {
+      return new NextResponse(JSON.stringify({ message: "Forbidden: Insufficient permissions" }), {
+        status: 403,
       });
     }
     
@@ -42,10 +50,17 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     
-    // Validate that user is authenticated and has appropriate role
+    // Validate that user is authenticated
     if (!session || !session.user) {
       return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
+      });
+    }
+    
+    // Check if user has at least STAFF role
+    if (!isAuthorized(session, "STAFF")) {
+      return new NextResponse(JSON.stringify({ message: "Forbidden: Insufficient permissions" }), {
+        status: 403,
       });
     }
     

@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -90,28 +89,29 @@ model TeamMember {
 
 // Contact message model
 model ContactMessage {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  phone     String?
-  subject   String
-  message   String   @db.Text
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String?
+  subject    String
+  message    String   @db.Text
+  attachment String?  // URL to uploaded file
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 // Talent model
 model Talent {
-  id        String       @id @default(cuid())
+  id        String         @id @default(cuid())
   name      String
   role      String
   category  TalentCategory
-  bio       String       @db.Text
+  bio       String         @db.Text
   imageUrl  String?
-  status    TalentStatus @default(PENDING)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  status    TalentStatus   @default(PENDING)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
 enum TalentCategory {
@@ -127,4 +127,19 @@ enum TalentStatus {
   ACTIVE
   PENDING
   HIDDEN
+}
+
+// Analytics event model
+model AnalyticsEvent {
+  id        String           @id @default(cuid())
+  type      AnalyticsEventType
+  meta      Json?
+  createdAt DateTime         @default(now())
+}
+
+enum AnalyticsEventType {
+  PAGE_VIEW
+  FORM_SUBMIT
+  PHONE_VERIFIED
+  TALENT_CLICK
 }

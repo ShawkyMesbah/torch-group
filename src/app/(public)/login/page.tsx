@@ -1,22 +1,37 @@
-import { Metadata } from "next";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
-
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { LoginForm } from "@/components/forms/login-form";
 
-export const metadata: Metadata = {
-  title: "Login | Torch Group",
-  description: "Login to your Torch Group account",
-};
+export default function LoginPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
-export default async function LoginPage() {
-  const session = await auth();
-  
-  // Redirect to dashboard if already authenticated
-  if (session?.user) {
-    redirect("/dashboard");
+  useEffect(() => {
+    // Check if user is already logged in
+    const checkSession = async () => {
+      try {
+        const res = await fetch("/api/auth/session");
+        const session = await res.json();
+        
+        if (session?.user) {
+          router.push("/dashboard");
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, [router]);
+
+  if (loading) {
+    return <div className="container flex h-screen w-screen items-center justify-center">Loading...</div>;
   }
 
   return (

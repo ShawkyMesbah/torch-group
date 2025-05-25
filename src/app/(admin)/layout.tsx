@@ -1,91 +1,36 @@
 import { ReactNode } from 'react';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import AdminLayoutClient from './admin-layout-client';
+import { cookies } from 'next/headers';
 
-interface AdminLayoutProps {
-  children: ReactNode;
-}
-
-export default function AdminLayout({ children }: AdminLayoutProps) {
-  return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md">
-        <div className="p-4 border-b">
-          <h1 className="text-xl font-bold text-primary-600">Torch Admin</h1>
-        </div>
-        <nav className="p-4">
-          <ul className="space-y-2">
-            <li>
-              <Link href="/dashboard" className="block p-2 rounded hover:bg-gray-100">
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/pages" className="block p-2 rounded hover:bg-gray-100">
-                Pages
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/blog" className="block p-2 rounded hover:bg-gray-100">
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/projects" className="block p-2 rounded hover:bg-gray-100">
-                Projects
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/team" className="block p-2 rounded hover:bg-gray-100">
-                Team
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/talents" className="block p-2 rounded hover:bg-gray-100">
-                Talents
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/messages" className="block p-2 rounded hover:bg-gray-100">
-                Messages
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/users" className="block p-2 rounded hover:bg-gray-100">
-                Users
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/settings" className="block p-2 rounded hover:bg-gray-100">
-                Settings
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white shadow-sm p-4 flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Dashboard</h2>
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-600 hover:text-gray-900">
-              Notifications
-            </button>
-            <div className="relative">
-              <button className="flex items-center space-x-2">
-                <span>Admin User</span>
-              </button>
-            </div>
-          </div>
-        </header>
-
-        {/* Page Content */}
-        <main className="p-6 overflow-auto flex-1">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+// Server Component to handle authentication
+export default async function AdminLayout({ children }: { children: ReactNode }) {
+  try {
+    // Simply check for the presence of session cookies
+    const cookieStore = await cookies();
+    const cookieNames = cookieStore.getAll().map((c: { name: string }) => c.name);
+    
+    const hasSessionCookie = 
+      cookieNames.includes("next-auth.session-token") || 
+      cookieNames.includes("__Secure-next-auth.session-token");
+    
+    // If no auth cookie found, redirect to unauthorized
+    if (!hasSessionCookie) {
+      console.log("No auth cookie found, redirecting to unauthorized");
+      return redirect("/unauthorized");
+    }
+    
+    // If auth cookie exists, create default user info for the client
+    const userInfo = {
+      name: "Admin User",
+      email: "admin@torchgroup.co",
+      role: "ADMIN",
+      isAdmin: true
+    };
+    
+    return <AdminLayoutClient userInfo={userInfo}>{children}</AdminLayoutClient>;
+  } catch (error) {
+    console.error("Error in AdminLayout:", error);
+    return redirect("/unauthorized");
+  }
 } 

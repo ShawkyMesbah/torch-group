@@ -1,54 +1,69 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { analyticsMiddleware } from "./middleware/analytics";
 
 export async function middleware(request: NextRequest) {
-  const { nextUrl } = request;
+  const { pathname } = request.nextUrl;
   
-  // Get the token from the NextAuth.js JWT
-  const token = await getToken({ req: request });
-  const isLoggedIn = !!token;
-
-  // Public routes that don't require authentication
-  const isPublicRoute = [
-    "/",
-    "/login",
-    "/about",
-    "/services",
-    "/projects",
-    "/team",
-    "/blog",
-    "/contact",
-  ].includes(nextUrl.pathname);
-
-  // API routes for public access
-  const isPublicApiRoute = nextUrl.pathname.startsWith("/api/public");
-
-  // Auth routes that nextauth manages
-  const isAuthRoute = nextUrl.pathname.startsWith("/api/auth");
-
-  // If the user is not logged in and tries to access a protected route
-  if (!isLoggedIn && !isPublicRoute && !isPublicApiRoute && !isAuthRoute) {
-    return NextResponse.redirect(new URL("/login", nextUrl));
+  // Run analytics middleware first
+  const analyticsResponse = await analyticsMiddleware(request);
+  
+  // If analytics middleware returns a specific response, return it
+  if (analyticsResponse && analyticsResponse !== NextResponse.next()) {
+    return analyticsResponse;
   }
 
-  // If the user is logged in and tries to access login page
-  if (isLoggedIn && nextUrl.pathname === "/login") {
-    return NextResponse.redirect(new URL("/dashboard", nextUrl));
+  // Allow all /api/auth/* and /api/test/* routes to bypass auth
+  if (pathname.startsWith('/api/auth') || pathname.startsWith('/api/test')) {
+    return NextResponse.next();
+  }
+
+  // Try to get token using NextAuth's method
+  let token = null;
+  try {
+    token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+  } catch (error) {
+    // Silent error in production
+  }
+
+  // Check for admin cookie
+  const hasAdminCookie = request.cookies.has("next-auth.session-token") || 
+                       request.cookies.has("__Secure-next-auth.session-token");
+
+  // For dashboard access, allow either a valid NextAuth token or our admin cookie
+  if (pathname.startsWith("/dashboard")) {
+    // Allow access if either condition is true:
+    // 1. Valid NextAuth token with ADMIN role
+    // 2. Our custom admin cookie exists
+    if ((token && token.role === "ADMIN") || hasAdminCookie) {
+      return NextResponse.next();
+    }
+    
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  }
+
+  // For API routes, check auth
+  if (pathname.startsWith("/api/")) {
+    if (!token && !hasAdminCookie) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
 }
 
-// Export middleware config
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.jpg$|.*\\.png$).*)",
+    // Include the homepage and all public paths for analytics
+    '/',
+    '/(public)/:path*',
+    // Only run auth middleware on these specific paths
+    '/dashboard/:path*',
+    '/api/:path*'
   ],
 }; 

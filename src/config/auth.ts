@@ -22,7 +22,7 @@ export default {
         try {
           const user = await prisma.user.findUnique({
             where: {
-              email: credentials.email
+              email: credentials.email as string
             }
           });
 
@@ -31,7 +31,7 @@ export default {
           }
 
           const isPasswordValid = await compare(
-            credentials.password,
+            credentials.password as string,
             user.password
           );
 
@@ -59,8 +59,8 @@ export default {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.name = user.name;
-        token.role = user.role;
+        token.name = user.name || "";
+        token.role = user.role as string;
       }
       return token;
     },
@@ -76,6 +76,6 @@ export default {
   },
   pages: {
     signIn: "/login",
-    error: "/login",
+    error: "/unauthorized",
   },
 } satisfies NextAuthConfig; 

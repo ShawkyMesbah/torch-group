@@ -1,0 +1,9 @@
+{
+  "id": "admin-user-id",
+  "name": "Shawqy",
+  "email": "admin@torchgroup.co",
+  "password": "$2b$10$S1uMjNmzlmegOcGBiSTLDuXVgXuD8rNsAKeXcAL.Jy2wR.yC4Fa6i",
+  "role": "ADMIN",
+  "createdAt": "2025-05-14T07:09:42.526Z",
+  "updatedAt": "2025-05-14T07:09:42.527Z"
+}

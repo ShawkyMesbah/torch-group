@@ -1,0 +1,10 @@
+{
+  "projectName": "torch-group",
+  "projectDescription": "Next.js website for Torch Group with dashboard and content management system",
+  "tasksDir": "./tasks",
+  "taskTemplate": "default",
+  "aiProvider": "anthropic",
+  "model": "claude-3-opus-20240229",
+  "autoGenerateTasks": true,
+  "defaultMaxTokens": 100000
+} 

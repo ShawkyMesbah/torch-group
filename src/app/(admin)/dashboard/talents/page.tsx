@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PlusCircle, Pencil, Trash2, MoreHorizontal } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, MoreHorizontal, AlertTriangle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { useTalents } from "@/hooks/useTalents";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuthorization } from "@/hooks/useAuthorization";
 // Import TalentCategory and TalentStatus from the generated Prisma client
 import { TalentCategory, TalentStatus } from "@/generated/prisma";
 
@@ -57,6 +58,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FileUpload } from "@/components/ui/file-upload";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { DataLoader } from "@/components/ui/data-loader";
 
 // Type for form data
 type TalentFormData = {
@@ -86,10 +90,13 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function TalentsPage() {
   const { toast } = useToast();
+  // Add authorization check hook
+  const { isAuthorized, isLoading: authLoading } = useAuthorization("STAFF");
   const { 
     talents, 
     loading, 
     error, 
+    retryCount,
     fetchTalents, 
     createTalent, 
     updateTalent, 
@@ -167,6 +174,12 @@ export default function TalentsPage() {
       if (success) {
         setIsDeleteConfirmOpen(false);
         setSelectedTalent(null);
+      } else {
+        toast({
+          title: "Permission Denied",
+          description: "You don't have sufficient permissions to delete talents.",
+          variant: "destructive",
+        });
       }
     }
   };
@@ -184,30 +197,273 @@ export default function TalentsPage() {
         return <Badge variant="secondary">{status}</Badge>;
     }
   };
+
+  // Show table with talent data
+  const renderTalentsTable = (data: typeof talents) => (
+    <Table>
+      <TableCaption>
+        {retryCount > 0 && (
+          <div className="mb-2 text-xs text-yellow-600 flex items-center gap-1">
+            <AlertTriangle className="h-3 w-3" />
+            Experienced connection issues. Retry {retryCount}/{3}
+          </div>
+        )}
+        A list of all talents ({data.length})
+      </TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Role</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead className="text-right">Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((talent) => (
+          <TableRow key={talent.id}>
+            <TableCell className="font-medium">{talent.name}</TableCell>
+            <TableCell>{talent.role}</TableCell>
+            <TableCell>{talent.category}</TableCell>
+            <TableCell>{getStatusBadge(talent.status as TalentStatus)}</TableCell>
+            <TableCell className="text-right">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Actions</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setSelectedTalent(talent.id);
+                      setIsEditTalentOpen(true);
+                    }}
+                  >
+                    <Pencil className="h-4 w-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-red-600"
+                    onClick={() => {
+                      setSelectedTalent(talent.id);
+                      setIsDeleteConfirmOpen(true);
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
   
   return (
-    <div className="container mx-auto space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Talent Management</h1>
+    <ErrorBoundary>
+      <div className="container mx-auto space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Talent Management</h1>
+          
+          {/* New Talent Button */}
+          <Dialog open={isNewTalentOpen} onOpenChange={setIsNewTalentOpen}>
+            <DialogTrigger asChild>
+              <Button className="flex items-center gap-2">
+                <PlusCircle className="h-4 w-4" />
+                <span>New Talent</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[600px]">
+              <DialogHeader>
+                <DialogTitle>Add New Talent</DialogTitle>
+                <DialogDescription>
+                  Enter the details for the new talent. Click save when you're done.
+                </DialogDescription>
+              </DialogHeader>
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Role</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Singer, Designer, etc." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Category</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select category" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Object.values(TalentCategory).map((category) => (
+                                <SelectItem
+                                  key={category}
+                                  value={category}
+                                >
+                                  {category}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="status"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Status</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select status" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Object.values(TalentStatus).map((status) => (
+                                <SelectItem
+                                  key={status}
+                                  value={status}
+                                >
+                                  {status}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Bio</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Brief description of the talent"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Image URL</FormLabel>
+                        <FormControl>
+                          <div className="flex gap-2 items-start">
+                            <Input
+                              placeholder="https://example.com/image.jpg"
+                              {...field}
+                              value={field.value || ""}
+                            />
+                            <FileUpload
+                              endpoint="profileImage"
+                              value={field.value || ""}
+                              onChange={(url) => field.onChange(url || "")}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormDescription>
+                          Upload or provide a URL to the talent's image
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <DialogFooter>
+                    <Button 
+                      variant="outline" 
+                      type="button"
+                      onClick={() => isEditTalentOpen ? setIsEditTalentOpen(false) : setIsNewTalentOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                      {form.formState.isSubmitting ? (
+                        <div className="flex items-center gap-2">
+                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                          <span>Saving...</span>
+                        </div>
+                      ) : isEditTalentOpen ? "Update Talent" : "Create Talent"}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        </div>
         
-        {/* New Talent Button */}
-        <Dialog open={isNewTalentOpen} onOpenChange={setIsNewTalentOpen}>
-          <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
-              <PlusCircle className="h-4 w-4" />
-              <span>New Talent</span>
-            </Button>
-          </DialogTrigger>
+        {/* Edit Talent Dialog */}
+        <Dialog open={isEditTalentOpen} onOpenChange={setIsEditTalentOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>Add New Talent</DialogTitle>
+              <DialogTitle>Edit Talent</DialogTitle>
               <DialogDescription>
-                Enter the details for the new talent. Click save when you're done.
+                Update the talent's information. Click save when you're done.
               </DialogDescription>
             </DialogHeader>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {/* Same form fields as in the New Talent dialog */}
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -248,15 +504,19 @@ export default function TalentsPage() {
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a category" />
+                              <SelectValue placeholder="Select category" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {Object.values(TalentCategory).map((category) => (
-                              <SelectItem key={category as string} value={category as string}>
+                              <SelectItem
+                                key={category}
+                                value={category}
+                              >
                                 {category}
                               </SelectItem>
                             ))}
@@ -276,15 +536,19 @@ export default function TalentsPage() {
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a status" />
+                              <SelectValue placeholder="Select status" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {Object.values(TalentStatus).map((status) => (
-                              <SelectItem key={status as string} value={status as string}>
+                              <SelectItem
+                                key={status}
+                                value={status}
+                              >
                                 {status}
                               </SelectItem>
                             ))}
@@ -298,31 +562,13 @@ export default function TalentsPage() {
                 
                 <FormField
                   control={form.control}
-                  name="imageUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Image URL (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://example.com/image.jpg" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Enter the URL of the talent's photo or avatar
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
                   name="bio"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Bio</FormLabel>
                       <FormControl>
-                        <textarea
-                          className="flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Brief biography or description"
+                        <Input
+                          placeholder="Brief description of the talent"
                           {...field}
                         />
                       </FormControl>
@@ -331,270 +577,97 @@ export default function TalentsPage() {
                   )}
                 />
                 
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image URL</FormLabel>
+                      <FormControl>
+                        <div className="flex gap-2 items-start">
+                          <Input
+                            placeholder="https://example.com/image.jpg"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                          <FileUpload
+                            endpoint="profileImage"
+                            value={field.value || ""}
+                            onChange={(url) => field.onChange(url || "")}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
                 <DialogFooter>
+                  <Button 
+                    variant="outline" 
+                    type="button"
+                    onClick={() => setIsEditTalentOpen(false)}
+                  >
+                    Cancel
+                  </Button>
                   <Button type="submit" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting ? "Saving..." : "Save Talent"}
+                    {form.formState.isSubmitting ? (
+                      <div className="flex items-center gap-2">
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                        <span>Updating...</span>
+                      </div>
+                    ) : "Update Talent"}
                   </Button>
                 </DialogFooter>
               </form>
             </Form>
           </DialogContent>
         </Dialog>
+        
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Confirm Deletion</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete this talent? This action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button 
+                variant="outline" 
+                onClick={() => setIsDeleteConfirmOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button 
+                variant="destructive" 
+                onClick={handleDelete}
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                    <span>Deleting...</span>
+                  </div>
+                ) : "Delete"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        
+        {/* Data Display with Error and Loading Handling */}
+        <DataLoader
+          isLoading={loading || authLoading}
+          error={error}
+          data={talents}
+          onRetry={fetchTalents}
+          emptyMessage="No talents found. Create your first talent to get started."
+        >
+          {(talentsData) => renderTalentsTable(talentsData)}
+        </DataLoader>
       </div>
-      
-      {/* Edit Talent Dialog */}
-      <Dialog open={isEditTalentOpen} onOpenChange={setIsEditTalentOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Edit Talent</DialogTitle>
-            <DialogDescription>
-              Update the details for this talent. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="John Doe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Role</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Singer, Designer, etc." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.values(TalentCategory).map((category) => (
-                            <SelectItem key={category as string} value={category as string}>
-                              {category}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Status</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a status" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.values(TalentStatus).map((status) => (
-                            <SelectItem key={status as string} value={status as string}>
-                              {status}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              
-              <FormField
-                control={form.control}
-                name="imageUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image URL (Optional)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="https://example.com/image.jpg" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Enter the URL of the talent's photo or avatar
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="bio"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bio</FormLabel>
-                    <FormControl>
-                      <textarea
-                        className="flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Brief biography or description"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <DialogFooter>
-                <Button type="submit" disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? "Saving..." : "Update Talent"}
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this talent? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="space-x-2">
-            <Button variant="outline" onClick={() => setIsDeleteConfirmOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Talents Table */}
-      <div className="bg-white shadow rounded-md">
-        <Table>
-          <TableCaption>
-            {loading ? "Loading talents..." : `A list of all talents (${talents.length})`}
-          </TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Added</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-8">
-                  Loading talents...
-                </TableCell>
-              </TableRow>
-            ) : talents.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-8">
-                  No talents found. Add a new talent to get started.
-                </TableCell>
-              </TableRow>
-            ) : (
-              talents.map((talent) => (
-                <TableRow key={talent.id}>
-                  <TableCell className="font-medium">{talent.name}</TableCell>
-                  <TableCell>{talent.role}</TableCell>
-                  <TableCell>{talent.category}</TableCell>
-                  <TableCell>{getStatusBadge(talent.status as TalentStatus)}</TableCell>
-                  <TableCell>
-                    {format(new Date(talent.createdAt), "MMM d, yyyy")}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setSelectedTalent(talent.id);
-                            setIsEditTalentOpen(true);
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <Pencil className="h-4 w-4 mr-2" />
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setSelectedTalent(talent.id);
-                            setIsDeleteConfirmOpen(true);
-                          }}
-                          className="cursor-pointer text-destructive focus:text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      
-      {/* Error Display */}
-      {error && (
-        <div className="bg-destructive/10 text-destructive p-4 rounded-md">
-          <p className="font-medium">Error loading talents</p>
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-    </div>
+    </ErrorBoundary>
   );
 }
 

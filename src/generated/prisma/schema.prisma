@@ -128,3 +128,18 @@ enum TalentStatus {
   PENDING
   HIDDEN
 }
+
+// Analytics event model
+model AnalyticsEvent {
+  id        String             @id @default(cuid())
+  type      AnalyticsEventType
+  meta      Json?
+  createdAt DateTime           @default(now())
+}
+
+enum AnalyticsEventType {
+  PAGE_VIEW
+  FORM_SUBMIT
+  PHONE_VERIFIED
+  TALENT_CLICK
+}

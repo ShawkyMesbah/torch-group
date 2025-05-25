@@ -1,0 +1,38 @@
+[
+  {
+    "id": "hero",
+    "title": "Hero",
+    "order": 0,
+    "enabled": true
+  },
+  {
+    "id": "torch-group",
+    "title": "Torch Group",
+    "order": 1,
+    "enabled": true
+  },
+  {
+    "id": "services",
+    "title": "Services",
+    "order": 2,
+    "enabled": true
+  },
+  {
+    "id": "blog",
+    "title": "Our Blog",
+    "order": 3,
+    "enabled": true
+  },
+  {
+    "id": "torch-talents",
+    "title": "Torch Talents",
+    "order": 4,
+    "enabled": true
+  },
+  {
+    "id": "contact",
+    "title": "Contact",
+    "order": 5,
+    "enabled": true
+  }
+]

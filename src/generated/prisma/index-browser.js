@@ -205,6 +205,13 @@ exports.Prisma.TalentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AnalyticsEventScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  meta: 'meta',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -250,6 +257,13 @@ exports.TalentStatus = exports.$Enums.TalentStatus = {
   HIDDEN: 'HIDDEN'
 };
 
+exports.AnalyticsEventType = exports.$Enums.AnalyticsEventType = {
+  PAGE_VIEW: 'PAGE_VIEW',
+  FORM_SUBMIT: 'FORM_SUBMIT',
+  PHONE_VERIFIED: 'PHONE_VERIFIED',
+  TALENT_CLICK: 'TALENT_CLICK'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Page: 'Page',
@@ -257,7 +271,8 @@ exports.Prisma.ModelName = {
   Project: 'Project',
   TeamMember: 'TeamMember',
   ContactMessage: 'ContactMessage',
-  Talent: 'Talent'
+  Talent: 'Talent',
+  AnalyticsEvent: 'AnalyticsEvent'
 };
 
 /**

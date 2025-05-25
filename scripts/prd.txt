@@ -1,0 +1,81 @@
+# Torch Group Website - Product Requirements Document
+
+## Overview
+The Torch Group website needs several key enhancements to improve user experience, admin capabilities, and overall functionality. This document outlines the requirements for these features.
+
+## Required Features
+
+### 1. Environment Configuration
+- Create a comprehensive .env file with all necessary variables
+- Include database connection settings for Supabase
+- Add authentication configuration for NextAuth
+- Configure API keys for third-party services
+- Document each variable with comments
+
+### 2. Analytics Dashboard
+- Build a new admin dashboard section for data visualization
+- Implement charts for visitor statistics
+- Track user registrations and content metrics
+- Allow filtering by date range
+- Enable export of reports in CSV format
+- Ensure mobile responsiveness
+
+### 3. API Documentation
+- Create a developer portal for API documentation
+- Document all available endpoints with examples
+- Include authentication instructions
+- Provide error handling information
+- Add code samples in multiple languages
+
+### 4. Email Integration
+- Implement email sending functionality using Resend
+- Create email templates for contact form submissions
+- Set up notification emails for admin users
+- Implement newsletter subscription confirmations
+- Add email validation and error handling
+
+### 5. Mobile Optimization
+- Enhance responsive design for all screen sizes
+- Fix navigation menu issues on mobile devices
+- Optimize image loading for mobile connections
+- Ensure touch-friendly interface elements
+- Test on multiple device types
+
+### 6. Testing Framework
+- Set up Jest for unit testing
+- Implement Cypress for end-to-end testing
+- Create test cases for critical user flows
+- Set up CI pipeline for automated testing
+- Add code coverage reporting
+
+### 7. User Profile Management
+- Allow users to update profile information
+- Implement avatar/image upload
+- Add user preference settings
+- Create page for viewing activity history
+- Implement account deletion functionality
+
+### 8. Performance Optimization
+- Implement code splitting for faster load times
+- Optimize image delivery with next/image
+- Add caching strategies for API responses
+- Reduce JavaScript bundle size
+- Implement server-side rendering where appropriate
+
+## Timeline
+The above features should be implemented in the following order of priority:
+1. Environment Configuration
+2. Email Integration
+3. Mobile Optimization
+4. User Profile Management
+5. Analytics Dashboard
+6. Performance Optimization
+7. Testing Framework
+8. API Documentation
+
+## Technical Constraints
+- Must maintain TypeScript throughout the codebase
+- Follow Next.js best practices
+- Ensure accessibility compliance
+- Maintain compatibility with existing Prisma schema
+- Keep bundle size optimal 

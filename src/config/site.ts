@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Torch Group',
   description: 'Professional services and solutions for businesses',
-  url: 'https://torchgroup.com',
+  url: 'https://torchgroup.co',
   ogImage: '/images/og-image.jpg',
   links: {
     twitter: 'https://twitter.com/torchgroup',
@@ -9,9 +9,9 @@ export const siteConfig = {
     linkedin: 'https://linkedin.com/company/torchgroup',
   },
   contactInfo: {
-    email: 'contact@torchgroup.com',
+    email: 'Ask@torchgroup.co',
     phone: '+1 (555) 123-4567',
-    address: '123 Business Street, Suite 100, New York, NY 10001',
+    address: 'Saudi Arabia, Riyadh',
   },
   mainNav: [
     {
@@ -36,7 +36,7 @@ export const siteConfig = {
     },
     {
       title: 'Contact',
-      href: '/contact',
+      href: '/#contact',
     },
   ],
   footerNav: {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@/generated/prisma";
 import { auth } from "@/lib/auth";
+import { isAuthorized } from "@/lib/authorization";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,13 @@ export async function GET(
     if (!session || !session.user) {
       return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
+      });
+    }
+    
+    // Check if user has at least STAFF role
+    if (!isAuthorized(session, "STAFF")) {
+      return new NextResponse(JSON.stringify({ message: "Forbidden: Insufficient permissions" }), {
+        status: 403,
       });
     }
     
@@ -58,6 +66,13 @@ export async function PATCH(
     if (!session || !session.user) {
       return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
+      });
+    }
+    
+    // Check if user has at least STAFF role
+    if (!isAuthorized(session, "STAFF")) {
+      return new NextResponse(JSON.stringify({ message: "Forbidden: Insufficient permissions" }), {
+        status: 403,
       });
     }
     
@@ -114,6 +129,13 @@ export async function DELETE(
     if (!session || !session.user) {
       return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
+      });
+    }
+    
+    // For deletion, we require ADMIN role for extra security
+    if (!isAuthorized(session, "ADMIN")) {
+      return new NextResponse(JSON.stringify({ message: "Forbidden: Admin access required" }), {
+        status: 403,
       });
     }
     
