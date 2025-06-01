@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useContactMessages } from "@/hooks/useContactMessages";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from '../../../../components/ui/button';
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";

@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Button } from '../../../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 function SimpleDashboardContent() {

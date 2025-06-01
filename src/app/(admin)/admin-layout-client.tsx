@@ -3,7 +3,7 @@
 import { ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { PanelLeft, Settings, Users } from 'lucide-react';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface AdminLayoutProps {
