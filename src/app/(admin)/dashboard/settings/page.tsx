@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Draggable, DraggableProvided, DroppableProvided, DropResult } from "react-beautiful-dnd";
-import { DndProvider, StrictModeDroppable } from "@/components/ui/dnd-provider";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -78,23 +76,6 @@ export default function SettingsPage() {
       setAboutText(aboutContent.content);
     }
   }, [aboutContent]);
-
-  // Handle drag end event
-  const handleDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
-
-    const items = Array.from(sections);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    // Update order values
-    const updatedItems = items.map((item, index) => ({
-      ...item,
-      order: index
-    }));
-
-    setSections(updatedItems);
-  };
 
   // Toggle section visibility
   const toggleSectionVisibility = (id: string) => {
@@ -186,59 +167,38 @@ export default function SettingsPage() {
                 </div>
               ) : (
                 <>
-                  <DndProvider onDragEnd={handleDragEnd}>
-                    <StrictModeDroppable droppableId="sections" isCombineEnabled={false} isDropDisabled={false}>
-                      {(provided: DroppableProvided) => (
+                  <div className="space-y-3">
+                    {sections
+                      .sort((a, b) => a.order - b.order)
+                      .map((section, index) => (
                         <div
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          className="space-y-3"
+                          key={section.id}
+                          className={`flex items-center justify-between p-4 rounded-md bg-gray-900/50 border border-gray-800 ${!section.enabled ? 'opacity-60' : ''}`}
                         >
-                          {sections
-                            .sort((a, b) => a.order - b.order)
-                            .map((section, index) => (
-                              <Draggable 
-                                key={section.id} 
-                                draggableId={section.id} 
-                                index={index}
-                                isDragDisabled={false}
-                              >
-                                {(provided: DraggableProvided) => (
-                                  <div
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    className={`flex items-center justify-between p-4 rounded-md bg-gray-900/50 border border-gray-800 ${!section.enabled ? 'opacity-60' : ''}`}
-                                  >
-                                    <div className="flex items-center space-x-4">
-                                      <div {...provided.dragHandleProps} className="text-gray-400 cursor-move">
-                                        <GripVertical size={20} />
-                                      </div>
-                                      <span className="font-medium">{section.title}</span>
-                                      {section.id === "hero" && (
-                                        <span className="text-xs bg-gray-800 text-gray-300 px-2 py-0.5 rounded">Required</span>
-                                      )}
-                                    </div>
-                                    
-                                    <div className="flex items-center space-x-2">
-                                      <Switch
-                                        id={`toggle-${section.id}`}
-                                        checked={section.enabled}
-                                        onCheckedChange={() => section.id !== "hero" && toggleSectionVisibility(section.id)}
-                                        disabled={section.id === "hero"}
-                                      />
-                                      <Label htmlFor={`toggle-${section.id}`} className="text-sm">
-                                        {section.enabled ? "Visible" : "Hidden"}
-                                      </Label>
-                                    </div>
-                                  </div>
-                                )}
-                              </Draggable>
-                            ))}
-                          {provided.placeholder}
+                          <div className="flex items-center space-x-4">
+                            <div className="text-gray-400 cursor-move">
+                              <GripVertical size={20} />
+                            </div>
+                            <span className="font-medium">{section.title}</span>
+                            {section.id === "hero" && (
+                              <span className="text-xs bg-gray-800 text-gray-300 px-2 py-0.5 rounded">Required</span>
+                            )}
+                          </div>
+                          
+                          <div className="flex items-center space-x-2">
+                            <Switch
+                              id={`toggle-${section.id}`}
+                              checked={section.enabled}
+                              onCheckedChange={() => section.id !== "hero" && toggleSectionVisibility(section.id)}
+                              disabled={section.id === "hero"}
+                            />
+                            <Label htmlFor={`toggle-${section.id}`} className="text-sm">
+                              {section.enabled ? "Visible" : "Hidden"}
+                            </Label>
+                          </div>
                         </div>
-                      )}
-                    </StrictModeDroppable>
-                  </DndProvider>
+                      ))}
+                  </div>
                   
                   <div className="mt-6 flex flex-col space-y-3">
                     {saveError && (
