@@ -6,13 +6,15 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimatedFadeIn } from "@/components/ui/animated-fade-in";
+import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
 
 export default function AboutPage() {
   return (
-    <main className="flex flex-col min-h-screen bg-black text-white">
+    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden">
+      {/* Animated grid background to match homepage */}
+      <SharedTorchBackground />
       {/* Hero Section */}
-      <SectionWrapper animation="fade-in" className="py-20 px-4 md:px-6 lg:px-8 relative">
-        <div className="absolute inset-0 z-0 opacity-20 bg-grid-pattern"></div>
+      <SectionWrapper animation="fade-in" className="py-20 px-4 md:px-6 lg:px-8 relative bg-transparent">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-12">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
@@ -26,7 +28,7 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Our Story Section */}
-      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8">
+      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -63,7 +65,7 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Core Values Section */}
-      <SectionWrapper animation="fade-in" darkBg={true} className="py-16 px-4 md:px-6 lg:px-8">
+      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold mb-12 text-center text-white">Our Core Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -97,7 +99,7 @@ export default function AboutPage() {
                 key={value.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="bg-gray-900/70 p-8 rounded-lg border border-gray-800 hover:border-red-600 transition-colors"
+                className="bg-transparent p-8 rounded-lg border border-gray-800 hover:border-red-600 transition-colors"
               >
                 <h3 className="text-xl font-semibold mb-4 text-white">{value.title}</h3>
                 <p className="text-gray-200">
@@ -110,7 +112,7 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Team Section */}
-      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8">
+      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4 text-white">Meet Our Leadership</h2>
@@ -150,7 +152,7 @@ export default function AboutPage() {
                 key={member.name}
                 animation="fade-in"
                 delay={0.15 * index}
-                className="bg-black p-6 rounded-lg border border-gray-800 hover:border-red-600 transition-colors"
+                className="bg-transparent p-6 rounded-lg border border-gray-800 hover:border-red-600 transition-colors"
               >
                 <div className="h-64 rounded-lg overflow-hidden mb-4 relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
@@ -171,9 +173,9 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* CTA Section */}
-      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8">
+      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-red-900/50 to-black p-8 md:p-12 rounded-xl border border-red-900">
+          <div className="bg-gradient-to-r from-red-900/50 to-black/0 p-8 md:p-12 rounded-xl border border-red-900">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Ready to transform your digital presence?</h2>
               <p className="text-gray-200 mb-8">

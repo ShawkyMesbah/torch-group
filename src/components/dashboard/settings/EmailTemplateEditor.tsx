@@ -30,6 +30,8 @@ interface EmailTemplateEditorProps {
   onReset: () => void;
   onSendTest?: (email: string, variables: Record<string, string>) => Promise<void>;
   isLoading?: boolean;
+  isSaving?: boolean;
+  isSendingTest?: boolean;
 }
 
 export function EmailTemplateEditor({
@@ -37,7 +39,9 @@ export function EmailTemplateEditor({
   onSave,
   onReset,
   onSendTest,
-  isLoading = false
+  isLoading = false,
+  isSaving = false,
+  isSendingTest = false
 }: EmailTemplateEditorProps) {
   const [editedTemplate, setEditedTemplate] = useState<EmailTemplate>(template);
   const [previewValues, setPreviewValues] = useState<Record<string, string>>({});
@@ -205,7 +209,7 @@ export function EmailTemplateEditor({
           <Button 
             variant="outline" 
             onClick={onReset} 
-            disabled={isLoading || !hasUnsavedChanges}
+            disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
           >
             <Undo2 className="h-4 w-4 mr-2" />
             Reset
@@ -214,7 +218,7 @@ export function EmailTemplateEditor({
           <Button 
             variant="outline"
             onClick={() => setShowTestUI(!showTestUI)}
-            disabled={isLoading}
+            disabled={isLoading || isSaving || isSendingTest}
           >
             <Mail className="h-4 w-4 mr-2" />
             Send Test
@@ -222,7 +226,7 @@ export function EmailTemplateEditor({
           
           <Button 
             onClick={handleSave} 
-            disabled={isLoading || !hasUnsavedChanges}
+            disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
           >
             {isLoading ? (
               <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -251,7 +255,7 @@ export function EmailTemplateEditor({
               </div>
               <Button 
                 onClick={handleSendTest} 
-                disabled={isLoading || !testEmail}
+                disabled={isLoading || isSaving || isSendingTest || !testEmail}
               >
                 {isLoading ? (
                   <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -405,7 +409,7 @@ export function EmailTemplateEditor({
               variant="outline" 
               size="sm" 
               onClick={handleSave} 
-              disabled={isLoading || !hasUnsavedChanges}
+              disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
             >
               {isLoading ? (
                 <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -477,7 +481,7 @@ export function EmailTemplateEditor({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowTestUI(!showTestUI)}
-                disabled={isLoading}
+                disabled={isLoading || isSaving || isSendingTest}
               >
                 <Mail className="h-4 w-4 mr-2" />
                 Send Test

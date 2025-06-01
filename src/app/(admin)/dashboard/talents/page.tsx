@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PlusCircle, Pencil, Trash2, MoreHorizontal, AlertTriangle } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, MoreHorizontal, AlertTriangle, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -11,6 +11,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAuthorization } from "@/hooks/useAuthorization";
 // Import TalentCategory and TalentStatus from the generated Prisma client
 import { TalentCategory, TalentStatus } from "@/generated/prisma";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 // UI Components
 import {
@@ -88,6 +90,8 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+const TalentsTable = dynamic(() => import('@/components/dashboard/TalentsTable').then(mod => mod.TalentsTable), { ssr: false });
+
 export default function TalentsPage() {
   const { toast } = useToast();
   // Add authorization check hook
@@ -151,35 +155,50 @@ export default function TalentsPage() {
   }, [isEditTalentOpen, selectedTalent, talents, form]);
   
   // Form submission handler
+  const [formLoading, setFormLoading] = useState(false);
   const onSubmit = async (data: FormValues) => {
+    setFormLoading(true);
     try {
       if (isEditTalentOpen && selectedTalent) {
         // Update existing talent
         await updateTalent(selectedTalent, data);
         setIsEditTalentOpen(false);
+        toast({ title: "Talent updated successfully", variant: "default" });
       } else {
         // Create new talent
         await createTalent(data);
         setIsNewTalentOpen(false);
+        toast({ title: "Talent created successfully", variant: "default" });
       }
     } catch (error) {
-      console.error("Form submission error:", error);
+      toast({ title: "Error", description: (error as Error).message || "An error occurred.", variant: "destructive" });
+    } finally {
+      setFormLoading(false);
     }
   };
   
   // Delete handler
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const handleDelete = async () => {
+    setDeleteLoading(true);
     if (selectedTalent) {
-      const success = await deleteTalent(selectedTalent);
-      if (success) {
-        setIsDeleteConfirmOpen(false);
-        setSelectedTalent(null);
-      } else {
-        toast({
-          title: "Permission Denied",
-          description: "You don't have sufficient permissions to delete talents.",
-          variant: "destructive",
-        });
+      try {
+        const success = await deleteTalent(selectedTalent);
+        if (success) {
+          setIsDeleteConfirmOpen(false);
+          setSelectedTalent(null);
+          toast({ title: "Talent deleted successfully", variant: "default" });
+        } else {
+          toast({
+            title: "Permission Denied",
+            description: "You don't have sufficient permissions to delete talents.",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        toast({ title: "Error", description: (error as Error).message || "An error occurred.", variant: "destructive" });
+      } finally {
+        setDeleteLoading(false);
       }
     }
   };
@@ -198,73 +217,6 @@ export default function TalentsPage() {
     }
   };
 
-  // Show table with talent data
-  const renderTalentsTable = (data: typeof talents) => (
-    <Table>
-      <TableCaption>
-        {retryCount > 0 && (
-          <div className="mb-2 text-xs text-yellow-600 flex items-center gap-1">
-            <AlertTriangle className="h-3 w-3" />
-            Experienced connection issues. Retry {retryCount}/{3}
-          </div>
-        )}
-        A list of all talents ({data.length})
-      </TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Role</TableHead>
-          <TableHead>Category</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((talent) => (
-          <TableRow key={talent.id}>
-            <TableCell className="font-medium">{talent.name}</TableCell>
-            <TableCell>{talent.role}</TableCell>
-            <TableCell>{talent.category}</TableCell>
-            <TableCell>{getStatusBadge(talent.status as TalentStatus)}</TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <MoreHorizontal className="h-4 w-4" />
-                    <span className="sr-only">Actions</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setSelectedTalent(talent.id);
-                      setIsEditTalentOpen(true);
-                    }}
-                  >
-                    <Pencil className="h-4 w-4 mr-2" />
-                    Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-red-600"
-                    onClick={() => {
-                      setSelectedTalent(talent.id);
-                      setIsDeleteConfirmOpen(true);
-                    }}
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-  
   return (
     <ErrorBoundary>
       <div className="container mx-auto space-y-6">
@@ -413,11 +365,10 @@ export default function TalentsPage() {
                               {...field}
                               value={field.value || ""}
                             />
-                            <FileUpload
-                              endpoint="profileImage"
-                              value={field.value || ""}
-                              onChange={(url) => field.onChange(url || "")}
-                            />
+                            <FileUpload endpoint="profileImage" onUploadComplete={(res: { url: string }[]) => {
+                              const url: string = res[0]?.url || "";
+                              field.onChange(url);
+                            }} />
                           </div>
                         </FormControl>
                         <FormDescription>
@@ -436,13 +387,9 @@ export default function TalentsPage() {
                     >
                       Cancel
                     </Button>
-                    <Button type="submit" disabled={form.formState.isSubmitting}>
-                      {form.formState.isSubmitting ? (
-                        <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                          <span>Saving...</span>
-                        </div>
-                      ) : isEditTalentOpen ? "Update Talent" : "Create Talent"}
+                    <Button type="submit" disabled={formLoading}>
+                      {formLoading ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : null}
+                      Save
                     </Button>
                   </DialogFooter>
                 </form>
@@ -590,11 +537,10 @@ export default function TalentsPage() {
                             {...field}
                             value={field.value || ""}
                           />
-                          <FileUpload
-                            endpoint="profileImage"
-                            value={field.value || ""}
-                            onChange={(url) => field.onChange(url || "")}
-                          />
+                          <FileUpload endpoint="profileImage" onUploadComplete={(res: { url: string }[]) => {
+                            const url: string = res[0]?.url || "";
+                            field.onChange(url);
+                          }} />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -610,13 +556,9 @@ export default function TalentsPage() {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting ? (
-                      <div className="flex items-center gap-2">
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        <span>Updating...</span>
-                      </div>
-                    ) : "Update Talent"}
+                  <Button type="submit" disabled={formLoading}>
+                    {formLoading ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : null}
+                    Update Talent
                   </Button>
                 </DialogFooter>
               </form>
@@ -640,32 +582,36 @@ export default function TalentsPage() {
               >
                 Cancel
               </Button>
-              <Button 
-                variant="destructive" 
-                onClick={handleDelete}
-                disabled={loading}
-              >
-                {loading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                    <span>Deleting...</span>
-                  </div>
-                ) : "Delete"}
+              <Button onClick={handleDelete} disabled={deleteLoading} variant="destructive">
+                {deleteLoading ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : null}
+                Delete
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
         
         {/* Data Display with Error and Loading Handling */}
-        <DataLoader
-          isLoading={loading || authLoading}
-          error={error}
-          data={talents}
-          onRetry={fetchTalents}
-          emptyMessage="No talents found. Create your first talent to get started."
-        >
-          {(talentsData) => renderTalentsTable(talentsData)}
-        </DataLoader>
+        <Suspense fallback={<div>Loading talents...</div>}>
+          <TalentsTable
+            talents={talents}
+            loading={loading}
+            error={error}
+            retryCount={retryCount}
+            isNewTalentOpen={isNewTalentOpen}
+            setIsNewTalentOpen={setIsNewTalentOpen}
+            isEditTalentOpen={isEditTalentOpen}
+            setIsEditTalentOpen={setIsEditTalentOpen}
+            isDeleteConfirmOpen={isDeleteConfirmOpen}
+            setIsDeleteConfirmOpen={setIsDeleteConfirmOpen}
+            selectedTalent={selectedTalent}
+            setSelectedTalent={setSelectedTalent}
+            form={form}
+            onSubmit={onSubmit}
+            formLoading={formLoading}
+            deleteLoading={deleteLoading}
+            handleDelete={handleDelete}
+          />
+        </Suspense>
       </div>
     </ErrorBoundary>
   );

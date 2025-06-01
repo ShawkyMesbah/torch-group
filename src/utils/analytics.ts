@@ -2,155 +2,122 @@
  * Client-side analytics utility
  */
 
-import { AnalyticsEventType } from '@/generated/prisma';
+import { AnalyticsEventType } from "@prisma/client";
 
-interface EventData {
+interface AnalyticsEvent {
   type: AnalyticsEventType;
-  meta: Record<string, any>;
+  meta?: Record<string, any>;
 }
 
-// Store event by sending to API endpoint
-async function storeEvent(data: EventData): Promise<string | null> {
-  try {
-    // Try to send to server endpoint
-    const response = await fetch('/api/analytics/event', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    
-    if (response.ok) {
-      const result = await response.json();
-      return result.id;
+class Analytics {
+  private static instance: Analytics;
+  private queue: AnalyticsEvent[] = [];
+  private isProcessing = false;
+
+  private constructor() {
+    // Initialize analytics
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", () => this.processQueue());
     }
-    
-    // Fallback to localStorage if server request fails
-    return storeEventLocally(data);
-  } catch (error) {
-    // Fallback to localStorage on error
-    return storeEventLocally(data);
   }
-}
 
-// Store event in local storage as fallback
-function storeEventLocally(data: EventData): string | null {
-  try {
-    const id = `browser_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-    const event = {
-      id,
-      type: data.type,
-      meta: data.meta,
-      createdAt: new Date().toISOString(),
-    };
-    
-    // Store in localStorage
-    try {
-      const storedEvents = JSON.parse(localStorage.getItem('analytics_events') || '[]');
-      storedEvents.push(event);
-      localStorage.setItem('analytics_events', JSON.stringify(storedEvents));
-    } catch (e) {
-      // Silently fail if localStorage is not available
+  public static getInstance(): Analytics {
+    if (!Analytics.instance) {
+      Analytics.instance = new Analytics();
     }
-    
-    return id;
-  } catch (error) {
-    return null;
+    return Analytics.instance;
   }
-}
 
-// Public analytics API
-export const analytics = {
-  /**
-   * Track a page view
-   */
-  pageView: async (path: string, referrer: string = '', userAgent: string = '') => {
-    return await storeEvent({
-      type: 'PAGE_VIEW',
-      meta: {
-        path,
-        referrer,
-        userAgent,
-        timestamp: new Date().toISOString(),
-      },
+  public async pageView(
+    path: string,
+    referrer?: string,
+    userAgent?: string
+  ): Promise<string | null> {
+    await this.track(AnalyticsEventType.PAGE_VIEW, {
+      path,
+      referrer,
+      userAgent,
     });
-  },
-  
-  /**
-   * Track a form submission
-   */
-  formSubmit: async (formId: string, formData: Record<string, any> = {}, path: string = '') => {
-    return await storeEvent({
-      type: 'FORM_SUBMIT',
-      meta: {
-        formId,
-        formData,
-        path,
-        timestamp: new Date().toISOString(),
-      },
+    return path;
+  }
+
+  public async formSubmit(
+    formId: string,
+    formData?: Record<string, any>,
+    path?: string
+  ): Promise<string | null> {
+    await this.track(AnalyticsEventType.FORM_SUBMIT, {
+      formId,
+      formData,
+      path,
     });
-  },
-  
-  /**
-   * Track a phone verification
-   */
-  phoneVerified: async (phone: string, path: string = '') => {
-    return await storeEvent({
-      type: 'PHONE_VERIFIED',
-      meta: {
-        phone,
-        path,
-        timestamp: new Date().toISOString(),
-      },
+    return formId;
+  }
+
+  public async phoneVerified(
+    phone: string,
+    path?: string
+  ): Promise<string | null> {
+    await this.track(AnalyticsEventType.PHONE_VERIFIED, {
+      phone,
+      path,
     });
-  },
-  
-  /**
-   * Track a talent click
-   */
-  talentClick: async (talentId: string, talentName: string, path: string = '') => {
-    return await storeEvent({
-      type: 'TALENT_CLICK',
-      meta: {
-        talentId,
-        talentName,
-        path,
-        timestamp: new Date().toISOString(),
-      },
+    return phone;
+  }
+
+  public async talentClick(
+    talentId: string,
+    talentName: string,
+    path?: string
+  ): Promise<string | null> {
+    await this.track(AnalyticsEventType.TALENT_CLICK, {
+      talentId,
+      talentName,
+      path,
     });
-  },
-  
-  /**
-   * Sync offline events to the server
-   * This will send any events stored in localStorage to the server
-   */
-  syncOfflineEvents: async (): Promise<boolean> => {
+    return talentId;
+  }
+
+  private async track(type: AnalyticsEventType, meta: Record<string, any> = {}) {
+    this.queue.push({ type, meta });
+    await this.processQueue();
+  }
+
+  private async processQueue() {
+    if (this.isProcessing || this.queue.length === 0) return;
+
+    this.isProcessing = true;
+
     try {
-      // Get events from localStorage
-      const events = JSON.parse(localStorage.getItem('analytics_events') || '[]');
-      if (events.length === 0) return true;
-      
-      // Send events to server
-      const response = await fetch('/api/analytics/sync', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ events }),
-      });
-      
-      if (response.ok) {
-        // Clear events from localStorage on success
-        localStorage.setItem('analytics_events', '[]');
-        return true;
+      while (this.queue.length > 0) {
+        const event = this.queue.shift();
+        if (!event) continue;
+
+        await fetch("/api/analytics/event", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: event.type,
+            meta: {
+              ...event.meta,
+              timestamp: new Date().toISOString(),
+            },
+          }),
+        });
       }
-      
-      return false;
     } catch (error) {
-      return false;
+      console.error("Failed to process analytics queue:", error);
+      // Put failed events back in the queue
+      if (this.queue.length > 0) {
+        this.queue.unshift(...this.queue);
+      }
+    } finally {
+      this.isProcessing = false;
     }
-  },
-};
+  }
+}
 
-export default analytics; 
+// Export singleton instance
+export const analytics = Analytics.getInstance(); 

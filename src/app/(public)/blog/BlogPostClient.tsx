@@ -19,7 +19,7 @@ const RelatedPosts = ({ currentPostId, category, blogPosts }: { currentPostId: s
           <Link href={`/blog/${post.slug}`} key={post.id} className="group block transform transition-all duration-500 hover:-translate-y-1">
             <article className="bg-gray-900/30 border border-gray-800/50 rounded-xl overflow-hidden hover:border-red-600/50 transition-all duration-300 group-hover:shadow-[0_0_25px_rgba(0,0,0,0.3)]">
               <div className="relative h-40 overflow-hidden">
-                <Image src={post.coverImage} alt={post.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image src={post.coverImage} alt={post.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" placeholder="blur" sizes="(max-width: 768px) 100vw, 33vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-4 left-4">
                   <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">{post.category}</span>
@@ -85,7 +85,7 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
       {/* Article Header */}
       <header className="relative mb-16">
         <div className="absolute inset-0 h-[50vh] sm:h-[60vh] overflow-hidden">
-          <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
+          <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority placeholder="blur" sizes="(max-width: 768px) 100vw, 33vw" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
         </div>
@@ -102,7 +102,7 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
               <div className="flex flex-wrap items-center text-gray-300 mb-8 gap-y-4">
                 <div className="flex items-center mr-8">
                   <div className="relative w-10 h-10 rounded-full overflow-hidden mr-3 border-2 border-red-500/50">
-                    <Image src={post.author.avatar} alt={post.author.name} fill className="object-cover" />
+                    <Image src={post.author.avatar} alt={post.author.name} fill className="object-cover" placeholder="blur" sizes="40px" />
                   </div>
                   <div>
                     <div className="font-medium">{post.author.name}</div>
@@ -147,7 +147,7 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
             <div className="mt-12 border-t border-gray-800/50 pt-8">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-gray-900/30 border border-gray-800/50 rounded-xl p-6">
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden flex-shrink-0 border-2 border-red-500/30">
-                  <Image src={post.author.avatar} alt={post.author.name} fill className="object-cover" />
+                  <Image src={post.author.avatar} alt={post.author.name} fill className="object-cover" placeholder="blur" sizes="40px" />
                 </div>
                 <div className="text-center sm:text-left">
                   <h3 className="text-xl font-bold text-white mb-2">About {post.author.name}</h3>
@@ -197,7 +197,7 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
                   {blogPosts && blogPosts.slice(0, 3).map(popularPost => (
                     <Link key={popularPost.id} href={`/blog/${popularPost.slug}`} className="group flex items-start gap-3">
                       <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
-                        <Image src={popularPost.coverImage} alt={popularPost.title} fill className="object-cover" />
+                        <Image src={popularPost.coverImage} alt={popularPost.title} fill className="object-cover" placeholder="blur" sizes="(max-width: 768px) 100vw, 33vw" />
                       </div>
                       <div>
                         <h4 className="text-sm font-medium text-white group-hover:text-red-500 transition-colors line-clamp-2">{popularPost.title}</h4>

@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { PrismaClient } from "@/generated/prisma";
 import { Role } from "@/lib/authorization";
+import { AnalyticsEventType } from "@prisma/client";
 
 export const runtime = "nodejs";
 
@@ -260,77 +261,117 @@ function processLocalEventsForTalentStats(events: any[]) {
 }
 
 // GET /api/analytics/stats - Get analytics statistics
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Set 30 days ago for recent stats
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    
-    // Check if database is available
-    const databaseAvailable = await testDatabaseConnection();
-    
-    try {
-      // Check authentication
-      const session = await auth();
-      
-      if (!session?.user) {
-        return NextResponse.json(
-          { error: "Authentication required" },
-          { status: 401 }
-        );
-      }
-      
-      // Initialize Prisma client
-      const prisma = new PrismaClient();
-      
-      // In development mode without a database, return mock data
-      if (process.env.NODE_ENV === 'development' && !process.env.DATABASE_URL) {
-        return NextResponse.json({
-          talents: 8,
-          projects: 5,
-          blogPosts: 12,
-          messages: 3,
-        });
-      }
-      
-      // Get counts with a single connection
-      const [talents, projects, blogPosts, messages] = await Promise.all([
-        prisma.talent.count({ where: { status: "ACTIVE" } }),
-        prisma.project.count(),
-        prisma.blogPost.count({ where: { publishedAt: { not: null } } }),
-        prisma.contactMessage.count({ where: { readAt: null } }),
-      ]);
-      
-      // Return the counts
-      return NextResponse.json({
-        talents,
-        projects,
-        blogPosts,
-        messages,
-      });
-    } catch (error) {
-      console.error("[ANALYTICS_STATS_API]", error);
-      
-      // In case of database error, return fallback data
-      return NextResponse.json({
-        talents: 0,
-        projects: 0,
-        blogPosts: 0,
-        messages: 0,
-        error: "Database error, showing fallback data",
-      }, { status: 500 });
+    const session = await auth();
+    if (!session?.user) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
-  } catch (error) {
-    console.error("[ANALYTICS_STATS_API]", error);
-    
-    // In case of database error, return fallback data
+
+    const { searchParams } = new URL(request.url);
+    const from = searchParams.get("from");
+    const to = searchParams.get("to");
+
+    if (!from || !to) {
+      return new NextResponse("Missing date range", { status: 400 });
+    }
+
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+
+    // Get analytics data from the database
+    const [pageViews, uniqueVisitors, averageTimeOnSite, topPages] = await Promise.all([
+      // Total page views in date range
+      prisma.analyticsEvent.count({
+        where: {
+          type: AnalyticsEventType.PAGE_VIEW,
+          createdAt: {
+            gte: fromDate,
+            lte: toDate,
+          },
+        },
+      }),
+      // Unique visitors (by userId)
+      prisma.analyticsEvent.findMany({
+        where: {
+          type: AnalyticsEventType.PAGE_VIEW,
+          createdAt: {
+            gte: fromDate,
+            lte: toDate,
+          },
+          meta: {
+            path: "userId",
+          },
+        },
+        select: {
+          meta: true,
+        },
+        distinct: ["meta"],
+      }),
+      // Average time on site
+      prisma.analyticsEvent.aggregate({
+        where: {
+          type: AnalyticsEventType.PAGE_VIEW,
+          createdAt: {
+            gte: fromDate,
+            lte: toDate,
+          },
+          meta: {
+            path: "duration",
+          },
+        },
+        _avg: {
+          meta: true,
+        },
+      }),
+      // Top pages
+      prisma.analyticsEvent.groupBy({
+        by: ["meta"],
+        where: {
+          type: AnalyticsEventType.PAGE_VIEW,
+          createdAt: {
+            gte: fromDate,
+            lte: toDate,
+          },
+          meta: {
+            path: { not: null },
+          },
+        },
+        _count: {
+          meta: true,
+        },
+        orderBy: {
+          _count: {
+            meta: "desc",
+          },
+        },
+        take: 10,
+      }),
+    ]);
+
+    // Process the analytics data
+    const processedTopPages = topPages.map((page) => {
+      const pathData = page.meta as { path: string };
+      return {
+        path: pathData.path || "unknown",
+        views: page._count.meta,
+      };
+    });
+
+    // Calculate average time from meta JSON
+    const avgTimeInMinutes = Math.round(
+      (averageTimeOnSite._avg.meta as { duration: number })?.duration || 0 / 60
+    );
+
     return NextResponse.json({
-      talents: 0,
-      projects: 0,
-      blogPosts: 0,
-      messages: 0,
-      error: "Database error, showing fallback data",
-    }, { status: 500 });
+      pageViews,
+      uniqueVisitors: uniqueVisitors.length,
+      averageTimeOnSite: avgTimeInMinutes,
+      topPages: processedTopPages,
+    });
+  } catch (error) {
+    console.error("[ANALYTICS_STATS]", error);
+    return new NextResponse("Internal error", { status: 500 });
   }
 }
 

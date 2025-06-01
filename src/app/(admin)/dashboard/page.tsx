@@ -6,6 +6,8 @@ import { useAPI } from "@/hooks/useAPI";
 import { DataLoader } from "@/components/ui/data-loader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart, Newspaper, MessageSquare, Users, ArrowUpRight, Activity, Clock } from "lucide-react";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 // Activity item type
 interface ActivityItem {
@@ -15,6 +17,9 @@ interface ActivityItem {
   relativeTime: string;
   type: "talent" | "blog" | "message";
 }
+
+const AnalyticsDashboard = dynamic(() => import('@/components/analytics/AnalyticsDashboard').then(mod => mod.AnalyticsDashboard), { ssr: false });
+const RecentActivityTab = dynamic(() => import('@/components/dashboard/RecentActivityTab').then(mod => mod.RecentActivityTab), { ssr: false });
 
 export default function DashboardPage() {
   const { 
@@ -242,34 +247,20 @@ export default function DashboardPage() {
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-6">
-          <Card className="dashboard-card border border-gray-800 bg-gray-900/70 backdrop-blur-sm shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Analytics Overview</CardTitle>
-              <CardDescription>Detailed statistics and metrics</CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center justify-center min-h-[300px]">
-              <div className="text-center text-gray-400">
-                <BarChart className="h-16 w-16 mx-auto mb-4 text-gray-600" />
-                <p className="mb-2">Analytics dashboard coming soon</p>
-                <p className="text-sm text-gray-500">Visit the Analytics page for detailed reports</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Suspense fallback={<div>Loading analytics...</div>}>
+            <AnalyticsDashboard />
+          </Suspense>
         </TabsContent>
 
         <TabsContent value="activity" className="space-y-6">
-          <Card className="dashboard-card border border-gray-800 bg-gray-900/70 backdrop-blur-sm shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Activity Log</CardTitle>
-              <CardDescription>Recent changes and updates</CardDescription>
-            </CardHeader>
-            <CardContent className="flex items-center justify-center min-h-[300px]">
-              <div className="text-center text-gray-400">
-                <Activity className="h-16 w-16 mx-auto mb-4 text-gray-600" />
-                <p className="mb-2">Detailed activity log coming soon</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Suspense fallback={<div>Loading activity...</div>}>
+            <RecentActivityTab
+              activities={activities || []}
+              activitiesLoading={activitiesLoading}
+              activitiesError={activitiesError}
+              fetchActivities={fetchActivities}
+            />
+          </Suspense>
         </TabsContent>
       </Tabs>
     </div>

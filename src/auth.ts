@@ -1,18 +1,20 @@
-// This file is deprecated and only used for backward compatibility
-// All new code should use the handler in /api/auth/[...nextauth]/route.ts
+// src/auth.ts
+// This file defines the core NextAuth configuration for the App Router.
+
 // @ts-nocheck
-import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
+import { prisma } from "@/lib/prisma"; // Import prisma directly
+import { PrismaAdapter } from "@auth/prisma-adapter"; // Import adapter directly
 
 export const dynamic = "force-dynamic";
 
 // Development mode flag
 const isDevMode = process.env.NODE_ENV === 'development';
 
-// Create handler with runtime configuration
-export const { handlers, auth, signIn, signOut } = NextAuth({
+// Define authentication options
+export const authOptions: NextAuthConfig = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -41,15 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null;
           }
 
-          // Only import prisma if not in development mode
-          const { prisma } = await import('@/lib/prisma');
-          const { PrismaAdapter } = await import("@auth/prisma-adapter");
-
-          // Set adapter only when in production mode
-          if (!isDevMode) {
-            this.adapter = PrismaAdapter(prisma);
-          }
-          
+          // Production mode - use database
           const user = await prisma.user.findUnique({
             where: { email: credentials.email as string },
           });
@@ -57,10 +51,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (!user) return null;
 
           const isValid = await compare(
-            credentials.password as string, 
+            credentials.password as string,
             user.password
           );
-          
+
           if (!isValid) return null;
 
           return {
@@ -104,4 +98,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     maxAge: 24 * 60 * 60, // 24 hours
   },
   debug: process.env.NODE_ENV === "development",
-});
+  // Add adapter if not in development mode and DATABASE_URL is set
+  ...(isDevMode && (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('localhost'))
+    ? {} // No adapter in dev mode without proper DB
+    : { adapter: PrismaAdapter(prisma) } // Use adapter in production or dev with DB
+  ),
+};
+
+// Create handler and export
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions); 

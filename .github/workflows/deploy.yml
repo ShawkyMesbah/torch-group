@@ -1,0 +1,94 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Generate Prisma Client
+      run: npx prisma generate
+
+    - name: Run database migrations
+      if: github.event.inputs.environment == 'production'
+      run: npx prisma migrate deploy
+
+    - name: Pull Vercel Environment Information
+      run: vercel pull --yes --environment=${{ github.event.inputs.environment || 'staging' }} --token=${{ secrets.VERCEL_TOKEN }}
+
+    - name: Build Project Artifacts
+      run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+    - name: Run Tests
+      run: npm run test:ci
+
+    - name: Deploy Project Artifacts to Vercel
+      id: deploy
+      run: |
+        URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+        echo "DEPLOY_URL=$URL" >> $GITHUB_ENV
+
+    - name: Run Health Check
+      run: |
+        # Wait for deployment to be ready
+        sleep 30
+        MAX_RETRIES=5
+        COUNT=0
+        while [ $COUNT -lt $MAX_RETRIES ]; do
+          if curl --fail --retry 3 --retry-delay 5 ${{ env.DEPLOY_URL }}/api/health; then
+            echo "Health check passed!"
+            exit 0
+          fi
+          let COUNT=COUNT+1
+          sleep 10
+        done
+        echo "Health check failed after $MAX_RETRIES attempts"
+        exit 1
+
+    - name: Run Performance Tests
+      run: npm run test:performance
+
+    - name: Upload Test Reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-reports
+        path: |
+          coverage/
+          playwright-report/
+          test-results/ 

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BlogPost } from "@/generated/prisma";
+import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
 
 // Interface for blog posts with author information
 interface BlogPostWithAuthor extends BlogPost {
@@ -16,6 +17,7 @@ interface BlogPostWithAuthor extends BlogPost {
     name: string | null;
     image?: string | null;
   };
+  category?: string | null;
 }
 
 // Default categories for filtering
@@ -28,6 +30,22 @@ const categories = [
   "Social Media",
   "SEO"
 ];
+
+// Helper to safely format date
+function formatDate(date: string | Date | undefined | null) {
+  if (!date) return '';
+  const d = typeof date === 'string' ? new Date(date) : date;
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Add a helper function at the top:
+function getAuthorImage(author: { image?: string | null } | undefined): string {
+  if (author && typeof author.image === 'string' && author.image && author.image !== 'null') {
+    return author.image;
+  }
+  return '/images/default-avatar.png';
+}
 
 export default function BlogPage() {
   const [mounted, setMounted] = useState(false);
@@ -88,11 +106,12 @@ export default function BlogPage() {
   // Loading state
   if (!mounted || isLoading) {
     return (
-      <div className="min-h-screen bg-black pt-0 pb-20">
+      <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+        {/* Animated grid background to match homepage */}
+        <SharedTorchBackground />
         {/* Hero Section with loading state */}
-        <section className="relative py-16 lg:py-20 bg-black border-b border-gray-800/50 overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.15)_0%,rgba(0,0,0,0)_70%)]"></div>
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,40,40,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,40,40,0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-10"></div>
+        <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+          {/* Removed conflicting background elements */}
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center mb-12">
@@ -121,8 +140,10 @@ export default function BlogPage() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-black pt-0 pb-20">
-        <section className="relative py-16 lg:py-20 bg-black border-b border-gray-800/50 overflow-hidden">
+      <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+        {/* Animated grid background to match homepage */}
+        <SharedTorchBackground />
+        <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white">
@@ -148,12 +169,12 @@ export default function BlogPage() {
   // If no posts found
   if (filteredPosts.length === 0) {
     return (
-      <div className="min-h-screen bg-black pt-0 pb-20">
+      <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+        {/* Animated grid background to match homepage */}
+        <SharedTorchBackground />
         {/* Hero Section */}
-        <section className="relative py-16 lg:py-20 bg-black border-b border-gray-800/50 overflow-hidden">
-          {/* Background elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.15)_0%,rgba(0,0,0,0)_70%)]"></div>
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,40,40,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,40,40,0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-10"></div>
+        <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+          {/* Removed conflicting background elements */}
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
           
@@ -193,12 +214,12 @@ export default function BlogPage() {
   const [featuredPost, ...restPosts] = filteredPosts;
 
   return (
-    <div className="min-h-screen bg-black pt-0 pb-20">
+    <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+      {/* Animated grid background to match homepage */}
+      <SharedTorchBackground />
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-20 bg-black border-b border-gray-800/50 overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.15)_0%,rgba(0,0,0,0)_70%)]"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,40,40,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,40,40,0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-10"></div>
+      <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+        {/* Removed conflicting background elements */}
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
         
@@ -247,7 +268,7 @@ export default function BlogPage() {
                 <div className="grid md:grid-cols-2 gap-8 bg-gray-900/30 border border-gray-800/50 rounded-xl overflow-hidden hover:border-red-500/50 transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]">
                   <div className="relative h-64 md:h-full overflow-hidden">
                     <Image
-                      src={featuredPost.coverImage}
+                      src={featuredPost.coverImage || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsb2clMjBwbGFjZWhvbGRlcnxlbnwwfHwwfHw%3D"}
                       alt={featuredPost.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -260,7 +281,7 @@ export default function BlogPage() {
                     </div>
                     <div className="absolute bottom-4 left-4">
                       <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">
-                        {featuredPost.category}
+                        {(featuredPost as any).category || "General"}
                       </span>
                     </div>
                   </div>
@@ -269,22 +290,18 @@ export default function BlogPage() {
                       <div className="flex items-center mr-4">
                         <div className="relative w-6 h-6 rounded-full overflow-hidden mr-2 border border-gray-700/50">
                           <Image
-                            src={featuredPost.author.avatar}
-                            alt={featuredPost.author.name}
+                            src={getAuthorImage(featuredPost.author)}
+                            alt={featuredPost.author?.name || "Author"}
                             fill
                             className="object-cover"
                           />
                         </div>
-                        <span>{featuredPost.author.name}</span>
+                        <span>{featuredPost.author?.name}</span>
                       </div>
                       <div className="flex items-center">
                         <Calendar className="h-3 w-3 mr-1" />
                         <span>
-                          {featuredPost.publishedAt.toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric', 
-                            year: 'numeric'
-                          })}
+                          {formatDate(featuredPost.publishedAt)}
                         </span>
                       </div>
                     </div>
@@ -352,7 +369,7 @@ export default function BlogPage() {
                           {/* Featured Image */}
                           <div className="relative h-52 overflow-hidden">
                             <Image
-                              src={post.coverImage}
+                              src={post.coverImage || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsb2clMjBwbGFjZWhvbGRlcnxlbnwwfHwwfHw%3D"}
                               alt={post.title}
                               fill
                               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -360,7 +377,7 @@ export default function BlogPage() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                             <div className="absolute bottom-4 left-4">
                               <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">
-                                {post.category}
+                                {(post as any).category || "General"}
                               </span>
                             </div>
                           </div>
@@ -380,22 +397,18 @@ export default function BlogPage() {
                                 <div className="flex items-center">
                                   <div className="relative w-6 h-6 rounded-full overflow-hidden mr-2 border border-gray-700/50">
                                     <Image
-                                      src={post.author.avatar}
-                                      alt={post.author.name}
+                                      src={getAuthorImage(post.author)}
+                                      alt={post.author?.name || "Author"}
                                       fill
                                       className="object-cover"
                                     />
                                   </div>
-                                  <span>{post.author.name}</span>
+                                  <span>{post.author?.name}</span>
                                 </div>
                                 <div className="flex items-center">
                                   <Calendar className="h-3 w-3 mr-1" />
                                   <span>
-                                    {post.publishedAt.toLocaleDateString('en-US', { 
-                                      month: 'short', 
-                                      day: 'numeric', 
-                                      year: 'numeric'
-                                    })}
+                                    {formatDate(post.publishedAt)}
                                   </span>
                                 </div>
                               </div>

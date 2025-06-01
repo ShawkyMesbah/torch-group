@@ -44,6 +44,9 @@ export const StrictModeDroppable = ({ children, ...props }: any) => {
   if ('isDropDisabled' in sanitizedProps) {
     sanitizedProps.isDropDisabled = Boolean(sanitizedProps.isDropDisabled);
   }
+  if ('ignoreContainerClipping' in sanitizedProps) {
+    sanitizedProps.ignoreContainerClipping = Boolean(sanitizedProps.ignoreContainerClipping);
+  }
   
   return <Droppable {...sanitizedProps}>{children}</Droppable>;
 }; 

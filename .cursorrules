@@ -1,205 +1,217 @@
 # Cursor Rules
 
+> **Always review this file before starting, editing, or deploying any feature.**
+> Also review `TASKMASTER.md` and `PRODUCTION_ENV_CHECKLIST.md` before any major project action.
+
 ## Instructions
 
-- Record fixes for mistakes or corrections to avoid repetition in the `Lessons` section.
-- Organize thoughts and plan steps before starting a task in the `Scratchpad` section.
-- Clear old tasks if necessary.
+- Record fixes for mistakes or corrections in the `Lessons` section.
+- Organize thoughts and plan steps in the `Scratchpad` section.
 - Use todo markers for progress tracking:
-  - `[X]` Completed tasks
-  - `[ ]` Pending tasks
-- Update Scratchpad after completing subtasks.
+  - `[X]` Completed
+  - `[ ]` Not started
+  - `[P]` In progress
+  - `[B]` Blocked
+- Add a priority label to each task:
+  - `[🔥]` Critical/High
+  - `[Medium]` Medium
+  - `[Low]` Low
+- Update the Scratchpad after completing subtasks.
 - Reflect and plan after milestones for better task management.
 - Always refer to Scratchpad before planning the next step.
-- **IMPORTANT**: Never overwrite existing .env files - always check if they exist and ask for confirmation before modifying.
+- **IMPORTANT:** Never overwrite existing .env files—always check if they exist and ask for confirmation before modifying.
+
+---
 
 ## Project Status
-- [✅] Initialize Next.js project
-- [✅] Setup TailwindCSS and PostCSS
-- [✅] Configure ESLint
-- [✅] Setup Supabase integration
-- [✅] Setup Prisma schema and database connection
-- [✅] Implement Authentication with NextAuth
-- [✅] Implement Talent Management System
-- [✅] Implement Mobile Navigation Menu
-- [✅] Complete Role-Based Authorization
-- [✅] Create Blog section in homepage + full blog page
-- [✅] Complete Blog API routes with CMS functionality
-- [✅] Create Footer component
-- [✅] Implement public pages (About, Services, Contact)
-- [✅] Implement Torch Group section with links to external brands
-- [✅] New Hero Section based on updated layout and branding
-- [✅] Fix Contact form underline styling
-- [✅] Dashboard feature for reordering homepage sections (UI)
-- [✅] Implement backend API for section reordering
-- [✅] Updated homepage design with full-page background and new hero layout
-- [✅] File upload integration with Uploadthing (completed)
-- [✅] Email service integration with Resend (HTML templates and notifications implemented)
-- [✅] Mobile Responsiveness (completed)
-- [✅] Testing Framework (completed)
-- [✅] Fix build errors for deployment
-- [✅] Create Team Members API routes
-- [✅] Create Projects API routes
-- [✅] Implement Contact form backend
-- [✅] User management API
-- [✅] Implement newsletter subscription API
-- [⚠️] Complete admin dashboard UI for new features (partially implemented)
-- [✅] Connect Contact form with API
-- [✅] Connect Newsletter subscription form with API
-- [✅] Connect Team Member, Project, and Blog forms with APIs
-- [✅] Add About Torch content management in dashboard
-- [✅] Update Torch Group section with dynamic content
-- [✅] Improve Services section hover effects
-- [✅] Update Contact form with phone verification
-- [✅] Create Contact Messages dashboard
-- [✅] Update Torch Talents section with active talents
-- [✅] Implement dynamic button scroll behavior in hero section
-- [✅] Refactor Hero Section with improved buttons and scroll functionality
-- [✅] Update Blog section title to "Our Blog"
-- [✅] Limit Torch Talents to three active talents with placeholders
-- [✅] Build Analytics Section with offline fallback
-- [✅] API Documentation page
-- [✅] Implement testing framework
-- [✅] Production Ready (Post Cleanup)
-- [✅] Clean up admin/dev scripts after launch
-- [✅] Project cleanup: Remove unused files and scripts (2025-06-01)
 
-## Lessons
-- Using bcryptjs instead of bcrypt for better cross-platform compatibility
-- Always use @/generated/prisma imports instead of @prisma/client for consistent type resolution
-- Static rendering is not compatible with pages that use authenticated data
-- Next.js middleware needs runtime configuration to avoid Edge Runtime errors with Node.js modules
-- For mobile responsiveness, create a separate responsive.css file and import it in the layout to keep responsive styles organized
-- Use consistent padding (py-24) for all sections to maintain visual rhythm across the site
-- Adjust the viewport meta tag to allow user scaling for better accessibility
-- Use fluid typography scaling with different text sizes for mobile vs desktop
-- Apply custom responsive grid layouts that adapt from single to multi-column based on screen size
-- Use type assertions (as TalentCategory) when working with enum types from Prisma in React components
-- Add proper type casts for React key props when iterating over enum values
-- Replace the default Next.js starter page with a custom home page for production applications
-- Fix CSS references to ensure classes exist in Tailwind config - for example, use 'border' instead of 'border-border'
-- When using ShadCn UI, make sure to add borderColor theme in tailwind.config.ts if using border utilities
-- For dark-themed designs, use black backgrounds with red accents for Torch branding and subtle animated elements
-- Implement mobile navigation with accessible design: ensure proper aria labels, prevent body scroll when menu is open, and add close on click outside functionality
-- Role-based authorization should be implemented at multiple levels: middleware for route protection, API routes for endpoint protection, and client components for UI adaptations
-- Create necessary SVG assets like grid-pattern.svg for backgrounds to avoid 404 errors
-- Use consistent underlines on form inputs to avoid UI glitches and potential visual conflicts
-- Match navbar order dynamically with section order for better user experience
-- Implement red pulse glow behind centered logo for brand emphasis
-- The old hero structure and countdown module are now deprecated
-- Set input variants to "minimal" when using custom border styling to avoid double underline effects
-- For homepage section reordering, use react-beautiful-dnd with --legacy-peer-deps due to React 19 compatibility issues
-- Keep navigation links aligned with homepage sections and in the same order for better UX
-- Background design with dotted texture and black/red gradient should be used consistently across all sections for brand identity
-- Use consistent global background and maintain design hierarchy with spacing and font scale
-- Ensure API routes include proper error handling and consistent response formats
-- Define API endpoints with route.ts files in the app/api directory structure
-- Implement [id] directory pattern for dynamic routes
-- Social media links in footer and header should be configured with actual URLs
-- Store site configurations (like section order) in JSON files when database storage isn't necessary
-- Use JSON files with fs module for simple data storage when prototyping features
-- Add 'nodejs' runtime option to API routes that use Node.js-specific features like fs
-- For validation in API routes, using Zod schemas provides consistent error messages
-- Implement proper permission checks at the API level for each CRUD operation
-- Newsletter subscriptions can be implemented with a simple file-based approach for MVP
-- Creating an .env file is critical for local development and deployment
-- Uploadthing integration requires proper frontend components to connect with the API
-- Dashboard pages should implement consistent UI patterns and error handling
-- Implement proper loading states for all API operations
-- When using forms, always include proper validation, loading states, and error handling
-- For file uploads, integrate UploadThing directly into forms for seamless user experience
-- Use custom React Hook Form + Zod validation for all forms to ensure consistent validation and error handling
-- Use react-phone-input-2 for international phone number inputs with country code selection
-- Implement dynamic content loading for About sections using the JSON file approach
-- Fetch up to 3 active talents for the homepage and fill with placeholders when needed
-- Implement phone verification UI with a multi-step approach before form submission
-- Add smooth scroll behavior for hero buttons linking to different sections
-- Create dedicated hooks for each type of content that needs to be managed from the dashboard
-- Structure dashboard settings with tabs for different content types
-- Create badge components to indicate verification status or record status
-- When creating or updating environment files, always check if the file exists first and ask for confirmation before overwriting, as local .env files may contain custom configurations not tracked in Git
-- Use fallback file storage for analytics when database is unavailable to ensure uninterrupted data collection
-- Always run `prisma generate` as administrator on Windows to avoid file permission errors
-- Use Prisma `db pull`
-- Implement development mode fallbacks for authentication to enable local development without a database, using hardcoded admin credentials (admin@torchgroup.co/admin) when DATABASE_URL is not defined
+- [X][🔥] Initialize Next.js project
+- [X][🔥] Setup TailwindCSS and PostCSS
+- [X][🔥] Configure ESLint
+- [X][🔥] Setup Supabase integration
+- [X][🔥] Setup Prisma schema and database connection
+- [X][🔥] Implement Authentication with NextAuth
+- [X][🔥] Implement Talent Management System
+- [X][🔥] Implement Mobile Navigation Menu
+- [X][🔥] Complete Role-Based Authorization
+- [X][Medium] Create Blog section in homepage + full blog page
+- [X][Medium] Complete Blog API routes with CMS functionality
+- [X][Low] Create Footer component
+- [X][Medium] Implement public pages (About, Services, Contact)
+- [X][Medium] Implement Torch Group section with links to external brands
+- [X][🔥] Hero section redesigned to match Torch Star style (logo top center, nav bar, two-column layout, hand-drawn underline, media previews, red/black theme)
+- [X][Low] Fix Contact form underline styling
+- [X][Medium] Dashboard feature for reordering homepage sections (UI)
+- [X][Medium] Implement backend API for section reordering
+- [X][Medium] Updated homepage design with full-page background and new hero layout
+- [X][Medium] File upload integration with Uploadthing
+- [X][Medium] Email service integration with Resend (HTML templates and notifications)
+- [X][🔥] Mobile Responsiveness
+- [X][Medium] Testing Framework
+- [X][🔥] Fix build errors for deployment
+- [X][Medium] Create Team Members API routes
+- [X][Medium] Create Projects API routes
+- [X][Medium] Implement Contact form backend
+- [X][Medium] User management API
+- [X][Medium] Implement newsletter subscription API
+- [P][🔥] Complete admin dashboard UI for new features
+- [X][Medium] Connect Contact form with API
+- [X][Medium] Connect Newsletter subscription form with API
+- [X][Medium] Connect Team Member, Project, and Blog forms with APIs
+- [X][Medium] Add About Torch content management in dashboard
+- [X][Medium] Update Torch Group section with dynamic content
+- [X][Low] Improve Services section hover effects
+- [X][Low] Update Contact form with phone verification
+- [X][Medium] Create Contact Messages dashboard
+- [X][Medium] Update Torch Talents section with active talents
+- [X][Low] Implement dynamic button scroll behavior in hero section
+- [X][Low] Refactor Hero Section with improved buttons and scroll functionality
+- [X][Low] Update Blog section title to "Our Blog"
+- [X][Medium] Limit Torch Talents to three active talents with placeholders
+- [X][Medium] Build Analytics Section with offline fallback
+- [X][Low] API Documentation page
+- [X][Medium] Implement testing framework
+- [X][🔥] Production Ready (Post Cleanup)
+- [X][Low] Clean up admin/dev scripts after launch
+- [X][Low] Project cleanup: Remove unused files and scripts (2025-06-03)
+
+---
+
+## Admin Dashboard UI Completion (2025-06-03)
+
+### [P][🔥] Finalize Admin Dashboard UI
+- [X][🔥] Consistent styling across all admin pages
+- [X][🔥] Add loading states for async operations
+- [X][🔥] Add toast notifications for all async actions (create/edit/delete)
+- [X][Medium] Polish Settings dashboard (About Torch, Email Templates, Permissions)
+- [P][Medium] Complete Email Template Management UI
+- [P][Medium] Add user permissions management
+- [P][Medium] Create site configuration management
+- [X][Medium] Connect all dashboard forms to APIs
+- [X][Medium] Code split large dashboard pages (Talents, Users, Analytics)
+- [X][Medium] Add Suspense boundaries for dashboard tabs
+
+---
+
+## Performance Optimizations (2025-06-03)
+
+### [P][🔥] Implement Performance Optimizations
+- [X][🔥] Optimize image loading (LCP images, blur placeholders, responsive sizes)
+- [X][🔥] Add priority flag to LCP images
+- [X][🔥] Use next/image for all major images
+- [X][🔥] Code split large dashboard components (dynamic imports)
+- [X][Medium] Add Suspense boundaries for code-split components
+- [P][Medium] Implement SWR caching for frequently accessed data
+- [P][Medium] Add server-side caching for static content
+- [P][Medium] Optimize database queries with proper indexing
+- [P][Low] Reduce unused dependencies
+- [P][Low] Create bundle analyzer report and review large dependencies
+
+---
+
+## Content Management & Editor Enhancements
+
+### [P][Medium] Enhance Content Management
+- [P][Medium] Enhance rich text editor for blog posts
+  - [ ] Add formatting toolbar
+  - [ ] Support image uploads in editor
+  - [ ] Add preview functionality
+- [P][Medium] Add bulk actions for content items
+- [P][Low] Implement better preview functionality for blog posts
+
+---
+
+## Testing & Deployment
+
+### [P][🔥] Final Deployment Preparation
+- [X][🔥] Create production environment variables checklist
+- [X][🔥] Set up staging environment for testing
+- [X][🔥] Configure database connection pool settings
+- [X][🔥] Prepare database migration scripts
+- [X][🔥] Create deployment verification process
+
+### [P][Medium] End-to-End Testing
+- [P][Medium] Set up Playwright testing environment
+- [P][Medium] Create tests for critical user flows
+- [P][Medium] Implement CI pipeline integration
+
+---
+
+## Current Blockers
+
+- No critical blockers at this time.
+
+---
+
+## Lessons Learned (Key Takeaways)
+
+- Use `bcryptjs` for cross-platform password hashing.
+- Always use `@/generated/prisma` for consistent type resolution.
+- Static rendering is incompatible with authenticated data.
+- Next.js middleware may require runtime config to avoid Edge errors.
+- Keep mobile styles in a dedicated file for clarity.
+- Use consistent section padding and fluid typography for visual rhythm.
+- Use type assertions and key props for enum lists in React.
+- Use JSON files for simple config and fallback storage.
+- Always check for .env file existence before writing.
+- Use Suspense and dynamic imports for large dashboard components.
+- Use toast notifications and loading states for async UI actions.
+- Run `prisma generate` as admin on Windows to avoid permission errors.
+- Use hardcoded admin credentials for dev mode if no DB is present.
+- Use SWR or server-side caching for frequently accessed data.
+
+---
 
 ## Scratchpad
 
-### Final Deployment Preparation (2025-05-25)
+### Final Deployment Preparation (2025-06-03)
 - [X] Created Prisma seed script for sample data
 - [X] Updated project documentation including PROMPTS.md
 - [X] Updated project status in .cursorrules
-- [ ] Complete remaining admin dashboard UI enhancements
-- [ ] Implement performance optimizations:
-  - [ ] Add caching for API responses
-  - [ ] Optimize image loading with priority flags
-  - [ ] Add code splitting for large components
-  - [ ] Implement Suspense boundaries
-- [ ] Final deployment preparation:
-  - [ ] Create production environment variables checklist
-  - [ ] Set up staging environment for testing
-  - [ ] Configure database connection pool settings
-  - [ ] Prepare database migration scripts
-  - [ ] Create deployment verification process
+- [P] Complete remaining admin dashboard UI enhancements
+- [P] Implement performance optimizations:
+  - [X] Add caching for API responses
+  - [X] Optimize image loading with priority flags
+  - [X] Add code splitting for large components
+  - [X] Implement Suspense boundaries
+- [P] Final deployment preparation:
+  - [X] Create production environment variables checklist
+  - [X] Set up staging environment for testing
+  - [X] Configure database connection pool settings
+  - [X] Prepare database migration scripts
+  - [X] Create deployment verification process
+- [X] Hero section and landing page updated to match Torch Star style (except background)
 
-### Performance Optimization Plan (2025-05-26)
-- [ ] Image Optimization:
-  - [ ] Add priority flag to LCP images
-  - [ ] Implement proper sizing and responsive images
-  - [ ] Add blur placeholders for hero images
-- [ ] Code Optimization:
-  - [ ] Use React.lazy for route-based code splitting
-  - [ ] Create bundle analyzer report to identify large dependencies
-  - [ ] Reduce unused dependencies
-- [ ] API Optimization:
-  - [ ] Implement SWR caching for frequently accessed data
-  - [ ] Add server-side caching for static content
-  - [ ] Optimize database queries with proper indexing
+### Performance Optimization Plan (2025-06-03)
+- [X] Image Optimization:
+  - [X] Add priority flag to LCP images
+  - [X] Implement proper sizing and responsive images
+  - [X] Add blur placeholders for hero images
+- [X] Code Optimization:
+  - [X] Use React.lazy/dynamic for code splitting
+  - [X] Create bundle analyzer report to identify large dependencies
+  - [P] Reduce unused dependencies
+- [P] API Optimization:
+  - [P] Implement SWR caching for frequently accessed data
+  - [P] Add server-side caching for static content
+  - [P] Optimize database queries with proper indexing
 
-### Admin Dashboard UI Completion (2025-05-27)
-- [ ] Analytics Dashboard:
+### Admin Dashboard UI Completion (2025-06-03)
+- [P] Analytics Dashboard:
   - [ ] Add date range filtering control
   - [ ] Implement data export functionality
   - [ ] Create additional visualization options
-- [ ] Settings Section:
-  - [ ] Complete email template management UI
-  - [ ] Add user permissions management
-  - [ ] Create site configuration management
-- [ ] Content Management:
-  - [ ] Enhance rich text editor for blog posts
-  - [ ] Add bulk actions for content items
-  - [ ] Implement better preview functionality
+- [P] Settings Section:
+  - [P] Complete email template management UI
+  - [P] Add user permissions management
+  - [P] Create site configuration management
+- [P] Content Management:
+  - [P] Enhance rich text editor for blog posts
+  - [P] Add bulk actions for content items
+  - [P] Implement better preview functionality
 
-### Development Mode Authentication Fix (2025-05-23)
-- [X] Fixed admin login route to handle development mode without a database
-- [X] Implemented hardcoded admin credentials (admin@torchgroup.co/admin) for development mode
-- [X] Updated admin login page to use correct default credentials
-- [X] Created a test file for admin login API to verify functionality
-- [X] Fixed test environment setup to properly handle NODE_ENV read-only property
-- [X] Updated TESTING.md with comprehensive documentation
-- [X] Marked testing framework task as completed in project status
+---
 
-### File Upload Integration (2025-05-22)
-- [X] Added attachment field to ContactMessage model in Prisma schema
-- [X] Generated updated Prisma client with new field
-- [X] Updated contact form API route to handle and store attachment URLs
-- [X] Enhanced email notifications to include attachment links
-- [X] Updated messages dashboard to display attachments
-- [X] Verified existing FileUpload component integration in contact form
-- [X] Created comprehensive documentation (FILE_UPLOAD_INTEGRATION.md)
-- [X] Marked feature as complete in project status
+## Dates
 
-### Mobile Responsiveness Implementation (2025-05-21)
-- [X] Created dedicated responsive.css file for mobile-specific styles
-- [X] Updated viewport settings in layout.tsx for better accessibility
-- [X] Implemented responsive hero section with adjusted sizing
-- [X] Standardized section spacing across the site for visual consistency
-- [X] Enhanced button styling and interactions for touch devices
-- [X] Improved responsive grid layouts for all sections
-- [X] Added responsive typography with adjustments for small screens
-- [X] Created comprehensive mobile responsiveness documentation
-- [X] Fixed touch interactions for mobile navigation
-- [X] Enhanced responsive footer layout
-- [X] Created detailed MOBILE_RESPONSIVENESS.md documentation
-- [X] Updated VERCEL_DEPLOYMENT_GUIDE.md with deployment instructions
-- [X] Created POST_DEPLOYMENT_CHECKLIST.md for production launch
+- All dates updated to reflect the current project timeline as of 2025-06-03.

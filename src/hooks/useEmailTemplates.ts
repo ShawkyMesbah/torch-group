@@ -28,6 +28,8 @@ interface UseEmailTemplatesReturn {
   saveTemplate: (template: EmailTemplate) => Promise<EmailTemplate | null>;
   sendTestEmail: (templateId: string, testEmail: string, testData: Record<string, string>) => Promise<boolean>;
   refreshTemplates: () => Promise<void>;
+  isSaving: boolean;
+  isSendingTest: boolean;
 }
 
 /**
@@ -37,6 +39,8 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
   const [templates, setTemplates] = useState<EmailTemplate[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isSendingTest, setIsSendingTest] = useState<boolean>(false);
   const { toast } = useToast();
 
   // Fetch templates on hook mount
@@ -58,6 +62,10 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
       
       const data = await response.json();
       setTemplates(data);
+      toast({
+        title: 'Templates Loaded',
+        description: 'Email templates fetched successfully.',
+      });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch email templates';
       setError(errorMessage);
@@ -74,7 +82,7 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
   // Save a template
   const saveTemplate = async (template: EmailTemplate): Promise<EmailTemplate | null> => {
     try {
-      setIsLoading(true);
+      setIsSaving(true);
       setError(null);
       
       const response = await fetch('/api/settings/email-templates', {
@@ -118,7 +126,7 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
       });
       return null;
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
@@ -129,7 +137,7 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
     testData: Record<string, string>
   ): Promise<boolean> => {
     try {
-      setIsLoading(true);
+      setIsSendingTest(true);
       setError(null);
       
       const response = await fetch(`/api/settings/email-templates/${templateId}/test`, {
@@ -165,7 +173,7 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
       });
       return false;
     } finally {
-      setIsLoading(false);
+      setIsSendingTest(false);
     }
   };
 
@@ -180,6 +188,8 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
     error,
     saveTemplate,
     sendTestEmail,
-    refreshTemplates
+    refreshTemplates,
+    isSaving,
+    isSendingTest,
   };
 } 

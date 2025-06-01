@@ -5,6 +5,7 @@ import { checkAuthorization } from "@/lib/authorization";
 import fs from 'fs';
 import path from 'path';
 import { format as dateFormat, subDays, isValid } from 'date-fns';
+import { AnalyticsEventType } from "@prisma/client";
 
 export const runtime = "nodejs";
 
@@ -301,114 +302,71 @@ function generateDailyData(startDate: Date, endDate: Date) {
   return days;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
-    // Check if user is authorized
     const session = await auth();
-    
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+    if (!session?.user) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
-    
-    const isAuthorized = checkAuthorization(session, ["ADMIN"]);
-    
-    if (!isAuthorized) {
-      return NextResponse.json(
-        { error: "Forbidden" },
-        { status: 403 }
-      );
+
+    const { searchParams } = new URL(request.url);
+    const from = searchParams.get("from");
+    const to = searchParams.get("to");
+
+    if (!from || !to) {
+      return new NextResponse("Missing date range", { status: 400 });
     }
-    
-    // Get query parameters
-    const searchParams = request.nextUrl.searchParams;
-    const format = searchParams.get('format') || 'json';
-    const dataType = searchParams.get('type') || 'daily';
-    const startDateParam = searchParams.get('start') || '';
-    const endDateParam = searchParams.get('end') || '';
-    const dataSource = searchParams.get('source') || 'auto';
-    
-    // Parse date range or use default (last 30 days)
-    const endDate = endDateParam && isValid(new Date(endDateParam)) 
-      ? new Date(endDateParam) 
-      : new Date();
-      
-    const startDate = startDateParam && isValid(new Date(startDateParam))
-      ? new Date(startDateParam)
-      : subDays(endDate, 30);
-    
-    // Try to get data from database first
-    let exportData = null;
-    let source = 'database';
-    
-    // Only try database if not explicitly requesting mock data
-    if (dataSource !== 'mock_data') {
-      try {
-        const dbConnected = await testDatabaseConnection();
-        
-        if (dbConnected) {
-          exportData = await getAnalyticsDataFromDB(dataType, startDate, endDate);
-        }
-      } catch (dbError) {
-        console.error("Error accessing database:", dbError);
-      }
-    }
-    
-    // Fall back to mock data if no database data available or mock data requested
-    if (!exportData || dataSource === 'mock_data') {
-      exportData = getMockData(dataType, startDate, endDate);
-      source = 'mock_data';
-    }
-    
-    // Add timestamp to filename
-    const timestamp = dateFormat(new Date(), 'yyyy-MM-dd_HH-mm');
-    const filename = `analytics-${dataType}-${timestamp}`;
-    
-    // Return data based on requested format
-    if (format === 'csv') {
-      const csvData = convertToCSV(exportData);
-      return new NextResponse(csvData, {
-        headers: {
-          'Content-Type': 'text/csv',
-          'Content-Disposition': `attachment; filename="${filename}.csv"`
-        }
-      });
-    } else if (format === 'excel') {
-      const excelData = convertToExcel(exportData);
-      return new NextResponse(excelData, {
-        headers: {
-          'Content-Type': 'application/vnd.ms-excel',
-          'Content-Disposition': `attachment; filename="${filename}.xls"`
-        }
-      });
-    } else if (format === 'pdf') {
-      // For PDF, we'll just return a placeholder message
-      // In a real implementation, you would use a PDF generation library
-      return NextResponse.json({
-        error: "PDF export is not implemented in this demo version",
-        message: "In a production environment, this would generate a PDF using a library like PDFKit or jsPDF"
-      }, { status: 501 });
-    } else {
-      // Default: return JSON
-      return NextResponse.json({
-        data: exportData,
-        meta: {
-          type: dataType,
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
-          count: exportData.length,
-          format: format,
-          source: source
-        }
-      });
-    }
+
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+
+    // Get all analytics events for the date range
+    const events = await prisma.analyticsEvent.findMany({
+      where: {
+        createdAt: {
+          gte: fromDate,
+          lte: toDate,
+        },
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+      select: {
+        createdAt: true,
+        type: true,
+        meta: true,
+      },
+    });
+
+    // Convert events to CSV format
+    const headers = ["Timestamp", "Event Type", "Metadata"];
+    const rows = events.map((event) => [
+      event.createdAt.toISOString(),
+      event.type,
+      JSON.stringify(event.meta || {}),
+    ]);
+
+    // Create CSV content with proper escaping
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) =>
+        row.map((cell) => 
+          typeof cell === "string" 
+            ? `"${cell.replace(/"/g, '""')}"` 
+            : cell
+        ).join(",")
+      ),
+    ].join("\n");
+
+    // Return CSV file
+    return new NextResponse(csvContent, {
+      headers: {
+        "Content-Type": "text/csv",
+        "Content-Disposition": `attachment; filename="analytics-${fromDate.toISOString().split("T")[0]}-to-${toDate.toISOString().split("T")[0]}.csv"`,
+      },
+    });
   } catch (error) {
-    console.error("Error exporting analytics data:", error);
-    return NextResponse.json(
-      { error: "Failed to export analytics data", details: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 }
-    );
+    console.error("[ANALYTICS_EXPORT]", error);
+    return new NextResponse("Internal error", { status: 500 });
   }
 } 

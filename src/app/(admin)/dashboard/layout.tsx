@@ -1,13 +1,25 @@
-"use client";
+import { ReactNode, Suspense } from "react";
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+import Loading from '@/components/loading/loading';
+import DashboardNav from '@/components/dashboard/layout/dashboard-nav';
+import DashboardHeader from '@/components/dashboard/layout/dashboard-header';
 
-import { ReactNode } from "react";
-import DashboardNav from "@/components/layout/dashboard-nav";
+export const dynamic = "force-dynamic";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+  const session = await (async () => {
+    const session = await auth();
+    if (!session?.user) {
+      redirect('/login');
+    }
+    return session;
+  })();
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Background elements with subtle gradients */}
@@ -19,16 +31,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       
       {/* Main layout structure */}
       <div className="flex flex-col min-h-screen">
-        {/* Navigation */}
-        <DashboardNav />
-        
-        {/* Main content area */}
-        <div className="flex-1 flex flex-col">
-          {/* Main content */}
-          <main className="flex-1 p-6">
-            <div className="max-w-7xl mx-auto">
-              {children}
-            </div>
+        <DashboardHeader />
+        <div className="container flex-1 items-start md:grid md:grid-cols-[220px_1fr] md:gap-6 md:pt-6">
+          <aside className="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r md:sticky md:block">
+            <DashboardNav />
+          </aside>
+          <main className="flex w-full flex-col overflow-hidden">
+            <Suspense fallback={<Loading />}>
+              <div className="max-w-7xl mx-auto">
+                {children}
+              </div>
+            </Suspense>
           </main>
         </div>
       </div>

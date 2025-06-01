@@ -116,14 +116,38 @@ The API documentation is available at `/dashboard/api-docs` when logged in as an
 
 ## Project Structure
 
-- `/src/app` - Next.js app router pages and API routes
-- `/src/components` - React components
-- `/src/lib` - Library configurations and utilities
-- `/src/hooks` - Custom React hooks
-- `/src/utils` - Utility functions
-- `/src/middleware` - Next.js middleware
-- `/src/__tests__` - Unit and integration tests
-- `/public` - Static assets
+```
+src/
+├── app/                    # Next.js routes and API endpoints
+│   ├── (admin)/           # Admin routes
+│   ├── (public)/          # Public routes
+│   └── api/               # API routes
+├── components/            # React components organized by feature
+│   ├── analytics/         # Analytics components and charts
+│   ├── animations/        # Animation components
+│   ├── auth/             # Authentication components
+│   ├── blog/             # Blog components
+│   ├── common/           # Shared components (Header, Footer)
+│   ├── contact/          # Contact form and related components
+│   ├── dashboard/        # Dashboard components
+│   ├── loading/          # Loading components and providers
+│   ├── newsletter/       # Newsletter components
+│   ├── settings/         # Settings components
+│   ├── team/             # Team member components
+│   └── ui/               # Base UI components
+├── hooks/                # Custom React hooks
+├── lib/                  # Library code and utilities
+├── store/               # Global state management
+├── styles/              # Global styles and CSS
+├── types/               # TypeScript type definitions
+└── utils/               # Utility functions
+```
+
+Each feature folder may contain:
+- Components specific to that feature
+- Feature-specific hooks
+- Feature-specific types
+- Feature-specific utilities
 
 ## Contributing
 

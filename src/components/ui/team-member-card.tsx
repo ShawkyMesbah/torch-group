@@ -56,10 +56,13 @@ export function TeamMemberCard({
       >
         <div className="relative w-24 h-24 rounded-full overflow-hidden mb-3">
           <Image
-            src={imageUrl}
+            src={imageUrl || "/images/default-avatar.png"}
             alt={name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            width={80}
+            height={80}
+            className="rounded-full object-cover border-2 border-red-600 shadow-md"
+            placeholder="blur"
+            sizes="80px"
           />
         </div>
         <h3 className="text-base font-medium text-white">{name}</h3>
@@ -102,10 +105,13 @@ export function TeamMemberCard({
       >
         <div className="h-60 relative overflow-hidden">
           <Image
-            src={imageUrl}
+            src={imageUrl || "/images/default-avatar.png"}
             alt={name}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            width={80}
+            height={80}
+            className="rounded-full object-cover border-2 border-red-600 shadow-md"
+            placeholder="blur"
+            sizes="80px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
           
@@ -167,10 +173,13 @@ export function TeamMemberCard({
     >
       <div className="h-60 relative overflow-hidden">
         <Image
-          src={imageUrl}
+          src={imageUrl || "/images/default-avatar.png"}
           alt={name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          width={80}
+          height={80}
+          className="rounded-full object-cover border-2 border-red-600 shadow-md"
+          placeholder="blur"
+          sizes="80px"
         />
         
         {/* Overlay gradient */}

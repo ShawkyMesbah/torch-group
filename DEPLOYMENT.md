@@ -1,121 +1,174 @@
-# Torch Group Website - Deployment Checklist
+# Deployment Guide
 
-This document provides a comprehensive checklist for deploying the Torch Group website to production.
+## Prerequisites
 
-## Pre-Deployment Tasks
+Before deploying the Torch Group website, ensure you have:
 
-- [ ] Configure DNS settings for `torchgroup.co` domain
-- [ ] Set up SSL certificate for secure HTTPS connections
-- [ ] Create database in Supabase or preferred PostgreSQL provider
-- [ ] Set up email service (SMTP or Resend.com) for notifications
-- [ ] Create UploadThing account for file uploads
-- [ ] Prepare all environment variables from `.env.example`
+1. Node.js 18+ installed
+2. A Vercel account (recommended) or another hosting platform
+3. A PostgreSQL database (via Supabase or other provider)
+4. Required environment variables ready
 
-## Environment Variables Setup
+## Environment Variables
 
-- [ ] Database connection strings (DATABASE_URL, DIRECT_URL)
-- [ ] NextAuth secret and URL (NEXTAUTH_SECRET, NEXTAUTH_URL)
-- [ ] Supabase credentials (if using Supabase)
-- [ ] Email service credentials
-- [ ] UploadThing credentials
-- [ ] Base URL configuration
+Create a `.env` file with the following variables:
 
-### Safe Environment Variable Handling
+```env
+# Database Configuration
+DATABASE_URL=postgresql://username:password@host:port/database
+DIRECT_URL=postgresql://username:password@host:port/database
 
-We provide several tools to help manage environment variables:
+# NextAuth Configuration
+NEXTAUTH_SECRET=your-secret-key
+NEXTAUTH_URL=https://your-domain.com
 
-1. Use `npm run env:check` to verify if a .env file exists
-2. Use `npm run env:create` to safely create a new .env file (won't overwrite existing)
-3. Use `npm run env:create:force` only when you need to reset to defaults
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
-For environment scripts:
-- `create-env.ps1` - Creates a new .env file (won't overwrite existing)
-- `update_env_fixed.ps1` - Updates for production (asks for confirmation)
-- `update_env.ps1` - Updates connection strings only (asks for confirmation)
+# Email Configuration (Resend)
+RESEND_API_KEY=your-resend-api-key
 
-⚠️ **Important**: Never overwrite environment files in production without backup!
+# File Upload Configuration (UploadThing)
+UPLOADTHING_SECRET=your-uploadthing-secret
+UPLOADTHING_APP_ID=your-uploadthing-app-id
 
-## Deployment Process
+# Analytics Configuration
+ANALYTICS_ENABLED=true
+```
 
-### Vercel Deployment (Recommended)
+## Deployment Steps
 
-- [ ] Connect GitHub repository to Vercel
-- [ ] Configure environment variables in Vercel dashboard
-- [ ] Set up custom domain `torchgroup.co` in Vercel
-- [ ] Deploy project from main branch
-- [ ] Verify build completes successfully
-- [ ] Check deployment logs for any errors
+### 1. Prepare for Production
 
-### Self-Hosted Deployment
+```bash
+# Install dependencies
+npm install
 
-- [ ] Clone repository to server
-- [ ] Install Node.js (v20+)
-- [ ] Create `.env` file with all required variables
-- [ ] Run `npm install` to install dependencies
-- [ ] Run `npm run build` to build the project
-- [ ] Set up process manager (PM2 recommended)
-- [ ] Configure reverse proxy (Nginx or similar)
-- [ ] Set up SSL certificate (Let's Encrypt recommended)
-- [ ] Start the application with `npm run start`
+# Build the application
+npm run build
 
-## Post-Deployment Verification
+# Run database migrations
+npx prisma migrate deploy
+```
 
-- [ ] Verify homepage loads correctly
-- [ ] Check all public pages (About, Services, Blog)
-- [ ] Test responsive design on mobile devices
-- [ ] Verify admin login works (`admin@torchgroup.co`)
-- [ ] Change default admin password
-- [ ] Test contact form submission
-- [ ] Verify contact form emails are received
-- [ ] Test newsletter subscription
-- [ ] Verify file uploads work in dashboard
-- [ ] Check all dashboard features
+### 2. Deploy to Vercel
 
-## Content Setup
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Configure environment variables in Vercel dashboard
+4. Deploy
 
-- [ ] Replace any placeholder content
-- [ ] Add initial blog posts
-- [ ] Configure team members
-- [ ] Set up projects
-- [ ] Configure talents
-- [ ] Reorder homepage sections if needed
+### 3. Post-Deployment Checks
 
-## SEO & Analytics
+- [ ] Verify all pages load correctly
+- [ ] Test authentication flow
+- [ ] Check file uploads
+- [ ] Verify contact form submission
+- [ ] Test admin dashboard access
+- [ ] Monitor error logs
+- [ ] Check analytics tracking
 
-- [ ] Verify meta tags are correct on all pages
-- [ ] Set up Google Analytics or preferred analytics service
-- [ ] Create robots.txt file
-- [ ] Submit sitemap to search engines
-- [ ] Set up Google Search Console
+## Performance Monitoring
 
-## Performance & Optimization
+The application includes built-in performance monitoring:
 
-- [ ] Test website performance with Lighthouse
-- [ ] Optimize any large images
-- [ ] Verify loading times are acceptable
-- [ ] Check for any layout shifts or UI issues
-- [ ] Ensure all animations run smoothly
+- Page load metrics tracking
+- Custom performance measurements
+- Error logging
+- Analytics tracking
 
-## Security Checks
+Access these metrics via:
+- `/api/log-performance` - Performance metrics
+- `/api/log-error` - Error logs
+- Admin dashboard analytics section
 
-- [ ] Verify authentication system works correctly
-- [ ] Test role-based access controls
-- [ ] Ensure API routes are properly protected
-- [ ] Check for any exposed environment variables
+## Security Measures
 
-## Backup & Recovery Plan
+The deployment includes:
 
-- [ ] Set up database backups
-- [ ] Document recovery procedures
-- [ ] Prepare rollback plan in case of issues
+1. Security Headers
+   - X-DNS-Prefetch-Control
+   - X-XSS-Protection
+   - X-Frame-Options
+   - X-Content-Type-Options
+   - Referrer-Policy
 
-## Launch Checklist
+2. Authentication Protection
+   - API routes are protected
+   - Admin routes require authentication
+   - Rate limiting on sensitive endpoints
 
-- [ ] Final review of all pages and features
-- [ ] Confirmation from client on content and functionality
-- [ ] Go live with production domain
-- [ ] Monitor for any issues in the first 48 hours
-- [ ] Schedule follow-up for any necessary adjustments
+3. Error Handling
+   - Production error logging
+   - Error boundaries for UI components
+   - API error handling
+
+## Monitoring Setup
+
+1. Error Monitoring
+   - Check `/api/log-error` logs
+   - Monitor admin dashboard alerts
+   - Set up error notifications
+
+2. Performance Monitoring
+   - Track page load times
+   - Monitor API response times
+   - Check resource usage
+
+3. Analytics
+   - User engagement metrics
+   - Feature usage statistics
+   - Error rates and types
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. Database Connection Issues
+   ```bash
+   # Check database connection
+   npx prisma db push
+   ```
+
+2. Build Errors
+   ```bash
+   # Clear cache and rebuild
+   rm -rf .next
+   npm run build
+   ```
+
+3. Authentication Problems
+   - Verify environment variables
+   - Check NextAuth configuration
+   - Clear browser cookies
+
+## Maintenance
+
+Regular maintenance tasks:
+
+1. Database
+   - Run migrations
+   - Monitor performance
+   - Backup data
+
+2. Updates
+   - Keep dependencies updated
+   - Check for security patches
+   - Update content regularly
+
+3. Monitoring
+   - Check error logs
+   - Monitor performance metrics
+   - Review analytics data
+
+## Support
+
+For technical support:
+- Email: support@torchgroup.co
+- Documentation: /dashboard/api-docs
+- GitHub Issues: [Repository URL]
 
 ---
 

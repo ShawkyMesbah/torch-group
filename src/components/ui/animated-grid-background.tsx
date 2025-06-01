@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 interface AnimatedGridBackgroundProps {
   className?: string;
@@ -10,6 +11,7 @@ interface AnimatedGridBackgroundProps {
   dotSpacing?: number;
   animationSpeed?: number;
   interactive?: boolean;
+  mousePosition?: { x: number; y: number; };
 }
 
 export function AnimatedGridBackground({
@@ -19,10 +21,10 @@ export function AnimatedGridBackground({
   dotSpacing = 24,
   animationSpeed = 0.5,
   interactive = true,
+  mousePosition,
 }: AnimatedGridBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
-  const mousePos = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef<number | null>(null);
   const dots = useRef<Array<{ x: number; y: number; baseY: number; baseX: number }>>([]);
 
@@ -41,16 +43,6 @@ export function AnimatedGridBackground({
       canvas.width = Math.min(window.innerWidth, document.documentElement.clientWidth);
       canvas.height = window.innerHeight;
       initDots();
-    };
-
-    // Track mouse position
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!interactive) return;
-      const rect = canvas.getBoundingClientRect();
-      mousePos.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
     };
 
     // Initialize dots
@@ -87,61 +79,113 @@ export function AnimatedGridBackground({
       dots.current.forEach((dot) => {
         // Only draw dots within the viewport
         if (dot.baseX >= 0 && dot.baseX <= canvas.width && dot.baseY >= 0 && dot.baseY <= canvas.height) {
-          if (interactive) {
-            // Calculate distance from mouse
-            const dx = mousePos.current.x - dot.baseX;
-            const dy = mousePos.current.y - dot.baseY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = 150; // Max distance for effect
-            
-            if (distance < maxDistance) {
-              // Move dots away from mouse
-              const intensity = 1 - distance / maxDistance;
-              const angle = Math.atan2(dy, dx);
-              const force = intensity * 15; // Force multiplier
-              
-              dot.x = dot.baseX - Math.cos(angle) * force;
-              dot.y = dot.baseY - Math.sin(angle) * force;
+          let size = dotSize;
+          let alpha = 1;
+          if (interactive && mousePosition) {
+            // Calculate distance from cursor
+            const dx = mousePosition.x - dot.baseX;
+            const dy = mousePosition.y - dot.baseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            // If within 80px, grow and brighten
+            if (dist < 80) {
+              size = dotSize + (4 - dotSize) * (1 - dist / 80); // up to 4px
+              alpha = 0.5 + 0.5 * (1 - dist / 80); // up to 1
             } else {
-              // Return to original position
-              dot.x = dot.baseX;
-              dot.y = dot.baseY;
+              size = dotSize;
+              alpha = 1;
             }
-          } else {
-            // Simple floating animation
-            dot.y = dot.baseY + Math.sin(Date.now() * 0.001 * animationSpeed + dot.baseX) * 2;
+            dot.x = dot.baseX;
+            dot.y = dot.baseY;
           }
-          
-          // Draw dot
+          ctx.globalAlpha = alpha;
           ctx.beginPath();
-          ctx.arc(dot.x, dot.y, dotSize, 0, Math.PI * 2);
+          ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2);
           ctx.fill();
         }
       });
+      ctx.globalAlpha = 1; // Reset after drawing
       
       animationFrameId.current = requestAnimationFrame(animate);
     };
 
     // Initialize and start animation
     window.addEventListener("resize", handleResize);
-    canvas.addEventListener("mousemove", handleMouseMove);
     handleResize();
     animate();
 
     // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("mousemove", handleMouseMove);
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [dotColor, dotSize, dotSpacing, animationSpeed, interactive]);
+  }, [dotColor, dotSize, dotSpacing, animationSpeed, interactive, mousePosition]);
 
   return (
     <canvas
       ref={canvasRef}
       className={cn("absolute inset-0 z-0 pointer-events-none overflow-hidden", className)}
     />
+  );
+}
+
+// Shared background for all Torch public pages
+export function SharedTorchBackground({
+  dotColor = "rgba(255, 40, 40, 0.3)",
+  dotSize = 1.2,
+  dotSpacing = 24,
+  animationSpeed = 0.4,
+  interactive = true,
+  className = "",
+}: Partial<AnimatedGridBackgroundProps> & { className?: string }) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePosition({ x: event.clientX, y: event.clientY });
+    };
+    // Touch support
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches && event.touches.length > 0) {
+        setMousePosition({
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY,
+        });
+      }
+    };
+    // On touch end, optionally reset or keep last position
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
+
+  return (
+    <>
+      {/* Animated grid background */}
+      <AnimatedGridBackground
+        className={"fixed inset-0 -z-20 " + className}
+        dotColor={dotColor}
+        dotSize={dotSize}
+        dotSpacing={dotSpacing}
+        animationSpeed={animationSpeed}
+        interactive={interactive}
+        mousePosition={mounted ? mousePosition : { x: 0, y: 0 }}
+      />
+      {/* Black overlay */}
+      <div className="fixed inset-0 -z-10 bg-black opacity-80 pointer-events-none" />
+      {/* Cursor-following red glow */}
+      {mounted && (
+        <div
+          className="fixed w-64 h-64 bg-red-600/40 blur-[100px] rounded-full pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${mousePosition.x}px`, top: `${mousePosition.y}px`, mixBlendMode: 'screen' }}
+        />
+      )}
+    </>
   );
 } 

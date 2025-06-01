@@ -1,10 +1,12 @@
 "use client";
 
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function SimpleDashboard() {
+function SimpleDashboardContent() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -103,5 +105,18 @@ export default function SimpleDashboard() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function SimpleDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-red-500" />
+        <span className="ml-3 text-lg">Loading dashboard...</span>
+      </div>
+    }>
+      <SimpleDashboardContent />
+    </Suspense>
   );
 } 

@@ -1,3 +1,6 @@
+// src/app/admin-login/page.tsx
+// This page provides a custom login form for administrators.
+
 "use client";
 
 import { useState } from "react";
@@ -5,79 +8,44 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("admin@torchgroup.co");
-  const [password, setPassword] = useState("admin");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [debugInfo, setDebugInfo] = useState("");
-  const [success, setSuccess] = useState("");
+
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess("");
-    setDebugInfo("");
 
-    try {
-      // Call the direct admin login API
-      const response = await fetch("/api/auth/admin-login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: "include", // Important: include cookies in the request
+    const result = await signIn('credentials', {
+      redirect: false, // Prevent default redirect
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (result?.error) {
+      // Handle login error
+      toast({
+        title: "Login Failed",
+        description: result.error,
+        variant: "destructive",
       });
-
-      // Get the response as text first to debug
-      const responseText = await response.text();
-      
-      // Try to parse as JSON if possible
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (jsonError) {
-        setDebugInfo(`Failed to parse response as JSON: ${responseText.substring(0, 200)}...`);
-        setError("Server returned invalid JSON response. Check console for details.");
-        setLoading(false);
-        return;
-      }
-
-      if (!response.ok) {
-        setError(data.error || "Login failed");
-        setDebugInfo(JSON.stringify(data, null, 2));
-        setLoading(false);
-      } else {
-        setSuccess("Login successful! Redirecting...");
-        
-        // Check auth status after login
-        try {
-          const authCheckResponse = await fetch("/api/auth/check-config", {
-            credentials: "include",
-          });
-          const authCheckData = await authCheckResponse.json();
-          setDebugInfo(JSON.stringify(authCheckData, null, 2));
-          
-          // Delay slightly to show success message and debug info
-          setTimeout(() => {
-            // Force a full page navigation to dashboard, don't use the router
-            window.location.href = "/dashboard";
-          }, 1000);
-        } catch (authCheckError) {
-          // Still redirect even if the check fails
-          setTimeout(() => {
-            window.location.href = "/dashboard";
-          }, 1000);
-        }
-      }
-    } catch (err: any) {
-      setError("An error occurred during login");
-      setDebugInfo(err?.toString() || "Unknown error");
-      setLoading(false);
+    } else if (result?.ok) {
+      // Handle successful login
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to dashboard...",
+      });
+      // Force a full page reload to dashboard after successful login
+      window.location.href = "/dashboard";
     }
   };
 
@@ -88,24 +56,6 @@ export default function AdminLoginPage() {
           <h1 className="text-2xl font-bold text-white">Admin Direct Login</h1>
           <p className="mt-2 text-gray-400">Special login for administrators</p>
         </div>
-
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/50 rounded-md p-4">
-            <p className="text-red-500 text-sm">{error}</p>
-          </div>
-        )}
-
-        {success && (
-          <div className="bg-green-500/10 border border-green-500/50 rounded-md p-4">
-            <p className="text-green-500 text-sm">{success}</p>
-          </div>
-        )}
-
-        {debugInfo && (
-          <div className="bg-blue-500/10 border border-blue-500/50 rounded-md p-4 max-h-32 overflow-auto">
-            <p className="text-blue-500 text-xs font-mono whitespace-pre-wrap">{debugInfo}</p>
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div>
@@ -118,7 +68,7 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 bg-zinc-800 border-zinc-700"
+              className="mt-1 bg-zinc-800 border-zinc-700 text-white"
               placeholder="admin@torchgroup.co"
             />
           </div>
@@ -133,7 +83,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="mt-1 bg-zinc-800 border-zinc-700"
+              className="mt-1 bg-zinc-800 border-zinc-700 text-white"
               placeholder="Enter your password"
             />
           </div>

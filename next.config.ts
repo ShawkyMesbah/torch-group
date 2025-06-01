@@ -1,13 +1,14 @@
 import type { NextConfig } from "next";
+import { withAxiom } from 'next-axiom';
 
 const nextConfig: NextConfig = {
   eslint: {
     // Disable ESLint during production builds for now
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: process.env.NODE_ENV === 'production',
   },
   typescript: {
     // Disable TypeScript checking during builds to avoid route handler issues
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: process.env.NODE_ENV === 'production',
   },
   images: {
     remotePatterns: [
@@ -27,6 +28,12 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   // Add allowedDevOrigins to fix cross-origin warnings
   allowedDevOrigins: [
@@ -48,6 +55,59 @@ const nextConfig: NextConfig = {
     
     return config;
   },
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
+  },
+  poweredByHeader: false,
+  compress: true,
+  reactStrictMode: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Enable static optimization where possible
+  staticPageGenerationTimeout: 120,
+  // Add security headers
+  headers: async () => [
+    {
+      source: '/:path*',
+      headers: [
+        {
+          key: 'X-DNS-Prefetch-Control',
+          value: 'on'
+        },
+        {
+          key: 'X-XSS-Protection',
+          value: '1; mode=block'
+        },
+        {
+          key: 'X-Frame-Options',
+          value: 'SAMEORIGIN'
+        },
+        {
+          key: 'X-Content-Type-Options',
+          value: 'nosniff'
+        },
+        {
+          key: 'Referrer-Policy',
+          value: 'origin-when-cross-origin'
+        },
+        {
+          key: 'Permissions-Policy',
+          value: 'camera=(), microphone=(), geolocation=()'
+        },
+        {
+          key: 'Content-Security-Policy',
+          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:;"
+        }
+      ]
+    }
+  ],
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
-export default nextConfig;
+export default withAxiom(nextConfig);

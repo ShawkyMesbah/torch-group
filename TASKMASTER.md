@@ -1,5 +1,8 @@
 # TaskMaster AI for Torch Group Project
 
+> **Always consult this file before creating, editing, or reviewing tasks.**
+> Also review `.cursorrules` and `PRODUCTION_ENV_CHECKLIST.md` before any major project action.
+
 This document provides instructions on how to use TaskMaster AI within the Torch Group project.
 
 ## Overview
@@ -71,7 +74,6 @@ Each task follows this standard format:
 ## Acceptance Criteria
 - [Criterion 1]
 - [Criterion 2]
-- ...
 
 ## Priority
 [Low/Medium/High]
@@ -82,7 +84,6 @@ Each task follows this standard format:
 ## Dependencies
 - [Dependency 1]
 - [Dependency 2]
-- ...
 
 ## Notes
 [Additional information]
@@ -113,6 +114,18 @@ For more detailed information about TaskMaster AI, visit:
 - [TaskMaster AI GitHub Repository](https://github.com/eyaltoledano/claude-task-master)
 - [Task Master Documentation](https://task-master.dev/docs)
 
+---
+
+## Best Practices (2025-06-03)
+
+- Always check `.cursorrules` for current project status, blockers, and priorities before starting work.
+- Review `PRODUCTION_ENV_CHECKLIST.md` before any deployment or environment change.
+- Break down large or vague tasks into actionable sub-tasks.
+- Use clear, concise acceptance criteria for every task.
+- Mark task status and priority using the conventions in `.cursorrules`.
+- Update task status as soon as progress is made.
+- Document blockers and lessons learned in `.cursorrules`.
+
 # Final Deployment Task Report: Torch Group Project
 
 ## Current Status Summary
@@ -129,6 +142,7 @@ The Torch Group website is now in final stages before production launch. All maj
 6. ✅ Mobile responsiveness
 7. ✅ API documentation
 8. ✅ Testing framework
+9. ✅ Hero section and landing page updated to match Torch Star style (logo top center, nav bar, two-column layout, hand-drawn underline, media previews, red/black theme)
 
 ## Remaining Tasks (Prioritized)
 

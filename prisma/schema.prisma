@@ -143,3 +143,15 @@ enum AnalyticsEventType {
   PHONE_VERIFIED
   TALENT_CLICK
 }
+
+model Analytics {
+  id        String   @id @default(cuid())
+  event     String
+  data      Json?
+  timestamp DateTime @default(now())
+  userId    String?
+  path      String?
+  duration  Int?
+
+  @@map("analytics")
+}

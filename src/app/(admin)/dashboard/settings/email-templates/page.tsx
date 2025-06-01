@@ -12,11 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
 export default function EmailTemplatesPage() {
-  const { templates, isLoading, saveTemplate, sendTestEmail, refreshTemplates } = useEmailTemplates();
+  const { templates, isLoading, error, saveTemplate, sendTestEmail, refreshTemplates, isSaving, isSendingTest } = useEmailTemplates();
   
   const [activeTemplate, setActiveTemplate] = useState<EmailTemplate | null>(null);
-  const [saving, setSaving] = useState<boolean>(false);
-  const [sendingTest, setSendingTest] = useState<boolean>(false);
   
   // Set active template when templates load
   useEffect(() => {
@@ -26,8 +24,6 @@ export default function EmailTemplatesPage() {
   }, [templates, activeTemplate]);
   
   const handleSaveTemplate = async (template: EmailTemplate) => {
-    setSaving(true);
-    
     try {
       await saveTemplate(template);
       
@@ -35,8 +31,6 @@ export default function EmailTemplatesPage() {
       setActiveTemplate(template);
     } catch (error) {
       console.error("Error saving template:", error);
-    } finally {
-      setSaving(false);
     }
   };
   
@@ -52,14 +46,10 @@ export default function EmailTemplatesPage() {
   const handleSendTest = async (email: string, variables: Record<string, string>) => {
     if (!activeTemplate) return;
     
-    setSendingTest(true);
-    
     try {
       await sendTestEmail(activeTemplate.id, email, variables);
     } catch (error) {
       console.error("Error sending test email:", error);
-    } finally {
-      setSendingTest(false);
     }
   };
   
@@ -219,7 +209,9 @@ export default function EmailTemplatesPage() {
               onSave={handleSaveTemplate}
               onReset={handleResetTemplate}
               onSendTest={handleSendTest}
-              isLoading={saving || sendingTest}
+              isLoading={isLoading}
+              isSaving={isSaving}
+              isSendingTest={isSendingTest}
             />
           ) : (
             <Card>

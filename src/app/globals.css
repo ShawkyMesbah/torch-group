@@ -28,10 +28,6 @@
   scrollbar-color: #333 #111;  /* Firefox */
 }
 
-body {
-  @apply bg-background text-foreground;
-}
-
 @layer base {
   :root {
     --background: 0 0% 0%;
@@ -57,7 +53,7 @@ body {
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 240 10% 1.5%;
     --foreground: 0 0% 98%;
 
     --card: 240 10% 3.9%;
@@ -86,18 +82,6 @@ body {
     --ring: 240 4.9% 83.9%;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  * {
-    @apply border-border;
-  }
-  
-  html, body {
-    @apply bg-black text-white;
-  }
-  
   body {
     @apply min-h-screen font-sans antialiased;
   }
@@ -140,61 +124,6 @@ body {
   .animation-delay-3000 {
     animation-delay: 3000ms;
   }
-}
-
-/* Minimal dark mode for react-phone-input-2 */
-.react-phone-input-2 input,
-.react-phone-input-2 .form-control {
-  background: #232326 !important;
-  color: #fff !important;
-  border-radius: 0.5rem !important;
-  border: 1px solid #444 !important;
-}
-
-.react-phone-input-2 .flag-dropdown {
-  background: #232326 !important;
-  border-radius: 0.5rem 0 0 0.5rem !important;
-  border: none !important;
-}
-
-/* Fix react-phone-input-2 country dropdown selected/hover colors for dark theme */
-body .react-phone-input-2 .country-list .country:hover,
-body .react-phone-input-2 .country-list .country.highlight,
-body .react-phone-input-2 .country-list .country:focus,
-body .react-phone-input-2 .country-list .country:active {
-  background: #ef4444 !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-  border-left: 3px solid #fff !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-body .react-phone-input-2 .country-list .country.selected {
-  background: #991b1b !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-  border-left: 3px solid #fff !important;
-}
-
-/* END MINIMAL FIX */
-
-/* --- FORCE OVERRIDE: react-phone-input-2 dropdown dark mode styles --- */
-.react-phone-input-2 .country-list .country:hover,
-.react-phone-input-2 .country-list .country.highlight,
-.react-phone-input-2 .country-list .country:focus,
-.react-phone-input-2 .country-list .country:active {
-  background: #ef4444 !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-  border-left: 3px solid #fff !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-}
-
-.react-phone-input-2 .country-list .country.selected {
-  background: #991b1b !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-  border-left: 3px solid #fff !important;
 }
 
 @layer utilities {
@@ -259,3 +188,12 @@ body .react-phone-input-2 .country-list .country.selected {
   background-color: rgb(220, 38, 38);
   color: white;
 }
+
+* {
+  @apply border-border;
+}
+
+html, body {
+  @apply text-white;
+}
+

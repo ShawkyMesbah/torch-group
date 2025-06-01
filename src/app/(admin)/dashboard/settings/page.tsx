@@ -13,6 +13,7 @@ import { useAboutTorch } from "@/hooks/useAboutTorch";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
 
 // Define types for homepage sections
 interface HomepageSection {
@@ -38,6 +39,8 @@ export default function SettingsPage() {
   
   // Add a loading state to the sections
   const [sectionsLoading, setSectionsLoading] = useState(true);
+  
+  const { toast } = useToast();
   
   // Fetch sections when component mounts
   useEffect(() => {
@@ -137,13 +140,15 @@ export default function SettingsPage() {
   // Save About Torch content
   const saveAboutContent = async () => {
     if (!aboutTitle || !aboutText) return;
-    
     setIsAboutSaving(true);
     try {
       await updateAboutContent({
         title: aboutTitle,
         content: aboutText
       });
+      toast({ title: "About Torch updated successfully", variant: "default" });
+    } catch (error) {
+      toast({ title: "Error", description: (error as Error).message || "Failed to update About Torch.", variant: "destructive" });
     } finally {
       setIsAboutSaving(false);
     }

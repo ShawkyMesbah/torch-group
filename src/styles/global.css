@@ -36,4 +36,14 @@
     height: calc(100vh - 4rem);
     overflow-y: auto;
   }
+}
+
+/* Hero logo desktop styles: soft red glow and shadow for depth */
+.hero-logo {
+  box-shadow:
+    0 0 32px 8px rgba(255, 0, 64, 0.25), /* soft red glow */
+    0 4px 24px 0 rgba(0,0,0,0.18);        /* subtle drop shadow */
+  border-radius: 50%;
+  background: transparent;
+  transition: box-shadow 0.3s cubic-bezier(.4,0,.2,1);
 } 

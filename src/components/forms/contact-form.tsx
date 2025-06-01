@@ -1,439 +1,440 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller, Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/components/ui/use-toast";
-import { Loader2, CheckCircle, Paperclip } from "lucide-react";
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { FileUpload } from "@/components/ui/file-upload";
+import { Check, X, Loader2, Send } from 'lucide-react';
+import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
+import { isValidPhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
-// Form validation schema
-const contactFormSchema = z.object({
+const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().optional(),
+  phone: z.string().min(1, "Phone number is required").refine(isValidPhoneNumber, "Invalid phone number"),
   subject: z.string().min(2, "Subject is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
-  verificationCode: z.string().optional(),
   attachment: z.string().optional(),
+  privacy: z.boolean().refine((value) => value, {
+    message: "You must agree to the Privacy Policy",
+  }),
 });
 
-type ContactFormValues = z.infer<typeof contactFormSchema>;
+type FormData = z.infer<typeof formSchema>;
 
 export function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [showVerification, setShowVerification] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [attachment, setAttachment] = useState<string | undefined>();
-  
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-      verificationCode: "",
-      attachment: "",
-    }
+
+  // Phone verification state
+  const [phoneVerificationState, setPhoneVerificationState] = useState({
+    isVerifying: false,
+    sentCode: false,
+    verificationCode: "",
+    isVerified: false,
+    error: "",
+    code: "" // In a real app, this would not be stored client-side
   });
-  
-  // Request verification code
-  const requestVerificationCode = async () => {
-    if (!phoneNumber) return;
-    
-    setIsVerifying(true);
-    
-    try {
-      const response = await fetch("/api/contact/send-verification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phone: phoneNumber }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to send verification code");
-      }
-      
-      // Show success message
-      toast({
-        title: "Verification code sent!",
-        description: `We've sent a verification code to ${phoneNumber}.`,
-      });
-      
-      // If we're in development and have a mock code, show it in the console
-      if (data.mockCode) {
-        console.info(`Development code: ${data.mockCode}`);
-      }
-      
-      setShowVerification(true);
-    } catch (error) {
-      console.error("Failed to send verification code:", error);
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to send verification code. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsVerifying(false);
-    }
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    getValues,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
+
+  // Generate a random 6-digit code (replace with actual API call in production)
+  const generateVerificationCode = (): string => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   };
-  
-  // Verify code
-  const verifyCode = async () => {
-    const code = form.getValues("verificationCode");
-    if (!code) return;
-    
-    setIsVerifying(true);
-    
-    try {
-      const response = await fetch("/api/contact/verify-code", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ 
-          phone: phoneNumber,
-          code: code 
-        }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to verify code");
-      }
-      
-      if (data.verified) {
-        // Show success message
-        toast({
-          title: "Phone verified!",
-          description: "Your phone number has been verified successfully.",
-        });
-        
-        setVerified(true);
-      } else {
-        throw new Error(data.message || "Invalid verification code");
-      }
-      
-    } catch (error) {
-      console.error("Failed to verify code:", error);
+
+  // Send verification code
+  const sendVerificationCode = async () => {
+    const currentPhoneValue = getValues('phone');
+    // Basic validation - check if currentPhoneValue is a string and then pass to isValidPhoneNumber
+    if (typeof currentPhoneValue !== 'string' || !isValidPhoneNumber(currentPhoneValue)) {
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Invalid verification code. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsVerifying(false);
-    }
-  };
-  
-  const onSubmit = async (data: ContactFormValues) => {
-    // If phone number is provided but not verified, prompt user to verify
-    if (phoneNumber && !verified) {
-      toast({
-        title: "Phone verification required",
-        description: "Please verify your phone number before submitting the form.",
+        title: "Validation Error",
+        description: "Please enter a valid phone number to send a code.",
         variant: "destructive",
       });
       return;
     }
-    
-    setIsSubmitting(true);
-    
+
+    setIsLoading(true);
+    setPhoneVerificationState(prev => ({
+      ...prev,
+      isVerifying: true,
+      error: "",
+      sentCode: true,
+      code: generateVerificationCode(), // Demo code generation
+    }));
+
     try {
-      // Include the verified phone number and attachment in the form data
-      const submissionData = {
-        ...data,
-        phone: phoneNumber,
-        phoneVerified: verified,
-        attachment: attachment,
-      };
-      
+      // Simulate API call to send code
+      await new Promise<void>(resolve => setTimeout(resolve, 1000)); 
+
+      toast({
+        title: "Code Sent",
+        description: `Verification code sent to ${currentPhoneValue}. (Demo code: ${phoneVerificationState.code})`,
+      });
+
+    } catch (err) {
+       toast({
+        title: "Error",
+        description: "Failed to send verification code. Please try again.",
+        variant: "destructive",
+      });
+       setPhoneVerificationState(prev => ({
+        ...prev,
+        sentCode: false,
+        error: "Failed to send code."
+      }));
+
+    } finally {
+      setIsLoading(false);
+       setPhoneVerificationState(prev => ({
+        ...prev,
+        isVerifying: false,
+      }));
+    }
+  };
+
+  // Verify code
+  const verifyCode = async () => {
+    if (phoneVerificationState.verificationCode.length !== 6) {
+      setPhoneVerificationState(prev => ({
+        ...prev,
+        error: "Please enter a valid 6-digit code"
+      }));
+      return;
+    }
+
+    setIsLoading(true);
+    setPhoneVerificationState(prev => ({
+      ...prev,
+      isVerifying: true,
+      error: ""
+    }));
+
+    try {
+       // Simulate API call to verify code
+      await new Promise<void>(resolve => setTimeout(resolve, 1000));
+
+      // For demo, compare entered code to generated code. Replace with backend verification.
+      if (phoneVerificationState.verificationCode === phoneVerificationState.code) {
+           setPhoneVerificationState(prev => ({
+              ...prev,
+              isVerified: true,
+              sentCode: false,
+              error: "",
+           }));
+            toast({
+              title: "Phone Verified",
+              description: "Your phone number has been successfully verified.",
+            });
+      } else {
+           setPhoneVerificationState(prev => ({
+              ...prev,
+              error: "Invalid verification code."
+           }));
+            toast({
+              title: "Verification Failed",
+              description: "The verification code entered is incorrect.",
+              variant: "destructive",
+            });
+      }
+
+    } catch (err) {
+       toast({
+        title: "Error",
+        description: "Failed to verify code. Please try again.",
+        variant: "destructive",
+      });
+       setPhoneVerificationState(prev => ({
+        ...prev,
+        error: "Verification failed."
+      }));
+    } finally {
+       setIsLoading(false);
+       setPhoneVerificationState(prev => ({
+        ...prev,
+        isVerifying: false,
+      }));
+    }
+  };
+
+  // Cancel verification flow
+  const cancelVerification = () => {
+    setPhoneVerificationState({
+      isVerifying: false,
+      sentCode: false,
+      verificationCode: "",
+      isVerified: false,
+      error: "",
+      code: "" // Clear demo code
+    });
+     toast({
+        title: "Verification Cancelled",
+        description: "Phone verification was cancelled.",
+      });
+  };
+
+  // Handle verification code input change
+  const handleVerificationCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const code = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+    setPhoneVerificationState(prev => ({
+      ...prev,
+      verificationCode: code,
+      error: "" // Clear error on input change
+    }));
+  };
+
+  const onSubmit = async (data: FormData) => {
+    // Check if phone is provided and not verified
+    if (data.phone && !phoneVerificationState.isVerified) {
+        toast({
+            title: "Verification Required",
+            description: "Please verify your phone number before submitting the form.",
+            variant: "destructive",
+        });
+        return; // Prevent form submission
+    }
+
+    try {
+      setIsLoading(true);
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submissionData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          attachment,
+        }),
       });
-      
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to submit contact form");
+        throw new Error("Failed to submit form");
       }
-      
-      // Reset form on success
-      form.reset();
-      setPhoneNumber("");
-      setShowVerification(false);
-      setVerified(false);
-      setAttachment(undefined);
-      
-      // Show success message
+
       toast({
-        title: "Message sent!",
-        description: "Thank you for your message. We'll get back to you soon.",
+        title: "Success",
+        description: "Your message has been sent. We'll get back to you soon.",
       });
-      
+
+      reset();
+      setAttachment(undefined);
+      setPhoneVerificationState({
+        isVerifying: false,
+        sentCode: false,
+        verificationCode: "",
+        isVerified: false,
+        error: "",
+        code: ""
+      });
     } catch (error) {
-      console.error("Contact form submission error:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+        description: "Failed to send message. Please try again.",
         variant: "destructive",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
-  
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 sm:gap-y-7">
-        <div className="space-y-2 group">
-          <Label htmlFor="name" className="text-sm font-medium text-white/80">Full Name</Label>
-          <div className="relative">
-            <Input 
-              id="name" 
-              {...form.register("name")} 
-              placeholder="John Doe" 
-              disabled={isSubmitting}
-              aria-invalid={!!form.formState.errors.name}
-              className="w-full py-2.5 sm:py-3 px-0 text-sm sm:text-base bg-transparent border-0 border-b-2 rounded-none border-gray-700 focus:border-red-500 focus:ring-0 transition-colors placeholder:text-gray-600 focus:placeholder:text-gray-500 group-hover:border-gray-500"
-              variant="minimal"
-            />
-            {/* Animated focus line */}
-            <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-red-500 group-focus-within:w-full transition-all duration-300"></div>
-          </div>
-          {form.formState.errors.name && (
-            <p className="text-xs text-red-500 mt-1">{form.formState.errors.name.message}</p>
-          )}
-        </div>
-        
-        <div className="space-y-2 group">
-          <Label htmlFor="email" className="text-sm font-medium text-white/80">Email</Label>
-          <div className="relative">
-            <Input 
-              id="email" 
-              type="email" 
-              {...form.register("email")} 
-              placeholder="john@example.com" 
-              disabled={isSubmitting}
-              aria-invalid={!!form.formState.errors.email}
-              className="w-full py-2.5 sm:py-3 px-0 text-sm sm:text-base bg-transparent border-0 border-b-2 rounded-none border-gray-700 focus:border-red-500 focus:ring-0 transition-colors placeholder:text-gray-600 focus:placeholder:text-gray-500 group-hover:border-gray-500"
-              variant="minimal"
-            />
-            {/* Animated focus line */}
-            <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-red-500 group-focus-within:w-full transition-all duration-300"></div>
-          </div>
-          {form.formState.errors.email && (
-            <p className="text-xs text-red-500 mt-1">{form.formState.errors.email.message}</p>
-          )}
-        </div>
-        
-        <div className={`space-y-2 group ${verified ? 'col-span-2' : 'md:col-span-1'}`}>
-          <Label htmlFor="phone" className="text-sm font-medium text-white/80 flex items-center">
-            Phone 
-            {verified && (
-              <span className="ml-2 flex items-center text-green-500 text-xs">
-                <CheckCircle className="h-3 w-3 mr-1" /> Verified
-              </span>
-            )}
-          </Label>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <div className="flex-grow relative">
-              <PhoneInput
-                country={'us'}
-                value={phoneNumber}
-                onChange={(phone) => setPhoneNumber(phone)}
-                disabled={isSubmitting || verified}
-                inputClass="w-full py-2.5 sm:py-3 px-0 text-sm sm:text-base bg-transparent border-0 border-b-2 rounded-none border-gray-700 focus:border-red-500 focus:ring-0 transition-colors placeholder:text-gray-600 focus:placeholder:text-gray-500 !h-auto !pl-10"
-                containerClass="!w-full"
-                buttonClass="!border-0 !bg-transparent !top-1"
-                dropdownClass="!bg-gray-900 !text-white !border-gray-700"
-                searchClass="!bg-gray-800 !text-white"
-                inputProps={{
-                  name: 'phone',
-                  required: false,
-                  autoFocus: false,
-                }}
-              />
-              <style jsx global>{`
-                .react-phone-input-2 .country-list .country:hover,
-                .react-phone-input-2 .country-list .country.highlight,
-                .react-phone-input-2 .country-list .country:focus,
-                .react-phone-input-2 .country-list .country:active {
-                  background: #dc2626 !important;
-                  background-color: #dc2626 !important;
-                  color: #fff !important;
-                }
-                .react-phone-input-2 .country-list .country.selected {
-                  background: #7f1d1d !important;
-                  background-color: #7f1d1d !important;
-                  color: #fff !important;
-                }
-              `}</style>
-            </div>
-            
-            {!verified && !showVerification && (
-              <Button 
-                type="button" 
-                onClick={requestVerificationCode}
-                disabled={!phoneNumber || isVerifying || isSubmitting}
-                className="bg-gray-800 hover:bg-gray-700 text-white whitespace-nowrap flex items-center h-auto py-2 mt-2 sm:mt-0"
-              >
-                {isVerifying ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> 
-                    Sending...
-                  </>
-                ) : (
-                  'Verify'
-                )}
-              </Button>
-            )}
-          </div>
-        </div>
-        
-        {showVerification && !verified && (
-          <div className="space-y-2 group md:col-span-1">
-            <Label htmlFor="verificationCode" className="text-sm font-medium text-white/80">Verification Code</Label>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-grow">
-                <Input 
-                  id="verificationCode" 
-                  {...form.register("verificationCode")} 
-                  placeholder="Enter code" 
-                  disabled={isSubmitting || isVerifying}
-                  className="w-full py-2.5 sm:py-3 px-0 text-sm sm:text-base bg-transparent border-0 border-b-2 rounded-none border-gray-700 focus:border-red-500 focus:ring-0 transition-colors placeholder:text-gray-600 focus:placeholder:text-gray-500 group-hover:border-gray-500"
-                  variant="minimal"
-                />
-                {/* Animated focus line */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-red-500 group-focus-within:w-full transition-all duration-300"></div>
-              </div>
-              
-              <Button 
-                type="button" 
-                onClick={verifyCode}
-                disabled={!form.getValues("verificationCode") || isVerifying || isSubmitting}
-                className="bg-gray-800 hover:bg-gray-700 text-white whitespace-nowrap flex items-center h-auto py-2 mt-2 sm:mt-0"
-              >
-                {isVerifying ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> 
-                    Verifying...
-                  </>
-                ) : (
-                  'Confirm'
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
-        
-        <div className="space-y-2 group md:col-span-2">
-          <Label htmlFor="subject" className="text-sm font-medium text-white/80">Subject</Label>
-          <div className="relative">
-            <Input 
-              id="subject" 
-              {...form.register("subject")} 
-              placeholder="How can we help you?" 
-              disabled={isSubmitting}
-              aria-invalid={!!form.formState.errors.subject}
-              className="w-full py-2.5 sm:py-3 px-0 text-sm sm:text-base bg-transparent border-0 border-b-2 rounded-none border-gray-700 focus:border-red-500 focus:ring-0 transition-colors placeholder:text-gray-600 focus:placeholder:text-gray-500 group-hover:border-gray-500"
-              variant="minimal"
-            />
-            {/* Animated focus line */}
-            <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-red-500 group-focus-within:w-full transition-all duration-300"></div>
-          </div>
-          {form.formState.errors.subject && (
-            <p className="text-xs text-red-500 mt-1">{form.formState.errors.subject.message}</p>
-          )}
-        </div>
-      </div>
-      
-      <div className="space-y-2 group">
-        <Label htmlFor="message" className="text-sm font-medium text-white/80">Message</Label>
-        <div className="relative">
-          <textarea 
-            id="message" 
-            {...form.register("message")} 
-            rows={4} 
-            placeholder="Please provide details about your inquiry" 
-            disabled={isSubmitting}
-            aria-invalid={!!form.formState.errors.message}
-            className="w-full py-2.5 sm:py-3 px-0 text-sm sm:text-base bg-transparent border-0 border-b-2 rounded-none border-gray-700 focus:border-red-500 focus:ring-0 transition-colors resize-none placeholder:text-gray-600 focus:placeholder:text-gray-500 group-hover:border-gray-500"
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div className="space-y-4">
+        <div>
+          <label htmlFor="contact-name" className="block text-sm font-medium mb-1">Name</label>
+          <input
+            id="contact-name"
+            type="text"
+            {...register("name")}
+            className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${errors.name ? 'border-red-500' : ''}`}
+            placeholder="Your Name"
+            autoComplete="name"
           />
-          {/* Animated focus line */}
-          <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-red-500 group-focus-within:w-full transition-all duration-300"></div>
+          {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
         </div>
-        {form.formState.errors.message && (
-          <p className="text-xs text-red-500 mt-1">{form.formState.errors.message.message}</p>
+
+        <div>
+          <label htmlFor="contact-email" className="block text-sm font-medium mb-1">Email</label>
+          <input
+            id="contact-email"
+            type="email"
+            {...register("email")}
+            className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${errors.email ? 'border-red-500' : ''}`}
+            placeholder="your.email@example.com"
+            autoComplete="email"
+          />
+          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
+        </div>
+
+        <>
+          {
+            <div>
+               <label htmlFor="contact-phone" className="block text-sm font-medium mb-1">Phone Number</label>
+            <div className="flex items-center space-x-2">
+              <PhoneInputWithCountry
+                name="phone"
+                control={control}
+                rules={{
+                   validate: (value: string | undefined) => 
+                     !value || isValidPhoneNumber(value) || "Invalid phone number"
+                }}
+                id="contact-phone"
+                international
+                withCountryCallingCode
+                defaultCountry="US"
+                className={`w-full border rounded-md bg-black text-white border-gray-800 focus-within:ring-red-500 focus-within:border-red-500 phone-input-custom ${errors.phone ? 'border-red-500' : ''}`}
+                autoComplete="tel"
+              />
+              {!phoneVerificationState.sentCode && errors.phone?.type !== 'manual' && (
+                 <Button 
+                   type="button" 
+                   onClick={sendVerificationCode} 
+                   disabled={isLoading || !(typeof getValues('phone') === 'string' && isValidPhoneNumber(getValues('phone') as string)) || errors.phone?.message !== undefined}
+                   className="bg-red-600 hover:bg-red-700">
+                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                </Button>
+              )}
+              {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
+                 <Button type="button" onClick={cancelVerification} disabled={isLoading} variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-600 hover:text-white">
+                   <X className="h-4 w-4" />
+                 </Button>
+               )}
+            </div>
+            {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>}
+
+            {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
+              <div className="mt-4">
+                <label htmlFor="contact-phone-code" className="block text-sm font-medium mb-1">Verification Code</label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    id="contact-phone-code"
+                    type="text"
+                    value={phoneVerificationState.verificationCode}
+                    onChange={handleVerificationCodeChange}
+                    placeholder="Enter code"
+                    className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${phoneVerificationState.error ? 'border-red-500' : ''}`}
+                    disabled={isLoading}
+                    autoComplete="one-time-code"
+                  />
+                  <Button type="button" onClick={verifyCode} disabled={isLoading || phoneVerificationState.verificationCode.length !== 6} className="bg-red-600 hover:bg-red-700">
+                    {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                  </Button>
+                </div>
+                 {phoneVerificationState.error && <p className="mt-1 text-sm text-red-500">{phoneVerificationState.error}</p>}
+              </div>
+            )}
+          </div>
+        }
+
+        {typeof getValues('phone') === 'string' && getValues('phone') !== '' && phoneVerificationState.isVerified && (
+          <div className="mt-2 text-sm text-green-500 flex items-center">
+            <Check className="h-4 w-4 mr-1" /> Phone number verified!
+          </div>
         )}
+        </>
+
+        <div>
+          <label htmlFor="contact-subject" className="block text-sm font-medium mb-1">Subject</label>
+          <input
+            id="contact-subject"
+            type="text"
+            {...register("subject")}
+            className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${errors.subject ? 'border-red-500' : ''}`}
+            placeholder="Subject of your message"
+            autoComplete="on"
+          />
+          {errors.subject && <p className="mt-1 text-sm text-red-500">{errors.subject.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="contact-message" className="block text-sm font-medium mb-1">Message</label>
+          <textarea
+            id="contact-message"
+            {...register("message")}
+            rows={4}
+            className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${errors.message ? 'border-red-500' : ''}`}
+            placeholder="Your Message"
+            autoComplete="off"
+          />
+          {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="contact-attachment" className="block text-sm font-medium mb-1">Attachment (Optional)</label>
+           <FileUpload
+            endpoint="contactAttachment"
+            onUploadComplete={(res: { url: string }[]) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              if(res && res.length > 0 && res[0].url) {
+                setAttachment(res[0].url);
+                toast({
+                  title: "Upload Complete",
+                  description: "File uploaded successfully.",
+                });
+              }
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              toast({
+                title: "Upload Failed",
+                description: error.message,
+                variant: "destructive",
+              });
+            }}
+             onUploadBegin={() => {
+               toast({
+                 title: "Uploading",
+                 description: "Your file is being uploaded.",
+               });
+             }}
+             className="mt-2"
+             fileUrl={attachment}
+             id="contact-attachment"
+           />
+        </div>
+
+        <div className="flex items-start">
+          <input
+            type="checkbox"
+            id="privacy-policy"
+            {...register("privacy")}
+            className={`h-4 w-4 rounded border-gray-600 text-red-600 focus:ring-red-500 ${errors.privacy ? 'border-red-500' : ''}`}
+          />
+          <label htmlFor="privacy-policy" className="ml-2 block text-sm text-gray-300">
+            I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:underline">Privacy Policy</a>
+          </label>
+        </div>
+        {errors.privacy && <p className="mt-1 text-sm text-red-500">{errors.privacy.message}</p>}
       </div>
-      
-      <div className="space-y-2 group">
-        <Label className="text-sm font-medium text-white/80 flex items-center">
-          <Paperclip className="h-4 w-4 mr-2" /> Attachment (Optional)
-        </Label>
-        <FileUpload
-          endpoint="document"
-          value={attachment}
-          onChange={setAttachment}
-          className="mt-2"
-        />
-        <p className="text-xs text-gray-500 mt-1">Upload documents or images related to your inquiry (max 8MB)</p>
-      </div>
-      
+
       <Button 
         type="submit" 
-        disabled={isSubmitting} 
-        className="w-full bg-red-600 hover:bg-red-700 text-white py-3 sm:py-4 text-sm sm:text-base rounded-lg font-medium relative overflow-hidden group mt-6 sm:mt-8 shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transition-all duration-500"
+        disabled={isLoading || (typeof getValues('phone') === 'string' && getValues('phone') !== '' && !phoneVerificationState.isVerified)}
+        className="w-full bg-red-600 hover:bg-red-700 py-2 text-lg font-semibold"
       >
-        <span className="relative z-10 flex items-center justify-center">
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> 
-              Sending Message...
-            </>
-          ) : (
-            <>
-              Send Message
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="16" 
-                height="16" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="ml-2 transform group-hover:translate-x-2 transition-transform opacity-70 group-hover:opacity-100"
-              >
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </>
-          )}
-        </span>
-        {/* Enhanced shine effect on hover */}
-        <span className="absolute inset-0 h-full w-[40%] bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-[250%] transition-transform duration-1000"></span>
-        <span className="absolute inset-0 opacity-0 bg-red-500/10 group-hover:opacity-100 transition-opacity duration-500"></span>
+        {isLoading ? (
+          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+        ) : (
+          <Send className="mr-2 h-5 w-5" />
+        )}
+        Send Message
       </Button>
     </form>
   );
