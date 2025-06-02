@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 import { withAxiom } from 'next-axiom';
 
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig: NextConfig = {
   eslint: {
     // Disable ESLint during production builds for now
@@ -110,4 +114,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withAxiom(nextConfig);
+// Wrap the nextConfig with the bundle analyzer and Axiom
+module.exports = withAxiom(withBundleAnalyzer(nextConfig));

@@ -139,21 +139,35 @@ export function EmailTemplateEditor({
     try {
       await onSave(editedTemplate);
       setHasUnsavedChanges(false);
+      toast({
+        title: "Template Saved",
+        description: "Your changes have been saved successfully."
+      });
     } catch (error) {
       console.error("Error saving template:", error);
+      toast({
+        title: "Save Failed",
+        description: error instanceof Error ? error.message : "An error occurred while saving the template."
+      });
     }
   };
   
   const handleSendTest = async () => {
     if (!onSendTest || !testEmail) return;
-    
     try {
       await onSendTest(testEmail, previewValues);
-      // Clear test email after sending
       setTestEmail("");
       setShowTestUI(false);
+      toast({
+        title: "Test Email Sent",
+        description: `A test email was sent to ${testEmail}.`
+      });
     } catch (error) {
       console.error("Error sending test email:", error);
+      toast({
+        title: "Test Email Failed",
+        description: error instanceof Error ? error.message : "An error occurred while sending the test email."
+      });
     }
   };
   

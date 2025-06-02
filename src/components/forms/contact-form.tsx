@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useForm, Controller, Control } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, Controller, Control, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -10,14 +10,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Check, X, Loader2, Send } from 'lucide-react';
-import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
+import PhoneInputWithCountry, { type ReactHookFormComponentProps } from 'react-phone-number-input/react-hook-form';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(1, "Phone number is required").refine(isValidPhoneNumber, "Invalid phone number"),
+  phone: z.string().min(1, "Phone number is required").refine(
+    (value) => {
+      if (typeof value !== 'string') return false;
+      return isValidPhoneNumber(value);
+    },
+    {
+      message: "Invalid phone number",
+    }
+  ),
   subject: z.string().min(2, "Subject is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
   attachment: z.string().optional(),
@@ -49,10 +56,18 @@ export function ContactForm() {
     reset,
     control,
     getValues,
+    setValue,
+    trigger,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  const [phoneValue, setPhoneValue] = useState<string | undefined>(getValues('phone'));
+
+  useEffect(() => {
+    setValue('phone', phoneValue || '', { shouldValidate: true });
+  }, [phoneValue, setValue, trigger]);
 
   // Generate a random 6-digit code (replace with actual API call in production)
   const generateVerificationCode = (): string => {
@@ -282,72 +297,63 @@ export function ContactForm() {
           {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
         </div>
 
-        <>
-          {
-            <div>
-               <label htmlFor="contact-phone" className="block text-sm font-medium mb-1">Phone Number</label>
-            <div className="flex items-center space-x-2">
+        <div>
+           <label htmlFor="contact-phone" className="block text-sm font-medium mb-1">Phone Number</label>
+          <div className="flex items-center space-x-2">
+            
               <PhoneInputWithCountry
                 name="phone"
                 control={control}
-                rules={{
-                   validate: (value: string | undefined) => 
-                     !value || isValidPhoneNumber(value) || "Invalid phone number"
-                }}
-                id="contact-phone"
-                international
-                withCountryCallingCode
+                placeholder="Enter phone number"
                 defaultCountry="US"
                 className={`w-full border rounded-md bg-black text-white border-gray-800 focus-within:ring-red-500 focus-within:border-red-500 phone-input-custom ${errors.phone ? 'border-red-500' : ''}`}
-                autoComplete="tel"
               />
-              {!phoneVerificationState.sentCode && errors.phone?.type !== 'manual' && (
-                 <Button 
-                   type="button" 
-                   onClick={sendVerificationCode} 
-                   disabled={isLoading || !(typeof getValues('phone') === 'string' && isValidPhoneNumber(getValues('phone') as string)) || errors.phone?.message !== undefined}
-                   className="bg-red-600 hover:bg-red-700">
-                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                </Button>
-              )}
-              {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
-                 <Button type="button" onClick={cancelVerification} disabled={isLoading} variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-600 hover:text-white">
-                   <X className="h-4 w-4" />
-                 </Button>
-               )}
-            </div>
-            {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>}
-
-            {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
-              <div className="mt-4">
-                <label htmlFor="contact-phone-code" className="block text-sm font-medium mb-1">Verification Code</label>
-                <div className="flex items-center space-x-2">
-                  <input
-                    id="contact-phone-code"
-                    type="text"
-                    value={phoneVerificationState.verificationCode}
-                    onChange={handleVerificationCodeChange}
-                    placeholder="Enter code"
-                    className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${phoneVerificationState.error ? 'border-red-500' : ''}`}
-                    disabled={isLoading}
-                    autoComplete="one-time-code"
-                  />
-                  <Button type="button" onClick={verifyCode} disabled={isLoading || phoneVerificationState.verificationCode.length !== 6} className="bg-red-600 hover:bg-red-700">
-                    {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
-                  </Button>
-                </div>
-                 {phoneVerificationState.error && <p className="mt-1 text-sm text-red-500">{phoneVerificationState.error}</p>}
-              </div>
+            
+            {!phoneVerificationState.sentCode && errors.phone?.type !== 'manual' && (
+               <Button
+                 type="button"
+                 onClick={sendVerificationCode}
+                 disabled={isLoading || !(typeof phoneValue === 'string' && isValidPhoneNumber(phoneValue as string)) || errors.phone?.message !== undefined}
+                 className="bg-red-600 hover:bg-red-700">
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              </Button>
             )}
+            {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
+               <Button type="button" onClick={cancelVerification} disabled={isLoading} variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-600 hover:text-white">
+                 <X className="h-4 w-4" />
+               </Button>
+             )}
           </div>
-        }
+          {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>}
+
+          {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
+            <div className="mt-4">
+              <label htmlFor="contact-phone-code" className="block text-sm font-medium mb-1">Verification Code</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  id="contact-phone-code"
+                  type="text"
+                  value={phoneVerificationState.verificationCode}
+                  onChange={handleVerificationCodeChange}
+                  placeholder="Enter code"
+                  className={`w-full px-4 py-2 border rounded-md bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 ${phoneVerificationState.error ? 'border-red-500' : ''}`}
+                  disabled={isLoading}
+                  autoComplete="one-time-code"
+                />
+                <Button type="button" onClick={verifyCode} disabled={isLoading || phoneVerificationState.verificationCode.length !== 6} className="bg-red-600 hover:bg-red-700">
+                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                </Button>
+              </div>
+               {phoneVerificationState.error && <p className="mt-1 text-sm text-red-500">{phoneVerificationState.error}</p>}
+            </div>
+          )}
+        </div>
 
         {typeof getValues('phone') === 'string' && getValues('phone') !== '' && phoneVerificationState.isVerified && (
           <div className="mt-2 text-sm text-green-500 flex items-center">
             <Check className="h-4 w-4 mr-1" /> Phone number verified!
           </div>
         )}
-        </>
 
         <div>
           <label htmlFor="contact-subject" className="block text-sm font-medium mb-1">Subject</label>
@@ -424,8 +430,8 @@ export function ContactForm() {
         {errors.privacy && <p className="mt-1 text-sm text-red-500">{errors.privacy.message}</p>}
       </div>
 
-      <Button 
-        type="submit" 
+      <Button
+        type="submit"
         disabled={isLoading || (typeof getValues('phone') === 'string' && getValues('phone') !== '' && !phoneVerificationState.isVerified)}
         className="w-full bg-red-600 hover:bg-red-700 py-2 text-lg font-semibold"
       >
@@ -438,4 +444,4 @@ export function ContactForm() {
       </Button>
     </form>
   );
-} 
+}

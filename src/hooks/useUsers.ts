@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import useSWR, { mutate } from "swr";
 
 export type UserRole = "USER" | "STAFF" | "ADMIN";
 
@@ -9,11 +10,11 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  image?: string;
+  image?: string | null;
   role: UserRole;
   createdAt: string;
   updatedAt: string;
-  emailVerified?: string;
+  emailVerified?: string | null;
 };
 
 type UserFormData = {
@@ -21,46 +22,24 @@ type UserFormData = {
   email: string;
   password?: string;
   role: UserRole;
-  image?: string;
+  image?: string | null;
+};
+
+const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || `Request failed with status ${response.status}`);
+  }
+  return response.json();
 };
 
 export function useUsers() {
-  const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch("/api/users");
-      
-      if (!response.ok) {
-        throw new Error("Failed to fetch users");
-      }
-
-      const data = await response.json();
-      setUsers(data);
-      return data;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
-      toast({
-        title: "Error",
-        description: "Failed to load users",
-        variant: "destructive",
-      });
-      return [];
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: users, error, isLoading: loading } = useSWR<User[]>("/api/users", fetcher);
 
   const fetchUserById = async (id: string) => {
-    setLoading(true);
-    setError(null);
-
     try {
       const response = await fetch(`/api/users/${id}`);
       
@@ -68,126 +47,157 @@ export function useUsers() {
         throw new Error("Failed to fetch user");
       }
 
-      const data = await response.json();
+      const data: User = await response.json();
       setCurrentUser(data);
       return data;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      console.error("Failed to fetch user by ID:", err);
       toast({
         title: "Error",
         description: "Failed to load user",
         variant: "destructive",
       });
       return null;
-    } finally {
-      setLoading(false);
     }
   };
 
   const createUser = async (data: UserFormData) => {
-    setLoading(true);
-    
-    try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    const optimisticUser = {
+      id: `temp-${Date.now()}` as string,
+      ...data,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      emailVerified: null,
+      image: data.image || null,
+    } as User;
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create user");
+    const options = {
+      optimisticData: users ? [...users, optimisticUser] : [optimisticUser],
+      revalidate: false,
+    };
+
+    try {
+      const result = await mutate("/api/users", async (currentUsers: User[] | undefined) => {
+        const response = await fetch("/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to create user");
+        }
+        const newUser: User = await response.json();
+        return currentUsers ? [...currentUsers.filter(user => user.id !== optimisticUser.id), newUser] : [newUser];
+      }, options);
+
+      if (result) {
+        toast({
+          title: "Success",
+          description: `User "${result.find(user => user.id !== optimisticUser.id)?.name || 'New User'} created successfully`,
+        });
       }
 
-      const newUser = await response.json();
-      setUsers([newUser, ...users]);
-      
-      toast({
-        title: "Success",
-        description: `User "${newUser.name}" created successfully`,
-      });
-      
-      return newUser;
+      const newUser = result?.find(user => user.id !== optimisticUser.id);
+      return newUser || null;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      console.error("Failed to create user:", err);
       toast({
         title: "Error",
         description: err instanceof Error ? err.message : "Failed to create user",
         variant: "destructive",
       });
       return null;
-    } finally {
-      setLoading(false);
     }
   };
 
   const updateUser = async (id: string, data: Partial<UserFormData>) => {
-    setLoading(true);
-    
+    const originalUsers = users;
+    const updatedUsers = originalUsers?.map(user =>
+      user.id === id ? { ...user, ...data, updatedAt: new Date().toISOString() } : user
+    );
+
+    const options = {
+      optimisticData: updatedUsers,
+      revalidate: false,
+    };
+
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const result = await mutate("/api/users", async (currentUsers: User[] | undefined) => {
+        const response = await fetch(`/api/users/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update user");
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to update user");
+        }
+        const updatedUser: User = await response.json();
+        return currentUsers?.map(user =>
+          user.id === id ? updatedUser : user
+        ) || [updatedUser];
+      }, options);
+
+      if (currentUser?.id === id && result) {
+        const latestUser = result.find(user => user.id === id);
+        if (latestUser) setCurrentUser(latestUser);
       }
 
-      const updatedUser = await response.json();
-      setUsers(users.map(user => 
-        user.id === id ? updatedUser : user
-      ));
-      
-      // Update currentUser if it's the one being edited
-      if (currentUser?.id === id) {
-        setCurrentUser(updatedUser);
+      if (result) {
+        const updatedUserFromList = result.find(user => user.id === id);
+        if (updatedUserFromList) {
+          toast({
+            title: "Success",
+            description: `User "${updatedUserFromList.name}" updated successfully`,
+          });
+        }
       }
-      
-      toast({
-        title: "Success",
-        description: `User "${updatedUser.name}" updated successfully`,
-      });
-      
-      return updatedUser;
+
+      const updatedUser = result?.find(user => user.id === id);
+      return updatedUser || null;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      console.error("Failed to update user:", err);
       toast({
         title: "Error",
         description: "Failed to update user",
         variant: "destructive",
       });
       return null;
-    } finally {
-      setLoading(false);
     }
   };
 
   const deleteUser = async (id: string) => {
-    setLoading(true);
-    
+    const originalUsers = users;
+    const filteredUsers = originalUsers?.filter(user => user.id !== id);
+
+    const options = {
+      optimisticData: filteredUsers,
+      revalidate: false,
+    };
+
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: "DELETE",
-      });
+      await mutate("/api/users", async (currentUsers: User[] | undefined) => {
+        const response = await fetch(`/api/users/${id}`, {
+          method: "DELETE",
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to delete user");
-      }
+        if (!response.ok) {
+          throw new Error("Failed to delete user");
+        }
+        return currentUsers?.filter(user => user.id !== id) || [];
+      }, options);
 
-      setUsers(users.filter(user => user.id !== id));
-      
-      // Clear currentUser if it's the one being deleted
       if (currentUser?.id === id) {
         setCurrentUser(null);
       }
-      
+
       toast({
         title: "Success",
         description: "User deleted successfully",
@@ -195,15 +205,13 @@ export function useUsers() {
       
       return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      console.error("Failed to delete user:", err);
       toast({
         title: "Error",
         description: "Failed to delete user",
         variant: "destructive",
       });
       return false;
-    } finally {
-      setLoading(false);
     }
   };
   
@@ -212,11 +220,11 @@ export function useUsers() {
   };
 
   return {
-    users,
+    users: users || [],
     currentUser,
     loading,
     error,
-    fetchUsers,
+    fetchUsers: () => mutate("/api/users"),
     fetchUserById,
     createUser,
     updateUser,

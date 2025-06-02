@@ -57,6 +57,10 @@ model BlogPost {
   publishedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  @@index([createdAt])
+  @@index([isPublished])
+  @@index([authorId])
 }
 
 // Project model
@@ -99,6 +103,9 @@ model ContactMessage {
   isRead     Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([isRead])
 }
 
 // Talent model
@@ -112,6 +119,10 @@ model Talent {
   status    TalentStatus   @default(PENDING)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([category])
 }
 
 enum TalentCategory {
@@ -135,6 +146,9 @@ model AnalyticsEvent {
   type      AnalyticsEventType
   meta      Json?
   createdAt DateTime         @default(now())
+
+  @@index([createdAt])
+  @@index([type])
 }
 
 enum AnalyticsEventType {
@@ -154,4 +168,9 @@ model Analytics {
   duration  Int?
 
   @@map("analytics")
+
+  @@index([timestamp])
+  @@index([userId])
+  @@index([path])
+  @@index([event])
 }

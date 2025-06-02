@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Download } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import useSWR from 'swr';
 
 interface AnalyticsData {
   pageViews: number;
@@ -15,34 +16,28 @@ interface AnalyticsData {
   topPages: { path: string; views: number }[];
 }
 
+const fetcher = (url: string) => fetch(url).then(res => {
+  if (!res.ok) throw new Error('Failed to fetch analytics');
+  return res.json();
+});
+
 export function AnalyticsDashboard() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<AnalyticsData | null>(null);
 
-  const fetchAnalytics = async () => {
-    if (!dateRange?.from || !dateRange?.to) return;
-    
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/api/analytics/stats?from=${dateRange.from.toISOString()}&to=${dateRange.to.toISOString()}`);
-      if (!response.ok) throw new Error('Failed to fetch analytics');
-      const analyticsData = await response.json();
-      setData(analyticsData);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch analytics data",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  // Build the SWR key based on date range
+  const analyticsKey = dateRange?.from && dateRange?.to
+    ? `/api/analytics/stats?from=${dateRange.from.toISOString()}&to=${dateRange.to.toISOString()}`
+    : null;
+
+  const { data, error, isValidating, mutate } = useSWR<AnalyticsData>(analyticsKey, fetcher);
+
+  const fetchAnalytics = () => {
+    // Just trigger SWR revalidation
+    mutate();
   };
 
   const exportData = async () => {
     if (!data || !dateRange?.from || !dateRange?.to) return;
-    
     try {
       const response = await fetch(`/api/analytics/export?from=${dateRange.from.toISOString()}&to=${dateRange.to.toISOString()}`);
       if (!response.ok) throw new Error('Failed to export data');
@@ -76,14 +71,14 @@ export function AnalyticsDashboard() {
           variant="outline"
           size="sm"
           onClick={exportData}
-          disabled={!data || isLoading}
+          disabled={!data || isValidating}
         >
           <Download className="mr-2 h-4 w-4" />
           Export Data
         </Button>
       </div>
 
-      {isLoading ? (
+      {isValidating ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i} className="p-6 animate-pulse">
@@ -91,6 +86,10 @@ export function AnalyticsDashboard() {
               <div className="h-8 bg-gray-200 rounded mt-4"></div>
             </Card>
           ))}
+        </div>
+      ) : error ? (
+        <div className="text-center py-12 text-red-500">
+          <p>Failed to fetch analytics data.</p>
         </div>
       ) : data ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
