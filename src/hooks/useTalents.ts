@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { Talent, TalentCategory, TalentStatus } from "@/generated/prisma";
+import { Talent, TalentCategory, TalentStatus } from '@prisma/client';
 import useSWR, { mutate } from 'swr';
 
 type TalentFormData = {

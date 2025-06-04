@@ -40,7 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-   .env
-   .env.production
-   env.production.filled.txt
-   env.production.example.txt
+.env
+.env.production
+env.production.filled.txt
+env.production.example.txt

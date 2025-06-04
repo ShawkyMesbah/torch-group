@@ -1,7 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { PrismaClient } from "@/generated/prisma";
-import type { Role } from "@/generated/prisma";
+import { PrismaClient } from '@prisma/client';
+import type { Role } from '@prisma/client';
 import { compare } from "bcryptjs";
 
 const prisma = new PrismaClient();

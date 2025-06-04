@@ -91,7 +91,9 @@ const saveSettings = (sections: HomepageSection[]) => {
 export async function GET(request: NextRequest) {
   try {
     const sections = getSettings();
-    return NextResponse.json(sections);
+    const res = NextResponse.json(sections);
+    res.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+    return res;
   } catch (error) {
     console.error("Failed to fetch homepage sections:", error);
     return new NextResponse(

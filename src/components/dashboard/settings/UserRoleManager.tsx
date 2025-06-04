@@ -43,27 +43,25 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useUsers } from '@/hooks/useUsers'; // Import the useUsers hook
 
 // User Types
 export type UserRole = "ADMIN" | "EDITOR" | "VIEWER";
 
+// NOTE: This interface might need adjustment based on the actual type returned by useUsers hook
 export interface UserData {
   id: string;
-  name: string;
-  email: string;
+  name: string | null; // Adjusted based on useUsers hook
+  email: string | null; // Adjusted based on useUsers hook
   role: UserRole;
   createdAt: string;
-  lastLogin?: string;
+  lastLogin?: string | null; // Adjusted based on useUsers hook
   isActive: boolean;
 }
 
 // Props interface
 interface UserRoleManagerProps {
-  onRoleUpdate?: (userId: string, newRole: UserRole) => Promise<boolean>;
-  onUserActivation?: (userId: string, activate: boolean) => Promise<boolean>;
-  onUserDelete?: (userId: string) => Promise<boolean>;
   onUserInvite?: (email: string, name: string, role: UserRole) => Promise<boolean>;
-  refreshUsers?: () => Promise<void>;
 }
 
 const roleOptions: { label: string; value: UserRole; icon: JSX.Element; description: string }[] = [
@@ -87,53 +85,48 @@ const roleOptions: { label: string; value: UserRole; icon: JSX.Element; descript
   }
 ];
 
-// Sample data for demonstration - would be replaced with real API calls
-const sampleUsers: UserData[] = [
-  {
-    id: "1",
-    name: "Admin User",
-    email: "admin@torchgroup.co",
-    role: "ADMIN",
-    createdAt: "2023-01-01",
-    lastLogin: "2023-05-20",
-    isActive: true
-  },
-  {
-    id: "2",
-    name: "Content Editor",
-    email: "editor@torchgroup.co",
-    role: "EDITOR",
-    createdAt: "2023-02-15",
-    lastLogin: "2023-05-18",
-    isActive: true
-  },
-  {
-    id: "3",
-    name: "Team Member",
-    email: "viewer@torchgroup.co",
-    role: "VIEWER",
-    createdAt: "2023-03-10",
-    isActive: true
-  },
-  {
-    id: "4",
-    name: "Inactive User",
-    email: "inactive@torchgroup.co",
-    role: "VIEWER",
-    createdAt: "2023-04-05",
-    isActive: false
-  }
-];
+// Sample data for demonstration - would be removed once hook is fully integrated
+// const sampleUsers: UserData[] = [
+//   {
+//     id: "1",
+//     name: "Admin User",
+//     email: "admin@torchgroup.co",
+//     role: "ADMIN",
+//     createdAt: "2023-01-01",
+//     lastLogin: "2023-05-20",
+//     isActive: true
+//   },
+//   {
+//     id: "2",
+//     name: "Content Editor",
+//     email: "editor@torchgroup.co",
+//     role: "EDITOR",
+//     createdAt: "2023-02-15",
+//     lastLogin: "2023-05-18",
+//     isActive: true
+//   },
+//   {
+//     id: "3",
+//     name: "Team Member",
+//     email: "viewer@torchgroup.co",
+//     role: "VIEWER",
+//     createdAt: "2023-03-10",
+//     isActive: true
+//   },
+//   {
+//     id: "4",
+//     name: "Inactive User",
+//     email: "inactive@torchgroup.co",
+//     role: "VIEWER",
+//     createdAt: "2023-04-05",
+//     isActive: false
+//   }
+// ];
 
 export function UserRoleManager({
-  onRoleUpdate,
-  onUserActivation,
-  onUserDelete,
   onUserInvite,
-  refreshUsers
 }: UserRoleManagerProps) {
-  const [users, setUsers] = useState<UserData[]>(sampleUsers);
-  const [isLoading, setIsLoading] = useState(false);
+  const { users, loading, error, changeUserRole, toggleUserActivation, deleteUser, refreshUsers } = useUsers(); // Use useUsers hook, corrected loading state name
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<UserRole | "ALL">("ALL");
   const [statusFilter, setStatusFilter] = useState<"active" | "inactive" | "all">("all");
@@ -144,12 +137,19 @@ export function UserRoleManager({
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   
+  useEffect(() => {
+    // Initial load or refresh when hook data changes
+    if (users.length === 0 && !loading && !error) { // Use corrected loading state name
+      refreshUsers();
+    }
+  }, [users, loading, error, refreshUsers]); // Depend on users, loading, error, and refreshUsers
+  
   // Filter and sort users
   const filteredUsers = users.filter(user => {
     // Text search
     const matchesSearch = searchQuery === "" || 
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase());
+      (user.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+      (user.email?.toLowerCase() || '').includes(searchQuery.toLowerCase());
     
     // Role filter
     const matchesRole = roleFilter === "ALL" || user.role === roleFilter;
@@ -162,21 +162,23 @@ export function UserRoleManager({
     return matchesSearch && matchesRole && matchesStatus;
   }).sort((a, b) => {
     // Sort by role priority then by name
-    const rolePriority = { "ADMIN": 1, "EDITOR": 2, "VIEWER": 3 };
-    if (rolePriority[a.role] !== rolePriority[b.role]) {
-      return rolePriority[a.role] - rolePriority[b.role];
+    const rolePriority: Record<UserRole, number> = { "ADMIN": 1, "EDITOR": 2, "VIEWER": 3 }; // Explicitly type rolePriority
+    const priorityA = rolePriority[a.role];
+    const priorityB = rolePriority[b.role];
+
+    if (priorityA !== priorityB) {
+      return priorityA - priorityB;
     }
-    return a.name.localeCompare(b.name);
+    // Handle potential null/undefined names during sorting
+    const nameA = a.name || '';
+    const nameB = b.name || '';
+    return nameA.localeCompare(nameB);
   });
   
   // Load users
   const loadUsers = async () => {
-    setIsLoading(true);
-    
     try {
-      if (refreshUsers) {
-        await refreshUsers();
-      }
+      await refreshUsers(); // Call refreshUsers from the hook
       // In a real app, we would update the users state from an API response
       // For now, we'll just use the sample data
     } catch (error) {
@@ -186,35 +188,13 @@ export function UserRoleManager({
         description: "Failed to load users. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setIsLoading(false);
     }
   };
   
   // Update user role
   const handleRoleUpdate = async (userId: string, newRole: UserRole) => {
-    setIsLoading(true);
-    
     try {
-      let success = true;
-      
-      if (onRoleUpdate) {
-        success = await onRoleUpdate(userId, newRole);
-      }
-      
-      if (success) {
-        // Update local state
-        setUsers(prev => prev.map(user => 
-          user.id === userId ? { ...user, role: newRole } : user
-        ));
-        
-        toast({
-          title: "Role Updated",
-          description: "User role has been updated successfully.",
-        });
-      } else {
-        throw new Error("Failed to update user role");
-      }
+      await changeUserRole(userId, newRole);
     } catch (error) {
       console.error("Error updating role:", error);
       toast({
@@ -222,44 +202,20 @@ export function UserRoleManager({
         description: "Failed to update user role. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setIsLoading(false);
     }
   };
   
   // Toggle user activation status
   const handleToggleActivation = async (userId: string, currentStatus: boolean) => {
-    setIsLoading(true);
-    
     try {
-      let success = true;
-      
-      if (onUserActivation) {
-        success = await onUserActivation(userId, !currentStatus);
-      }
-      
-      if (success) {
-        // Update local state
-        setUsers(prev => prev.map(user => 
-          user.id === userId ? { ...user, isActive: !currentStatus } : user
-        ));
-        
-        toast({
-          title: currentStatus ? "User Deactivated" : "User Activated",
-          description: `User has been ${currentStatus ? "deactivated" : "activated"} successfully.`,
-        });
-      } else {
-        throw new Error(`Failed to ${currentStatus ? "deactivate" : "activate"} user`);
-      }
+      await toggleUserActivation(userId, !currentStatus);
     } catch (error) {
-      console.error("Error toggling user activation:", error);
+      console.error("Error toggling activation:", error);
       toast({
         title: "Error",
         description: `Failed to ${currentStatus ? "deactivate" : "activate"} user. Please try again.`,
         variant: "destructive"
       });
-    } finally {
-      setIsLoading(false);
     }
   };
   
@@ -267,29 +223,11 @@ export function UserRoleManager({
   const handleDeleteUser = async () => {
     if (!selectedUser) return;
     
-    setIsLoading(true);
-    
     try {
-      let success = true;
-      
-      if (onUserDelete) {
-        success = await onUserDelete(selectedUser.id);
-      }
-      
-      if (success) {
-        // Update local state
-        setUsers(prev => prev.filter(user => user.id !== selectedUser.id));
-        
-        toast({
-          title: "User Deleted",
-          description: "User has been deleted successfully.",
-        });
-        
-        setConfirmDeleteDialogOpen(false);
-        setSelectedUser(null);
-      } else {
-        throw new Error("Failed to delete user");
-      }
+      await deleteUser(selectedUser.id); // Call deleteUser from the hook
+      setSelectedUser(null); // Close dialog and clear selected user
+      setConfirmDeleteDialogOpen(false);
+      // The deleteUser hook function already handles toasts and refreshing data
     } catch (error) {
       console.error("Error deleting user:", error);
       toast({
@@ -297,16 +235,12 @@ export function UserRoleManager({
         description: "Failed to delete user. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setIsLoading(false);
     }
   };
   
   // Invite new user
   const handleInviteUser = async () => {
-    if (!newUserEmail) return;
-    
-    setIsLoading(true);
+    if (!newUserEmail || !newUserName) return;
     
     try {
       let success = true;
@@ -349,8 +283,6 @@ export function UserRoleManager({
         description: "Failed to invite user. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setIsLoading(false);
     }
   };
   
@@ -392,9 +324,9 @@ export function UserRoleManager({
           <Button
             variant="outline"
             onClick={loadUsers}
-            disabled={isLoading}
+            disabled={loading}
           >
-            {isLoading ? (
+            {loading ? (
               <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
             ) : (
               <RefreshCw className="h-4 w-4 mr-2" />
@@ -478,9 +410,9 @@ export function UserRoleManager({
                 </Button>
                 <Button 
                   onClick={handleInviteUser} 
-                  disabled={isLoading || !newUserEmail}
+                  disabled={loading || !newUserEmail}
                 >
-                  {isLoading ? (
+                  {loading ? (
                     <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
                   ) : (
                     <Mail className="h-4 w-4 mr-2" />
@@ -617,7 +549,7 @@ export function UserRoleManager({
                               
                               <DropdownMenuItem 
                                 onClick={() => handleToggleActivation(user.id, user.isActive)}
-                                disabled={isLoading}
+                                disabled={loading}
                               >
                                 {user.isActive ? (
                                   <>
@@ -638,7 +570,7 @@ export function UserRoleManager({
                               {roleOptions.map(role => (
                                 <DropdownMenuItem
                                   key={role.value}
-                                  disabled={user.role === role.value || isLoading}
+                                  disabled={user.role === role.value || loading}
                                   onClick={() => handleRoleUpdate(user.id, role.value)}
                                 >
                                   {role.icon}
@@ -654,7 +586,7 @@ export function UserRoleManager({
                                   setSelectedUser(user);
                                   setConfirmDeleteDialogOpen(true);
                                 }}
-                                disabled={isLoading}
+                                disabled={loading}
                               >
                                 <Trash className="h-4 w-4 mr-2" />
                                 <span>Delete User</span>
@@ -716,9 +648,9 @@ export function UserRoleManager({
             <Button 
               variant="destructive" 
               onClick={handleDeleteUser} 
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? (
+              {loading ? (
                 <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
               ) : (
                 <Trash className="h-4 w-4 mr-2" />

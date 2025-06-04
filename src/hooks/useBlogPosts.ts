@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { BlogPost } from "@/generated/prisma";
+import { BlogPost } from '@prisma/client';
 
 type BlogPostFormData = {
   title: string;

@@ -1,46 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import useSWR, { mutate } from "swr";
 import { toast } from "@/components/ui/use-toast";
 
-type AboutTorchContent = {
+export type AboutTorchContent = {
   title: string;
   content: string;
 };
 
 export function useAboutTorch() {
-  const [aboutContent, setAboutContent] = useState<AboutTorchContent | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchAboutContent = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch("/api/settings/about-torch");
-      
-      if (!response.ok) {
-        throw new Error("Failed to fetch About Torch content");
-      }
-
-      const data = await response.json();
-      setAboutContent(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
-      toast({
-        title: "Error",
-        description: "Failed to load About Torch content",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: aboutContent, error, isLoading } = useSWR<AboutTorchContent>(
+    "/api/settings/about-torch",
+    (url: string) => fetch(url).then((res) => res.json())
+  );
 
   const updateAboutContent = async (data: AboutTorchContent) => {
-    setLoading(true);
-    
     try {
       const response = await fetch("/api/settings/about-torch", {
         method: "PUT",
@@ -55,32 +29,26 @@ export function useAboutTorch() {
       }
 
       const result = await response.json();
-      setAboutContent(result.content);
-      
+      await mutate("/api/settings/about-torch");
       toast({
         title: "Success",
         description: "About Torch content updated successfully",
       });
-      
       return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
       toast({
         title: "Error",
         description: "Failed to update About Torch content",
         variant: "destructive",
       });
       return false;
-    } finally {
-      setLoading(false);
     }
   };
 
   return {
     aboutContent,
-    loading,
+    loading: isLoading,
     error,
-    fetchAboutContent,
     updateAboutContent,
   };
 } 

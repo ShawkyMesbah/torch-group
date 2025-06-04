@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { checkAuthorization } from "@/lib/authorization";
+import { checkAuthorization, isAuthorized } from "@/lib/authorization";
 import fs from 'fs';
 import path from 'path';
 import { format as dateFormat, subDays, isValid } from 'date-fns';
-import { AnalyticsEventType } from "@prisma/client";
+import { AnalyticsEventType, Prisma } from "@prisma/client";
 
 export const runtime = "nodejs";
 
 // Function to convert data to CSV
 function convertToCSV(data: any[]) {
-  if (data.length === 0) return '';
+  if (!data || data.length === 0) return '';
   
   const header = Object.keys(data[0]).join(',');
   const rows = data.map(item => {
@@ -27,11 +27,11 @@ function convertToCSV(data: any[]) {
 
 // Function to convert data to Excel XML format
 function convertToExcel(data: any[]) {
-  if (data.length === 0) return '';
+  if (!data || data.length === 0) return '';
   
   // Create a simple Excel XML format
   let xml = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>';
-  xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+  xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office-spreadsheet">';
   xml += '<Worksheet ss:Name="Analytics Data"><Table>';
   
   // Add header row
@@ -69,7 +69,7 @@ async function testDatabaseConnection() {
   }
 }
 
-// Get analytics data from database based on date range
+// Get analytics data from database based on date range and type
 async function getAnalyticsDataFromDB(dataType: string, startDate: Date, endDate: Date) {
   try {
     switch (dataType) {
@@ -88,15 +88,13 @@ async function getAnalyticsDataFromDB(dataType: string, startDate: Date, endDate
           _sum: {
             value: true
           },
-          orderBy: {
-            date: 'asc'
-          }
+          orderBy: { date: 'asc' },
         });
         
         return events.map(event => ({
           date: dateFormat(new Date(event.date), 'yyyy-MM-dd'),
-          count: event._count.id,
-          value: event._sum.value || 0
+          count: event._count?.id || 0,
+          value: event._sum?.value || 0,
         }));
       }
       
@@ -112,14 +110,12 @@ async function getAnalyticsDataFromDB(dataType: string, startDate: Date, endDate
           _count: {
             id: true
           },
-          orderBy: {
-            eventType: 'asc'
-          }
+          orderBy: { eventType: 'asc' },
         });
         
         return events.map(event => ({
           eventType: event.eventType,
-          count: event._count.id
+          count: event._count?.id || 0,
         }));
       }
       
@@ -135,14 +131,12 @@ async function getAnalyticsDataFromDB(dataType: string, startDate: Date, endDate
           _count: {
             id: true
           },
-          orderBy: {
-            source: 'asc'
-          }
+          orderBy: { source: 'asc' },
         });
         
         return events.map(event => ({
           source: event.source || 'Unknown',
-          count: event._count.id
+          count: event._count?.id || 0,
         }));
       }
       
@@ -158,17 +152,43 @@ async function getAnalyticsDataFromDB(dataType: string, startDate: Date, endDate
           _count: {
             id: true
           },
-          orderBy: {
-            device: 'asc'
-          }
+          orderBy: { device: 'asc' },
         });
         
         return events.map(event => ({
           device: event.device || 'Unknown',
-          count: event._count.id
+          count: event._count?.id || 0,
         }));
       }
-      
+
+      case 'pages': {
+        const events = await prisma.analyticsEvent.groupBy({
+          by: ['meta'],
+           where: {
+            eventType: 'PAGE_VIEW',
+            createdAt: {
+              gte: startDate,
+              lte: endDate
+            }
+          },
+          _count: {
+            id: true
+          },
+          orderBy: {
+             _count: {
+               id: 'desc' as Prisma.SortOrder
+             }
+          },
+           take: 10
+        });
+
+         // Extract path from meta (assuming meta is a JSON object with a 'path' key)
+         return events.map(event => ({
+           page: typeof event.meta === 'object' && event.meta !== null && 'path' in event.meta ? (event.meta as any).path : 'Unknown',
+           count: event._count?.id || 0,
+         }));
+      }
+
       case 'overview':
       default: {
         // Get all stats in one query for overview
@@ -261,7 +281,7 @@ function getMockData(dataType: string, startDate: Date, endDate: Date) {
         { device: 'Mobile', count: 135 },
         { device: 'Tablet', count: 21 },
       ];
-    case 'pages':
+    case 'pages': // Added pages to mock data
       return [
         { page: '/', count: 185 },
         { page: '/about', count: 76 },
@@ -302,16 +322,19 @@ function generateDailyData(startDate: Date, endDate: Date) {
   return days;
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) { // Changed Request to NextRequest
   try {
-    const session = await auth();
-    if (!session?.user) {
-      return new NextResponse("Unauthorized", { status: 401 });
+    // Authentication and authorization check (Admin only)
+    let session = await auth();
+    if (!session || !session.user || !isAuthorized(session, "ADMIN")) {
+       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
     const from = searchParams.get("from");
     const to = searchParams.get("to");
+    const dataType = searchParams.get("type") || 'overview'; // Get data type, default to overview
+    const format = searchParams.get("format") || 'csv'; // Get format, default to csv
 
     if (!from || !to) {
       return new NextResponse("Missing date range", { status: 400 });
@@ -320,51 +343,55 @@ export async function GET(request: Request) {
     const fromDate = new Date(from);
     const toDate = new Date(to);
 
-    // Get all analytics events for the date range
-    const events = await prisma.analyticsEvent.findMany({
-      where: {
-        createdAt: {
-          gte: fromDate,
-          lte: toDate,
-        },
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
-      select: {
-        createdAt: true,
-        type: true,
-        meta: true,
-      },
-    });
+    // Basic date validation
+    if (!isValid(fromDate) || !isValid(toDate)) {
+       return new NextResponse("Invalid date format", { status: 400 });
+    }
 
-    // Convert events to CSV format
-    const headers = ["Timestamp", "Event Type", "Metadata"];
-    const rows = events.map((event) => [
-      event.createdAt.toISOString(),
-      event.type,
-      JSON.stringify(event.meta || {}),
-    ]);
+    // Fetch data based on type (use real data if database is connected, otherwise mock)
+    let data;
+    const isDbConnected = await testDatabaseConnection(); // Check database connection
+    
+    if (isDbConnected) {
+       data = await getAnalyticsDataFromDB(dataType, fromDate, toDate);
+    } else {
+       console.warn("Database not connected, using mock data for export.");
+       // Generate mock data for the specified type and date range
+       data = getMockData(dataType, fromDate, toDate);
+    }
 
-    // Create CSV content with proper escaping
-    const csvContent = [
-      headers.join(","),
-      ...rows.map((row) =>
-        row.map((cell) => 
-          typeof cell === "string" 
-            ? `"${cell.replace(/"/g, '""')}"` 
-            : cell
-        ).join(",")
-      ),
-    ].join("\n");
+    if (!data || data.length === 0) {
+       return new NextResponse("No data found for the selected date range and type", { status: 404 });
+    }
 
-    // Return CSV file
-    return new NextResponse(csvContent, {
+    let fileContent;
+    let contentType;
+    let fileExtension;
+
+    // Convert data based on format
+    if (format === 'csv') {
+      fileContent = convertToCSV(data);
+      contentType = "text/csv";
+      fileExtension = "csv";
+    } else if (format === 'excel') { // Assuming 'excel' format requests Excel XML
+      fileContent = convertToExcel(data);
+      contentType = "application/vnd.ms-excel"; // MIME type for Excel XML
+      fileExtension = "xls"; // Use .xls extension for Excel XML
+    } else {
+      return new NextResponse("Unsupported format", { status: 400 });
+    }
+    
+    // Set filename
+    const filename = `analytics-${dataType}-${dateFormat(fromDate, 'yyyyMMdd')}-to-${dateFormat(toDate, 'yyyyMMdd')}.${fileExtension}`;
+
+    // Return file
+    return new NextResponse(fileContent, {
       headers: {
-        "Content-Type": "text/csv",
-        "Content-Disposition": `attachment; filename="analytics-${fromDate.toISOString().split("T")[0]}-to-${toDate.toISOString().split("T")[0]}.csv"`,
+        "Content-Type": contentType,
+        "Content-Disposition": `attachment; filename="${filename}"`,
       },
     });
+
   } catch (error) {
     console.error("[ANALYTICS_EXPORT]", error);
     return new NextResponse("Internal error", { status: 500 });

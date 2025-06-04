@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { checkAuthorization } from "@/lib/authorization";
 import fs from 'fs';
 import path from 'path';
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from '@prisma/client';
 import { Role } from "@/lib/authorization";
 import { AnalyticsEventType } from "@prisma/client";
 

@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FileUpload } from "@/components/ui/file-upload";
 import { format } from "date-fns";
 import { UseFormReturn } from "react-hook-form";
+import { useAuthorization } from '@/hooks/useAuthorization';
 
 // Match the form type from the page
 export type FormValues = {
@@ -79,6 +80,8 @@ export function UsersTable({
   getInitials,
   getRoleBadgeColor,
 }: UsersTableProps) {
+  const { isAuthorized: isAdmin } = useAuthorization("ADMIN");
+
   return (
     <div className="container space-y-6 py-6">
       <div className="flex items-center justify-between">
@@ -141,6 +144,96 @@ export function UsersTable({
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* Users Table */}
+      {filteredUsers.map(user => (
+        <div key={user.id}>
+          <div>
+            <Select
+              onValueChange={(value) => handleRoleChange(user.id, value as UserRole)}
+              value={user.role}
+              disabled={!isAdmin || user.id === selectedUser?.id}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USER">USER</SelectItem>
+                <SelectItem value="STAFF">STAFF</SelectItem>
+                <SelectItem value="ADMIN">ADMIN</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => { setSelectedUser(user); setIsEditDialogOpen(true); }}
+              disabled={!isAdmin}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => { setSelectedUser(user); setIsDeleteDialogOpen(true); }}
+              disabled={!isAdmin || user.id === user.id}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      ))}
+
+      {/* Edit User Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <form onSubmit={editForm.handleSubmit(handleEditUser)}>
+            <DialogHeader>
+              <DialogTitle>Edit User</DialogTitle>
+              <DialogDescription>Update the user's information.</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="role" className="text-right">Role</Label>
+                <Select onValueChange={(value) => editForm.setValue("role", value as UserRole)} value={editForm.getValues("role")}>
+                  <SelectTrigger disabled={!isAdmin}>
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USER">USER</SelectItem>
+                    <SelectItem value="STAFF">STAFF</SelectItem>
+                    <SelectItem value="ADMIN">ADMIN</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" disabled={editLoading || !isAdmin}>
+                {editLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Save Changes"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete user {selectedUser?.name}? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} disabled={deleteLoading}>Cancel</Button>
+            <Button variant="destructive" onClick={handleDeleteUser} disabled={deleteLoading || !isAdmin || selectedUser?.id === selectedUser?.id}>
+              {deleteLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 } 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -20,7 +20,9 @@ export async function GET(request: NextRequest) {
         take: 3 // Limit to 3 talents
       });
       
-      return NextResponse.json(activeTalents);
+      const res = NextResponse.json(activeTalents);
+      res.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+      return res;
     } catch (internalError) {
       console.warn("Using fallback mock data for active talents:", internalError);
       
@@ -61,7 +63,9 @@ export async function GET(request: NextRequest) {
         }
       ];
       
-      return NextResponse.json(mockTalents);
+      const res = NextResponse.json(mockTalents);
+      res.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+      return res;
     }
   } catch (error) {
     console.error("Failed to fetch active talents:", error);

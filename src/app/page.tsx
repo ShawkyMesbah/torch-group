@@ -14,6 +14,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { ContactForm } from "@/components/forms/contact-form";
+import useSWR from "swr";
 
 // Define homepage section type
 interface HomepageSection {
@@ -85,14 +86,23 @@ function MediaPreview() {
   );
 }
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 export default function Home() {
+  const { data: swrSections, error: sectionsError, isLoading: sectionsLoading } = useSWR('/api/settings/homepage-sections', fetcher);
   const [mounted, setMounted] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false); // For admin toggle
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [sections, setSections] = useState<HomepageSection[]>([]);
-  
-  // Form state
+  const sections = swrSections || [
+    { id: 'hero', title: 'Hero', order: 0, enabled: true },
+    { id: 'torch-group', title: 'Torch Group', order: 1, enabled: true },
+    { id: 'services', title: 'Services', order: 2, enabled: true },
+    { id: 'blog', title: 'Our Blog', order: 3, enabled: true },
+    { id: 'torch-talents', title: 'Torch Talents', order: 4, enabled: true },
+    { id: 'contact', title: 'Contact', order: 5, enabled: true }
+  ];
+  const loading = sectionsLoading;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -101,7 +111,6 @@ export default function Home() {
     privacy: false
   });
   
-  // Phone verification state
   const [phoneVerificationState, setPhoneVerificationState] = useState({
     isVerifying: false,
     sentCode: false,
@@ -132,47 +141,7 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cornerGlowOpacities, setCornerGlowOpacities] = useState({ topLeft: 0, topRight: 0, bottomLeft: 0 });
 
-  // Fetch homepage sections
   useEffect(() => {
-    const fetchSections = async () => {
-      try {
-        console.log('Fetching homepage sections...');
-        const response = await fetch('/api/settings/homepage-sections');
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Fetched blog posts data:', data);
-          console.log('Sections loaded successfully:', data);
-          setSections(data);
-        } else {
-          console.error('Failed to fetch homepage sections', response.status, response.statusText);
-          // Show an error but still allow all sections to display as fallback
-          setSections([
-            { id: 'hero', title: 'Hero', order: 0, enabled: true },
-            { id: 'torch-group', title: 'Torch Group', order: 1, enabled: true },
-            { id: 'services', title: 'Services', order: 2, enabled: true }, 
-            { id: 'blog', title: 'Our Blog', order: 3, enabled: true },
-            { id: 'torch-talents', title: 'Torch Talents', order: 4, enabled: true },
-            { id: 'contact', title: 'Contact', order: 5, enabled: true }
-          ]);
-        }
-      } catch (error) {
-        console.error('Error fetching homepage sections:', error);
-        // Use default sections as fallback on error
-        setSections([
-          { id: 'hero', title: 'Hero', order: 0, enabled: true },
-          { id: 'torch-group', title: 'Torch Group', order: 1, enabled: true },
-          { id: 'services', title: 'Services', order: 2, enabled: true }, 
-          { id: 'blog', title: 'Our Blog', order: 3, enabled: true },
-          { id: 'torch-talents', title: 'Torch Talents', order: 4, enabled: true },
-          { id: 'contact', title: 'Contact', order: 5, enabled: true }
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSections();
     setMounted(true);
 
     const handleScroll = () => {
@@ -224,13 +193,13 @@ export default function Home() {
     if (loading) return true; // Show all sections while loading
     if (sections.length === 0) return true; // Show all sections if config failed to load
     
-    const section = sections.find(s => s.id === id);
+    const section = sections.find((s: HomepageSection) => s.id === id);
     return section ? section.enabled : true; // Default to enabled if not found
   };
 
   // Sort sections by order
   const getSectionOrder = (id: string) => {
-    const section = sections.find(s => s.id === id);
+    const section = sections.find((s: HomepageSection) => s.id === id);
     return section ? section.order : 999; // Default to end if not found
   };
 
@@ -524,8 +493,8 @@ export default function Home() {
 
   // Rearranged navSections to match homepage order, excluding 'torch-talents'
   const orderedNavSections = sections
-    .filter(section => section.enabled && section.id !== 'hero' && section.id !== 'torch-talents' && (section.showInNav !== false))
-    .sort((a, b) => getSectionOrder(a.id) - getSectionOrder(b.id));
+    .filter((section: HomepageSection) => section.enabled && section.id !== 'hero' && section.id !== 'torch-talents' && (section.showInNav !== false))
+    .sort((a: HomepageSection, b: HomepageSection) => getSectionOrder(a.id) - getSectionOrder(b.id));
 
   // Split nav links for left/right (symmetry)
   const leftNav = orderedNavSections.slice(0, Math.floor(orderedNavSections.length / 2));
@@ -551,7 +520,7 @@ export default function Home() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 120; // Offset for sticky nav
       let currentSection = "";
-      orderedNavSections.forEach((section) => {
+      orderedNavSections.forEach((section: HomepageSection) => {
         const el = document.getElementById(section.id);
         if (el && el.offsetTop <= scrollPosition) {
           currentSection = section.id;

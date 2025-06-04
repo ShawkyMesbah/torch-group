@@ -77,7 +77,9 @@ const saveSettings = (content: AboutContent) => {
 export async function GET(request: NextRequest) {
   try {
     const content = getSettings();
-    return NextResponse.json(content);
+    const res = NextResponse.json(content);
+    res.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+    return res;
   } catch (error) {
     console.error("Failed to fetch about content:", error);
     return new NextResponse(
