@@ -806,7 +806,7 @@ export default function Home() {
         </section>
 
         {/* About Torch Group block moved here */}
-        <Section id="about-torch" className="py-32 md:py-40 relative overflow-hidden">
+        <Section id="about-torch" className="py-16 sm:py-24 md:py-32 lg:py-40 relative overflow-hidden">
           {/* Enhanced background with multiple glow effects */}
           <div className="absolute inset-0 -z-10">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow"></div>
@@ -837,7 +837,7 @@ export default function Home() {
 
               {/* Main Title */}
               <motion.h2 
-                className="text-5xl md:text-7xl font-black mb-8 text-white tracking-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 sm:mb-8 text-white tracking-tight"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -851,13 +851,13 @@ export default function Home() {
 
               {/* Typewriter Section */}
               <motion.div 
-                className="mb-12 max-w-5xl"
+                className="mb-8 sm:mb-10 md:mb-12 max-w-5xl px-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <span className="block text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
+                <span className="block text-lg sm:text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
                   Empowering Creative Entities & Talents through{' '}
                   <span className="text-red-500 font-bold">
                     <span className="inline-block">
@@ -873,7 +873,7 @@ export default function Home() {
 
               {/* Decorative Divider */}
               <motion.div 
-                className="flex justify-center mb-12"
+                className="flex justify-center mb-8 sm:mb-10 md:mb-12"
                 initial={{ opacity: 0, scaleX: 0 }}
                 whileInView={{ opacity: 1, scaleX: 1 }}
                 viewport={{ once: true }}
@@ -886,7 +886,7 @@ export default function Home() {
               </motion.div>
               
               {/* Enhanced Content Cards */}
-              <div className="max-w-6xl mx-auto">
+              <div className="max-w-6xl mx-auto px-4">
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -895,9 +895,9 @@ export default function Home() {
                   className="relative"
                 >
                   {/* Main Statement Card */}
-                  <div className="relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg border border-red-600/20 rounded-3xl p-8 md:p-12 mb-8 shadow-2xl shadow-red-900/20 hover:shadow-red-600/30 transition-all duration-500 group">
+                  <div className="content-card relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg border border-red-600/20 rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 mb-6 sm:mb-8 shadow-2xl shadow-red-900/20 hover:shadow-red-600/30 transition-all duration-500 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight relative z-10">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight relative z-10">
                       Igniting creativity and empowering talent to shape the future of{' '}
                       <span className="text-red-500 relative">
                         digital content
@@ -907,9 +907,9 @@ export default function Home() {
                   </div>
 
                   {/* Description Card */}
-                  <div className="relative bg-gradient-to-br from-black/40 via-black/20 to-black/40 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group">
+                  <div className="content-card relative bg-gradient-to-br from-black/40 via-black/20 to-black/40 backdrop-blur-lg border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed relative z-10 font-medium">
+                    <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed relative z-10 font-medium">
                       We're more than just a creative agency – we're a{' '}
                       <span className="text-red-400 font-semibold">catalyst for innovation</span>, a{' '}
                       <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
@@ -950,7 +950,7 @@ export default function Home() {
 
           {/* Conditionally render other sections based on their enabled status and in order */}
           {isSectionEnabled('services') && (
-            <Section id="services" className="py-32 md:py-40">
+            <Section id="services" className="py-16 sm:py-24 md:py-32 lg:py-40">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -968,16 +968,16 @@ export default function Home() {
                     <span className="text-red-500 text-base font-bold tracking-widest">WHAT WE DO</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
                     Our Services
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
-                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
+                  <p className="section-description text-base sm:text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2 px-4">
                     Comprehensive digital solutions to ignite your brand and accelerate growth.
                   </p>
-                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                  <p className="section-description text-gray-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed px-4">
                     We offer everything you need to succeed in the digital landscape.
                   </p>
                 </div>
