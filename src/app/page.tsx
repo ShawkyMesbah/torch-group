@@ -843,9 +843,8 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                About <span className="text-red-600 relative">
+                About <span className="text-red-600">
                   Torch
-                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-full opacity-60"></div>
                 </span>
               </motion.h2>
 
@@ -899,9 +898,8 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight relative z-10">
                       Igniting creativity and empowering talent to shape the future of{' '}
-                      <span className="text-red-500 relative">
+                      <span className="text-red-500">
                         digital content
-                        <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500/60 rounded-full"></div>
                       </span>
                     </h3>
                   </div>
