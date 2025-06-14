@@ -5,6 +5,7 @@ import ToasterProvider from "@/components/providers/toaster-provider";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import "./globals.css";
 import "../styles/performance.css";
+import "../styles/responsive.css";
 import { Suspense } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";

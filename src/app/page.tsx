@@ -744,7 +744,7 @@ export default function Home() {
         {/* HERO SECTION WITH ANIMATION */}
         <section 
           id="hero" 
-          className="relative flex flex-col items-center justify-center min-h-screen py-20 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
+          className="relative flex flex-col items-center justify-center min-h-screen py-8 sm:py-12 md:py-20 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
@@ -753,22 +753,22 @@ export default function Home() {
           <div className="absolute inset-0 -z-10" />
 
           {/* Hero content */}
-          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20 absolute inset-0">
-            <div className="mb-20 relative group flex flex-col items-center animate-fade-in">
-              <div className="absolute -inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
+          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20">
+            <div className="mb-8 sm:mb-12 md:mb-20 relative group flex flex-col items-center animate-fade-in">
+              <div className="absolute -inset-2 sm:-inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
               <Image 
                 src="/images/logo.png"
                 alt="Torch Logo"
                 width={300}
                 height={300}
                 priority
-                className="object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300 cursor-pointer w-[220px] h-[220px] sm:w-[300px] sm:h-[300px]"
+                className="hero-logo object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300 cursor-pointer w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[300px]"
                 style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
                 onClick={handleLogoClick}
                 ref={logoImgRefDesktop}
               />
             </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-12 text-white tracking-tight hero-heading animate-hero-headline">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 sm:mb-8 md:mb-12 text-white tracking-tight hero-heading animate-hero-headline">
               Welcome to <span className="relative inline-block text-red-600">Torch
                 <svg className="absolute left-0 -bottom-2 w-full h-3" viewBox="0 0 160 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 10C40 2 120 2 155 6" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
@@ -777,10 +777,10 @@ export default function Home() {
                 </svg>
               </span>
             </h1>
-            <div className="mb-14 text-center font-semibold">
+            <div className="mb-8 sm:mb-10 md:mb-14 text-center font-semibold px-4">
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className="block text-3xl md:text-4xl text-white font-extrabold"
+                className="hero-description block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-extrabold"
                 animateBy="words"
                 direction="top"
                 delay={60}
@@ -788,16 +788,16 @@ export default function Home() {
                 shiny={true}
               />
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 animate-hero-fadein px-4">
               <button
                 onClick={() => scrollToSection('about-torch')}
-                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0"
+                className="hero-button w-full sm:w-auto rounded-full bg-red-600 px-8 sm:px-12 py-4 sm:py-5 text-base sm:text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0"
               >
                 Explore Torch <ArrowDownIcon className="h-5 w-5 ml-2" />
               </button>
               <a
                 href="/contact"
-                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3"
+                className="hero-button w-full sm:w-auto rounded-full border-2 border-red-600 px-8 sm:px-12 py-4 sm:py-5 text-base sm:text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3"
               >
                 Contact Us <ArrowRight className="h-5 w-5 ml-2" />
               </a>
