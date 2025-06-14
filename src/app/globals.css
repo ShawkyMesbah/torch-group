@@ -195,6 +195,7 @@
 }
 
 html, body {
-  @apply text-white;
+  @apply text-white bg-black;
+  background-color: #000000 !important;
 }
 

@@ -62,7 +62,7 @@ interface SectionProps {
 
 // Section component with consistent styling
 const Section = ({ id, children, className }: SectionProps) => (
-  <section id={id} className={cn("py-24 relative", className)}>
+  <section id={id} className={cn("py-24 relative bg-transparent", className)} style={{ backgroundColor: 'transparent' }}>
     {children}
   </section>
 );
@@ -924,11 +924,12 @@ export default function Home() {
 
         {/* Page content starts here */}
         <div
-          className="w-full min-h-screen text-white relative"
+          className="w-full min-h-screen text-white relative bg-black"
+          style={{ backgroundColor: '#000000' }}
         >
           {/* Added: Animated grid background for all pages */}
           <AnimatedGridBackground 
-            className="fixed inset-0 -z-20" 
+            className="fixed inset-0 -z-30" 
             dotColor="rgba(255, 40, 40, 0.3)"
             dotSize={1.2}
             dotSpacing={24}
@@ -938,7 +939,10 @@ export default function Home() {
           />
 
           {/* Added: Pure black overlay for all pages */}
-          <div className="fixed inset-0 -z-10 bg-black opacity-80"></div>
+          <div className="fixed inset-0 -z-20 bg-black" style={{ backgroundColor: '#000000' }}></div>
+
+          {/* Additional black background safety layer */}
+          <div className="fixed inset-0 -z-10 bg-black opacity-90" style={{ backgroundColor: '#000000' }}></div>
 
           {/* Added: Cursor following red glow */}
           {mounted && (

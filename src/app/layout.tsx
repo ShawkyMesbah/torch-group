@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // For now, always render Header and Footer for public pages.
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, "text-white relative min-h-screen overflow-x-hidden")}> 
+      <body className={cn(inter.className, "text-white bg-black relative min-h-screen overflow-x-hidden")} style={{ backgroundColor: '#000000' }}> 
         <HTMLAttributesProvider>
           <ToasterProvider />
           <Suspense fallback={null}>
