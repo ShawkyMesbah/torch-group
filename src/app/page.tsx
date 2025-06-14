@@ -744,7 +744,7 @@ export default function Home() {
         {/* HERO SECTION WITH ANIMATION */}
         <section 
           id="hero" 
-          className="relative flex flex-col items-center justify-center min-h-[80vh] py-40 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
+          className="relative flex flex-col items-center justify-center min-h-screen py-20 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
@@ -753,7 +753,7 @@ export default function Home() {
           <div className="absolute inset-0 -z-10" />
 
           {/* Hero content */}
-          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20">
+          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20 absolute inset-0">
             <div className="mb-20 relative group flex flex-col items-center animate-fade-in">
               <div className="absolute -inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
               <Image 
