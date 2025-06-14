@@ -967,7 +967,7 @@ export default function Home() {
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Our Services
+                    Our <span className="text-red-600">Services</span>
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1125,7 +1125,7 @@ export default function Home() {
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Our Blog
+                    Our <span className="text-red-600">Blog</span>
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1223,7 +1223,7 @@ export default function Home() {
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Top Torch Talents
+                    Top <span className="text-red-600">Torch</span> Talents
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1431,7 +1431,7 @@ export default function Home() {
                     <span className="text-red-500 text-base font-bold tracking-widest">CONTACT US</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">Get in Touch</h2>
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">Get in <span className="text-red-600">Touch</span></h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
