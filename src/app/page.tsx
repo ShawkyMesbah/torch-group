@@ -1230,12 +1230,7 @@ export default function Home() {
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
-                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
-                    Meet our exceptional talents who bring creativity and innovation to life.
-                  </p>
-                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                    Discover the faces behind our success stories.
-                  </p>
+
                 </div>
                 {activeTalents && activeTalents.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
