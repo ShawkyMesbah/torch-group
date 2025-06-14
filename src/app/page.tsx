@@ -1133,10 +1133,7 @@ export default function Home() {
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
-                    Stay updated with the latest insights, trends, and stories from the digital world.
-                  </p>
-                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                    Discover expert perspectives and industry knowledge.
+                    Discover the latest insights, Talents News, Top Talents Lists, Creative Entities, Creative Broken Records & Creative Content
                   </p>
                 </div>
                 {blogPosts && blogPosts.length > 0 ? (
