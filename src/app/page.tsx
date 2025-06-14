@@ -843,9 +843,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                About <span className="text-red-600">
-                  Torch
-                </span>
+                About <span className="text-red-600">Torch</span>
               </motion.h2>
 
               {/* Typewriter Section */}
@@ -1037,14 +1035,19 @@ export default function Home() {
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
-                <div className="text-center mb-20 mt-16">
-                  <div className="inline-flex items-center justify-center mb-4">
-                    <div className="h-px w-8 bg-red-600 mr-2"></div>
-                    <span className="text-red-600 text-base font-bold tracking-widest">OUR BRANDS</span>
-                    <div className="h-px w-8 bg-red-600 ml-2"></div>
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center justify-center mb-6">
+                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                    <span className="text-red-500 text-base font-bold tracking-widest">OUR BRANDS</span>
+                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h3 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">Torch Group Brands</h3>
-                  <p className="text-gray-300 max-w-3xl mx-auto text-lg">
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
+                    Torch Group <span className="text-red-600">Brands</span>
+                  </h2>
+                  <div className="flex justify-center mb-4">
+                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                  </div>
+                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
                     Explore our family of brands, each dedicated to excellence in their specialized fields.
                   </p>
                 </div>
@@ -1223,7 +1226,7 @@ export default function Home() {
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Top <span className="text-red-600">Torch</span> Talents
+                    Top Torch <span className="text-red-600">Talents</span>
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
