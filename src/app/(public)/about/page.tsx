@@ -21,7 +21,7 @@ export default function AboutPage() {
               About <span className="text-red-500">Torch Group</span>
             </h1>
             <p className="text-lg text-gray-200 max-w-3xl">
-              Igniting digital transformation through innovative solutions and strategic partnerships.
+              Igniting digital transformation through innovative solutions and strategic allies.
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function AboutPage() {
               },
               {
                 title: "Collaboration",
-                desc: "We believe in the power of teamwork and partnership. We work closely with our clients and each other to achieve shared goals."
+                desc: "We believe in the power of teamwork and collaboration. We work closely with our clients and each other to achieve shared goals."
               },
               {
                 title: "Adaptability",
@@ -179,7 +179,7 @@ export default function AboutPage() {
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Ready to transform your digital presence?</h2>
               <p className="text-gray-200 mb-8">
-                Partner with us to ignite your business growth with innovative digital solutions.
+                Ally with us to ignite your business growth with innovative digital solutions.
               </p>
               <AnimatedFadeIn animation="slide-up" delay={0.3}>
                 <Link 

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowDownIcon, ExternalLink, FileText, Flame, ChevronRight, BarChart3, Users, ArrowUp, Check, X, User, Mail, Phone, MessageSquare, Send, Loader2, Calendar, SkipForward, BookOpen } from "lucide-react";
+import { ArrowRight, ArrowDownIcon, ExternalLink, FileText, Flame, ChevronRight, BarChart3, Users, ArrowUp, Check, X, User, Mail, Phone, MessageSquare, Send, Loader2, Calendar, SkipForward, BookOpen, ShoppingCart, Star, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AnimatedGridBackground } from "@/components/ui/animated-grid-background";
 import { FeatureCard } from "@/components/ui/feature-card";
@@ -655,8 +655,8 @@ export default function Home() {
       {mounted && (
         <Head>
           <title>Torch Group - Igniting Creativity & Empowering Digital Talent</title>
-          <meta name="description" content="Torch Group empowers creative entities and talents through innovative digital solutions, strategic partnerships, and comprehensive media services. Discover our B2C, B2T, and B2B offerings." />
-          <meta name="keywords" content="creative agency, digital content, talent management, media services, branding, technology solutions, creative partnerships" />
+          <meta name="description" content="Torch Group empowers creative entities and talents through innovative digital solutions, strategic allies, and comprehensive media services. Discover our B2C, B2T, and B2B offerings." />
+          <meta name="keywords" content="creative agency, digital content, talent management, media services, branding, technology solutions, creative allies" />
           <meta name="author" content="Torch Group" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           
@@ -664,7 +664,7 @@ export default function Home() {
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://torchgroup.com/" />
           <meta property="og:title" content="Torch Group - Igniting Creativity & Empowering Digital Talent" />
-          <meta property="og:description" content="Empowering creative entities and talents through innovative digital solutions and strategic partnerships." />
+          <meta property="og:description" content="Empowering creative entities and talents through innovative digital solutions and strategic allies." />
           <meta property="og:image" content="https://torchgroup.com/images/logo.png" />
           <meta property="og:site_name" content="Torch Group" />
           
@@ -672,7 +672,7 @@ export default function Home() {
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://torchgroup.com/" />
           <meta property="twitter:title" content="Torch Group - Igniting Creativity & Empowering Digital Talent" />
-          <meta property="twitter:description" content="Empowering creative entities and talents through innovative digital solutions and strategic partnerships." />
+          <meta property="twitter:description" content="Empowering creative entities and talents through innovative digital solutions and strategic allies." />
           <meta property="twitter:image" content="https://torchgroup.com/images/logo.png" />
           
           {/* Structured Data */}
@@ -780,7 +780,7 @@ export default function Home() {
             <div className="mb-14 text-center font-semibold">
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className="block text-3xl md:text-4xl text-white font-extrabold"
+                className="block text-2xl md:text-3xl text-white font-extrabold"
                 animateBy="words"
                 direction="top"
                 delay={60}
@@ -867,7 +867,7 @@ export default function Home() {
                       <Cursor />
                     </span>
                   </span>
-                  {' '}solutions & Strategic Sponsor/Partnerships
+                  {' '}solutions & Strategic Sponsor/Allies
                 </span>
               </motion.div>
 
@@ -991,7 +991,7 @@ export default function Home() {
                       description={
                         `Enjoy with Our Torch Group\nServices & e commerce will\nhelp your creative products &\nservices that fit your needs`
                       }
-                      icon={<BarChart3 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+                      icon={<ShoppingCart className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
                       className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
                     />
                   </motion.div>
@@ -1004,7 +1004,7 @@ export default function Home() {
                       description={
                         `Our Talents membership\nservices will help your content\ngrow online/offline engagement\n& attract more audience &\nFollowers`
                       }
-                      icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+                      icon={<Star className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
                       className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
                     />
                   </motion.div>
@@ -1017,7 +1017,7 @@ export default function Home() {
                       description={
                         `Our entities/brands\nmembership services will help\nyour business grow online/\noffline & attract more audience\n& customers`
                       }
-                      icon={<Flame className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+                      icon={<Building2 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
                       className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
                     />
                   </motion.div>
@@ -1299,7 +1299,7 @@ export default function Home() {
             </Section>
           )}
 
-          {/* TOP TORCH PARTNERS SECTION */}
+          {/* TOP TORCH ALLIES SECTION */}
           <Section id="top-partners">
             <motion.div
               initial={{ opacity: 0, y: 60 }}
@@ -1315,11 +1315,11 @@ export default function Home() {
               <div className="text-center mb-16">
                 <div className="inline-flex items-center justify-center mb-6">
                   <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                  <span className="text-red-500 text-base font-bold tracking-widest">PARTNERSHIPS</span>
+                  <span className="text-red-500 text-base font-bold tracking-widest">ALLIES</span>
                   <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                 </div>
                 <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                  Top Torch <span className="text-red-600">Partners</span>
+                  Top Torch <span className="text-red-600">Allies</span>
                 </h2>
                 <div className="flex justify-center mb-4">
                   <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1328,7 +1328,7 @@ export default function Home() {
                   Collaborating with industry leaders to drive innovation.
                 </p>
                 <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                  Discover our strategic partnerships and collaborations.
+                  Discover our strategic allies and collaborations.
                 </p>
               </div>
               <motion.div
