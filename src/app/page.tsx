@@ -927,22 +927,22 @@ export default function Home() {
           className="w-full min-h-screen text-white relative bg-black"
           style={{ backgroundColor: '#000000' }}
         >
+          {/* Added: Pure black background base layer */}
+          <div className="fixed inset-0 -z-30 bg-black" style={{ backgroundColor: '#000000' }}></div>
+
           {/* Added: Animated grid background for all pages */}
           <AnimatedGridBackground 
-            className="fixed inset-0 -z-30" 
-            dotColor="rgba(255, 40, 40, 0.3)"
-            dotSize={1.2}
+            className="fixed inset-0 -z-20" 
+            dotColor="rgba(255, 40, 40, 0.4)"
+            dotSize={1.5}
             dotSpacing={24}
             animationSpeed={0.4}
             interactive={true}
             mousePosition={mounted ? mousePosition : { x: 0, y: 0 }}
           />
 
-          {/* Added: Pure black overlay for all pages */}
-          <div className="fixed inset-0 -z-20 bg-black" style={{ backgroundColor: '#000000' }}></div>
-
-          {/* Additional black background safety layer */}
-          <div className="fixed inset-0 -z-10 bg-black opacity-90" style={{ backgroundColor: '#000000' }}></div>
+          {/* Added: Semi-transparent black overlay to tone down the grid */}
+          <div className="fixed inset-0 -z-10 bg-black opacity-60" style={{ backgroundColor: '#000000' }}></div>
 
           {/* Added: Cursor following red glow */}
           {mounted && (
