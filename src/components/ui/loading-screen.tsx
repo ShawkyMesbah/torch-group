@@ -38,19 +38,19 @@ export function LoadingScreen({ isLoading = false }: { isLoading?: boolean }) {
           {/* Logo with glow, matching footer style */}
           <div className="mb-8 relative flex flex-col items-center animate-fade-in">
             {/* Animated red pulsing glow behind logo */}
-            <motion.div
+          <motion.div
               className="absolute w-56 h-56 rounded-full bg-red-600/40 blur-[100px] z-0"
-              animate={{
-                scale: [1, 1.15, 1],
-                opacity: [0.7, 1, 0.7],
-                boxShadow: [
-                  '0 0 80px 40px rgba(255,0,64,0.25)',
-                  '0 0 120px 60px rgba(255,0,64,0.45)',
-                  '0 0 80px 40px rgba(255,0,64,0.25)'
-                ]
-              }}
+            animate={{
+              scale: [1, 1.15, 1],
+              opacity: [0.7, 1, 0.7],
+              boxShadow: [
+                '0 0 80px 40px rgba(255,0,64,0.25)',
+                '0 0 120px 60px rgba(255,0,64,0.45)',
+                '0 0 80px 40px rgba(255,0,64,0.25)'
+              ]
+            }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            />
+          />
             <motion.div
               className="relative z-10"
               animate={{ scale: [1, 1.25, 1] }}

@@ -34,11 +34,23 @@
   }
 }
 
+/* Tablet responsive adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-heading {
+    font-size: 3.5rem !important;
+    line-height: 1.1 !important;
+  }
+  
+  .hero-description {
+    font-size: 1.25rem !important;
+  }
+}
+
 /* Mobile Hero Section */
 @media (max-width: 640px) {
   .hero-logo {
-    width: 160px !important;
-    height: 160px !important;
+    width: 130px !important;
+    height: 130px !important;
     box-shadow:
       0 0 32px 8px rgba(255, 0, 64, 0.25), /* soft red glow */
       0 4px 24px 0 rgba(0,0,0,0.18);        /* subtle drop shadow */
@@ -48,42 +60,19 @@
   }
   
   .hero-heading {
-    font-size: 2rem !important;
-    line-height: 1.1 !important;
-    margin-bottom: 1.5rem !important;
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
   }
   
   .hero-description {
-    font-size: 1.125rem !important;
-    line-height: 1.4 !important;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    font-size: 1.1rem !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .hero-button {
-    width: 100%;
-    max-width: 280px;
-    font-size: 0.95rem !important;
-    padding: 0.875rem 1.5rem !important;
-  }
-
-  /* Fix hero section height on mobile */
-  #hero {
-    min-height: 100vh !important;
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  /* Fix About section spacing */
-  #about-torch {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-  }
-
-  /* Fix other sections spacing */
-  #services, #torch-group, #blog, #torch-talents, #top-partners, #contact {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
+    width: 90%;
+    max-width: 300px;
   }
 }
 
@@ -140,103 +129,45 @@
   }
 }
 
-/* Additional mobile optimizations */
+/* Additional responsive improvements */
 @media (max-width: 640px) {
-  /* Section titles */
-  h2 {
+  /* Ensure text is readable on small screens */
+  .text-4xl {
+    font-size: 2rem !important;
+  }
+  
+  .text-5xl {
     font-size: 2.5rem !important;
-    line-height: 1.1 !important;
-    margin-bottom: 1rem !important;
   }
-
-  /* Section descriptions */
-  .section-description {
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  
+  .text-6xl {
+    font-size: 3rem !important;
   }
-
-  /* Grid layouts */
+  
+  .text-7xl {
+    font-size: 3.5rem !important;
+  }
+  
+  /* Improve card spacing on mobile */
   .grid {
     gap: 1rem !important;
   }
-
-  /* Cards and content blocks */
-  .content-card {
-    padding: 1rem !important;
-    margin-bottom: 1rem !important;
-    border-radius: 1rem !important;
-  }
-
-  /* Reduce blur effects on mobile for performance */
-  .blur-effect {
-    backdrop-filter: blur(8px) !important;
-  }
-
-  /* Optimize animations for mobile */
-  .animate-pulse-slow {
-    animation-duration: 4s !important;
-  }
-}
-
-/* Very small screens */
-@media (max-width: 375px) {
-  .hero-logo {
-    width: 140px !important;
-    height: 140px !important;
-  }
-
-  .hero-heading {
-    font-size: 1.75rem !important;
-    line-height: 1.1 !important;
-  }
-
-  .hero-description {
-    font-size: 1rem !important;
-    line-height: 1.3 !important;
-  }
-
+  
+  /* Better button sizing */
   .hero-button {
-    font-size: 0.875rem !important;
-    padding: 0.75rem 1.25rem !important;
-  }
-
-  /* Extra small content adjustments */
-  .content-card {
-    padding: 0.75rem !important;
-    border-radius: 0.75rem !important;
-  }
-
-  /* Reduce text sizes further */
-  h2 {
-    font-size: 2rem !important;
-  }
-
-  .section-description {
-    font-size: 0.875rem !important;
+    padding: 0.75rem 2rem !important;
+    font-size: 1rem !important;
   }
 }
 
-/* Landscape mobile phones */
-@media (max-width: 640px) and (orientation: landscape) {
-  #hero {
-    min-height: 100vh !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
+/* Tablet improvements */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Optimize grid layouts for tablet */
+  .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
-
-  .hero-logo {
-    width: 120px !important;
-    height: 120px !important;
-  }
-
-  .hero-heading {
-    font-size: 1.5rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .hero-description {
-    font-size: 0.875rem !important;
+  
+  .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 } 

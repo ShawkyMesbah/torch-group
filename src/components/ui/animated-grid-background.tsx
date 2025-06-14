@@ -16,8 +16,8 @@ interface AnimatedGridBackgroundProps {
 
 export function AnimatedGridBackground({
   className,
-  dotColor = "rgba(220, 38, 38, 0.3)",
-  dotSize = 1.2,
+  dotColor = "rgba(220, 38, 38, 0.15)",
+  dotSize = 1,
   dotSpacing = 24,
   animationSpeed = 0.5,
   interactive = true,
@@ -126,12 +126,6 @@ export function AnimatedGridBackground({
     <canvas
       ref={canvasRef}
       className={cn("absolute inset-0 z-0 pointer-events-none overflow-hidden", className)}
-      style={{ 
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        opacity: 1
-      }}
     />
   );
 }

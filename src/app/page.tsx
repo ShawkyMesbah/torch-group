@@ -62,7 +62,7 @@ interface SectionProps {
 
 // Section component with consistent styling
 const Section = ({ id, children, className }: SectionProps) => (
-  <section id={id} className={cn("py-24 relative bg-transparent", className)} style={{ backgroundColor: 'transparent' }}>
+  <section id={id} className={cn("py-24 md:py-32 lg:py-40 relative", className)}>
     {children}
   </section>
 );
@@ -744,7 +744,7 @@ export default function Home() {
         {/* HERO SECTION WITH ANIMATION */}
         <section 
           id="hero" 
-          className="relative flex flex-col items-center justify-center min-h-screen py-8 sm:py-12 md:py-20 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
+          className="relative flex flex-col items-center justify-center min-h-screen py-20 px-4 sm:px-6 md:px-8 lg:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
@@ -753,22 +753,22 @@ export default function Home() {
           <div className="absolute inset-0 -z-10" />
 
           {/* Hero content */}
-          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20">
-            <div className="mb-8 sm:mb-12 md:mb-20 relative group flex flex-col items-center animate-fade-in">
-              <div className="absolute -inset-2 sm:-inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
+          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20 absolute inset-0">
+            <div className="mb-20 relative group flex flex-col items-center animate-fade-in">
+              <div className="absolute -inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
               <Image 
                 src="/images/logo.png"
                 alt="Torch Logo"
                 width={300}
                 height={300}
                 priority
-                className="hero-logo object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300 cursor-pointer w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[300px]"
+                className="object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300 cursor-pointer w-[220px] h-[220px] sm:w-[300px] sm:h-[300px]"
                 style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
                 onClick={handleLogoClick}
                 ref={logoImgRefDesktop}
               />
             </div>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 sm:mb-8 md:mb-12 text-white tracking-tight hero-heading animate-hero-headline">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-12 text-white tracking-tight hero-heading animate-hero-headline">
               Welcome to <span className="relative inline-block text-red-600">Torch
                 <svg className="absolute left-0 -bottom-2 w-full h-3" viewBox="0 0 160 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 10C40 2 120 2 155 6" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
@@ -777,10 +777,10 @@ export default function Home() {
                 </svg>
               </span>
             </h1>
-            <div className="mb-8 sm:mb-10 md:mb-14 text-center font-semibold px-4">
+            <div className="mb-14 text-center font-semibold">
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className="hero-description block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-extrabold"
+                className="block text-3xl md:text-4xl text-white font-extrabold"
                 animateBy="words"
                 direction="top"
                 delay={60}
@@ -788,16 +788,16 @@ export default function Home() {
                 shiny={true}
               />
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 animate-hero-fadein px-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
               <button
                 onClick={() => scrollToSection('about-torch')}
-                className="hero-button w-full sm:w-auto rounded-full bg-red-600 px-8 sm:px-12 py-4 sm:py-5 text-base sm:text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0"
+                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0"
               >
                 Explore Torch <ArrowDownIcon className="h-5 w-5 ml-2" />
               </button>
               <a
                 href="/contact"
-                className="hero-button w-full sm:w-auto rounded-full border-2 border-red-600 px-8 sm:px-12 py-4 sm:py-5 text-base sm:text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3"
+                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3"
               >
                 Contact Us <ArrowRight className="h-5 w-5 ml-2" />
               </a>
@@ -806,7 +806,7 @@ export default function Home() {
         </section>
 
         {/* About Torch Group block moved here */}
-        <Section id="about-torch" className="py-16 sm:py-24 md:py-32 lg:py-40 relative overflow-hidden">
+        <Section id="about-torch" className="relative overflow-hidden">
           {/* Enhanced background with multiple glow effects */}
           <div className="absolute inset-0 -z-10">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow"></div>
@@ -815,7 +815,7 @@ export default function Home() {
           </div>
           
           <motion.div 
-            className="max-w-7xl mx-auto px-4 md:px-12 relative z-10"
+            className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative z-10"
             initial={prefersReducedMotion ? {} : { opacity: 0, y: 60 }}
             whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -837,7 +837,7 @@ export default function Home() {
 
               {/* Main Title */}
               <motion.h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 sm:mb-8 text-white tracking-tight"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white tracking-tight"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -851,13 +851,13 @@ export default function Home() {
 
               {/* Typewriter Section */}
               <motion.div 
-                className="mb-8 sm:mb-10 md:mb-12 max-w-5xl px-4"
+                className="mb-12 max-w-5xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <span className="block text-lg sm:text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
+                <span className="block text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
                   Empowering Creative Entities & Talents through{' '}
                   <span className="text-red-500 font-bold">
                     <span className="inline-block">
@@ -873,7 +873,7 @@ export default function Home() {
 
               {/* Decorative Divider */}
               <motion.div 
-                className="flex justify-center mb-8 sm:mb-10 md:mb-12"
+                className="flex justify-center mb-12"
                 initial={{ opacity: 0, scaleX: 0 }}
                 whileInView={{ opacity: 1, scaleX: 1 }}
                 viewport={{ once: true }}
@@ -886,7 +886,7 @@ export default function Home() {
               </motion.div>
               
               {/* Enhanced Content Cards */}
-              <div className="max-w-6xl mx-auto px-4">
+              <div className="max-w-6xl mx-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -895,9 +895,9 @@ export default function Home() {
                   className="relative"
                 >
                   {/* Main Statement Card */}
-                  <div className="content-card relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg border border-red-600/20 rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 mb-6 sm:mb-8 shadow-2xl shadow-red-900/20 hover:shadow-red-600/30 transition-all duration-500 group">
+                  <div className="relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg border border-red-600/20 rounded-3xl p-8 md:p-12 mb-8 shadow-2xl shadow-red-900/20 hover:shadow-red-600/30 transition-all duration-500 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight relative z-10">
+                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight relative z-10">
                       Igniting creativity and empowering talent to shape the future of{' '}
                       <span className="text-red-500 relative">
                         digital content
@@ -907,9 +907,9 @@ export default function Home() {
                   </div>
 
                   {/* Description Card */}
-                  <div className="content-card relative bg-gradient-to-br from-black/40 via-black/20 to-black/40 backdrop-blur-lg border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group">
+                  <div className="relative bg-gradient-to-br from-black/40 via-black/20 to-black/40 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed relative z-10 font-medium">
+                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed relative z-10 font-medium">
                       We're more than just a creative agency – we're a{' '}
                       <span className="text-red-400 font-semibold">catalyst for innovation</span>, a{' '}
                       <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
@@ -924,25 +924,21 @@ export default function Home() {
 
         {/* Page content starts here */}
         <div
-          className="w-full min-h-screen text-white relative bg-black"
-          style={{ backgroundColor: '#000000' }}
+          className="w-full min-h-screen text-white relative"
         >
-          {/* Added: Pure black background base layer */}
-          <div className="fixed inset-0 -z-30 bg-black" style={{ backgroundColor: '#000000' }}></div>
-
           {/* Added: Animated grid background for all pages */}
           <AnimatedGridBackground 
             className="fixed inset-0 -z-20" 
-            dotColor="rgba(255, 40, 40, 0.4)"
-            dotSize={1.5}
+            dotColor="rgba(255, 40, 40, 0.3)"
+            dotSize={1.2}
             dotSpacing={24}
             animationSpeed={0.4}
             interactive={true}
             mousePosition={mounted ? mousePosition : { x: 0, y: 0 }}
           />
 
-          {/* Added: Semi-transparent black overlay to tone down the grid */}
-          <div className="fixed inset-0 -z-10 bg-black opacity-60" style={{ backgroundColor: '#000000' }}></div>
+          {/* Added: Pure black overlay for all pages */}
+          <div className="fixed inset-0 -z-10 bg-black opacity-80"></div>
 
           {/* Added: Cursor following red glow */}
           {mounted && (
@@ -954,13 +950,13 @@ export default function Home() {
 
           {/* Conditionally render other sections based on their enabled status and in order */}
           {isSectionEnabled('services') && (
-            <Section id="services" className="py-16 sm:py-24 md:py-32 lg:py-40">
+            <Section id="services" className="py-32 md:py-40">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 md:px-12 relative"
+                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -972,20 +968,20 @@ export default function Home() {
                     <span className="text-red-500 text-base font-bold tracking-widest">WHAT WE DO</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
                     Our Services
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
-                  <p className="section-description text-base sm:text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2 px-4">
+                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
                     Comprehensive digital solutions to ignite your brand and accelerate growth.
                   </p>
-                  <p className="section-description text-gray-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed px-4">
+                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
                     We offer everything you need to succeed in the digital landscape.
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 mt-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mt-16">
                   <motion.div
                     whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -1031,13 +1027,13 @@ export default function Home() {
           )}
 
           {isSectionEnabled('torch-group') && (
-            <Section id="torch-group" className="py-32 md:py-40">
+            <Section id="torch-group">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 md:px-12 relative z-10"
+                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative z-10"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1055,7 +1051,7 @@ export default function Home() {
                   </p>
                 </div>
                 <motion.div
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-14 justify-center items-stretch mb-16"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
@@ -1112,13 +1108,13 @@ export default function Home() {
 
           {/* Blog Section */}
           {isSectionEnabled('blog') && (
-            <Section id="blog" className="py-32 md:py-40">
+            <Section id="blog">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 md:px-12 relative"
+                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1130,7 +1126,7 @@ export default function Home() {
                     <span className="text-red-500 text-base font-bold tracking-widest">INSIGHTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
                     Our Blog
                   </h2>
                   <div className="flex justify-center mb-4">
@@ -1141,7 +1137,7 @@ export default function Home() {
                   </p>
                 </div>
                 {blogPosts && blogPosts.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
                     {blogPosts.slice(0, 3).map((post) => (
                       <motion.div
                         key={post.id}
@@ -1210,13 +1206,13 @@ export default function Home() {
           )}
 
           {isSectionEnabled('torch-talents') && (
-            <Section id="torch-talents" className="py-32 md:py-40">
+            <Section id="torch-talents">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 md:px-12 relative"
+                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1228,7 +1224,7 @@ export default function Home() {
                     <span className="text-red-500 text-base font-bold tracking-widest">OUR TALENTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
                     Top Torch Talents
                   </h2>
                   <div className="flex justify-center mb-4">
@@ -1237,7 +1233,7 @@ export default function Home() {
 
                 </div>
                 {activeTalents && activeTalents.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
                     {displayTalents.map((talent, index) => (
                       <motion.div
                         key={talent.id || `placeholder-${index}`}
@@ -1304,7 +1300,7 @@ export default function Home() {
           )}
 
           {/* TOP TORCH PARTNERS SECTION */}
-          <Section id="top-partners" className="py-32 md:py-40">
+          <Section id="top-partners">
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1322,7 +1318,7 @@ export default function Home() {
                   <span className="text-red-500 text-base font-bold tracking-widest">PARTNERSHIPS</span>
                   <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                 </div>
-                <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
                   Top Torch <span className="text-red-600">Partners</span>
                 </h2>
                 <div className="flex justify-center mb-4">
@@ -1336,7 +1332,7 @@ export default function Home() {
                 </p>
               </div>
               <motion.div
-                className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 justify-center items-stretch mb-16"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 justify-center items-stretch mb-16"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
@@ -1419,13 +1415,13 @@ export default function Home() {
           </Section>
 
           {isSectionEnabled('contact') && (
-            <Section id="contact" className="py-32 md:py-40">
+            <Section id="contact">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-3xl mx-auto px-4 md:px-12 relative"
+                className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1437,7 +1433,7 @@ export default function Home() {
                     <span className="text-red-500 text-base font-bold tracking-widest">CONTACT US</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">Get in Touch</h2>
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">Get in Touch</h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>

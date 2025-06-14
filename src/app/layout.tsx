@@ -5,7 +5,6 @@ import ToasterProvider from "@/components/providers/toaster-provider";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import "./globals.css";
 import "../styles/performance.css";
-import "../styles/responsive.css";
 import { Suspense } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -19,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // For now, always render Header and Footer for public pages.
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, "text-white bg-black relative min-h-screen overflow-x-hidden")} style={{ backgroundColor: '#000000' }}> 
+      <body className={cn(inter.className, "text-white relative min-h-screen overflow-x-hidden")}> 
         <HTMLAttributesProvider>
           <ToasterProvider />
           <Suspense fallback={null}>
