@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Zap, Mail, LineChart, Users, BrainCircuit, Code, Smartphone } from "lucide-react";
+import { ArrowRight, Zap, Mail, LineChart, Users, BrainCircuit, Code, Smartphone, BarChart3, Flame } from "lucide-react";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
+import { FeatureCard } from "@/components/ui/feature-card";
 
 export default function ServicesPage() {
   return (
@@ -33,113 +34,24 @@ export default function ServicesPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {/* Media Press */}
-            <div className="bg-transparent rounded-lg overflow-hidden border border-gray-800 hover:border-red-600 transition-colors group shadow-lg hover:shadow-[0_0_40px_10px_rgba(255,0,0,0.25)]">
-              <div className="aspect-video relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Media Press" 
-                  fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div className="absolute bottom-4 left-4 flex items-center">
-                  <Mail className="h-5 w-5 text-red-600 mr-2" />
-                  <h3 className="text-xl font-semibold">Media Press</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-400 mb-4">
-                  Our digital marketing services will help your business grow online and attract more customers through strategic campaigns and content.
-                </p>
-                <ul className="text-sm text-gray-400 space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Content marketing and distribution
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Public relations and media outreach
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Press release writing and publishing
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Talent Support */}
-            <div className="bg-transparent rounded-lg overflow-hidden border border-gray-800 hover:border-red-600 transition-colors group shadow-lg hover:shadow-[0_0_40px_10px_rgba(255,0,0,0.25)]">
-              <div className="aspect-video relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Talent Support" 
-                  fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div className="absolute bottom-4 left-4 flex items-center">
-                  <Users className="h-5 w-5 text-red-600 mr-2" />
-                  <h3 className="text-xl font-semibold">Talent Support</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-400 mb-4">
-                  Strategic marketing campaigns to grow your brand presence and reach your target audience effectively.
-                </p>
-                <ul className="text-sm text-gray-400 space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Influencer partnerships and management
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Talent discovery and development
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Brand ambassador programs
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Marketing Systems */}
-            <div className="bg-transparent rounded-lg overflow-hidden border border-gray-800 hover:border-red-600 transition-colors group shadow-lg hover:shadow-[0_0_40px_10px_rgba(255,0,0,0.25)]">
-              <div className="aspect-video relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Marketing Systems" 
-                  fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <div className="absolute bottom-4 left-4 flex items-center">
-                  <LineChart className="h-5 w-5 text-red-600 mr-2" />
-                  <h3 className="text-xl font-semibold">Marketing Systems</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-400 mb-4">
-                  Connect with the best professionals in the industry to scale your team effectively and achieve your business goals.
-                </p>
-                <ul className="text-sm text-gray-400 space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Marketing automation and CRM setup
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Lead generation and nurturing systems
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-red-600 mr-2">•</span>
-                    Analytics and reporting systems
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <FeatureCard
+              title="B2C"
+              description={`Enjoy with Our Torch Group\nServices & e commerce will\nhelp your creative products &\nservices that fit your needs`}
+              icon={<BarChart3 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+            />
+            <FeatureCard
+              title="B2T"
+              description={`Our Talents membership\nservices will help your content\ngrow online/offline engagement\n& attract more audience &\nFollowers`}
+              icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+            />
+            <FeatureCard
+              title="B2B"
+              description={`Our entities/brands\nmembership services will help\nyour business grow online/\noffline & attract more audience\n& customers`}
+              icon={<Flame className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+            />
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import useSWR, { mutate as globalMutate } from 'swr';
 import { useToast } from '@/components/ui/use-toast';
 
 // Template types
@@ -32,59 +33,31 @@ interface UseEmailTemplatesReturn {
   isSendingTest: boolean;
 }
 
+const fetcher = (url: string) => fetch(url).then(res => {
+  if (!res.ok) throw new Error(`Error fetching templates: ${res.status}`);
+  return res.json();
+});
+
 /**
  * Custom hook for managing email templates
  */
 export function useEmailTemplates(): UseEmailTemplatesReturn {
-  const [templates, setTemplates] = useState<EmailTemplate[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+  const {
+    data: templates = [],
+    error,
+    isLoading,
+    mutate
+  } = useSWR<EmailTemplate[]>('/api/settings/email-templates', fetcher, {
+    revalidateOnFocus: false,
+  });
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isSendingTest, setIsSendingTest] = useState<boolean>(false);
-  const { toast } = useToast();
-
-  // Fetch templates on hook mount
-  useEffect(() => {
-    fetchTemplates();
-  }, []);
-
-  // Fetch all templates
-  const fetchTemplates = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      
-      const response = await fetch('/api/settings/email-templates');
-      
-      if (!response.ok) {
-        throw new Error(`Error fetching templates: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setTemplates(data);
-      toast({
-        title: 'Templates Loaded',
-        description: 'Email templates fetched successfully.',
-      });
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch email templates';
-      setError(errorMessage);
-      toast({
-        title: 'Error',
-        description: errorMessage,
-        variant: 'destructive'
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // Save a template
   const saveTemplate = async (template: EmailTemplate): Promise<EmailTemplate | null> => {
     try {
       setIsSaving(true);
-      setError(null);
-      
       const response = await fetch('/api/settings/email-templates', {
         method: 'POST',
         headers: {
@@ -92,33 +65,27 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
         },
         body: JSON.stringify(template)
       });
-      
       if (!response.ok) {
         throw new Error(`Error saving template: ${response.status}`);
       }
-      
       const savedTemplate = await response.json();
-      
-      // Update the template in the local state
-      setTemplates(prevTemplates => {
-        const index = prevTemplates.findIndex(t => t.id === savedTemplate.id);
+      // Optimistically update the cache
+      await mutate(async (current = []) => {
+        const index = current.findIndex(t => t.id === savedTemplate.id);
         if (index !== -1) {
-          const updated = [...prevTemplates];
+          const updated = [...current];
           updated[index] = savedTemplate;
           return updated;
         }
-        return [...prevTemplates, savedTemplate];
-      });
-      
+        return [...current, savedTemplate];
+      }, false);
       toast({
         title: 'Template Saved',
         description: `The ${template.name} template has been saved successfully.`,
       });
-      
       return savedTemplate;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to save email template';
-      setError(errorMessage);
       toast({
         title: 'Error',
         description: errorMessage,
@@ -138,8 +105,6 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
   ): Promise<boolean> => {
     try {
       setIsSendingTest(true);
-      setError(null);
-      
       const response = await fetch(`/api/settings/email-templates/${templateId}/test`, {
         method: 'POST',
         headers: {
@@ -150,22 +115,17 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
           testData
         })
       });
-      
       if (!response.ok) {
         throw new Error(`Error sending test email: ${response.status}`);
       }
-      
       const result = await response.json();
-      
       toast({
         title: 'Test Email Sent',
         description: result.message || 'A test email has been sent successfully.',
       });
-      
       return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to send test email';
-      setError(errorMessage);
       toast({
         title: 'Error',
         description: errorMessage,
@@ -179,13 +139,13 @@ export function useEmailTemplates(): UseEmailTemplatesReturn {
 
   // Refresh templates
   const refreshTemplates = async (): Promise<void> => {
-    await fetchTemplates();
+    await mutate();
   };
 
   return {
     templates,
     isLoading,
-    error,
+    error: error ? (error.message || 'Failed to fetch email templates') : null,
     saveTemplate,
     sendTestEmail,
     refreshTemplates,

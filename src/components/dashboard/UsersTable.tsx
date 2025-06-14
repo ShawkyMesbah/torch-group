@@ -88,7 +88,7 @@ export function UsersTable({
         <h1 className="text-3xl font-bold">User Management</h1>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button aria-label="Add new user" className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary">
               <Plus className="mr-2 h-4 w-4" />
               Add User
             </Button>
@@ -146,44 +146,87 @@ export function UsersTable({
       </div>
 
       {/* Users Table */}
-      {filteredUsers.map(user => (
-        <div key={user.id}>
-          <div>
-            <Select
-              onValueChange={(value) => handleRoleChange(user.id, value as UserRole)}
-              value={user.role}
-              disabled={!isAdmin || user.id === selectedUser?.id}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="USER">USER</SelectItem>
-                <SelectItem value="STAFF">STAFF</SelectItem>
-                <SelectItem value="ADMIN">ADMIN</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => { setSelectedUser(user); setIsEditDialogOpen(true); }}
-              disabled={!isAdmin}
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => { setSelectedUser(user); setIsDeleteDialogOpen(true); }}
-              disabled={!isAdmin || user.id === user.id}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </div>
+      {loading ? (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="p-6 animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+              <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+            </Card>
+          ))}
         </div>
-      ))}
+      ) : error ? (
+        <div className="text-center py-12 text-red-500">
+          <p>Failed to fetch users.</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => window.location.reload()}
+            className="mt-4"
+            aria-label="Retry fetching users"
+          >
+            Retry
+          </Button>
+        </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {filteredUsers.map(user => (
+            <Card key={user.id} className="p-6 transition-shadow hover:shadow-lg focus-within:shadow-lg">
+              <div className="flex items-center gap-4 mb-4">
+                <Avatar>
+                  <AvatarImage src={user.image} alt={user.name} />
+                  <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="font-semibold text-lg text-gray-900 dark:text-gray-100">{user.name}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
+                </div>
+                <span className={`ml-auto px-2 py-1 rounded text-xs font-medium ${getRoleBadgeColor(user.role)} shadow-sm`}>
+                  {user.role}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Select
+                  onValueChange={(value) => handleRoleChange(user.id, value as UserRole)}
+                  value={user.role}
+                  disabled={!isAdmin || user.id === selectedUser?.id}
+                  aria-label="Change user role"
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USER">USER</SelectItem>
+                    <SelectItem value="STAFF">STAFF</SelectItem>
+                    <SelectItem value="ADMIN">ADMIN</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { setSelectedUser(user); setIsEditDialogOpen(true); }}
+                  disabled={!isAdmin}
+                  aria-label={`Edit user ${user.name}`}
+                  className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => { setSelectedUser(user); setIsDeleteDialogOpen(true); }}
+                  disabled={!isAdmin || user.id === user.id}
+                  aria-label={`Delete user ${user.name}`}
+                  className="transition-colors hover:bg-red-600/80 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {/* Edit User Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

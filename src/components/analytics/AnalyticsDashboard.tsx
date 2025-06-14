@@ -108,7 +108,7 @@ export function AnalyticsDashboard() {
         <div className="flex items-center gap-2">
            <div className="space-y-1">
              <Label htmlFor="export-data-type" className="text-xs">Data Type</Label>
-             <Select value={exportDataType} onValueChange={setExportDataType}>
+             <Select value={exportDataType} onValueChange={setExportDataType} aria-label="Select data type">
                <SelectTrigger id="export-data-type" className="w-[140px] h-9">
                  <SelectValue placeholder="Select type" />
                </SelectTrigger>
@@ -123,7 +123,7 @@ export function AnalyticsDashboard() {
            </div>
             <div className="space-y-1">
              <Label htmlFor="export-format" className="text-xs">Format</Label>
-             <Select value={exportFormat} onValueChange={setExportFormat}>
+             <Select value={exportFormat} onValueChange={setExportFormat} aria-label="Select export format">
                <SelectTrigger id="export-format" className="w-[100px] h-9">
                  <SelectValue placeholder="Select format" />
                </SelectTrigger>
@@ -138,7 +138,8 @@ export function AnalyticsDashboard() {
             size="sm"
             onClick={exportData}
             disabled={isValidating || !dateRange?.from || !dateRange?.to}
-            className="h-9 mt-auto"
+            className="h-9 mt-auto transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+            aria-label="Export analytics data"
           >
             <Download className="mr-2 h-4 w-4" />
             Export
@@ -158,23 +159,32 @@ export function AnalyticsDashboard() {
       ) : error ? (
         <div className="text-center py-12 text-red-500">
           <p>Failed to fetch analytics data.</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={fetchAnalytics}
+            className="mt-4"
+            aria-label="Retry fetching analytics"
+          >
+            Retry
+          </Button>
         </div>
       ) : data ? (
         <>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Card className="p-6">
-              <h3 className="text-sm font-medium text-gray-500">Page Views</h3>
+            <Card className="p-6 transition-shadow hover:shadow-lg focus-within:shadow-lg">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Page Views</h3>
               <p className="mt-2 text-3xl font-semibold">{data.pageViews}</p>
             </Card>
-            <Card className="p-6">
-              <h3 className="text-sm font-medium text-gray-500">Unique Visitors</h3>
+            <Card className="p-6 transition-shadow hover:shadow-lg focus-within:shadow-lg">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Unique Visitors</h3>
               <p className="mt-2 text-3xl font-semibold">{data.uniqueVisitors}</p>
             </Card>
-            <Card className="p-6">
-              <h3 className="text-sm font-medium text-gray-500">Avg. Time on Site</h3>
+            <Card className="p-6 transition-shadow hover:shadow-lg focus-within:shadow-lg">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg. Time on Site</h3>
               <p className="mt-2 text-3xl font-semibold">{data.averageTimeOnSite}m</p>
             </Card>
-            <Card className="p-6">
+            <Card className="p-6 transition-shadow hover:shadow-lg focus-within:shadow-lg">
               <CardHeader className="p-0 pb-2">
                  <CardTitle className="text-base font-medium">Top Pages (List)</CardTitle>
               </CardHeader>
@@ -223,6 +233,14 @@ export function AnalyticsDashboard() {
       ) : (
         <div className="text-center py-12">
           <p className="text-gray-500">Select a date range to view analytics data</p>
+        </div>
+      )}
+
+      {isValidating && (
+        <div className="mt-6">
+          <div className="h-64 flex items-center justify-center">
+            <span className="text-gray-400">Loading chart...</span>
+          </div>
         </div>
       )}
     </div>

@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Loader2, Mail, PhoneCall, Calendar, MessageSquare, CheckCircle, XCircle, RefreshCw, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 // UI Components
 import {
@@ -47,6 +48,7 @@ export function MessagesContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
+  const { toast } = useToast();
   
   // Fetch messages on mount
   useEffect(() => {
@@ -71,6 +73,7 @@ export function MessagesContent() {
     } catch (err) {
       console.error("Error fetching messages:", err);
       setError("Failed to load messages. Please try again later.");
+      toast({ title: "Error", description: "Failed to load messages.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -97,8 +100,10 @@ export function MessagesContent() {
       if (selectedMessage?.id === id) {
         setSelectedMessage({ ...selectedMessage, isRead: true });
       }
+      toast({ title: "Marked as read", description: "Message marked as read." });
     } catch (err) {
       console.error("Error marking message as read:", err);
+      toast({ title: "Error", description: "Failed to mark message as read.", variant: "destructive" });
     }
   };
   
@@ -132,8 +137,9 @@ export function MessagesContent() {
         <Button 
           onClick={fetchMessages} 
           variant="outline" 
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
           disabled={loading}
+          aria-label="Refresh messages"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -155,6 +161,15 @@ export function MessagesContent() {
             <div className="flex items-center text-red-400">
               <XCircle className="h-5 w-5 mr-2" />
               <p>{error}</p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={fetchMessages}
+                className="ml-4"
+                aria-label="Retry loading messages"
+              >
+                Retry
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -187,7 +202,7 @@ export function MessagesContent() {
                 </TableHeader>
                 <TableBody>
                   {messages.map((message) => (
-                    <TableRow key={message.id} className={message.isRead ? "" : "bg-red-950/10"}>
+                    <TableRow key={message.id} className={(message.isRead ? "" : "bg-red-950/10") + " transition-shadow hover:shadow-md focus-within:shadow-md"}>
                       <TableCell className="font-medium">{message.name}</TableCell>
                       <TableCell>
                         <div className="flex flex-col">
@@ -198,7 +213,7 @@ export function MessagesContent() {
                             <span className="text-sm text-gray-300 flex items-center mt-1">
                               <PhoneCall className="h-3 w-3 mr-1" /> {message.phone}
                               {message.phoneVerified && (
-                                <CheckCircle className="h-3 w-3 ml-1 text-green-500" />
+                                <Badge variant="success" className="ml-2 bg-green-600 text-white">Verified</Badge>
                               )}
                             </span>
                           )}

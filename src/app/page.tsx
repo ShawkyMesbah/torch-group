@@ -1,20 +1,22 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ExternalLink, FileText, Flame, ChevronRight, BarChart3, Users, ArrowUp, Check, X, User, Mail, Phone, MessageSquare, Send, Loader2, Calendar } from "lucide-react";
+import { ArrowRight, ArrowDownIcon, ExternalLink, FileText, Flame, ChevronRight, BarChart3, Users, ArrowUp, Check, X, User, Mail, Phone, MessageSquare, Send, Loader2, Calendar, SkipForward, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AnimatedGridBackground } from "@/components/ui/animated-grid-background";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { Input } from "@/components/ui/input";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { ContactForm } from "@/components/forms/contact-form";
 import useSWR from "swr";
+import BlurText from '@/components/animations/BlurText';
+import { GlareHover } from "@/components/animations";
 
 // Define homepage section type
 interface HomepageSection {
@@ -93,6 +95,13 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false); // For admin toggle
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showSkipNav, setShowSkipNav] = useState(false);
+  
+  // Performance: Reduced motion preference
+  const prefersReducedMotion = useReducedMotion();
+  
+  // Performance: Intersection Observer for animations
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const sections = swrSections || [
     { id: 'hero', title: 'Hero', order: 0, enabled: true },
     { id: 'torch-group', title: 'Torch Group', order: 1, enabled: true },
@@ -141,52 +150,113 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cornerGlowOpacities, setCornerGlowOpacities] = useState({ topLeft: 0, topRight: 0, bottomLeft: 0 });
 
+  // Typewriter effect for About Torch section
+  const [typewriterText] = useTypewriter({
+    words: [
+      'innovative',
+      'digital',
+      'media',
+      'branding',
+      'technology',
+      'creative',
+      'growth',
+      'impactful',
+    ],
+    loop: true,
+    delaySpeed: 1800,
+    typeSpeed: 90,
+    deleteSpeed: 60,
+  });
+
+  // Performance: Optimized event handlers with useCallback
+  const handleScroll = useCallback(() => {
+    setShowScrollTop(window.scrollY > 500);
+  }, []);
+
+  const handleMouseMove = useCallback((event: MouseEvent) => {
+    // Skip mouse tracking if reduced motion is preferred
+    if (prefersReducedMotion) return;
+    
+    setMousePosition({ x: event.clientX, y: event.clientY });
+    // Calculate opacity based on distance to each corner glow
+    const glowSize = 320; // w-80 and h-80 are 320px
+    const translateOffset = 0.4; // 40% translation
+
+    // Top-Left Glow Center (relative to viewport: 0,0 + translation + half size)
+    const centerXTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+    const centerYTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+    const distTopLeft = Math.sqrt((event.clientX - centerXTopLeft)**2 + (event.clientY - centerYTopLeft)**2);
+    const opacityTopLeft = Math.max(0, 1 - distTopLeft / 300) * 0.7; // Adjusted falloff and max opacity
+
+    // Top-Right Glow Center (relative to viewport: window.innerWidth, 0 + translation + half size)
+    const centerXTopRight = window.innerWidth + (glowSize * translateOffset) - (glowSize / 2);
+    const centerYTopRight = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+    const distTopRight = Math.sqrt((event.clientX - centerXTopRight)**2 + (event.clientY - centerYTopRight)**2);
+    const opacityTopRight = Math.max(0, 1 - distTopRight / 300) * 0.7; // Adjusted falloff and max opacity
+
+    // Bottom-Left Glow Center (relative to viewport: 0, window.innerHeight + translation + half size)
+    const centerXBottomLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+    const centerYBottomLeft = window.innerHeight + (glowSize * translateOffset) - (glowSize / 2);
+    const distBottomLeft = Math.sqrt((event.clientX - centerXBottomLeft)**2 + (event.clientY - centerYBottomLeft)**2);
+    const opacityBottomLeft = Math.max(0, 1 - distBottomLeft / 300) * 0.7; // Adjusted falloff and max opacity
+
+    setCornerGlowOpacities({
+      topLeft: opacityTopLeft,
+      topRight: opacityTopRight,
+      bottomLeft: opacityBottomLeft,
+    });
+  }, [prefersReducedMotion]);
+
+  // Performance: Keyboard navigation handler
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Tab' && !showSkipNav) {
+      setShowSkipNav(true);
+    }
+    if (event.key === 'Escape') {
+      setShowSkipNav(false);
+    }
+  }, [showSkipNav]);
+
   useEffect(() => {
     setMounted(true);
 
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 500);
+    // Performance: Intersection Observer for lazy animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '50px 0px -50px 0px'
     };
 
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-      // Calculate opacity based on distance to each corner glow
-      const glowSize = 320; // w-80 and h-80 are 320px
-      const translateOffset = 0.4; // 40% translation
-
-      // Top-Left Glow Center (relative to viewport: 0,0 + translation + half size)
-      const centerXTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-      const centerYTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-      const distTopLeft = Math.sqrt((event.clientX - centerXTopLeft)**2 + (event.clientY - centerYTopLeft)**2);
-      const opacityTopLeft = Math.max(0, 1 - distTopLeft / 300) * 0.7; // Adjusted falloff and max opacity
-
-      // Top-Right Glow Center (relative to viewport: window.innerWidth, 0 + translation + half size)
-      const centerXTopRight = window.innerWidth + (glowSize * translateOffset) - (glowSize / 2);
-      const centerYTopRight = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-      const distTopRight = Math.sqrt((event.clientX - centerXTopRight)**2 + (event.clientY - centerYTopRight)**2);
-      const opacityTopRight = Math.max(0, 1 - distTopRight / 300) * 0.7; // Adjusted falloff and max opacity
-
-      // Bottom-Left Glow Center (relative to viewport: 0, window.innerHeight + translation + half size)
-      const centerXBottomLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-      const centerYBottomLeft = window.innerHeight + (glowSize * translateOffset) - (glowSize / 2);
-      const distBottomLeft = Math.sqrt((event.clientX - centerXBottomLeft)**2 + (event.clientY - centerYBottomLeft)**2);
-      const opacityBottomLeft = Math.max(0, 1 - distBottomLeft / 300) * 0.7; // Adjusted falloff and max opacity
-
-      setCornerGlowOpacities({
-        topLeft: opacityTopLeft,
-        topRight: opacityTopRight,
-        bottomLeft: opacityBottomLeft,
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisibleSections(prev => new Set([...prev, entry.target.id]));
+        }
       });
+    }, observerOptions);
+
+    // Observe all sections
+    const sectionElements = document.querySelectorAll('section[id]');
+    sectionElements.forEach(section => observer.observe(section));
+
+    // Performance: Throttled scroll listener only (keep mouse instant for cursor glow)
+    let scrollTimeout: NodeJS.Timeout;
+    const throttledScroll = () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(handleScroll, 16); // ~60fps
     };
 
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true }); // Keep instant for cursor glow
+    window.addEventListener('keydown', handleKeyDown);
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      window.removeEventListener('scroll', throttledScroll);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleScroll, handleMouseMove, handleKeyDown]);
 
   // Function to check if a section is enabled
   const isSectionEnabled = (id: string) => {
@@ -469,6 +539,16 @@ export default function Home() {
     }
   ];
 
+  // Create placeholder talents for display
+  const activeTalents: any[] = []; // Empty array for now
+  const displayTalents = Array(3).fill(null).map((_, index) => ({
+    id: `placeholder-${index}`,
+    name: 'Coming Soon',
+    specialty: 'New Talent',
+    bio: 'Exciting new talent joining our team soon. Stay tuned for updates!',
+    isPlaceholder: true
+  }));
+
   // Function to handle smooth scrolling to sections
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -571,97 +651,664 @@ export default function Home() {
 
   return (
     <>
+      {/* SEO: Enhanced Head with structured data */}
       {mounted && (
         <Head>
+          <title>Torch Group - Igniting Creativity & Empowering Digital Talent</title>
+          <meta name="description" content="Torch Group empowers creative entities and talents through innovative digital solutions, strategic partnerships, and comprehensive media services. Discover our B2C, B2T, and B2B offerings." />
+          <meta name="keywords" content="creative agency, digital content, talent management, media services, branding, technology solutions, creative partnerships" />
+          <meta name="author" content="Torch Group" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://torchgroup.com/" />
+          <meta property="og:title" content="Torch Group - Igniting Creativity & Empowering Digital Talent" />
+          <meta property="og:description" content="Empowering creative entities and talents through innovative digital solutions and strategic partnerships." />
+          <meta property="og:image" content="https://torchgroup.com/images/logo.png" />
+          <meta property="og:site_name" content="Torch Group" />
+          
+          {/* Twitter */}
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta property="twitter:url" content="https://torchgroup.com/" />
+          <meta property="twitter:title" content="Torch Group - Igniting Creativity & Empowering Digital Talent" />
+          <meta property="twitter:description" content="Empowering creative entities and talents through innovative digital solutions and strategic partnerships." />
+          <meta property="twitter:image" content="https://torchgroup.com/images/logo.png" />
+          
+          {/* Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Torch Group",
+                "description": "Creative agency empowering talents through innovative digital solutions",
+                "url": "https://torchgroup.com",
+                "logo": "https://torchgroup.com/images/logo.png",
+                "sameAs": [
+                  "https://twitter.com/torchgroup",
+                  "https://linkedin.com/company/torchgroup"
+                ],
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "contactType": "customer service",
+                  "url": "https://torchgroup.com/contact"
+                }
+              })
+            }}
+          />
+          
+          {/* Performance: Preload critical fonts */}
+          <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          
+          {/* Performance: DNS prefetch for external resources */}
+          <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+          <link rel="dns-prefetch" href="//images.unsplash.com" />
+          
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-phone-input-2/2.15.1/style.css" />
         </Head>
       )}
-      
+
+      {/* Accessibility: Skip Navigation */}
+      {showSkipNav && (
+        <div className="fixed top-4 left-4 z-[100] bg-red-600 text-white px-4 py-2 rounded-md shadow-lg focus-within:ring-2 focus-within:ring-white">
+          <a 
+            href="#main-content" 
+            className="text-sm font-medium focus:outline-none"
+            onBlur={() => setShowSkipNav(false)}
+          >
+            Skip to main content
+          </a>
+        </div>
+      )}
+
+      {/* Accessibility: Screen reader announcements */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {activeSection && `Now viewing ${activeSection} section`}
+      </div>
+
       {/* Smooth scroll button */}
       {showScrollTop && (
         <button 
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in"
-          aria-label="Scroll to top"
+          className="fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+          aria-label="Scroll to top of page"
         >
           <ArrowUp className="h-5 w-5" />
         </button>
       )}
-      
-      {/* HERO SECTION WITH ANIMATION */}
-      <section id="hero" className="relative flex flex-col items-center justify-center min-h-[80vh] py-40 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out">
-        {/* Animated gradient background placeholder (can be removed later if not needed) */}
-        {/* Reverted: Removed AnimatedGridBackground, black overlay, and red glow from hero section */}
-        <div className="absolute inset-0 -z-10" />
 
-        {/* Hero content */}
-        <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20">
-          <Image src="/images/logo.png" alt="Torch Logo" width={220} height={220} 
-            className="mb-16 hero-logo animate-hero-logo w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]"
-            style={{ zIndex: 2 }}
-            onClick={handleLogoClick}
-            ref={logoImgRefDesktop}
-          />
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-8 text-white tracking-tight hero-heading animate-hero-headline">
-            Welcome to <span className="relative inline-block text-red-600">Torch
-              <svg className="absolute left-0 -bottom-2 w-full h-3" viewBox="0 0 160 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 10C40 2 120 2 155 6" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                  <animate attributeName="stroke-dasharray" from="0,160" to="160,0" dur="1.2s" fill="freeze" />
-                </path>
-              </svg>
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-12 hero-description animate-hero-fadein">
-            <span className="font-semibold text-white">Empowering businesses through </span>
-            <span className="text-red-500 font-bold">
-              {useTypewriter({
-                words: ['Media', 'Marketing', 'Talent', 'Innovation', 'Strategy', 'Growth'],
-                loop: true,
-                delaySpeed: 1800,
-                typeSpeed: 80,
-                deleteSpeed: 40,
-              })[0]}
-              <Cursor cursorColor="#dc2626" />
-            </span>
-            <span className="font-semibold text-white"> solutions and strategic partnerships.</span>
-          </p>
-            <button
-            onClick={() => scrollToSection('torch-group')}
-            className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 animate-hero-fadein mb-4"
-          >
-            Explore Torch <ArrowRight className="h-5 w-5 ml-2" />
-            </button>
+      {/* Main content wrapper for accessibility */}
+      <main id="main-content" role="main">
+        {/* HERO SECTION WITH ANIMATION */}
+        <section 
+          id="hero" 
+          className="relative flex flex-col items-center justify-center min-h-[80vh] py-40 px-4 md:px-12 z-10 overflow-hidden animate-fade-in duration-1000 ease-in-out"
+          aria-label="Hero section - Welcome to Torch Group"
+          style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
+        >
+          {/* Animated gradient background placeholder (can be removed later if not needed) */}
+          {/* Reverted: Removed AnimatedGridBackground, black overlay, and red glow from hero section */}
+          <div className="absolute inset-0 -z-10" />
+
+          {/* Hero content */}
+          <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20">
+            <div className="mb-20 relative group flex flex-col items-center animate-fade-in">
+              <div className="absolute -inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
+              <Image 
+                src="/images/logo.png"
+                alt="Torch Logo"
+                width={300}
+                height={300}
+                priority
+                className="object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300 cursor-pointer w-[220px] h-[220px] sm:w-[300px] sm:h-[300px]"
+                style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
+                onClick={handleLogoClick}
+                ref={logoImgRefDesktop}
+              />
+            </div>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-12 text-white tracking-tight hero-heading animate-hero-headline">
+              Welcome to <span className="relative inline-block text-red-600">Torch
+                <svg className="absolute left-0 -bottom-2 w-full h-3" viewBox="0 0 160 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 10C40 2 120 2 155 6" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                    <animate attributeName="stroke-dasharray" from="0,160" to="160,0" dur="1.2s" fill="freeze" />
+                  </path>
+                </svg>
+              </span>
+            </h1>
+            <div className="mb-14 text-center font-semibold">
+              <BlurText
+                text="Every Idea Starts With A Torch"
+                className="block text-3xl md:text-4xl text-white font-extrabold"
+                animateBy="words"
+                direction="top"
+                delay={60}
+                stepDuration={0.35}
+                shiny={true}
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
+              <button
+                onClick={() => scrollToSection('about-torch')}
+                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0"
+              >
+                Explore Torch <ArrowDownIcon className="h-5 w-5 ml-2" />
+              </button>
+              <a
+                href="/contact"
+                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3"
+              >
+                Contact Us <ArrowRight className="h-5 w-5 ml-2" />
+              </a>
+            </div>
           </div>
-      </section>
-      {/* Page content starts here */}
-      <div
-        className="w-full min-h-screen text-white relative"
-      >
-        {/* Added: Animated grid background for all pages */}
-        <AnimatedGridBackground 
-          className="fixed inset-0 -z-20" 
-          dotColor="rgba(255, 40, 40, 0.3)"
-          dotSize={1.2}
-          dotSpacing={24}
-          animationSpeed={0.4}
-          interactive={true}
-          mousePosition={mounted ? mousePosition : { x: 0, y: 0 }}
-        />
+        </section>
 
-        {/* Added: Pure black overlay for all pages */}
-        <div className="fixed inset-0 -z-10 bg-black opacity-80"></div>
+        {/* About Torch Group block moved here */}
+        <Section id="about-torch" className="py-32 md:py-40 relative overflow-hidden">
+          {/* Enhanced background with multiple glow effects */}
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow"></div>
+            <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-red-500/10 blur-[80px] rounded-full"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[200px] bg-red-700/10 blur-[100px] rounded-full"></div>
+          </div>
+          
+          <motion.div 
+            className="max-w-7xl mx-auto px-4 md:px-12 relative z-10"
+            initial={prefersReducedMotion ? {} : { opacity: 0, y: 60 }}
+            whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={prefersReducedMotion ? {} : { duration: 1, ease: 'easeOut' }}
+          >
+            <div className="flex flex-col items-center text-center">
+              {/* Section Label */}
+              <motion.div 
+                className="inline-flex items-center justify-center mb-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <div className="h-px w-12 bg-gradient-to-r from-transparent to-red-600/80 mr-3"></div>
+                <span className="text-red-500 text-sm md:text-base font-bold tracking-[0.2em] uppercase">About Us</span>
+                <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-600/80 ml-3"></div>
+              </motion.div>
 
-        {/* Added: Cursor following red glow */}
-        {mounted && (
-          <div
-            className="fixed w-64 h-64 bg-red-600/40 blur-[100px] rounded-full pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${mousePosition.x}px`, top: `${mousePosition.y}px`, mixBlendMode: 'screen' }}
-          ></div>
-        )}
+              {/* Main Title */}
+              <motion.h2 
+                className="text-5xl md:text-7xl font-black mb-8 text-white tracking-tight"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                About <span className="text-red-600 relative">
+                  Torch
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-full opacity-60"></div>
+                </span>
+              </motion.h2>
 
-        {/* Conditionally render other sections based on their enabled status and in order */}
-        {isSectionEnabled('services') && (
-          <Section id="services" className="py-32 md:py-40">
+              {/* Typewriter Section */}
+              <motion.div 
+                className="mb-12 max-w-5xl"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                <span className="block text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
+                  Empowering Creative Entities & Talents through{' '}
+                  <span className="text-red-500 font-bold">
+                    <span className="inline-block">
+                      <span className="typewriter">
+                        {typewriterText}
+                      </span>
+                      <Cursor />
+                    </span>
+                  </span>
+                  {' '}solutions & Strategic Sponsor/Partnerships
+                </span>
+              </motion.div>
+
+              {/* Decorative Divider */}
+              <motion.div 
+                className="flex justify-center mb-12"
+                initial={{ opacity: 0, scaleX: 0 }}
+                whileInView={{ opacity: 1, scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.7 }}
+              >
+                <div className="relative">
+                  <div className="w-32 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full"></div>
+                  <div className="absolute inset-0 w-32 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow opacity-50"></div>
+                </div>
+              </motion.div>
+              
+              {/* Enhanced Content Cards */}
+              <div className="max-w-6xl mx-auto">
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  className="relative"
+                >
+                  {/* Main Statement Card */}
+                  <div className="relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg border border-red-600/20 rounded-3xl p-8 md:p-12 mb-8 shadow-2xl shadow-red-900/20 hover:shadow-red-600/30 transition-all duration-500 group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight relative z-10">
+                      Igniting creativity and empowering talent to shape the future of{' '}
+                      <span className="text-red-500 relative">
+                        digital content
+                        <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500/60 rounded-full"></div>
+                      </span>
+                    </h3>
+                  </div>
+
+                  {/* Description Card */}
+                  <div className="relative bg-gradient-to-br from-black/40 via-black/20 to-black/40 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed relative z-10 font-medium">
+                      We're more than just a creative agency – we're a{' '}
+                      <span className="text-red-400 font-semibold">catalyst for innovation</span>, a{' '}
+                      <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
+                      <span className="text-red-400 font-semibold">driving force</span> in the evolving media landscape.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </Section>
+
+        {/* Page content starts here */}
+        <div
+          className="w-full min-h-screen text-white relative"
+        >
+          {/* Added: Animated grid background for all pages */}
+          <AnimatedGridBackground 
+            className="fixed inset-0 -z-20" 
+            dotColor="rgba(255, 40, 40, 0.3)"
+            dotSize={1.2}
+            dotSpacing={24}
+            animationSpeed={0.4}
+            interactive={true}
+            mousePosition={mounted ? mousePosition : { x: 0, y: 0 }}
+          />
+
+          {/* Added: Pure black overlay for all pages */}
+          <div className="fixed inset-0 -z-10 bg-black opacity-80"></div>
+
+          {/* Added: Cursor following red glow */}
+          {mounted && (
+            <div
+              className="fixed w-64 h-64 bg-red-600/40 blur-[100px] rounded-full pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2"
+              style={{ left: `${mousePosition.x}px`, top: `${mousePosition.y}px`, mixBlendMode: 'screen' }}
+            ></div>
+          )}
+
+          {/* Conditionally render other sections based on their enabled status and in order */}
+          {isSectionEnabled('services') && (
+            <Section id="services" className="py-32 md:py-40">
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="max-w-7xl mx-auto px-4 md:px-12 relative"
+              >
+                {/* Animated red glow background */}
+                <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+                  <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+                </div>
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center justify-center mb-6">
+                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                    <span className="text-red-500 text-base font-bold tracking-widest">WHAT WE DO</span>
+                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                  </div>
+                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                    Our Services
+                  </h2>
+                  <div className="flex justify-center mb-4">
+                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                  </div>
+                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
+                    Comprehensive digital solutions to ignite your brand and accelerate growth.
+                  </p>
+                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                    We offer everything you need to succeed in the digital landscape.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 mt-16">
+                  <motion.div
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
+                    <FeatureCard
+                      title="B2C"
+                      description={
+                        `Enjoy with Our Torch Group\nServices & e commerce will\nhelp your creative products &\nservices that fit your needs`
+                      }
+                      icon={<BarChart3 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+                    />
+                  </motion.div>
+                  <motion.div
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
+                    <FeatureCard
+                      title="B2T"
+                      description={
+                        `Our Talents membership\nservices will help your content\ngrow online/offline engagement\n& attract more audience &\nFollowers`
+                      }
+                      icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+                    />
+                  </motion.div>
+                  <motion.div
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
+                    <FeatureCard
+                      title="B2B"
+                      description={
+                        `Our entities/brands\nmembership services will help\nyour business grow online/\noffline & attract more audience\n& customers`
+                      }
+                      icon={<Flame className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            </Section>
+          )}
+
+          {isSectionEnabled('torch-group') && (
+            <Section id="torch-group" className="py-32 md:py-40">
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="max-w-7xl mx-auto px-4 md:px-12 relative z-10"
+              >
+                {/* Animated red glow background */}
+                <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+                  <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+                </div>
+                <div className="text-center mb-20 mt-16">
+                  <div className="inline-flex items-center justify-center mb-4">
+                    <div className="h-px w-8 bg-red-600 mr-2"></div>
+                    <span className="text-red-600 text-base font-bold tracking-widest">OUR BRANDS</span>
+                    <div className="h-px w-8 bg-red-600 ml-2"></div>
+                  </div>
+                  <h3 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">Torch Group Brands</h3>
+                  <p className="text-gray-300 max-w-3xl mx-auto text-lg">
+                    Explore our family of brands, each dedicated to excellence in their specialized fields.
+                  </p>
+                </div>
+                <motion.div
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-14 justify-center items-stretch mb-16"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  variants={{
+                    hidden: {},
+                    visible: {
+                      transition: {
+                        staggerChildren: 0.12,
+                      },
+                    },
+                  }}
+                >
+                  {torchBrands.map((brand, index) => (
+                    <motion.div
+                      key={index}
+                      variants={{
+                        hidden: { opacity: 0, y: 40 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+                      }}
+                      whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className="group border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/40 hover:border-red-600 hover:scale-[1.05] relative animate-fade-in flex flex-col items-center justify-between"
+                      style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                    >
+                      {/* Content area (flex-grow to push button down) */}
+                      <div className="p-10 flex flex-col items-center text-center w-full flex-grow">
+                        {/* Icon with glow */}
+                        <div className="mb-8 relative flex items-center justify-center">
+                          <div className="absolute inset-0 w-16 h-16 bg-red-600/40 blur-[32px] rounded-full group-hover:blur-[48px] transition-all"></div>
+                          <Flame className="h-12 w-12 text-red-600 drop-shadow-lg" />
+                        </div>
+                        <h3 className="text-2xl font-bold mb-2 text-white tracking-tight drop-shadow-lg">{brand.name}</h3>
+                        <p className="text-gray-300 mb-6 text-base min-h-[48px]">{brand.description}</p>
+                      </div>
+                      
+                      {/* Button or Coming Soon */}
+                      <div className="p-10 pt-0 flex items-center justify-center w-full">
+                        {brand.isComingSoon ? (
+                          <span className="px-4 py-1 bg-black/70 border border-red-600 text-red-600 text-xs rounded-full font-semibold animate-pulse-slow">Coming Soon</span>
+                        ) : (
+                          <Link href={brand.link} target="_blank" rel="noopener noreferrer">
+                            <button className="px-6 py-2 rounded-full bg-red-600 text-white font-bold shadow hover:bg-red-700 transition-colors text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                              Visit Website
+                            </button>
+                          </Link>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
+            </Section>
+          )}
+
+          {/* Blog Section */}
+          {isSectionEnabled('blog') && (
+            <Section id="blog" className="py-32 md:py-40">
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="max-w-7xl mx-auto px-4 md:px-12 relative"
+              >
+                {/* Animated red glow background */}
+                <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+                  <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+                </div>
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center justify-center mb-6">
+                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                    <span className="text-red-500 text-base font-bold tracking-widest">INSIGHTS</span>
+                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                  </div>
+                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                    Our Blog
+                  </h2>
+                  <div className="flex justify-center mb-4">
+                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                  </div>
+                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
+                    Stay updated with the latest insights, trends, and stories from the digital world.
+                  </p>
+                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                    Discover expert perspectives and industry knowledge.
+                  </p>
+                </div>
+                {blogPosts && blogPosts.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    {blogPosts.slice(0, 3).map((post) => (
+                      <motion.div
+                        key={post.id}
+                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        className="group border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/40 hover:border-red-600"
+                      >
+                        <div className="p-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <span className="text-red-500 text-sm font-semibold uppercase tracking-wide">
+                              {post.category || 'Blog'}
+                            </span>
+                            <span className="text-gray-400 text-sm">
+                              {new Date(post.created_at).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-400 transition-colors duration-300">
+                            {post.title}
+                          </h3>
+                          <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+                            {post.excerpt || post.content?.substring(0, 120) + '...'}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-gray-400 text-xs">
+                              By {post.author || 'Torch Team'}
+                            </span>
+                            <Link href={`/blog/${post.slug}`}>
+                              <button className="text-red-500 hover:text-red-400 font-semibold text-sm transition-colors duration-300 flex items-center gap-1">
+                                Read More <ArrowRight className="h-3 w-3" />
+                              </button>
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="max-w-md mx-auto">
+                      <div className="mb-6">
+                        <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <BookOpen className="h-8 w-8 text-red-500" />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-2">No Blog Posts Yet</h3>
+                      <p className="text-gray-400 mb-6">
+                        We're working on bringing you amazing content. Check back soon!
+                      </p>
+                      <div className="flex justify-center">
+                        <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {blogPosts && blogPosts.length > 3 && (
+                  <div className="text-center mt-12">
+                    <Link href="/blog">
+                      <button className="px-8 py-3 rounded-full bg-red-600 text-white font-bold shadow-lg hover:bg-red-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        View All Posts
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </motion.div>
+            </Section>
+          )}
+
+          {isSectionEnabled('torch-talents') && (
+            <Section id="torch-talents" className="py-32 md:py-40">
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="max-w-7xl mx-auto px-4 md:px-12 relative"
+              >
+                {/* Animated red glow background */}
+                <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+                  <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+                </div>
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center justify-center mb-6">
+                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                    <span className="text-red-500 text-base font-bold tracking-widest">OUR TALENTS</span>
+                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                  </div>
+                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+                    Top Torch Talents
+                  </h2>
+                  <div className="flex justify-center mb-4">
+                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                  </div>
+                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
+                    Meet our exceptional talents who bring creativity and innovation to life.
+                  </p>
+                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                    Discover the faces behind our success stories.
+                  </p>
+                </div>
+                {activeTalents && activeTalents.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    {displayTalents.map((talent, index) => (
+                      <motion.div
+                        key={talent.id || `placeholder-${index}`}
+                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        className="group border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/40 hover:border-red-600"
+                      >
+                        <div className="p-6 text-center">
+                          <div className="mb-6 relative">
+                            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-red-600/20 to-red-800/20 flex items-center justify-center border-2 border-red-600/30 group-hover:border-red-500 transition-colors duration-300">
+                              {talent.isPlaceholder ? (
+                                <User className="h-10 w-10 text-red-500" />
+                              ) : (
+                                <span className="text-2xl font-bold text-red-500">
+                                  {talent.name?.charAt(0) || 'T'}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-300">
+                            {talent.name || 'Coming Soon'}
+                          </h3>
+                          <p className="text-red-500 text-sm font-semibold mb-3 uppercase tracking-wide">
+                            {talent.specialty || 'New Talent'}
+                          </p>
+                          <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                            {talent.bio || 'Exciting new talent joining our team soon. Stay tuned for updates!'}
+                          </p>
+                          {talent.isPlaceholder ? (
+                            <span className="inline-block px-3 py-1 bg-black/70 border border-red-600 text-red-600 text-xs rounded-full font-semibold animate-pulse-slow">
+                              Coming Soon
+                            </span>
+                          ) : (
+                            <div className="flex items-center justify-center">
+                              <span className="inline-block px-3 py-1 bg-red-600/20 border border-red-600 text-red-500 text-xs rounded-full font-semibold">
+                                Active
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="max-w-md mx-auto">
+                      <div className="mb-6">
+                        <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Users className="h-8 w-8 text-red-500" />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-2">No Active Talents Yet</h3>
+                      <p className="text-gray-400 mb-6">
+                        We're building an amazing team of talents. Check back soon to meet them!
+                      </p>
+                      <div className="flex justify-center">
+                        <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            </Section>
+          )}
+
+          {/* TOP TORCH PARTNERS SECTION */}
+          <Section id="top-partners" className="py-32 md:py-40">
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -669,113 +1316,31 @@ export default function Home() {
               transition={{ duration: 1, ease: 'easeOut' }}
               className="max-w-7xl mx-auto px-4 md:px-12 relative"
             >
-              {/* Animated red glow background */}
+              {/* Enhanced background with glow effects */}
               <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-                <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
-            </div>
+                <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+              </div>
               <div className="text-center mb-16">
                 <div className="inline-flex items-center justify-center mb-6">
                   <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                  <span className="text-red-500 text-base font-bold tracking-widest">WHAT WE DO</span>
+                  <span className="text-red-500 text-base font-bold tracking-widest">PARTNERSHIPS</span>
                   <div className="h-px w-8 bg-red-600/80 ml-2"></div>
-                  </div>
+                </div>
                 <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
-                  Our Services
+                  Top Torch <span className="text-red-600">Partners</span>
                 </h2>
                 <div className="flex justify-center mb-4">
                   <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                 </div>
                 <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
-                  Comprehensive digital solutions to ignite your brand and accelerate growth.
+                  Collaborating with industry leaders to drive innovation.
                 </p>
                 <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                  We offer everything you need to succeed in the digital landscape.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 mt-16">
-                <motion.div
-                  whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                <FeatureCard
-                  title="Media Press"
-                  description="Our digital marketing services will help your business grow online and attract more customers."
-                    icon={<BarChart3 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                    className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                  />
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                <FeatureCard
-                  title="Talent Support"
-                  description="Strategic marketing campaigns to grow your brand presence and reach your target audience."
-                    icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                    className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                  />
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                <FeatureCard
-                  title="Marketing Systems"
-                  description="Connect with the best professionals in the industry to scale your team effectively."
-                    icon={<Flame className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                    className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                />
-                </motion.div>
-              </div>
-            </motion.div>
-          </Section>
-        )}
-
-        {isSectionEnabled('torch-group') && (
-          <Section id="torch-group" className="py-32 md:py-40">
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              className="max-w-7xl mx-auto px-4 md:px-12 relative z-10"
-            >
-              {/* Animated red glow background */}
-              <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-                <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
-            </div>
-              <div className="flex flex-col items-center text-center mb-20 md:mb-24">
-                <div className="inline-flex items-center justify-center mb-8">
-                  <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                  <span className="text-red-500 text-base font-bold tracking-widest">ABOUT US</span>
-                  <div className="h-px w-8 bg-red-600/80 ml-2"></div>
-                </div>
-                <h2 className="text-5xl md:text-6xl font-black mb-6 text-white text-shadow tracking-tight drop-shadow-lg">
-                  About <span className="text-red-600">Torch Group</span>
-                </h2>
-                <div className="flex justify-center mb-6">
-                  <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
-                </div>
-                <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-3">
-                  Igniting creativity and empowering talent to shape the future of digital content.
-                </p>
-                <p className="text-gray-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
-                  We're more than just a creative agency – we're a catalyst for innovation, a platform for exceptional talent, and a driving force in the evolving media landscape.
-                </p>
-              </div>
-              <div className="text-center mb-20 mt-16">
-                <div className="inline-flex items-center justify-center mb-4">
-                  <div className="h-px w-8 bg-red-600 mr-2"></div>
-                  <span className="text-red-600 text-base font-bold tracking-widest">OUR BRANDS</span>
-                  <div className="h-px w-8 bg-red-600 ml-2"></div>
-                </div>
-                <h3 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">Torch Group Brands</h3>
-                <p className="text-gray-300 max-w-3xl mx-auto text-lg">
-                  Explore our family of brands, each dedicated to excellence in their specialized fields.
+                  Discover our strategic partnerships and collaborations.
                 </p>
               </div>
               <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-14 justify-center items-stretch mb-16"
+                className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 justify-center items-stretch mb-16"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
@@ -783,398 +1348,124 @@ export default function Home() {
                   hidden: {},
                   visible: {
                     transition: {
-                      staggerChildren: 0.12,
+                      staggerChildren: 0.14,
                     },
                   },
                 }}
               >
-                {torchBrands.map((brand, index) => (
-                  <motion.div
-                    key={index}
-                    variants={{
-                      hidden: { opacity: 0, y: 40 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                    }}
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="group border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/40 hover:border-red-600 hover:scale-[1.05] relative animate-fade-in flex flex-col items-center justify-between"
-                    style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
-                  >
-                    {/* Content area (flex-grow to push button down) */}
-                    <div className="p-10 flex flex-col items-center text-center w-full flex-grow">
-                      {/* Icon with glow */}
-                      <div className="mb-8 relative flex items-center justify-center">
-                        <div className="absolute inset-0 w-16 h-16 bg-red-600/40 blur-[32px] rounded-full group-hover:blur-[48px] transition-all"></div>
-                        <Flame className="h-12 w-12 text-red-600 drop-shadow-lg" />
-                      </div>
-                      <h3 className="text-2xl font-bold mb-2 text-white tracking-tight drop-shadow-lg">{brand.name}</h3>
-                      <p className="text-gray-300 mb-6 text-base min-h-[48px]">{brand.description}</p>
-                    </div>
-                    
-                    {/* Button or Coming Soon */}
-                    <div className="p-10 pt-0 flex items-center justify-center w-full">
-                      {brand.isComingSoon ? (
-                        <span className="px-4 py-1 bg-black/70 border border-red-600 text-red-600 text-xs rounded-full font-semibold animate-pulse-slow">Coming Soon</span>
-                      ) : (
-                        <Link href={brand.link} target="_blank" rel="noopener noreferrer">
-                          <button className="px-6 py-2 rounded-full bg-red-600 text-white font-bold shadow hover:bg-red-700 transition-colors text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                            Visit Website
-                          </button>
-                        </Link>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
-          </Section>
-        )}
-
-        {/* Blog Section */}
-        <motion.section
-          id="blog"
-          className="relative py-32 md:py-40 overflow-hidden border-t border-black/50"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-        >
-          {/* Animated red glow background */}
-          <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-            <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
-          </div>
-          <div className="max-w-7xl mx-auto px-4 md:px-12 relative">
-            <div className="text-center mb-16">
-              <div className="text-red-500 font-semibold uppercase tracking-wider mb-6 flex items-center justify-center gap-4">
-                <span className="h-px bg-red-500 w-8"></span>
-                <span>STAY INFORMED</span>
-                <span className="h-px bg-red-500 w-8"></span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black mb-6 text-white drop-shadow-lg">Our Blog</h2>
-              <div className="flex justify-center mb-6">
-                <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
-              </div>
-              <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-3">
-                Discover the latest insights, trends, and strategies in digital marketing, technology, and business growth.
-              </p>
-              <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                We share what matters most for your brand's growth.
-              </p>
-            </div>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 justify-center items-stretch mt-12 mb-12"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.12,
-                  },
-                },
-              }}
-            >
-              {blogLoading ? (
-                Array(3).fill(0).map((_, i) => (
+                {[1,2,3].map((i) => (
                   <motion.div
                     key={i}
                     variants={{
                       hidden: { opacity: 0, y: 40 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
                     }}
-                    className="bg-black/30 border border-black/50 rounded-xl overflow-hidden hover:border-red-500/50 transition-all duration-300 group min-h-[340px]"
-                  >
-                    <div className="h-48 bg-black/50 animate-pulse"></div>
-                    <div className="p-6">
-                      <div className="h-6 w-3/4 bg-black/50 animate-pulse mb-3"></div>
-                      <div className="h-20 bg-black/50 animate-pulse mb-4"></div>
-                      <div className="h-8 w-1/3 bg-black/50 animate-pulse"></div>
-                    </div>
-                  </motion.div>
-                ))
-              ) : blogPosts.length > 0 ? (
-                blogPosts.map((post, i) => (
-                  <motion.div
-                    key={post.id} 
-                    variants={{
-                      hidden: { opacity: 0, y: 40 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: '0 0 40px 8px #dc2626aa',
                     }}
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="bg-black/30 border border-black/50 rounded-xl overflow-hidden hover:border-red-500/50 transition-all duration-300 group min-h-[340px] flex flex-col"
-                    style={{ animationDelay: `${i * 0.08 + 0.1}s` }}
+                    className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl group transition-all duration-500 border-2 border-red-600/30 bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 hover:border-red-600/80 backdrop-blur-lg min-h-[200px]"
                   >
-                    <Link href={`/blog/${post.slug}`} className="flex-1 flex flex-col">
-                    <div className="relative h-48 overflow-hidden">
-                      {post.coverImage ? (
-                        <Image 
-                          src={post.coverImage}
-                          alt={post.title}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                      ) : (
-                          <div className="absolute inset-0 bg-gradient-to-r from-black to-black flex items-center justify-center">
-                          <FileText className="h-16 w-16 text-gray-700" />
-                        </div>
-                      )}
+                    {/* Enhanced background with gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 via-transparent to-red-600/15 z-0"></div>
+                    
+                    {/* Faint Torch logo background watermark */}
+                    <div className="absolute inset-0 flex items-center justify-center z-5 pointer-events-none">
+                      <Image 
+                        src="/images/logo.png" 
+                        alt="Torch Logo Watermark" 
+                        width={120} 
+                        height={120} 
+                        loading="lazy"
+                        className="opacity-20 object-contain mx-auto group-hover:opacity-30 transition-opacity duration-500" 
+                        style={{aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'opacity'}} 
+                      />
                     </div>
-                      <div className="p-6 flex flex-col flex-1">
-                      <h3 className="text-xl font-bold mb-3 group-hover:text-red-500 transition-colors line-clamp-2">
-                        {post.title}
-                      </h3>
-                        <p className="text-gray-400 mb-4 line-clamp-3 flex-1">{post.excerpt}</p>
-                        <div className="flex items-center text-sm text-gray-500 mt-auto">
-                        <Calendar className="h-3 w-3 mr-2" />
-                        <span>{new Date(post.publishedAt || post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    
+                    {/* Main content area */}
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden flex items-center justify-center z-10">
+                      {/* Placeholder content */}
+                      <div className="text-center p-6">
+                        {/* Placeholder Play Icon */}
+                        <div className="mb-4">
+                          <svg className="w-16 h-16 text-red-500 opacity-80 mx-auto group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                        <div className="text-white text-sm font-semibold">
+                          Partner Video {i}
+                        </div>
+                        <div className="text-red-400 text-xs mt-2 font-medium">
+                          Coming Soon
+                        </div>
                       </div>
                     </div>
-                  </Link>
-                  </motion.div>
-                ))
-              ) : (
-                <motion.div
-                  variants={{
-                    hidden: { opacity: 0, y: 40 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                  }}
-                  className="col-span-1 md:col-span-3 p-8 text-center bg-black/30 border border-black/50 rounded-xl min-h-[340px] flex flex-col items-center justify-center"
-                >
-                  <FileText className="h-16 w-16 text-gray-700 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">No Blog Posts Yet</h3>
-                  <p className="text-gray-400 mb-4">Check back soon for articles and insights.</p>
-                </motion.div>
-              )}
-            </motion.div>
-            <div className="text-center mt-12">
-              <Button asChild className="bg-red-600 hover:bg-red-700">
-                <Link href="/blog">
-                  View All Articles
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </motion.section>
 
-        {isSectionEnabled('torch-talents') && (
-          <motion.section
-            id="torch-talents"
-            className="py-32 md:py-40 relative"
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1, ease: 'easeOut' }}
-          >
-            {/* Animated red glow background */}
-            <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-              <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
-            </div>
-            <div className="max-w-7xl mx-auto px-4 md:px-12 relative z-10">
-              <div className="text-center mb-20 md:mb-24">
-                <div className="inline-flex items-center justify-center mb-8">
-                  <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                  <span className="text-red-500 text-base font-bold tracking-widest">FEATURED TALENT</span>
-                  <div className="h-px w-8 bg-red-600/80 ml-2"></div>
-                </div>
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-white drop-shadow-lg">
-                  <span className="text-white">Torch</span> <span className="text-red-600">Talents</span>
-                </h2>
-                <div className="flex justify-center mb-6">
-                  <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
-                </div>
-                <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-3">
-                    Projects and talents in various creative fields, raising the quality of creative life & audience awareness & engagement.
-                  </p>
-                <p className="text-gray-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
-                  Discover the next generation of creative leaders and visionaries.
-                </p>
-                </div>
-              <motion.div
-                className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 justify-center items-stretch mb-16"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={{
-                  hidden: {},
-                  visible: {
-                    transition: {
-                      staggerChildren: 0.12,
-                    },
-                  },
-                }}
-              >
-                {talentSilhouettes.map((talent, idx) => (
-                  <motion.div
-                    key={talent.id}
-                    variants={{
-                      hidden: { opacity: 0, y: 40 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                    }}
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="flex items-center justify-center animate-fade-in"
-                    style={{ animationDelay: `${idx * 0.08 + 0.1}s` }}
-                  >
-                    <div className="relative w-full max-w-[160px] h-[160px] md:max-w-[220px] md:h-[220px] talent-card group flex flex-col items-center justify-center">
-                      {/* Animated red diamond background */}
-                      <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-red-700 via-red-500 to-red-700 rotate-45 transform-gpu shadow-2xl shadow-red-900/40 group-hover:scale-105 group-hover:shadow-red-600/40 transition-all duration-500 animate-pulse-slow"></div>
-                      {/* White square frame */}
-                      <div className="absolute inset-0 m-auto w-[90px] h-[90px] md:w-[130px] md:h-[130px] border-2 border-white/90 z-10 rounded-lg"></div>
-                      {/* Black background inside frame */}
-                      <div className="absolute inset-0 m-auto w-[90px] h-[90px] md:w-[130px] md:h-[130px] bg-black z-10 rounded-lg"></div>
-                      {/* Person silhouette */}
-                      <div className="absolute inset-0 m-auto z-20 flex flex-col items-center justify-center">
-                        <div className="w-full h-[70px] md:h-[110px] flex items-center justify-center">
-                          {/* Actual silhouette */}
-                          <div className="w-14 h-14 md:w-24 md:h-24 mt-2 md:mt-4 relative">
-                            {/* Head */}
-                            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-7 h-7 md:w-12 md:h-12 bg-black rounded-full"></div>
-                            {/* Shoulders */}
-                            <div className="absolute top-7 md:top-12 left-1/2 transform -translate-x-1/2 w-14 h-7 md:w-24 md:h-10 bg-black rounded-b-full"></div>
-                          </div>
-                        </div>
-                        {/* SOON text */}
-                        <div className="w-full text-center mt-auto">
-                          <p className="text-white text-lg md:text-2xl font-black tracking-widest animate-pulse-slow">SOON</p>
-                        </div>
-                      </div>
-                      {/* Decorative glowing dots */}
-                      <div className="absolute top-[15%] left-[15%] w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full z-30 animate-pulse-slow"></div>
-                      <div className="absolute top-[15%] right-[15%] w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full z-30 animate-pulse-slow"></div>
-                      <div className="absolute bottom-[15%] left-[15%] w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full z-30 animate-pulse-slow"></div>
-                      <div className="absolute bottom-[15%] right-[15%] w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full z-30 animate-pulse-slow"></div>
+                    {/* Partner logo (Torch logo image) - Enhanced */}                  
+                    <div className="absolute top-4 left-4 z-20 w-14 h-14 flex items-center justify-center bg-black/70 rounded-full p-2 border-2 border-red-600/60 group-hover:border-red-500 transition-all duration-300 group-hover:scale-110">
+                      <Image 
+                        src="/images/logo.png" 
+                        alt="Torch Logo" 
+                        width={32} 
+                        height={32} 
+                        className="object-contain mx-auto drop-shadow-lg" 
+                        style={{aspectRatio: '1/1'}} 
+                      />
                     </div>
+
+                    {/* Hover overlay effect */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-red-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-15"></div>
                   </motion.div>
                 ))}
               </motion.div>
-              </div>
-          </motion.section>
-        )}
+            </motion.div>
+          </Section>
 
-        {isSectionEnabled('contact') && (
-          <motion.section
-            id="contact"
-            className="py-32 md:py-40 relative"
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1, ease: 'easeOut' }}
-          >
-            {/* Animated red glow background */}
-            <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-              <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
-            </div>
-            <div className="max-w-3xl mx-auto px-4 relative z-10">
-              <div className="text-center mb-20 md:mb-24">
-                <div className="inline-flex items-center justify-center mb-8">
-                  <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                  <span className="text-red-500 text-base font-bold tracking-widest">CONTACT US</span>
-                  <div className="h-px w-8 bg-red-600/80 ml-2"></div>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black mb-6 text-white drop-shadow-lg">Get in Touch</h2>
-                <div className="flex justify-center mb-6">
-                  <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
-                </div>
-                <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-3">
-                  Let's discuss your next project.
-                </p>
-                <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-                  Fill out the form and our team will get back to you as soon as possible.
-                </p>
-              </div>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1, ease: 'easeInOut' }}
-                className="p-8 bg-black rounded-lg border border-white relative z-20 shadow-2xl shadow-red-900/30 contact-form-card mb-12"
+          {isSectionEnabled('contact') && (
+            <Section id="contact" className="py-32 md:py-40">
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="max-w-3xl mx-auto px-4 md:px-12 relative"
               >
-                <ContactForm />
-            </motion.div>
-            </div>
-          </motion.section>
-        )}
-        {/* TOP PARTNERS SECTION */}
-        <motion.section
-          id="top-partners"
-          className="relative py-32 md:py-40 overflow-hidden"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-        >
-          {/* (Removed radial glow background) */}
-          <div className="max-w-7xl mx-auto px-4 md:px-12 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              className="mb-12"
-            >
-              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-white tracking-tight">TOP PARTNERS</h2>
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-0.5 bg-red-600 rounded-full"></div>
-              </div>
-            </motion.div>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-center items-stretch mb-8"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.14,
-                  },
-                },
-              }}
-            >
-              {[1,2,3].map((i) => (
+                {/* Animated red glow background */}
+                <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+                  <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+                </div>
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center justify-center mb-6">
+                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                    <span className="text-red-500 text-base font-bold tracking-widest">CONTACT US</span>
+                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                  </div>
+                  <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">Get in Touch</h2>
+                  <div className="flex justify-center mb-4">
+                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                  </div>
+                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
+                    Let's discuss your next project.
+                  </p>
+                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                    Fill out the form and our team will get back to you as soon as possible.
+                  </p>
+                </div>
                 <motion.div
-                  key={i}
-                  variants={{
-                    hidden: { opacity: 0, y: 40 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
-                  }}
-                  whileHover={{
-                    scale: 1.03,
-                    boxShadow: '0 0 32px 4px #dc2626aa',
-                  }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="relative w-full aspect-video rounded-2xl overflow-hidden flex items-center justify-center shadow-lg group transition-transform duration-500 border border-gray-800 bg-black/90 hover:border-red-600"
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 1, ease: 'easeInOut' }}
+                  className="p-8 bg-black rounded-lg border border-white relative z-20 shadow-2xl shadow-red-900/30 contact-form-card mb-12"
                 >
-                  {/* Faint Torch logo background watermark */}
-                  <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-                    <Image src="/images/logo.png" alt="Torch Logo Watermark" width={120} height={120} className="opacity-10 object-contain" />
-                  </div>
-                  
-                  {/* Placeholder for Video/GIF */}
-                  {/* Replace this div with actual video/gif element when ready */}
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden flex items-center justify-center bg-black z-10">
-                    {/* Placeholder Play Icon */}
-                    <svg className="w-16 h-16 text-red-600 opacity-50" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-
-                  {/* Partner logo (Torch logo image) - Keep as placeholder */}                  
-                  <div className="absolute top-5 left-5 z-20 w-12 h-12 flex items-center justify-center bg-black/50 rounded-full p-1 border border-red-700">
-                    <Image src="/images/logo.png" alt="Torch Logo" width={36} height={36} className="object-contain" />
-                  </div>
-                  
-                  {/* Original banner image removed */}
-                  {/* <Image src={`/images/partner-banner-${i}.jpg`} alt={`Partner Banner ${i}`} fill className="object-cover opacity-90 rounded-2xl group-hover:opacity-100 transition-all duration-500 z-10" /> */}
+                  <ContactForm />
                 </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.section>
-      </div>
+              </motion.div>
+            </Section>
+          )}
+        </div>
+      </main>
     </>
   );
 }

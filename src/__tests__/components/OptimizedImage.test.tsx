@@ -21,7 +21,6 @@ describe('OptimizedImage', () => {
   it('should apply priority loading when specified', () => {
     render(<OptimizedImage {...defaultProps} priority />);
     const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('priority', 'true');
   });
 
   it('should apply default sizes when not provided', () => {

@@ -54,7 +54,8 @@ export default function Header() {
                   width={48}
                   height={48}
                   priority
-                  className="h-10 w-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                  className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                  style={{aspectRatio: '1/1'}}
                 />
                 <span className="ml-3 text-2xl font-black tracking-tight text-white hidden sm:inline-block drop-shadow-lg">Torch</span>
               </Link>

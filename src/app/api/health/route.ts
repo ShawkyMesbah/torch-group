@@ -1,9 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+const HEALTH_SECRET = process.env.HEALTH_SECRET;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get('token');
+  const isAuthorized = HEALTH_SECRET && token === HEALTH_SECRET;
+
+  if (!isAuthorized) {
+    // Log unauthorized access attempts
+    if (token) {
+      console.warn('Unauthorized health check attempt with token:', token);
+    }
+    return NextResponse.json({ status: 'healthy' }, { status: 200 });
+  }
+
   try {
     // Check database connection
     await prisma.$queryRaw`SELECT 1`;
@@ -34,7 +47,7 @@ export async function GET() {
     // Check database migrations
     const migrationStatus = await prisma.$queryRaw`
       SELECT * FROM _prisma_migrations ORDER BY finished_at DESC LIMIT 1
-    `;
+    ` as any[];
 
     return NextResponse.json(
       {

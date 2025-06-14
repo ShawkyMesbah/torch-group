@@ -32,46 +32,41 @@ export function LoadingScreen({ isLoading = false }: { isLoading?: boolean }) {
             transition: { duration: 0.5, ease: "easeInOut" } 
           }}
         >
-          {/* Red pulsing glow behind logo */}
-          <motion.div
-            className="absolute w-56 h-56 rounded-full bg-red-600/40 blur-[100px]"
-            animate={{
-              scale: [1, 1.15, 1],
-              opacity: [0.7, 1, 0.7],
-              boxShadow: [
-                '0 0 80px 40px rgba(255,0,64,0.25)',
-                '0 0 120px 60px rgba(255,0,64,0.45)',
-                '0 0 80px 40px rgba(255,0,64,0.25)'
-              ]
-            }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          
           {/* Dot pattern background */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,40,40,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,40,40,0.15)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30"></div>
           
-          {/* Logo container with animation */}
-          <motion.div
-            className="relative mb-8"
-            initial={{ scale: 0.7, rotate: -10, opacity: 0 }}
-            animate={{ scale: [0.7, 1.15, 1], rotate: [0, 10, 0], opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          >
+          {/* Logo with glow, matching footer style */}
+          <div className="mb-8 relative flex flex-col items-center animate-fade-in">
+            {/* Animated red pulsing glow behind logo */}
             <motion.div
-              className="w-24 h-24 md:w-32 md:h-32 relative"
-              animate={{ scale: [1, 1.08, 1], rotate: [0, -8, 0] }}
+              className="absolute w-56 h-56 rounded-full bg-red-600/40 blur-[100px] z-0"
+              animate={{
+                scale: [1, 1.15, 1],
+                opacity: [0.7, 1, 0.7],
+                boxShadow: [
+                  '0 0 80px 40px rgba(255,0,64,0.25)',
+                  '0 0 120px 60px rgba(255,0,64,0.45)',
+                  '0 0 80px 40px rgba(255,0,64,0.25)'
+                ]
+              }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="relative z-10"
+              animate={{ scale: [1, 1.25, 1] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             >
               <Image
                 src={logo}
-                alt="Torch Group Logo"
-                width={120}
-                height={120}
-                className="mx-auto mb-6"
+                alt="Torch Logo"
+                width={160}
+                height={160}
+                className="object-contain mx-auto drop-shadow-lg transition-transform duration-300"
+                style={{aspectRatio: '1/1'}}
                 placeholder="blur"
               />
             </motion.div>
-          </motion.div>
+          </div>
           
           {/* Loading text and animated dots */}
           <motion.div
@@ -92,7 +87,7 @@ export function LoadingScreen({ isLoading = false }: { isLoading?: boolean }) {
                     scale: [0, 1, 0] 
                   }}
                   transition={{
-                    duration: 1.5,
+                    duration: 1.8,
                     repeat: Infinity,
                     delay: i * 0.2,
                     ease: "easeInOut"

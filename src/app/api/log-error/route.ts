@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const errorSchema = z.object({
@@ -7,7 +7,17 @@ const errorSchema = z.object({
   context: z.record(z.any()).optional(),
 });
 
-export async function POST(request: Request) {
+const LOG_SECRET = process.env.LOG_SECRET;
+
+export async function POST(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get('token');
+  if (!LOG_SECRET || token !== LOG_SECRET) {
+    if (token) {
+      console.warn('Unauthorized log-error attempt with token:', token);
+    }
+    return NextResponse.json({ error: 'Not Found' }, { status: 404 });
+  }
   try {
     const body = await request.json();
     const validatedError = errorSchema.parse(body);

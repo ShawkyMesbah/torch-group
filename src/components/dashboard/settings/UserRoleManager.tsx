@@ -325,6 +325,8 @@ export function UserRoleManager({
             variant="outline"
             onClick={loadUsers}
             disabled={loading}
+            aria-label="Refresh user list"
+            className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
           >
             {loading ? (
               <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -336,7 +338,10 @@ export function UserRoleManager({
           
           <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button
+                aria-label="Invite new user"
+                className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+              >
                 <UserPlus className="h-4 w-4 mr-2" />
                 Invite User
               </Button>
@@ -405,12 +410,14 @@ export function UserRoleManager({
               </div>
               
               <DialogFooter>
-                <Button variant="outline" onClick={() => setInviteDialogOpen(false)}>
+                <Button variant="outline" onClick={() => setInviteDialogOpen(false)} aria-label="Cancel invite" className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary">
                   Cancel
                 </Button>
                 <Button 
                   onClick={handleInviteUser} 
                   disabled={loading || !newUserEmail}
+                  aria-label="Send invitation"
+                  className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
                 >
                   {loading ? (
                     <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -512,7 +519,7 @@ export function UserRoleManager({
                     const roleInfo = getRoleInfo(user.role);
                     
                     return (
-                      <div key={user.id} className="grid grid-cols-12 px-4 py-4 text-sm">
+                      <div key={user.id} className="grid grid-cols-12 px-4 py-4 text-sm transition-shadow hover:shadow-md focus-within:shadow-md">
                         <div className="col-span-4">
                           <div className="font-medium">{user.name}</div>
                           <div className="text-gray-500">{user.email}</div>
@@ -526,7 +533,9 @@ export function UserRoleManager({
                         </div>
                         
                         <div className="col-span-2">
-                          <Badge variant={user.isActive ? "success" : "secondary"}>
+                          <Badge variant={user.isActive ? "success" : "secondary"}
+                            className={user.isActive ? "bg-green-700 text-white" : "bg-gray-500 text-white"}
+                          >
                             {user.isActive ? "Active" : "Inactive"}
                           </Badge>
                         </div>
@@ -538,7 +547,7 @@ export function UserRoleManager({
                         <div className="col-span-2">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
+                              <Button variant="ghost" size="sm" aria-label="Open user actions menu" className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
                                 <span className="sr-only">Open menu</span>
                                 <ChevronDown className="h-4 w-4" />
                               </Button>
@@ -550,6 +559,8 @@ export function UserRoleManager({
                               <DropdownMenuItem 
                                 onClick={() => handleToggleActivation(user.id, user.isActive)}
                                 disabled={loading}
+                                aria-label={user.isActive ? `Deactivate user ${user.name}` : `Activate user ${user.name}`}
+                                className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                               >
                                 {user.isActive ? (
                                   <>
@@ -572,6 +583,8 @@ export function UserRoleManager({
                                   key={role.value}
                                   disabled={user.role === role.value || loading}
                                   onClick={() => handleRoleUpdate(user.id, role.value)}
+                                  aria-label={`Change role to ${role.label} for ${user.name}`}
+                                  className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                                 >
                                   {role.icon}
                                   <span className="ml-2">{role.label}</span>
@@ -581,12 +594,14 @@ export function UserRoleManager({
                               <DropdownMenuSeparator />
                               
                               <DropdownMenuItem 
-                                className="text-red-600 focus:text-red-700" 
+                                className="text-red-600 focus:text-red-700"
                                 onClick={() => {
                                   setSelectedUser(user);
                                   setConfirmDeleteDialogOpen(true);
                                 }}
                                 disabled={loading}
+                                aria-label={`Delete user ${user.name}`}
+                                className="transition-colors hover:bg-red-600/80 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
                               >
                                 <Trash className="h-4 w-4 mr-2" />
                                 <span>Delete User</span>

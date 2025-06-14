@@ -5,6 +5,8 @@ import Loading from '@/components/loading/loading';
 import DashboardNav from '@/components/dashboard/layout/dashboard-nav';
 import DashboardHeader from '@/components/dashboard/layout/dashboard-header';
 
+// TODO: Create a /blog directory with a page.tsx for the admin blog page.
+
 export const dynamic = "force-dynamic";
 
 interface DashboardLayoutProps {

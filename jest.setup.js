@@ -1,3 +1,8 @@
+import { Request, Response, Headers } from 'node-fetch';
+global.Request = Request;
+global.Response = Response;
+global.Headers = Headers;
+
 // Import Jest DOM matchers
 import '@testing-library/jest-dom';
 
@@ -65,20 +70,20 @@ jest.mock('next/server', () => {
 });
 
 // Mock Request and Response for API tests
-if (typeof Request === 'undefined') {
-  global.Request = class Request {
-    constructor(url, options = {}) {
-      this.url = url;
-      this.method = options.method || 'GET';
-      this.body = options.body;
-      this.headers = new Headers(options.headers);
-    }
-
-    async json() {
-      return typeof this.body === 'string' ? JSON.parse(this.body) : this.body;
-    }
-  };
-}
+// if (typeof Request === 'undefined') {
+//   global.Request = class Request {
+//     constructor(url, options = {}) {
+//       this.url = url;
+//       this.method = options.method || 'GET';
+//       this.body = options.body;
+//       this.headers = new Headers(options.headers);
+//     }
+//
+//     async json() {
+//       return typeof this.body === 'string' ? JSON.parse(this.body) : this.body;
+//     }
+//   };
+// }
 
 if (typeof Response === 'undefined') {
   global.Response = class Response {

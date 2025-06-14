@@ -17,12 +17,14 @@ import {
   Mail, 
   Copy, 
   CheckCircle2,
-  Undo2 
+  Undo2,
+  Info
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { EmailTemplate } from "@/hooks/useEmailTemplates";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 interface EmailTemplateEditorProps {
   template: EmailTemplate;
@@ -205,223 +207,73 @@ export function EmailTemplateEditor({
   };
   
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col lg:flex-row justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold flex items-center">
-            {editedTemplate.name}
-            {hasUnsavedChanges && (
-              <Badge variant="outline" className="ml-2">Unsaved Changes</Badge>
-            )}
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            {editedTemplate.description}
-          </p>
+    <Card className="w-full">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Edit Template: {template.name}</CardTitle>
+            <CardDescription>
+              Customize the subject, HTML, and plain text for this email template.
+            </CardDescription>
+          </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Info className="ml-2 h-5 w-5 text-gray-400 cursor-pointer" />
+            </PopoverTrigger>
+            <PopoverContent className="max-w-xs text-xs">
+              <div className="font-semibold mb-1">How to use variables</div>
+              <div>
+                Insert variables using <code className="bg-muted p-0.5 rounded">${"{variable}"}</code> syntax.<br />
+                Example: <code className="bg-muted p-0.5 rounded">Hello, ${"{name}"}</code> → <span className="text-gray-500">Hello, John Doe</span>
+              </div>
+              <div className="mt-2">
+                <a
+                  href="https://torchgroup.co/docs/email-templates"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-blue-600"
+                >
+                  Email template documentation
+                </a>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
-        
-        <div className="flex items-center space-x-2">
-          <Button 
-            variant="outline" 
-            onClick={onReset} 
-            disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
-          >
-            <Undo2 className="h-4 w-4 mr-2" />
-            Reset
-          </Button>
-          
-          <Button 
-            variant="outline"
-            onClick={() => setShowTestUI(!showTestUI)}
-            disabled={isLoading || isSaving || isSendingTest}
-          >
-            <Mail className="h-4 w-4 mr-2" />
-            Send Test
-          </Button>
-          
-          <Button 
-            onClick={handleSave} 
-            disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
-          >
-            {isLoading ? (
-              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4 mr-2" />
-            )}
-            Save Template
-          </Button>
-        </div>
-      </div>
-      
-      {/* Send test email UI */}
-      {showTestUI && (
-        <Card className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950">
-          <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row items-end gap-4">
-              <div className="flex-1">
-                <Label htmlFor="test-email">Send Test Email To</Label>
-                <Input
-                  id="test-email"
-                  placeholder="recipient@example.com"
-                  value={testEmail}
-                  onChange={(e) => setTestEmail(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
-              <Button 
-                onClick={handleSendTest} 
-                disabled={isLoading || isSaving || isSendingTest || !testEmail}
-              >
-                {isLoading ? (
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                ) : (
-                  <Mail className="h-4 w-4 mr-2" />
-                )}
-                Send Test
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setShowTestUI(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <Tabs defaultValue="edit" value={viewMode} onValueChange={(v) => setViewMode(v as any)}>
-            <div className="flex justify-between items-center mb-4">
-              <TabsList>
-                <TabsTrigger value="edit">Edit</TabsTrigger>
-                <TabsTrigger value="preview">Preview</TabsTrigger>
-                <TabsTrigger value="code">HTML/Text</TabsTrigger>
-              </TabsList>
-              
-              {viewMode === "preview" && (
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPreviewMode("desktop")}
-                    className={previewMode === "desktop" ? "bg-muted" : ""}
-                  >
-                    <Monitor className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPreviewMode("mobile")}
-                    className={previewMode === "mobile" ? "bg-muted" : ""}
-                  >
-                    <Smartphone className="h-4 w-4" />
-                  </Button>
-                </div>
+      </CardHeader>
+      <div className="space-y-8">
+        <div className="flex flex-col lg:flex-row justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-bold flex items-center">
+              {editedTemplate.name}
+              {hasUnsavedChanges && (
+                <Badge variant="outline" className="ml-2">Unsaved Changes</Badge>
               )}
-              
-              {viewMode === "code" && (
-                <div className="flex items-center space-x-2">
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      id="show-plain-text"
-                      checked={showPlainText}
-                      onCheckedChange={setShowPlainText}
-                    />
-                    <Label htmlFor="show-plain-text">Plain Text</Label>
-                  </div>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleCopyToClipboard(showPlainText ? previewText : previewHtml)}
-                  >
-                    {copied ? (
-                      <CheckCircle2 className="h-4 w-4 mr-2 text-green-500" />
-                    ) : (
-                      <Copy className="h-4 w-4 mr-2" />
-                    )}
-                    Copy
-                  </Button>
-                </div>
-              )}
-            </div>
-            
-            <TabsContent value="edit" className="space-y-6">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="template-subject">Email Subject</Label>
-                  <Input
-                    id="template-subject"
-                    value={editedTemplate.subject}
-                    onChange={(e) => handleInputChange('subject', e.target.value)}
-                    className="mt-1"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="template-html">Email HTML Content</Label>
-                  <Textarea
-                    id="template-html"
-                    value={editedTemplate.html}
-                    onChange={(e) => handleInputChange('html', e.target.value)}
-                    className="mt-1 font-mono text-sm h-[400px]"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="template-text">Email Plain Text Content</Label>
-                  <Textarea
-                    id="template-text"
-                    value={editedTemplate.text}
-                    onChange={(e) => handleInputChange('text', e.target.value)}
-                    className="mt-1 font-mono text-sm h-[150px]"
-                  />
-                </div>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="preview">
-              <div className={`border rounded-md overflow-hidden ${
-                previewMode === "mobile" ? "max-w-[375px] mx-auto" : "w-full"
-              }`}>
-                <div className="bg-gray-100 dark:bg-gray-800 p-2 border-b flex justify-between items-center">
-                  <div className="text-sm font-medium">
-                    <span className="text-gray-500">Subject:</span> {editedTemplate.subject}
-                  </div>
-                </div>
-                <div className="p-4 bg-white dark:bg-gray-900 min-h-[400px]">
-                  <div 
-                    dangerouslySetInnerHTML={{ __html: previewHtml }} 
-                    className="prose dark:prose-invert max-w-none" 
-                  />
-                </div>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="code">
-              <div className="border rounded-md overflow-hidden">
-                <div className="bg-gray-100 dark:bg-gray-800 p-2 border-b">
-                  <div className="text-sm font-medium">
-                    {showPlainText ? "Plain Text Version" : "HTML Version"}
-                  </div>
-                </div>
-                <div className="p-4 bg-gray-50 dark:bg-gray-900 overflow-auto h-[400px]">
-                  <pre className="text-sm font-mono">
-                    {showPlainText ? previewText : previewHtml}
-                  </pre>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">
+              {editedTemplate.description}
+            </p>
+          </div>
           
-          <div className="mt-4 flex justify-between items-center">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              Last updated: {formatDate(editedTemplate.lastUpdated)}
-            </div>
+          <div className="flex items-center space-x-2">
             <Button 
               variant="outline" 
-              size="sm" 
+              onClick={onReset} 
+              disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
+            >
+              <Undo2 className="h-4 w-4 mr-2" />
+              Reset
+            </Button>
+            
+            <Button 
+              variant="outline"
+              onClick={() => setShowTestUI(!showTestUI)}
+              disabled={isLoading || isSaving || isSendingTest}
+            >
+              <Mail className="h-4 w-4 mr-2" />
+              Send Test
+            </Button>
+            
+            <Button 
               onClick={handleSave} 
               disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
             >
@@ -430,80 +282,264 @@ export function EmailTemplateEditor({
               ) : (
                 <Save className="h-4 w-4 mr-2" />
               )}
-              Save Changes
+              Save Template
             </Button>
           </div>
         </div>
         
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Template Variables</CardTitle>
-              <CardDescription>
-                Click a variable to insert it at the cursor position
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Available Variables</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {template.variables.map((variable) => (
-                      <Badge 
-                        key={variable}
-                        variant="outline"
-                        className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => insertVariable(variable)}
-                      >
-                        {variable}
-                      </Badge>
-                    ))}
-                  </div>
+        {/* Send test email UI */}
+        {showTestUI && (
+          <Card className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950">
+            <CardContent className="pt-6">
+              <div className="flex flex-col md:flex-row items-end gap-4">
+                <div className="flex-1">
+                  <Label htmlFor="test-email">Send Test Email To</Label>
+                  <Input
+                    id="test-email"
+                    placeholder="recipient@example.com"
+                    value={testEmail}
+                    onChange={(e) => setTestEmail(e.target.value)}
+                    className="mt-1"
+                  />
                 </div>
-                
-                <div className="border-t pt-4">
-                  <h3 className="text-sm font-medium mb-2">Preview Values</h3>
-                  <div className="space-y-3">
-                    {template.variables.map((variable) => (
-                      <div key={variable} className="grid grid-cols-3 gap-2 items-center">
-                        <Label htmlFor={`preview-${variable}`} className="text-xs">
-                          {variable}:
-                        </Label>
-                        <Input
-                          id={`preview-${variable}`}
-                          className="col-span-2 h-8 text-xs"
-                          value={previewValues[variable] || ''}
-                          onChange={(e) => handlePreviewValueChange(variable, e.target.value)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <Button 
+                  onClick={handleSendTest} 
+                  disabled={isLoading || isSaving || isSendingTest || !testEmail}
+                >
+                  {isLoading ? (
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <Mail className="h-4 w-4 mr-2" />
+                  )}
+                  Send Test
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowTestUI(false)}
+                >
+                  Cancel
+                </Button>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between">
+          </Card>
+        )}
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Tabs defaultValue="edit" value={viewMode} onValueChange={(v) => setViewMode(v as any)}>
+              <div className="flex justify-between items-center mb-4">
+                <TabsList>
+                  <TabsTrigger value="edit">Edit</TabsTrigger>
+                  <TabsTrigger value="preview">Preview</TabsTrigger>
+                  <TabsTrigger value="code">HTML/Text</TabsTrigger>
+                </TabsList>
+                
+                {viewMode === "preview" && (
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPreviewMode("desktop")}
+                      className={previewMode === "desktop" ? "bg-muted" : ""}
+                    >
+                      <Monitor className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPreviewMode("mobile")}
+                      className={previewMode === "mobile" ? "bg-muted" : ""}
+                    >
+                      <Smartphone className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+                
+                {viewMode === "code" && (
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        id="show-plain-text"
+                        checked={showPlainText}
+                        onCheckedChange={setShowPlainText}
+                      />
+                      <Label htmlFor="show-plain-text">Plain Text</Label>
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleCopyToClipboard(showPlainText ? previewText : previewHtml)}
+                    >
+                      {copied ? (
+                        <CheckCircle2 className="h-4 w-4 mr-2 text-green-500" />
+                      ) : (
+                        <Copy className="h-4 w-4 mr-2" />
+                      )}
+                      Copy
+                    </Button>
+                  </div>
+                )}
+              </div>
+              
+              <TabsContent value="edit" className="space-y-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="template-subject">Email Subject</Label>
+                    <Input
+                      id="template-subject"
+                      value={editedTemplate.subject}
+                      onChange={(e) => handleInputChange('subject', e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="template-html">Email HTML Content</Label>
+                    <Textarea
+                      id="template-html"
+                      value={editedTemplate.html}
+                      onChange={(e) => handleInputChange('html', e.target.value)}
+                      className="mt-1 font-mono text-sm h-[400px]"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="template-text">Email Plain Text Content</Label>
+                    <Textarea
+                      id="template-text"
+                      value={editedTemplate.text}
+                      onChange={(e) => handleInputChange('text', e.target.value)}
+                      className="mt-1 font-mono text-sm h-[150px]"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="preview">
+                <div className={`border rounded-md overflow-hidden ${
+                  previewMode === "mobile" ? "max-w-[375px] mx-auto" : "w-full"
+                }`}>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 border-b flex justify-between items-center">
+                    <div className="text-sm font-medium">
+                      <span className="text-gray-500">Subject:</span> {editedTemplate.subject}
+                    </div>
+                  </div>
+                  <div className="p-4 bg-white dark:bg-gray-900 min-h-[400px]">
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: previewHtml }} 
+                      className="prose dark:prose-invert max-w-none" 
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="code">
+                <div className="border rounded-md overflow-hidden">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 border-b">
+                    <div className="text-sm font-medium">
+                      {showPlainText ? "Plain Text Version" : "HTML Version"}
+                    </div>
+                  </div>
+                  <div className="p-4 bg-gray-50 dark:bg-gray-900 overflow-auto h-[400px]">
+                    <pre className="text-sm font-mono">
+                      {showPlainText ? previewText : previewHtml}
+                    </pre>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+            
+            <div className="mt-4 flex justify-between items-center">
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Last updated: {formatDate(editedTemplate.lastUpdated)}
+              </div>
               <Button 
                 variant="outline" 
-                size="sm"
-                onClick={() => setViewMode("preview")}
+                size="sm" 
+                onClick={handleSave} 
+                disabled={isLoading || isSaving || isSendingTest || !hasUnsavedChanges}
               >
-                <Eye className="h-4 w-4 mr-2" />
-                View Preview
+                {isLoading ? (
+                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4 mr-2" />
+                )}
+                Save Changes
               </Button>
-              
-              <Button 
-                variant="outline"
-                size="sm"
-                onClick={() => setShowTestUI(!showTestUI)}
-                disabled={isLoading || isSaving || isSendingTest}
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                Send Test
-              </Button>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
+          
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Template Variables</CardTitle>
+                <CardDescription>
+                  Click a variable to insert it at the cursor position
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-sm font-medium mb-2">Available Variables</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {template.variables.map((variable) => (
+                        <Badge 
+                          key={variable}
+                          variant="outline"
+                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                          onClick={() => insertVariable(variable)}
+                        >
+                          {variable}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="border-t pt-4">
+                    <h3 className="text-sm font-medium mb-2">Preview Values</h3>
+                    <div className="space-y-3">
+                      {template.variables.map((variable) => (
+                        <div key={variable} className="grid grid-cols-3 gap-2 items-center">
+                          <Label htmlFor={`preview-${variable}`} className="text-xs">
+                            {variable}:
+                          </Label>
+                          <Input
+                            id={`preview-${variable}`}
+                            className="col-span-2 h-8 text-xs"
+                            value={previewValues[variable] || ''}
+                            onChange={(e) => handlePreviewValueChange(variable, e.target.value)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setViewMode("preview")}
+                >
+                  <Eye className="h-4 w-4 mr-2" />
+                  View Preview
+                </Button>
+                
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowTestUI(!showTestUI)}
+                  disabled={isLoading || isSaving || isSendingTest}
+                >
+                  <Mail className="h-4 w-4 mr-2" />
+                  Send Test
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 } 

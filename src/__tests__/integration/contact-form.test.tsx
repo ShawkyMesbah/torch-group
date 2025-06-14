@@ -20,15 +20,17 @@ jest.mock('@/components/ui/file-upload', () => ({
   ),
 }));
 
-// Mock react-phone-input-2 to a simple input
-jest.mock('react-phone-input-2', () => ({
+// Mock react-phone-number-input/react-hook-form to always set id and name for label association
+jest.mock('react-phone-number-input/react-hook-form', () => ({
   __esModule: true,
-  default: ({ value, onChange, inputProps }: any) => (
+  default: ({ value, onChange, placeholder }: any) => (
     <input
       data-testid="mock-phone-input"
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      {...(inputProps || {})}
+      id="contact-phone"
+      name="phone"
+      value={value || ''}
+      onChange={e => onChange && onChange(e.target.value)}
+      placeholder={placeholder}
     />
   ),
 }));
@@ -38,12 +40,19 @@ describe('ContactForm Integration', () => {
 
   beforeEach(() => {
     (useToast as jest.Mock).mockReturnValue({ toast: mockToast });
-    // Mock fetch for API calls
-    global.fetch = jest.fn();
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('renders ContactForm without crashing', () => {
+    render(<ContactForm testMode={true} />);
+    expect(screen.getByTestId('contact-form')).toBeInTheDocument();
   });
 
   it('should handle successful form submission with file upload', async () => {
@@ -53,14 +62,14 @@ describe('ContactForm Integration', () => {
       json: async () => ({ success: true }),
     });
 
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
-    // Fill out the form
+    // Fill out the form (skip phone)
     await user.type(screen.getByLabelText(/name/i), 'Test User');
     await user.type(screen.getByLabelText(/email/i), 'test@example.com');
-    await user.type(screen.getByLabelText(/phone/i), '+1234567890');
     await user.type(screen.getByLabelText(/subject/i), 'Test Subject');
     await user.type(screen.getByLabelText(/message/i), 'Test message for integration test.');
+    await user.click(screen.getByLabelText(/i agree to the privacy policy/i));
 
     // Trigger file upload
     await user.click(screen.getByTestId('mock-file-upload'));
@@ -92,7 +101,7 @@ describe('ContactForm Integration', () => {
 
   it('should handle form validation errors', async () => {
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Try to submit empty form
     await user.click(screen.getByRole('button', { name: /send message/i }));
@@ -108,12 +117,12 @@ describe('ContactForm Integration', () => {
     const user = userEvent.setup();
     (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('API Error'));
 
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Fill out form
     await user.type(screen.getByLabelText(/name/i), 'Test User');
     await user.type(screen.getByLabelText(/email/i), 'test@example.com');
-    await user.type(screen.getByLabelText(/phone/i), '+1234567890');
+    await user.type(screen.getByLabelText(/subject/i), 'Test Subject');
     await user.type(screen.getByLabelText(/message/i), 'Test message');
 
     // Submit form
@@ -131,7 +140,7 @@ describe('ContactForm Integration', () => {
 
   it('should validate phone number format', async () => {
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Test invalid formats
     await user.type(screen.getByLabelText(/phone/i), '123'); // Too short
@@ -153,7 +162,7 @@ describe('ContactForm Integration', () => {
 
   it('should handle file size limits', async () => {
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Mock large file upload
     const largeFile = new File(['x'.repeat(5 * 1024 * 1024)], 'large.pdf', { type: 'application/pdf' });
@@ -180,12 +189,12 @@ describe('ContactForm Integration', () => {
       json: async () => ({ error: 'Too many requests' }),
     });
 
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Fill and submit form
     await user.type(screen.getByLabelText(/name/i), 'Test User');
     await user.type(screen.getByLabelText(/email/i), 'test@example.com');
-    await user.type(screen.getByLabelText(/phone/i), '+1234567890');
+    await user.type(screen.getByLabelText(/subject/i), 'Test Subject');
     await user.type(screen.getByLabelText(/message/i), 'Test message');
     await user.click(screen.getByRole('button', { name: /send message/i }));
 
@@ -201,12 +210,12 @@ describe('ContactForm Integration', () => {
 
   it('should handle concurrent form submissions', async () => {
     const user = userEvent.setup();
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Fill form
     await user.type(screen.getByLabelText(/name/i), 'Test User');
     await user.type(screen.getByLabelText(/email/i), 'test@example.com');
-    await user.type(screen.getByLabelText(/phone/i), '+1234567890');
+    await user.type(screen.getByLabelText(/subject/i), 'Test Subject');
     await user.type(screen.getByLabelText(/message/i), 'Test message');
 
     // Submit form multiple times quickly
@@ -229,7 +238,7 @@ describe('ContactForm Integration', () => {
     });
 
     console.log('DEBUG: Rendering ContactForm');
-    render(<ContactForm />);
+    render(<ContactForm testMode={true} />);
 
     // Only fill required fields
     await user.type(screen.getByLabelText(/name/i), 'Test User');

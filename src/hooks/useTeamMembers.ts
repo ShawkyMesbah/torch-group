@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import useSWR from "swr";
 import { toast } from "@/components/ui/use-toast";
 
 type SocialLinks = Record<string, string>;
@@ -26,30 +27,28 @@ type TeamMemberFormData = {
   isPublished: boolean;
 };
 
+const fetcher = (url: string) => fetch(url).then(res => {
+  if (!res.ok) throw new Error("Failed to fetch team members");
+  return res.json();
+});
+
 export function useTeamMembers() {
-  const [members, setMembers] = useState<TeamMember[]>([]);
   const [currentMember, setCurrentMember] = useState<TeamMember | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // SWR for the main team members list
+  const {
+    data: members = [],
+    isLoading,
+    mutate
+  } = useSWR<TeamMember[]>("/api/team", fetcher, { revalidateOnFocus: false });
+
+  // Fetch all members (optionally published only)
   const fetchMembers = async (publishedOnly?: boolean) => {
-    setLoading(true);
-    setError(null);
-
     try {
-      const url = publishedOnly 
-        ? "/api/team?published=true" 
-        : "/api/team";
-        
-      const response = await fetch(url);
-      
-      if (!response.ok) {
-        throw new Error("Failed to fetch team members");
-      }
-
-      const data = await response.json();
-      setMembers(data);
-      return data;
+      const url = publishedOnly ? "/api/team?published=true" : "/api/team";
+      await mutate(async () => fetcher(url), true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
       toast({
@@ -57,23 +56,18 @@ export function useTeamMembers() {
         description: "Failed to load team members",
         variant: "destructive",
       });
-      return [];
-    } finally {
-      setLoading(false);
     }
   };
 
+  // Fetch a single member by ID (not cached)
   const fetchMemberById = async (id: string) => {
     setLoading(true);
     setError(null);
-
     try {
       const response = await fetch(`/api/team/${id}`);
-      
       if (!response.ok) {
         throw new Error("Failed to fetch team member");
       }
-
       const data = await response.json();
       setCurrentMember(data);
       return data;
@@ -90,31 +84,25 @@ export function useTeamMembers() {
     }
   };
 
+  // Create a new member
   const createMember = async (data: TeamMemberFormData) => {
     setLoading(true);
-    
     try {
       const response = await fetch("/api/team", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to create team member");
       }
-
       const newMember = await response.json();
-      setMembers([newMember, ...members]);
-      
+      await mutate(); // revalidate list
       toast({
         title: "Success",
         description: `Team member "${newMember.name}" created successfully`,
       });
-      
       return newMember;
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -129,38 +117,28 @@ export function useTeamMembers() {
     }
   };
 
+  // Update a member
   const updateMember = async (id: string, data: Partial<TeamMemberFormData>) => {
     setLoading(true);
-    
     try {
       const response = await fetch(`/api/team/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to update team member");
       }
-
       const updatedMember = await response.json();
-      setMembers(members.map(member => 
-        member.id === id ? updatedMember : member
-      ));
-      
-      // Update currentMember if it's the one being edited
+      await mutate(); // revalidate list
       if (currentMember?.id === id) {
         setCurrentMember(updatedMember);
       }
-      
       toast({
         title: "Success",
         description: `Team member "${updatedMember.name}" updated successfully`,
       });
-      
       return updatedMember;
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -175,30 +153,24 @@ export function useTeamMembers() {
     }
   };
 
+  // Delete a member
   const deleteMember = async (id: string) => {
     setLoading(true);
-    
     try {
       const response = await fetch(`/api/team/${id}`, {
         method: "DELETE",
       });
-
       if (!response.ok) {
         throw new Error("Failed to delete team member");
       }
-
-      setMembers(members.filter(member => member.id !== id));
-      
-      // Clear currentMember if it's the one being deleted
+      await mutate(); // revalidate list
       if (currentMember?.id === id) {
         setCurrentMember(null);
       }
-      
       toast({
         title: "Success",
         description: "Team member deleted successfully",
       });
-      
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -212,15 +184,16 @@ export function useTeamMembers() {
       setLoading(false);
     }
   };
-  
+
+  // Toggle publish status
   const togglePublishStatus = async (id: string, isPublished: boolean) => {
-    return await updateMember(id, { isPublished });
+    return updateMember(id, { isPublished });
   };
 
   return {
     members,
     currentMember,
-    loading,
+    loading: isLoading || loading,
     error,
     fetchMembers,
     fetchMemberById,

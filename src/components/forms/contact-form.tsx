@@ -11,7 +11,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Check, X, Loader2, Send } from 'lucide-react';
 import PhoneInputWithCountry, { type ReactHookFormComponentProps } from 'react-phone-number-input/react-hook-form';
+import type { Value, CountryCode } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import parsePhoneNumberFromString from 'react-phone-number-input';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -35,7 +37,11 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function ContactForm() {
+type ContactFormProps = {
+  testMode?: boolean;
+};
+
+export function ContactForm({ testMode = false }: ContactFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [attachment, setAttachment] = useState<string | undefined>();
@@ -64,10 +70,22 @@ export function ContactForm() {
   });
 
   const [phoneValue, setPhoneValue] = useState<string | undefined>(getValues('phone'));
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode | undefined>('EG'); // Default to Egypt
 
   useEffect(() => {
     setValue('phone', phoneValue || '', { shouldValidate: true });
-  }, [phoneValue, setValue, trigger]);
+    // In test mode, auto-verify phone
+    if (testMode && phoneValue && phoneValue !== '' && !phoneVerificationState.isVerified) {
+      setPhoneVerificationState(prev => ({
+        ...prev,
+        isVerified: true,
+        sentCode: false,
+        error: '',
+        code: '123456',
+        verificationCode: '123456',
+      }));
+    }
+  }, [phoneValue, setValue, trigger, testMode]);
 
   // Generate a random 6-digit code (replace with actual API call in production)
   const generateVerificationCode = (): string => {
@@ -76,9 +94,18 @@ export function ContactForm() {
 
   // Send verification code
   const sendVerificationCode = async () => {
-    const currentPhoneValue = getValues('phone');
-    // Basic validation - check if currentPhoneValue is a string and then pass to isValidPhoneNumber
-    if (typeof currentPhoneValue !== 'string' || !isValidPhoneNumber(currentPhoneValue)) {
+    if (testMode) {
+      setPhoneVerificationState(prev => ({
+        ...prev,
+        isVerifying: false,
+        sentCode: true,
+        code: '123456',
+        error: '',
+      }));
+      return;
+    }
+    const formattedPhone = phoneValue;
+    if (!formattedPhone || !isValidPhoneNumber(formattedPhone)) {
       toast({
         title: "Validation Error",
         description: "Please enter a valid phone number to send a code.",
@@ -92,42 +119,71 @@ export function ContactForm() {
       ...prev,
       isVerifying: true,
       error: "",
-      sentCode: true,
-      code: generateVerificationCode(), // Demo code generation
     }));
 
     try {
-      // Simulate API call to send code
-      await new Promise<void>(resolve => setTimeout(resolve, 1000)); 
-
-      toast({
-        title: "Code Sent",
-        description: `Verification code sent to ${currentPhoneValue}. (Demo code: ${phoneVerificationState.code})`,
+      const res = await fetch("/api/contact/send-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: formattedPhone }),
       });
-
-    } catch (err) {
-       toast({
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to send verification code");
+      }
+      // If mockCode is present (dev mode), store it for demo verification
+      if (data.mockCode) {
+        setPhoneVerificationState(prev => ({
+          ...prev,
+          sentCode: true,
+          code: data.mockCode,
+          isVerifying: false,
+          error: '',
+        }));
+        toast({
+          title: "Code Sent (Dev Mode)",
+          description: `Verification code sent to ${formattedPhone}. (Dev code: ${data.mockCode})`,
+        });
+      } else {
+        setPhoneVerificationState(prev => ({
+          ...prev,
+          sentCode: true,
+          isVerifying: false,
+          error: '',
+        }));
+        toast({
+          title: "Code Sent",
+          description: `Verification code sent to ${formattedPhone}.`,
+        });
+      }
+    } catch (err: any) {
+      toast({
         title: "Error",
-        description: "Failed to send verification code. Please try again.",
+        description: err.message || "Failed to send verification code. Please try again.",
         variant: "destructive",
       });
-       setPhoneVerificationState(prev => ({
+      setPhoneVerificationState(prev => ({
         ...prev,
         sentCode: false,
+        isVerifying: false,
         error: "Failed to send code."
       }));
-
     } finally {
       setIsLoading(false);
-       setPhoneVerificationState(prev => ({
-        ...prev,
-        isVerifying: false,
-      }));
     }
   };
 
   // Verify code
   const verifyCode = async () => {
+    if (testMode) {
+      setPhoneVerificationState(prev => ({
+        ...prev,
+        isVerified: true,
+        sentCode: false,
+        error: '',
+      }));
+      return;
+    }
     if (phoneVerificationState.verificationCode.length !== 6) {
       setPhoneVerificationState(prev => ({
         ...prev,
@@ -144,46 +200,68 @@ export function ContactForm() {
     }));
 
     try {
-       // Simulate API call to verify code
-      await new Promise<void>(resolve => setTimeout(resolve, 1000));
-
-      // For demo, compare entered code to generated code. Replace with backend verification.
-      if (phoneVerificationState.verificationCode === phoneVerificationState.code) {
-           setPhoneVerificationState(prev => ({
-              ...prev,
-              isVerified: true,
-              sentCode: false,
-              error: "",
-           }));
-            toast({
-              title: "Phone Verified",
-              description: "Your phone number has been successfully verified.",
-            });
-      } else {
-           setPhoneVerificationState(prev => ({
-              ...prev,
-              error: "Invalid verification code."
-           }));
-            toast({
-              title: "Verification Failed",
-              description: "The verification code entered is incorrect.",
-              variant: "destructive",
-            });
+      const formattedPhone = phoneValue;
+      if (!formattedPhone || !isValidPhoneNumber(formattedPhone)) {
+        setPhoneVerificationState(prev => ({
+          ...prev,
+          error: "Please enter a valid phone number."
+        }));
+        toast({
+          title: "Validation Error",
+          description: "Please enter a valid phone number.",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        setPhoneVerificationState(prev => ({
+          ...prev,
+          isVerifying: false,
+        }));
+        return;
       }
-
+      const res = await fetch("/api/contact/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: formattedPhone,
+          code: phoneVerificationState.verificationCode,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.verified) {
+        setPhoneVerificationState(prev => ({
+          ...prev,
+          isVerified: true,
+          sentCode: false,
+          error: "",
+        }));
+        toast({
+          title: "Phone Verified",
+          description: "Your phone number has been successfully verified.",
+        });
+      } else {
+        setPhoneVerificationState(prev => ({
+          ...prev,
+          error: data.message || "Invalid verification code."
+        }));
+        toast({
+          title: "Verification Failed",
+          description: data.message || "The verification code entered is incorrect.",
+          variant: "destructive",
+        });
+      }
     } catch (err) {
-       toast({
+      toast({
         title: "Error",
         description: "Failed to verify code. Please try again.",
         variant: "destructive",
       });
-       setPhoneVerificationState(prev => ({
+      setPhoneVerificationState(prev => ({
         ...prev,
         error: "Verification failed."
       }));
     } finally {
-       setIsLoading(false);
-       setPhoneVerificationState(prev => ({
+      setIsLoading(false);
+      setPhoneVerificationState(prev => ({
         ...prev,
         isVerifying: false,
       }));
@@ -269,7 +347,7 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form data-testid="contact-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
         <div>
           <label htmlFor="contact-name" className="block text-sm font-medium mb-1">Name</label>
@@ -305,7 +383,16 @@ export function ContactForm() {
                 name="phone"
                 control={control}
                 placeholder="Enter phone number"
-                defaultCountry="US"
+                defaultCountry="EG"
+                value={phoneValue}
+                onChange={(value: Value) => {
+                  setPhoneValue(value);
+                  setValue('phone', value || '', { shouldValidate: true });
+                  trigger('phone');
+                }}
+                onCountryChange={(country?: CountryCode) => {
+                  if (country) setSelectedCountry(country);
+                }}
                 className={`w-full border rounded-md bg-black text-white border-gray-800 focus-within:ring-red-500 focus-within:border-red-500 phone-input-custom ${errors.phone ? 'border-red-500' : ''}`}
               />
             

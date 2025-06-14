@@ -57,21 +57,21 @@ export function TalentsTable({
   handleDelete,
 }: TalentsTableProps) {
   // Helper for status badge
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: TalentStatus) => {
     switch (status) {
       case "ACTIVE":
-        return <Badge variant="success">Active</Badge>;
+        return <Badge variant="success" className="bg-green-600 text-white">Active</Badge>;
       case "PENDING":
-        return <Badge variant="warning">Pending</Badge>;
+        return <Badge variant="warning" className="bg-yellow-500 text-white">Pending</Badge>;
       case "HIDDEN":
-        return <Badge variant="secondary">Hidden</Badge>;
+        return <Badge variant="secondary" className="bg-gray-500 text-white">Hidden</Badge>;
       default:
-        return <Badge variant="secondary">{status}</Badge>;
+        return <Badge variant="secondary" className="bg-gray-500 text-white">{status}</Badge>;
     }
   };
 
   // Show table with talent data
-  const renderTalentsTable = (data) => (
+  const renderTalentsTable = (data: any[]) => (
     <Table>
       <TableCaption>
         {retryCount > 0 && (
@@ -92,16 +92,16 @@ export function TalentsTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((talent) => (
-          <TableRow key={talent.id}>
-            <TableCell className="font-medium">{talent.name}</TableCell>
-            <TableCell>{talent.role}</TableCell>
-            <TableCell>{talent.category}</TableCell>
+        {data.map((talent: any) => (
+          <TableRow key={talent.id} className="transition-shadow hover:shadow-md focus-within:shadow-md">
+            <TableCell className="font-medium text-gray-900 dark:text-gray-100">{talent.name}</TableCell>
+            <TableCell className="text-gray-700 dark:text-gray-300">{talent.role}</TableCell>
+            <TableCell className="text-gray-700 dark:text-gray-300">{talent.category}</TableCell>
             <TableCell>{getStatusBadge(talent.status)}</TableCell>
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" aria-label={`Talent actions for ${talent.name}`} className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
                     <MoreHorizontal className="h-4 w-4" />
                     <span className="sr-only">Actions</span>
                   </Button>
@@ -114,6 +114,7 @@ export function TalentsTable({
                       setSelectedTalent(talent.id);
                       setIsEditTalentOpen(true);
                     }}
+                    aria-label={`Edit talent ${talent.name}`}
                   >
                     <Pencil className="h-4 w-4 mr-2" />
                     Edit
@@ -124,6 +125,7 @@ export function TalentsTable({
                       setSelectedTalent(talent.id);
                       setIsDeleteConfirmOpen(true);
                     }}
+                    aria-label={`Delete talent ${talent.name}`}
                   >
                     <Trash2 className="h-4 w-4 mr-2" />
                     Delete
@@ -142,7 +144,7 @@ export function TalentsTable({
       {/* New Talent Button and Dialog */}
       <Dialog open={isNewTalentOpen} onOpenChange={setIsNewTalentOpen}>
         <DialogTrigger asChild>
-          <Button className="flex items-center gap-2">
+          <Button className="flex items-center gap-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary" aria-label="Add new talent">
             <PlusCircle className="h-4 w-4" />
             <span>New Talent</span>
           </Button>
@@ -257,13 +259,96 @@ export function TalentsTable({
       {/* Table */}
       <div className="mt-8">
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="animate-spin h-8 w-8 text-red-500" />
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="p-6 animate-pulse bg-gray-100 dark:bg-gray-800 rounded-lg">
+                <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+              </div>
+            ))}
           </div>
         ) : error ? (
-          <div className="text-center text-red-500 py-8">{error.message || "Failed to load talents."}</div>
+          <div className="text-center py-12 text-red-500">
+            <p>Failed to fetch talents.</p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.location.reload()}
+              className="mt-4"
+              aria-label="Retry fetching talents"
+            >
+              Retry
+            </Button>
+          </div>
         ) : (
-          renderTalentsTable(talents)
+          <div className="overflow-x-auto">
+            <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <TableCaption>
+                {retryCount > 0 && (
+                  <div className="mb-2 text-xs text-yellow-600 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    Experienced connection issues. Retry {retryCount}/3
+                  </div>
+                )}
+                A list of all talents ({talents.length})
+              </TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {talents.map((talent: any) => (
+                  <TableRow key={talent.id} className="transition-shadow hover:shadow-md focus-within:shadow-md">
+                    <TableCell className="font-medium text-gray-900 dark:text-gray-100">{talent.name}</TableCell>
+                    <TableCell className="text-gray-700 dark:text-gray-300">{talent.role}</TableCell>
+                    <TableCell className="text-gray-700 dark:text-gray-300">{talent.category}</TableCell>
+                    <TableCell>{getStatusBadge(talent.status)}</TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" aria-label={`Talent actions for ${talent.name}`} className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Actions</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setSelectedTalent(talent.id);
+                              setIsEditTalentOpen(true);
+                            }}
+                            aria-label={`Edit talent ${talent.name}`}
+                          >
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onClick={() => {
+                              setSelectedTalent(talent.id);
+                              setIsDeleteConfirmOpen(true);
+                            }}
+                            aria-label={`Delete talent ${talent.name}`}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </div>
       {/* Edit and Delete dialogs would go here, similar to New Talent dialog */}

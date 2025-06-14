@@ -19,6 +19,8 @@ const BlogPostSchema = z.object({
   coverImage: z.string().optional(),
   isPublished: z.boolean().default(false),
   publishedAt: z.date().optional().nullable(),
+  category: z.string().optional(),
+  tags: z.array(z.string()).optional(),
 });
 
 // GET /api/blog - Fetch all blog posts
@@ -148,6 +150,12 @@ export async function POST(request: NextRequest) {
       slug = `${slug}-${Date.now().toString().slice(-6)}`;
     }
     
+    // Check if user exists
+    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    if (!user) {
+      return new NextResponse(JSON.stringify({ message: "User not found" }), { status: 400 });
+    }
+    
     // Create the blog post
     const post = await prisma.blogPost.create({
       data: {
@@ -159,6 +167,8 @@ export async function POST(request: NextRequest) {
         isPublished: body.isPublished || false,
         publishedAt: body.isPublished ? new Date() : null,
         authorId: session.user.id,
+        category: body.category ?? null,
+        tags: Array.isArray(body.tags) ? body.tags : [],
       },
     });
     

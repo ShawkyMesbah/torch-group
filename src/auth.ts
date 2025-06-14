@@ -2,7 +2,7 @@
 // This file defines the core NextAuth configuration for the App Router.
 
 // @ts-nocheck
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth, { NextAuthConfig, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { prisma } from "@/lib/prisma"; // Import prisma directly
@@ -106,4 +106,9 @@ export const authOptions: NextAuthConfig = {
 };
 
 // Create handler and export
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions); 
+export const { handlers, signIn, signOut } = NextAuth(authOptions);
+
+// Explicit auth function for server components
+export async function auth() {
+  return getServerSession(authOptions);
+} 

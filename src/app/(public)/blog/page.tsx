@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BlogPost } from "@/generated/prisma";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
+import { GlareHover } from "@/components/animations";
 
 // Interface for blog posts with author information
 interface BlogPostWithAuthor extends BlogPost {
@@ -265,60 +266,62 @@ export default function BlogPage() {
           {!searchQuery && selectedCategory === "All" && (
             <div className="mt-16 animate-fade-in animation-delay-1000">
               <Link href={`/blog/${featuredPost.slug}`} className="group block">
-                <div className="grid md:grid-cols-2 gap-8 bg-gray-900/30 border border-gray-800/50 rounded-xl overflow-hidden hover:border-red-500/50 transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]">
-                  <div className="relative h-64 md:h-full overflow-hidden">
-                    <Image
-                      src={featuredPost.coverImage || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsb2clMjBwbGFjZWhvbGRlcnxlbnwwfHwwfHw%3D"}
-                      alt={featuredPost.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-semibold uppercase tracking-wider rounded-full">
-                        Featured
-                      </span>
-                    </div>
-                    <div className="absolute bottom-4 left-4">
-                      <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">
-                        {(featuredPost as any).category || "General"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6 md:p-8 flex flex-col justify-center">
-                    <div className="flex items-center text-sm text-gray-400 mb-4">
-                      <div className="flex items-center mr-4">
-                        <div className="relative w-6 h-6 rounded-full overflow-hidden mr-2 border border-gray-700/50">
-                          <Image
-                            src={getAuthorImage(featuredPost.author)}
-                            alt={featuredPost.author?.name || "Author"}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <span>{featuredPost.author?.name}</span>
+                <GlareHover glareColor="#fff" glareOpacity={0.18} glareAngle={-30} glareSize={200} transitionDuration={700} style={{ borderRadius: "1rem", background: "transparent" }}>
+                  <div className="grid md:grid-cols-2 gap-8 bg-gray-900/30 border border-gray-800/50 rounded-xl overflow-hidden hover:border-red-500/50 transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]">
+                    <div className="relative h-64 md:h-full overflow-hidden">
+                      <Image
+                        src={featuredPost.coverImage || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsb2clMjBwbGFjZWhvbGRlcnxlbnwwfHwwfHw%3D"}
+                        alt={featuredPost.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+                      <div className="absolute top-4 left-4">
+                        <span className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-semibold uppercase tracking-wider rounded-full">
+                          Featured
+                        </span>
                       </div>
-                      <div className="flex items-center">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        <span>
-                          {formatDate(featuredPost.publishedAt)}
+                      <div className="absolute bottom-4 left-4">
+                        <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">
+                          {(featuredPost as any).category || "General"}
                         </span>
                       </div>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-red-500 transition-colors">
-                      {featuredPost.title}
-                    </h2>
-                    <p className="text-gray-300 text-base mb-6">
-                      {featuredPost.excerpt}
-                    </p>
-                    <div className="mt-auto">
-                      <span className="inline-flex items-center text-red-500 font-medium group/link">
-                        Read Article 
-                        <ArrowRight className="ml-2 h-4 w-4 transform group-hover/link:translate-x-2 transition-transform" />
-                      </span>
+                    <div className="p-6 md:p-8 flex flex-col justify-center">
+                      <div className="flex items-center text-sm text-gray-400 mb-4">
+                        <div className="flex items-center mr-4">
+                          <div className="relative w-6 h-6 rounded-full overflow-hidden mr-2 border border-gray-700/50">
+                            <Image
+                              src={getAuthorImage(featuredPost.author)}
+                              alt={featuredPost.author?.name || "Author"}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <span>{featuredPost.author?.name}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="h-3 w-3 mr-1" />
+                          <span>
+                            {formatDate(featuredPost.publishedAt)}
+                          </span>
+                        </div>
+                      </div>
+                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-red-500 transition-colors">
+                        {featuredPost.title}
+                      </h2>
+                      <p className="text-gray-300 text-base mb-6">
+                        {featuredPost.excerpt}
+                      </p>
+                      <div className="mt-auto">
+                        <span className="inline-flex items-center text-red-500 font-medium group/link">
+                          Read Article 
+                          <ArrowRight className="ml-2 h-4 w-4 transform group-hover/link:translate-x-2 transition-transform" />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </GlareHover>
               </Link>
             </div>
           )}
@@ -365,56 +368,54 @@ export default function BlogPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {(selectedCategory === "All" && !searchQuery ? restPosts : filteredPosts).map((post, index) => (
                       <Link href={`/blog/${post.slug}`} key={post.id} className="group block transform transition-all duration-500 hover:-translate-y-1">
-                        <article className="bg-gray-900/30 border border-gray-800/50 rounded-xl overflow-hidden hover:border-red-600/50 transition-all duration-300 h-full flex flex-col group-hover:shadow-[0_0_25px_rgba(0,0,0,0.3)]">
-                          {/* Featured Image */}
-                          <div className="relative h-52 overflow-hidden">
-                            <Image
-                              src={post.coverImage || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsb2clMjBwbGFjZWhvbGRlcnxlbnwwfHwwfHw%3D"}
-                              alt={post.title}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                            <div className="absolute bottom-4 left-4">
-                              <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">
-                                {(post as any).category || "General"}
-                              </span>
+                        <GlareHover glareColor="#fff" glareOpacity={0.13} glareAngle={-30} glareSize={180} transitionDuration={700} style={{ borderRadius: "1rem", background: "transparent" }}>
+                          <article className="bg-gray-900/30 border border-gray-800/50 rounded-xl overflow-hidden hover:border-red-600/50 transition-all duration-300 h-full flex flex-col group-hover:shadow-[0_0_25px_rgba(0,0,0,0.3)]">
+                            {/* Featured Image */}
+                            <div className="relative h-52 overflow-hidden">
+                              <Image
+                                src={post.coverImage || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJsb2clMjBwbGFjZWhvbGRlcnxlbnwwfHwwfHw%3D"}
+                                alt={post.title}
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                              <div className="absolute bottom-4 left-4">
+                                <span className="inline-block px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-xs rounded-full border border-gray-700/50">
+                                  {(post as any).category || "General"}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          
-                          {/* Content */}
-                          <div className="p-6 flex-grow flex flex-col">
-                            <h2 className="text-xl font-bold mb-3 text-white group-hover:text-red-500 transition-colors line-clamp-2">
-                              {post.title}
-                            </h2>
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-grow">
-                              {post.excerpt}
-                            </p>
-                            
-                            {/* Meta Info */}
-                            <div className="mt-auto">
-                              <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-800/30">
-                                <div className="flex items-center">
-                                  <div className="relative w-6 h-6 rounded-full overflow-hidden mr-2 border border-gray-700/50">
-                                    <Image
-                                      src={getAuthorImage(post.author)}
-                                      alt={post.author?.name || "Author"}
-                                      fill
-                                      className="object-cover"
-                                    />
+                            {/* Content */}
+                            <div className="p-6 flex-grow flex flex-col">
+                              <h2 className="text-xl font-bold mb-3 text-white group-hover:text-red-500 transition-colors line-clamp-2">
+                                {post.title}
+                              </h2>
+                              <p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-grow">
+                                {post.excerpt}
+                              </p>
+                              {/* Meta Info */}
+                              <div className="mt-auto">
+                                <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-800/30">
+                                  <div className="flex items-center">
+                                    <div className="relative w-6 h-6 rounded-full overflow-hidden mr-2 border border-gray-700/50">
+                                      <Image
+                                        src={getAuthorImage(post.author)}
+                                        alt={post.author?.name || "Author"}
+                                        fill
+                                        className="object-cover"
+                                      />
+                                    </div>
+                                    <span>{post.author?.name}</span>
                                   </div>
-                                  <span>{post.author?.name}</span>
-                                </div>
-                                <div className="flex items-center">
-                                  <Calendar className="h-3 w-3 mr-1" />
-                                  <span>
-                                    {formatDate(post.publishedAt)}
-                                  </span>
+                                  <div className="flex items-center">
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                    <span>{formatDate(post.publishedAt)}</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </article>
+                          </article>
+                        </GlareHover>
                       </Link>
                     ))}
                   </div>

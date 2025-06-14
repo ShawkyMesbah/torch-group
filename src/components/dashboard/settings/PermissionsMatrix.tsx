@@ -69,28 +69,28 @@ export function PermissionsMatrix({ permissions }: PermissionsMatrixProps) {
             </TableHeader>
             <TableBody>
               {permissions.map((permission) => (
-                <TableRow key={permission.name}>
+                <TableRow key={permission.name} className="transition-shadow hover:shadow-md focus-within:shadow-md">
                   <TableCell className="font-medium">{permission.name}</TableCell>
                   <TableCell>{permission.description}</TableCell>
                   <TableCell className="text-center">
                     {permission.admin ? (
-                      <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+                      <CheckCircle className="h-5 w-5 text-green-600 mx-auto" aria-label="Admin: allowed" />
                     ) : (
-                      <XCircle className="h-5 w-5 text-gray-300 dark:text-gray-700 mx-auto" />
+                      <XCircle className="h-5 w-5 text-gray-400 dark:text-gray-700 mx-auto" aria-label="Admin: denied" />
                     )}
                   </TableCell>
                   <TableCell className="text-center">
                     {permission.editor ? (
-                      <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+                      <CheckCircle className="h-5 w-5 text-green-600 mx-auto" aria-label="Editor: allowed" />
                     ) : (
-                      <XCircle className="h-5 w-5 text-gray-300 dark:text-gray-700 mx-auto" />
+                      <XCircle className="h-5 w-5 text-gray-400 dark:text-gray-700 mx-auto" aria-label="Editor: denied" />
                     )}
                   </TableCell>
                   <TableCell className="text-center">
                     {permission.viewer ? (
-                      <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+                      <CheckCircle className="h-5 w-5 text-green-600 mx-auto" aria-label="Viewer: allowed" />
                     ) : (
-                      <XCircle className="h-5 w-5 text-gray-300 dark:text-gray-700 mx-auto" />
+                      <XCircle className="h-5 w-5 text-gray-400 dark:text-gray-700 mx-auto" aria-label="Viewer: denied" />
                     )}
                   </TableCell>
                 </TableRow>
