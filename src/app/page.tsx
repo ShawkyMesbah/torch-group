@@ -665,14 +665,6 @@ export default function Home() {
     // Trigger the enhanced ripple animation effect that spreads across the site
     setLogoClickTrigger(prev => prev + 1);
     
-    // Show core values with animation
-    setCoreValuesVisible(true);
-    
-    // Hide core values after animation completes
-    setTimeout(() => {
-      setCoreValuesVisible(false);
-    }, 6000);
-    
     // Apply CSS animation to logo with smooth easing
     if (logoImgRefDesktop.current) {
       // Remove any existing animation classes
@@ -704,6 +696,15 @@ export default function Home() {
         }
       }, 4000);
     }
+  };
+
+  // Function to remove focus from buttons after click
+  const handleButtonClick = (callback: () => void) => {
+    return (e: React.MouseEvent<HTMLButtonElement>) => {
+      callback();
+      // Remove focus from the button after click to prevent white outline
+      (e.target as HTMLButtonElement).blur();
+    };
   };
 
   // Remove animation class after animation ends for both images
@@ -738,20 +739,6 @@ export default function Home() {
   useEffect(() => {
     initializeMousePosition();
   }, []);
-
-  // Add state for core values animation
-  const [coreValuesVisible, setCoreValuesVisible] = useState(false);
-  const [hoveredValue, setHoveredValue] = useState<string | null>(null);
-  
-  // Core values data with random positioning (avoiding center content area)
-  const coreValues = [
-    { text: "Innovation", x: "12%", y: "20%", delay: 0 },
-    { text: "Excellence", x: "88%", y: "30%", delay: 200 },
-    { text: "Integrity", x: "8%", y: "55%", delay: 400 },
-    { text: "Collaboration", x: "85%", y: "65%", delay: 600 },
-    { text: "Adaptability", x: "15%", y: "85%", delay: 800 },
-    { text: "Impact", x: "82%", y: "12%", delay: 1000 }
-  ];
 
   return (
     <>
@@ -834,8 +821,8 @@ export default function Home() {
       {/* Smooth scroll button */}
       {showScrollTop && (
         <button 
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+          onClick={handleButtonClick(scrollToTop)}
+          className="fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           aria-label="Scroll to top of page"
         >
           <ArrowUp className="h-5 w-5" />
@@ -894,14 +881,14 @@ export default function Home() {
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
               <button
-                onClick={() => scrollToSection('about-torch')}
-                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0 w-full sm:w-auto min-w-[200px]"
+                onClick={handleButtonClick(() => scrollToSection('about-torch'))}
+                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0 w-full sm:w-auto min-w-[200px]"
               >
                 Explore Torch <ArrowDownIcon className="h-5 w-5 ml-2" />
               </button>
               <a
                 href="/contact"
-                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[200px]"
+                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[200px]"
               >
                 Contact Us <ArrowRight className="h-5 w-5 ml-2" />
               </a>
@@ -1074,43 +1061,6 @@ export default function Home() {
             ></div>
           )}
 
-          {/* Core Values Background Elements */}
-          {mounted && (
-            <div className="fixed inset-0 pointer-events-none z-5">
-              {coreValues.map((value, index) => (
-                <div
-                  key={value.text}
-                  className={`absolute text-red-600/30 text-4xl md:text-5xl lg:text-6xl font-black tracking-wider select-none pointer-events-auto cursor-pointer core-values-mobile ${
-                    coreValuesVisible 
-                      ? 'core-value-appear' 
-                      : hoveredValue === value.text 
-                        ? 'core-value-hover opacity-80' 
-                        : 'opacity-0 scale-95 blur-sm'
-                  } transition-all duration-700 ease-out`}
-                  style={{
-                    left: value.x,
-                    top: value.y,
-                    transform: 'translate(-50%, -50%)',
-                    animationDelay: coreValuesVisible ? `${value.delay}ms` : '0ms',
-                    textShadow: hoveredValue === value.text || coreValuesVisible 
-                      ? '0 0 20px rgba(220, 38, 38, 0.6), 0 0 40px rgba(220, 38, 38, 0.3)' 
-                      : 'none',
-                    WebkitTextStroke: '1px rgba(220, 38, 38, 0.1)',
-                    background: hoveredValue === value.text 
-                      ? 'linear-gradient(45deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.05))' 
-                      : 'transparent',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text'
-                  }}
-                  onMouseEnter={() => setHoveredValue(value.text)}
-                  onMouseLeave={() => setHoveredValue(null)}
-                >
-                  {value.text}
-                </div>
-              ))}
-            </div>
-          )}
-
           {/* Conditionally render other sections based on their enabled status and in order */}
           {isSectionEnabled('services') && (
             <Section id="services" className="py-32 md:py-40">
@@ -1261,7 +1211,7 @@ export default function Home() {
                           <span className="px-4 py-1 bg-black/70 border border-red-600 text-red-600 text-xs rounded-full font-semibold animate-pulse-slow">Coming Soon</span>
                         ) : (
                           <Link href={brand.link} target="_blank" rel="noopener noreferrer">
-                            <button className="px-6 py-2 rounded-full bg-red-600 text-white font-bold shadow hover:bg-red-700 transition-colors text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                            <button className="px-6 py-2 rounded-full bg-red-600 text-white font-bold shadow hover:bg-red-700 transition-colors text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
                               Visit Website
                             </button>
                           </Link>
@@ -1363,7 +1313,7 @@ export default function Home() {
                 {blogPosts && blogPosts.length > 3 && (
                   <div className="text-center mt-12">
                     <Link href="/blog">
-                      <button className="px-8 py-3 rounded-full bg-red-600 text-white font-bold shadow-lg hover:bg-red-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                      <button className="px-8 py-3 rounded-full bg-red-600 text-white font-bold shadow-lg hover:bg-red-700 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
                         View All Posts
                       </button>
                     </Link>
