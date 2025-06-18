@@ -12,6 +12,7 @@ interface AnimatedGridBackgroundProps {
   animationSpeed?: number;
   interactive?: boolean;
   mousePosition?: { x: number; y: number; };
+  logoClickTrigger?: number;
 }
 
 export function AnimatedGridBackground({
@@ -22,11 +23,41 @@ export function AnimatedGridBackground({
   animationSpeed = 0.5,
   interactive = true,
   mousePosition,
+  logoClickTrigger = 0,
 }: AnimatedGridBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const animationFrameId = useRef<number | null>(null);
   const dots = useRef<Array<{ x: number; y: number; baseY: number; baseX: number }>>([]);
+  const [logoAnimationActive, setLogoAnimationActive] = useState(false);
+  const [logoAnimationProgress, setLogoAnimationProgress] = useState(0);
+
+  // Handle logo click animation trigger
+  useEffect(() => {
+    if (logoClickTrigger > 0) {
+      setLogoAnimationActive(true);
+      setLogoAnimationProgress(0);
+
+      const animationDuration = 3000; // 3 seconds
+      const startTime = Date.now();
+
+      const animateLogoEffect = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / animationDuration, 1);
+        
+        setLogoAnimationProgress(progress);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateLogoEffect);
+        } else {
+          setLogoAnimationActive(false);
+          setLogoAnimationProgress(0);
+        }
+      };
+
+      requestAnimationFrame(animateLogoEffect);
+    }
+  }, [logoClickTrigger]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -73,33 +104,39 @@ export function AnimatedGridBackground({
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw dots
-      ctx.fillStyle = dotColor;
-      
       dots.current.forEach((dot) => {
         // Only draw dots within the viewport
         if (dot.baseX >= 0 && dot.baseX <= canvas.width && dot.baseY >= 0 && dot.baseY <= canvas.height) {
           let size = dotSize;
           let alpha = 1;
-          if (interactive && mousePosition) {
-            // Calculate distance from cursor
+          let currentDotColor = dotColor;
+
+          // Logo click animation effect
+          if (logoAnimationActive) {
+            const logoColor = "rgba(220, 38, 38, 1)"; // Same red as logo
+            // Create wave effect - dots light up and fade out over 3 seconds
+            const waveIntensity = logoAnimationProgress <= 0.5 
+              ? logoAnimationProgress * 2 // Light up phase (0 to 1)
+              : (1 - logoAnimationProgress) * 2; // Fade out phase (1 to 0)
+            
+            currentDotColor = logoColor;
+            alpha = Math.max(0.1, waveIntensity * 0.8); // Keep minimum visibility
+            size = dotSize + (waveIntensity * 2); // Grow dots during animation
+          } else if (interactive && mousePosition) {
+            // Normal interactive behavior
             const dx = mousePosition.x - dot.baseX;
             const dy = mousePosition.y - dot.baseY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            // If within 80px, grow and brighten
             if (dist < 80) {
-              size = dotSize + (4 - dotSize) * (1 - dist / 80); // up to 4px
-              alpha = 0.5 + 0.5 * (1 - dist / 80); // up to 1
-            } else {
-              size = dotSize;
-              alpha = 1;
+              size = dotSize + (4 - dotSize) * (1 - dist / 80);
+              alpha = 0.5 + 0.5 * (1 - dist / 80);
             }
-            dot.x = dot.baseX;
-            dot.y = dot.baseY;
           }
+
+          ctx.fillStyle = currentDotColor;
           ctx.globalAlpha = alpha;
           ctx.beginPath();
-          ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2);
+          ctx.arc(dot.baseX, dot.baseY, size, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -120,7 +157,7 @@ export function AnimatedGridBackground({
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [dotColor, dotSize, dotSpacing, animationSpeed, interactive, mousePosition]);
+  }, [dotColor, dotSize, dotSpacing, animationSpeed, interactive, mousePosition, logoAnimationActive, logoAnimationProgress]);
 
   return (
     <canvas

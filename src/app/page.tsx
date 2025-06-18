@@ -18,6 +18,26 @@ import useSWR from "swr";
 import BlurText from '@/components/animations/BlurText';
 import { GlareHover } from "@/components/animations";
 
+// Simple throttle function
+const throttle = (func: Function, delay: number) => {
+  let timeoutId: NodeJS.Timeout | null = null;
+  let lastExecTime = 0;
+  return (...args: any[]) => {
+    const currentTime = Date.now();
+    
+    if (currentTime - lastExecTime > delay) {
+      func(...args);
+      lastExecTime = currentTime;
+    } else {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+        lastExecTime = Date.now();
+      }, delay - (currentTime - lastExecTime));
+    }
+  };
+};
+
 // Define homepage section type
 interface HomepageSection {
   id: string;
@@ -149,6 +169,7 @@ export default function Home() {
   const [logoGlowTransition, setLogoGlowTransition] = useState('filter 0.25s cubic-bezier(.4,0,.2,1)');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cornerGlowOpacities, setCornerGlowOpacities] = useState({ topLeft: 0, topRight: 0, bottomLeft: 0 });
+  const [logoClickTrigger, setLogoClickTrigger] = useState(0);
 
   // Typewriter effect for About Torch section
   const [typewriterText] = useTypewriter({
@@ -173,39 +194,66 @@ export default function Home() {
     setShowScrollTop(window.scrollY > 500);
   }, []);
 
-  const handleMouseMove = useCallback((event: MouseEvent) => {
-    // Skip mouse tracking if reduced motion is preferred
-    if (prefersReducedMotion) return;
+  // Handle mouse movement with optimized tracking
+  useEffect(() => {
+    if (!mounted) return;
     
-    setMousePosition({ x: event.clientX, y: event.clientY });
-    // Calculate opacity based on distance to each corner glow
-    const glowSize = 320; // w-80 and h-80 are 320px
-    const translateOffset = 0.4; // 40% translation
+    // Initialize mouse position to logo center on mount
+    const initializeMousePosition = () => {
+      if (typeof window !== 'undefined') {
+        // Calculate logo position more accurately
+        // Logo is centered horizontally and positioned in the hero section
+        const initialX = window.innerWidth / 2;
+        // Logo is positioned in the upper part of the hero section (not exactly center)
+        // Hero section is min-h-screen with py-20, logo has mb-20
+        // Approximate logo position: top 20% of screen height + logo height/2
+        const initialY = window.innerHeight * 0.35; // Approximately where the logo center would be
+        setMousePosition({ x: initialX, y: initialY });
+      }
+    };
 
-    // Top-Left Glow Center (relative to viewport: 0,0 + translation + half size)
-    const centerXTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-    const centerYTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-    const distTopLeft = Math.sqrt((event.clientX - centerXTopLeft)**2 + (event.clientY - centerYTopLeft)**2);
-    const opacityTopLeft = Math.max(0, 1 - distTopLeft / 300) * 0.7; // Adjusted falloff and max opacity
+    initializeMousePosition();
 
-    // Top-Right Glow Center (relative to viewport: window.innerWidth, 0 + translation + half size)
-    const centerXTopRight = window.innerWidth + (glowSize * translateOffset) - (glowSize / 2);
-    const centerYTopRight = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-    const distTopRight = Math.sqrt((event.clientX - centerXTopRight)**2 + (event.clientY - centerYTopRight)**2);
-    const opacityTopRight = Math.max(0, 1 - distTopRight / 300) * 0.7; // Adjusted falloff and max opacity
+    const throttledMouseMove = throttle((event: MouseEvent) => {
+      // Skip mouse tracking if reduced motion is preferred
+      if (prefersReducedMotion) return;
+      
+      setMousePosition({ x: event.clientX, y: event.clientY });
+      // Calculate opacity based on distance to each corner glow
+      const glowSize = 320; // w-80 and h-80 are 320px
+      const translateOffset = 0.4; // 40% translation
 
-    // Bottom-Left Glow Center (relative to viewport: 0, window.innerHeight + translation + half size)
-    const centerXBottomLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
-    const centerYBottomLeft = window.innerHeight + (glowSize * translateOffset) - (glowSize / 2);
-    const distBottomLeft = Math.sqrt((event.clientX - centerXBottomLeft)**2 + (event.clientY - centerYBottomLeft)**2);
-    const opacityBottomLeft = Math.max(0, 1 - distBottomLeft / 300) * 0.7; // Adjusted falloff and max opacity
+      // Top-Left Glow Center (relative to viewport: 0,0 + translation + half size)
+      const centerXTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+      const centerYTopLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+      const distTopLeft = Math.sqrt((event.clientX - centerXTopLeft)**2 + (event.clientY - centerYTopLeft)**2);
+      const opacityTopLeft = Math.max(0, 1 - distTopLeft / 300) * 0.7; // Adjusted falloff and max opacity
 
-    setCornerGlowOpacities({
-      topLeft: opacityTopLeft,
-      topRight: opacityTopRight,
-      bottomLeft: opacityBottomLeft,
-    });
-  }, [prefersReducedMotion]);
+      // Top-Right Glow Center (relative to viewport: window.innerWidth, 0 + translation + half size)
+      const centerXTopRight = window.innerWidth + (glowSize * translateOffset) - (glowSize / 2);
+      const centerYTopRight = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+      const distTopRight = Math.sqrt((event.clientX - centerXTopRight)**2 + (event.clientY - centerYTopRight)**2);
+      const opacityTopRight = Math.max(0, 1 - distTopRight / 300) * 0.7; // Adjusted falloff and max opacity
+
+      // Bottom-Left Glow Center (relative to viewport: 0, window.innerHeight + translation + half size)
+      const centerXBottomLeft = 0 + (-glowSize * translateOffset) + (glowSize / 2);
+      const centerYBottomLeft = window.innerHeight + (glowSize * translateOffset) - (glowSize / 2);
+      const distBottomLeft = Math.sqrt((event.clientX - centerXBottomLeft)**2 + (event.clientY - centerYBottomLeft)**2);
+      const opacityBottomLeft = Math.max(0, 1 - distBottomLeft / 300) * 0.7; // Adjusted falloff and max opacity
+
+      setCornerGlowOpacities({
+        topLeft: opacityTopLeft,
+        topRight: opacityTopRight,
+        bottomLeft: opacityBottomLeft,
+      });
+    }, 16); // ~60fps throttling
+
+    window.addEventListener('mousemove', throttledMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', throttledMouseMove);
+    };
+  }, [mounted, prefersReducedMotion]);
 
   // Performance: Keyboard navigation handler
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -246,17 +294,15 @@ export default function Home() {
     };
 
     window.addEventListener('scroll', throttledScroll, { passive: true });
-    window.addEventListener('mousemove', handleMouseMove, { passive: true }); // Keep instant for cursor glow
     window.addEventListener('keydown', handleKeyDown);
     
     return () => {
       observer.disconnect();
       if (scrollTimeout) clearTimeout(scrollTimeout);
       window.removeEventListener('scroll', throttledScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleScroll, handleMouseMove, handleKeyDown]);
+  }, [handleScroll, handleKeyDown]);
 
   // Function to check if a section is enabled
   const isSectionEnabled = (id: string) => {
@@ -614,24 +660,51 @@ export default function Home() {
 
   // Add a function to handle logo click
   const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    [logoImgRefDesktop.current, logoImgRefMobile.current].forEach(img => {
-      if (img) {
-        img.classList.remove('animate-logo-bounce');
-        void img.offsetWidth;
-        img.classList.add('animate-logo-bounce');
-      }
-    });
-    setNavbarPulsing(true);
-    setLogoGlowTransition('filter 0.22s cubic-bezier(.4,0,.2,1)'); // Fast expand
-    setLogoGlowActive(true);
-    setTimeout(() => {
-      setNavbarPulsing(false);
-      setLogoGlowTransition('filter 0.7s cubic-bezier(.4,0,.2,1)'); // Slow fade
-      setLogoGlowActive(false);
-    }, 220); // Match expand duration
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsNavbarCollapsed(false);
+    e.stopPropagation();
+    
+    // Trigger the logo animation effect
+    setLogoClickTrigger(prev => prev + 1);
+    
+    // Enhanced logo glow animation on click with better performance
+    if (logoImgRefDesktop.current) {
+      // Remove any existing animation class
+      logoImgRefDesktop.current.classList.remove('animate-pulse');
+      
+      // Force reflow to ensure class removal takes effect
+      void logoImgRefDesktop.current.offsetWidth;
+      
+      // Add enhanced glow effect
+      setLogoGlowActive(true);
+      setLogoGlowTransition('filter 0.6s cubic-bezier(.4,0,.2,1)');
+      
+      // Create a comprehensive glow animation sequence
+      const glowSequence = [
+        { filter: 'drop-shadow(0 0 20px #dc2626) drop-shadow(0 0 40px #dc2626)', duration: 200 },
+        { filter: 'drop-shadow(0 0 30px #dc2626) drop-shadow(0 0 60px #dc2626)', duration: 300 },
+        { filter: 'drop-shadow(0 0 15px #dc2626) drop-shadow(0 0 30px #dc2626)', duration: 400 },
+        { filter: 'drop-shadow(0 0 8px #dc2626)', duration: 1000 },
+        { filter: 'none', duration: 500 }
+      ];
+      
+      let currentStep = 0;
+      const executeGlowStep = () => {
+        if (currentStep < glowSequence.length && logoImgRefDesktop.current) {
+          const step = glowSequence[currentStep];
+          logoImgRefDesktop.current.style.filter = step.filter;
+          
+          setTimeout(() => {
+            currentStep++;
+            executeGlowStep();
+          }, step.duration);
+        } else {
+          // Reset to default state
+          setLogoGlowActive(false);
+          setLogoGlowTransition('filter 0.25s cubic-bezier(.4,0,.2,1)');
+        }
+      };
+      
+      executeGlowStep();
+    }
   };
 
   // Remove animation class after animation ends for both images
@@ -647,6 +720,24 @@ export default function Home() {
       if (desktopImg) desktopImg.removeEventListener('animationend', handleAnimationEnd);
       if (mobileImg) mobileImg.removeEventListener('animationend', handleAnimationEnd);
     };
+  }, []);
+
+  // Initialize mouse position to logo center on mount
+  const initializeMousePosition = () => {
+    if (typeof window !== 'undefined') {
+      // Calculate logo position more accurately
+      // Logo is centered horizontally and positioned in the hero section
+      const initialX = window.innerWidth / 2;
+      // Logo is positioned in the upper part of the hero section (not exactly center)
+      // Hero section is min-h-screen with py-20, logo has mb-20
+      // Approximate logo position: top 20% of screen height + logo height/2
+      const initialY = window.innerHeight * 0.35; // Approximately where the logo center would be
+      setMousePosition({ x: initialX, y: initialY });
+    }
+  };
+
+  useEffect(() => {
+    initializeMousePosition();
   }, []);
 
   return (
@@ -837,7 +928,7 @@ export default function Home() {
 
               {/* Main Title */}
               <motion.h2 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white tracking-tight"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -846,44 +937,50 @@ export default function Home() {
                 About <span className="text-red-600">Torch</span>
               </motion.h2>
 
-              {/* Typewriter Section */}
+              {/* Improved Typewriter Section */}
               <motion.div 
-                className="mb-12 max-w-5xl"
+                className="mb-16 max-w-4xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <span className="block text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
-                  Empowering Creative Entities & Talents through{' '}
-                  <span className="text-red-500 font-bold">
-                    <span className="inline-block">
-                      <span className="typewriter">
-                        {typewriterText}
-                      </span>
-                      <Cursor />
-                    </span>
+                <div className="text-center space-y-4">
+                  <span className="block text-xl md:text-2xl lg:text-3xl font-bold text-white leading-relaxed">
+                    Empowering Creative Entities & Talents
                   </span>
-                  {' '}solutions & Strategic Sponsor/Allies
-                </span>
+                  <span className="block text-lg md:text-xl font-semibold text-gray-100 leading-relaxed">
+                    Through{' '}
+                    <span className="text-red-500 font-bold">
+                      <span className="inline-block">
+                        <span className="typewriter">
+                          {typewriterText}
+                        </span>
+                        <Cursor />
+                      </span>
+                    </span>
+                    {' '}solutions & Strategic Partnerships
+                  </span>
+                </div>
               </motion.div>
 
-              {/* Decorative Divider */}
+              {/* Enhanced Decorative Divider */}
               <motion.div 
-                className="flex justify-center mb-12"
+                className="flex justify-center mb-16"
                 initial={{ opacity: 0, scaleX: 0 }}
                 whileInView={{ opacity: 1, scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.7 }}
               >
                 <div className="relative">
-                  <div className="w-32 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full"></div>
-                  <div className="absolute inset-0 w-32 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow opacity-50"></div>
+                  <div className="w-40 h-1 bg-gradient-to-r from-red-600 via-white/80 to-red-600 rounded-full"></div>
+                  <div className="absolute inset-0 w-40 h-1 bg-gradient-to-r from-red-600 via-white/80 to-red-600 rounded-full animate-pulse-slow opacity-60"></div>
+                  <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-red-600 rounded-full shadow-lg shadow-red-600/50"></div>
                 </div>
               </motion.div>
               
               {/* Enhanced Content Cards */}
-              <div className="max-w-6xl mx-auto">
+              <div className="max-w-6xl mx-auto space-y-8">
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -891,26 +988,45 @@ export default function Home() {
                   transition={{ duration: 0.8, delay: 0.8 }}
                   className="relative"
                 >
-                  {/* Main Statement Card */}
-                  <div className="relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg border border-red-600/20 rounded-3xl p-8 md:p-12 mb-8 shadow-2xl shadow-red-900/20 hover:shadow-red-600/30 transition-all duration-500 group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight relative z-10">
-                      Igniting creativity and empowering talent to shape the future of{' '}
-                      <span className="text-red-500">
-                        digital content
+                  {/* Main Statement Card - Improved */}
+                  <div className="relative bg-gradient-to-br from-black/70 via-black/50 to-black/70 backdrop-blur-xl border border-red-600/30 rounded-3xl p-10 md:p-14 mb-10 shadow-2xl shadow-red-900/30 hover:shadow-red-600/40 transition-all duration-700 group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/8 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    <div className="absolute top-4 right-4 w-16 h-16 bg-red-600/10 rounded-full blur-xl"></div>
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-8 leading-tight relative z-10 text-center">
+                      Igniting creativity and empowering talent to shape{' '}
+                      <span className="text-red-500 relative">
+                        the future of digital content
+                        <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-red-600/0 via-red-600/80 to-red-600/0 rounded-full"></div>
                       </span>
                     </h3>
                   </div>
 
-                  {/* Description Card */}
-                  <div className="relative bg-gradient-to-br from-black/40 via-black/20 to-black/40 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <p className="text-lg md:text-xl text-gray-300 leading-relaxed relative z-10 font-medium">
-                      We're more than just a creative agency – we're a{' '}
-                      <span className="text-red-400 font-semibold">catalyst for innovation</span>, a{' '}
-                      <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
-                      <span className="text-red-400 font-semibold">driving force</span> in the evolving media landscape.
-                    </p>
+                  {/* Enhanced Description Card */}
+                  <div className="relative bg-gradient-to-br from-black/50 via-black/30 to-black/50 backdrop-blur-xl border border-white/20 rounded-2xl p-8 md:p-10 shadow-xl hover:shadow-2xl transition-all duration-700 group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    <div className="absolute top-6 left-6 w-12 h-12 bg-white/5 rounded-full blur-lg"></div>
+                    <div className="max-w-4xl mx-auto text-center relative z-10">
+                      <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-medium mb-6">
+                        We're more than just a creative agency – we're a{' '}
+                        <span className="text-red-400 font-semibold">catalyst for innovation</span>, a{' '}
+                        <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
+                        <span className="text-red-400 font-semibold">driving force</span> in the evolving media landscape.
+                      </p>
+                      <div className="grid md:grid-cols-3 gap-6 mt-8">
+                        <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+                          <div className="text-2xl font-bold text-red-500 mb-2">Innovation</div>
+                          <div className="text-sm text-gray-300">Cutting-edge solutions</div>
+                        </div>
+                        <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+                          <div className="text-2xl font-bold text-red-500 mb-2">Talent</div>
+                          <div className="text-sm text-gray-300">Exceptional creativity</div>
+                        </div>
+                        <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+                          <div className="text-2xl font-bold text-red-500 mb-2">Growth</div>
+                          <div className="text-sm text-gray-300">Strategic partnerships</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               </div>
@@ -931,6 +1047,7 @@ export default function Home() {
             animationSpeed={0.4}
             interactive={true}
             mousePosition={mounted ? mousePosition : { x: 0, y: 0 }}
+            logoClickTrigger={logoClickTrigger}
           />
 
           {/* Added: Pure black overlay for all pages */}
@@ -1450,7 +1567,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="p-8 bg-black rounded-lg border border-white relative z-20 shadow-2xl shadow-red-900/30 contact-form-card mb-12"
+                  className="p-8 bg-black rounded-lg relative z-20 shadow-2xl shadow-red-900/30 contact-form-card mb-12"
                 >
                   <ContactForm />
                 </motion.div>

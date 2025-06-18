@@ -92,7 +92,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Form - Placeholder or Component */}
-          <div className="p-8 bg-black rounded-lg border border-white">
+          <div className="p-8 bg-black rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-white">Send us a Message</h2>
             {/* 
               Replace this placeholder div with your actual ContactForm component:
