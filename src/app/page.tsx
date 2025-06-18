@@ -1539,26 +1539,28 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
+                className="max-w-4xl mx-auto px-3 sm:px-6 md:px-8 lg:px-12 relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-                  <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
+                  <div className="w-[500px] h-[250px] sm:w-[700px] sm:h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
-                <div className="text-center mb-16">
-                  <div className="inline-flex items-center justify-center mb-6">
-                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                    <span className="text-red-500 text-base font-bold tracking-widest">CONTACT US</span>
-                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+                  <div className="inline-flex items-center justify-center mb-4 sm:mb-6">
+                    <div className="h-px w-6 sm:w-8 bg-red-600/80 mr-2"></div>
+                    <span className="text-red-500 text-sm sm:text-base font-bold tracking-widest">CONTACT US</span>
+                    <div className="h-px w-6 sm:w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">Get in <span className="text-red-600">Touch</span></h2>
-                  <div className="flex justify-center mb-4">
-                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-3 sm:mb-4 text-white drop-shadow-lg leading-tight">
+                    Get in <span className="text-red-600">Touch</span>
+                  </h2>
+                  <div className="flex justify-center mb-3 sm:mb-4">
+                    <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
-                  <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
+                  <p className="text-base sm:text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2 px-2">
                     Let's discuss your next project.
                   </p>
-                  <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                  <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed px-2">
                     Fill out the form and our team will get back to you as soon as possible.
                   </p>
                 </div>
@@ -1567,7 +1569,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="p-8 bg-black rounded-lg relative z-20 shadow-2xl shadow-red-900/30 contact-form-card mb-12"
+                  className="p-4 sm:p-6 md:p-8 lg:p-10 bg-black rounded-lg relative z-20 shadow-2xl shadow-red-900/30 contact-form-card mb-8 sm:mb-12"
                 >
                   <ContactForm />
                 </motion.div>

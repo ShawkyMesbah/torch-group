@@ -11,26 +11,67 @@
   }
   
   .container {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* Smaller font sizes for very small screens */
+  .text-4xl {
+    font-size: 1.875rem !important;
+  }
+  
+  .text-5xl {
+    font-size: 2.25rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 2.5rem !important;
+  }
+  
+  .text-7xl {
+    font-size: 3rem !important;
   }
 }
 
 /* Mobile-first spacing adjustments */
 @media (max-width: 640px) {
   .py-24 {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
   
   .py-28 {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
   }
 
-  /* Improve section spacing on small screens */
+  /* Reduce section spacing on small screens */
   section {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Better spacing for padding utilities */
+  .px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .px-6 {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+  
+  .px-8 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
   }
 }
 
@@ -44,69 +85,192 @@
   .hero-description {
     font-size: 1.25rem !important;
   }
+  
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Large tablets and small desktops */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 /* Mobile Hero Section */
 @media (max-width: 640px) {
   .hero-logo {
-    width: 130px !important;
-    height: 130px !important;
+    width: 120px !important;
+    height: 120px !important;
     box-shadow:
-      0 0 32px 8px rgba(255, 0, 64, 0.25), /* soft red glow */
-      0 4px 24px 0 rgba(0,0,0,0.18);        /* subtle drop shadow */
+      0 0 24px 6px rgba(255, 0, 64, 0.25), /* soft red glow */
+      0 4px 16px 0 rgba(0,0,0,0.18);        /* subtle drop shadow */
     border-radius: 50%;
     background: transparent;
     transition: box-shadow 0.3s cubic-bezier(.4,0,.2,1);
   }
   
   .hero-heading {
-    font-size: 2.25rem !important;
+    font-size: 2rem !important;
     line-height: 1.2 !important;
   }
   
   .hero-description {
-    font-size: 1.1rem !important;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    font-size: 1rem !important;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .hero-button {
+    width: 85%;
+    max-width: 280px;
+    padding: 0.875rem 1.5rem !important;
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Extra small screens - hero adjustments */
+@media (max-width: 480px) {
+  .hero-logo {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  
+  .hero-heading {
+    font-size: 1.75rem !important;
+    line-height: 1.15 !important;
+  }
+  
+  .hero-description {
+    font-size: 0.95rem !important;
+  }
+  
+  .hero-button {
     width: 90%;
-    max-width: 300px;
+    max-width: 260px;
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.9rem !important;
   }
 }
 
 /* Mobile Torch Group brands section */
 @media (max-width: 768px) {
   .brands-grid {
-    gap: 1.5rem !important;
+    gap: 1.25rem !important;
   }
 }
 
-/* Mobile Contact form */
+@media (max-width: 480px) {
+  .brands-grid {
+    gap: 1rem !important;
+  }
+}
+
+/* Enhanced Mobile Contact form */
 @media (max-width: 640px) {
   .contact-form-card {
-    padding: 1.5rem !important;
+    padding: 1.25rem !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0.5rem !important;
   }
   
   .contact-form-heading {
-    font-size: 1.75rem !important;
+    font-size: 1.5rem !important;
   }
   
   .contact-form-input {
     padding-top: 0.75rem !important;
     padding-bottom: 0.75rem !important;
+    font-size: 0.95rem !important;
+  }
+  
+  /* Better input spacing */
+  .space-y-4 > * + * {
+    margin-top: 1rem !important;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1.25rem !important;
+  }
+  
+  /* Phone input specific adjustments */
+  .phone-input-custom {
+    font-size: 0.95rem !important;
+  }
+  
+  .phone-input-custom input {
+    padding: 0.75rem !important;
+    font-size: 0.95rem !important;
+  }
+  
+  /* Button adjustments in contact form */
+  .contact-form-card button {
+    min-height: 44px;
+    font-size: 0.95rem !important;
+  }
+  
+  /* Textarea adjustments */
+  .contact-form-card textarea {
+    min-height: 100px;
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Extra small screens - contact form */
+@media (max-width: 480px) {
+  .contact-form-card {
+    padding: 1rem !important;
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+  
+  .contact-form-heading {
+    font-size: 1.375rem !important;
+  }
+  
+  .contact-form-input {
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .phone-input-custom {
+    font-size: 0.9rem !important;
+  }
+  
+  .phone-input-custom input {
+    padding: 0.625rem !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .contact-form-card button {
+    font-size: 0.9rem !important;
+    padding: 0.625rem 1rem !important;
+  }
+  
+  .contact-form-card textarea {
+    min-height: 90px;
+    font-size: 0.9rem !important;
   }
 }
 
 /* Mobile Footer */
 @media (max-width: 768px) {
   .footer-grid {
-    gap: 2rem !important;
+    gap: 1.5rem !important;
   }
   
   .footer-heading {
     margin-bottom: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    gap: 1.25rem !important;
   }
 }
 
@@ -116,14 +280,28 @@
   a.button,
   .nav-link,
   .social-link,
-  input[type="submit"] {
+  input[type="submit"],
+  input[type="button"] {
     min-height: 44px;
     min-width: 44px;
+  }
+  
+  /* Improve checkbox and radio button sizes */
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 20px;
+    min-width: 20px;
   }
 }
 
 /* Talent card adjustments */
 @media (max-width: 480px) {
+  .talent-card {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 375px) {
   .talent-card {
     transform: scale(0.85);
   }
@@ -158,6 +336,30 @@
     padding: 0.75rem 2rem !important;
     font-size: 1rem !important;
   }
+  
+  /* Improved section headings */
+  .section-heading {
+    font-size: 2rem !important;
+    line-height: 1.1 !important;
+  }
+  
+  /* Better spacing for max-width containers */
+  .max-w-3xl {
+    max-width: 95% !important;
+  }
+  
+  .max-w-4xl {
+    max-width: 95% !important;
+  }
+  
+  .max-w-5xl {
+    max-width: 95% !important;
+  }
+  
+  /* Improve form field spacing */
+  .form-field {
+    margin-bottom: 1.25rem !important;
+  }
 }
 
 /* Tablet improvements */
@@ -169,5 +371,86 @@
   
   .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  
+  /* Better spacing for tablets */
+  .contact-form-card {
+    padding: 2rem !important;
+  }
+  
+  .hero-heading {
+    font-size: 3.5rem !important;
+  }
+  
+  .hero-description {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1025px) {
+  .contact-form-card {
+    padding: 2.5rem !important;
+  }
+  
+  /* Ensure proper spacing on larger screens */
+  .max-w-3xl {
+    max-width: 48rem !important;
+  }
+  
+  .max-w-4xl {
+    max-width: 56rem !important;
+  }
+  
+  .max-w-5xl {
+    max-width: 64rem !important;
+  }
+}
+
+/* High-resolution displays */
+@media (min-width: 1441px) {
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .contact-form-card {
+    padding: 3rem !important;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .contact-form-card {
+    border: 2px solid white !important;
+  }
+  
+  input, textarea, select {
+    border: 2px solid white !important;
+  }
+  
+  button {
+    border: 2px solid white !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .contact-form-card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+  
+  .hero-logo {
+    box-shadow: none !important;
   }
 } 
