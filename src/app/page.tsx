@@ -790,8 +790,7 @@ export default function Home() {
             }}
           />
           
-          {/* Performance: Preload critical fonts */}
-          <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+                  {/* Performance: DNS prefetch for external resources */}
           
           {/* Performance: DNS prefetch for external resources */}
           <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -871,17 +870,12 @@ export default function Home() {
             <div className="mb-14 text-center font-semibold">
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className="block text-2xl md:text-3xl text-white font-extrabold tracking-wide"
+                className="block text-2xl md:text-3xl text-white font-extrabold"
                 animateBy="words"
                 direction="top"
-                delay={150}
-                stepDuration={0.4}
+                delay={60}
+                stepDuration={0.35}
                 shiny={true}
-                onAnimationComplete={() => {
-                  console.log('Slogan animation completed!');
-                }}
-                threshold={0.3}
-                easing={(t) => t * t * (3 - 2 * t)}
               />
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">

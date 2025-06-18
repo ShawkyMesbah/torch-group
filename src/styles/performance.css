@@ -1,13 +1,6 @@
 /* Performance Optimizations CSS */
 
-/* Critical font loading */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/inter-var.woff2') format('woff2');
-}
+/* Font loading optimization - Using Next.js optimized Geist fonts */
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {

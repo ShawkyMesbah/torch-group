@@ -88,7 +88,6 @@ const config: Config = {
         'appear': 'appear 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
         'appear-zoom': 'appearZoom 1s cubic-bezier(0.16, 1, 0.3, 1)',
         'glow': 'glow 2s ease-in-out infinite alternate',
-        'shimmer': 'shimmer 2s ease-in-out infinite',
       },
       keyframes: {
         pulse: {
@@ -126,11 +125,7 @@ const config: Config = {
         glow: {
           '0%': { boxShadow: '0 0 5px rgba(220, 38, 38, 0.3)' },
           '100%': { boxShadow: '0 0 15px rgba(220, 38, 38, 0.7)' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
+        }
       },
       // Animation delay utilities
       transitionDelay: {

@@ -94,7 +94,7 @@ export default function ContactPage() {
           {/* Contact Form - Placeholder or Component */}
           <div className="p-4 sm:p-6 md:p-8 bg-black rounded-lg shadow-xl">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-white">Send us a Message</h2>
-            <ContactForm />
+              <ContactForm />
           </div>
         </div>
       </section>

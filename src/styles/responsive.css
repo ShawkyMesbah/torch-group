@@ -52,7 +52,7 @@
     padding-top: 3.5rem;
     padding-bottom: 3.5rem;
   }
-
+  
   /* Reduce section spacing on small screens */
   section {
     margin-bottom: 0.5rem;
@@ -147,7 +147,7 @@
   .hero-description {
     font-size: 0.95rem !important;
   }
-  
+
   .hero-button {
     width: 90%;
     max-width: 260px;
