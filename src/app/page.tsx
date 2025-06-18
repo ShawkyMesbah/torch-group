@@ -845,7 +845,8 @@ export default function Home() {
           {/* Hero content */}
           <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20 absolute inset-0">
             <div className="mb-20 relative group flex flex-col items-center animate-fade-in">
-              <div className="absolute -inset-4 md:-inset-8 rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
+              {/* Perfectly centered glow behind logo */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] rounded-full bg-red-600/20 blur-[100px] opacity-80 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow animate-[spin_8s_linear_infinite]" />
               <Image 
                 src="/images/logo.png"
                 alt="Torch Logo"
