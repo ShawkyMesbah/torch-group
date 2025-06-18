@@ -658,52 +658,43 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [orderedNavSections]);
 
-  // Add a function to handle logo click
+  // Enhanced logo click handler with smooth easing animation
   const handleLogoClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // Trigger the logo animation effect
+    // Trigger the enhanced ripple animation effect that spreads across the site
     setLogoClickTrigger(prev => prev + 1);
     
-    // Enhanced logo glow animation on click with better performance
+    // Apply CSS animation to logo with smooth easing
     if (logoImgRefDesktop.current) {
-      // Remove any existing animation class
-      logoImgRefDesktop.current.classList.remove('animate-pulse');
+      // Remove any existing animation classes
+      logoImgRefDesktop.current.classList.remove('animate-pulse', 'logo-click-animation');
       
       // Force reflow to ensure class removal takes effect
       void logoImgRefDesktop.current.offsetWidth;
       
-      // Add enhanced glow effect
-      setLogoGlowActive(true);
-      setLogoGlowTransition('filter 0.6s cubic-bezier(.4,0,.2,1)');
+      // Add the new smooth logo animation class
+      logoImgRefDesktop.current.classList.add('logo-click-animation');
       
-      // Create a comprehensive glow animation sequence
-      const glowSequence = [
-        { filter: 'drop-shadow(0 0 20px #dc2626) drop-shadow(0 0 40px #dc2626)', duration: 200 },
-        { filter: 'drop-shadow(0 0 30px #dc2626) drop-shadow(0 0 60px #dc2626)', duration: 300 },
-        { filter: 'drop-shadow(0 0 15px #dc2626) drop-shadow(0 0 30px #dc2626)', duration: 400 },
-        { filter: 'drop-shadow(0 0 8px #dc2626)', duration: 1000 },
-        { filter: 'none', duration: 500 }
-      ];
-      
-      let currentStep = 0;
-      const executeGlowStep = () => {
-        if (currentStep < glowSequence.length && logoImgRefDesktop.current) {
-          const step = glowSequence[currentStep];
-          logoImgRefDesktop.current.style.filter = step.filter;
-          
-          setTimeout(() => {
-            currentStep++;
-            executeGlowStep();
-          }, step.duration);
-        } else {
-          // Reset to default state
-          setLogoGlowActive(false);
-          setLogoGlowTransition('filter 0.25s cubic-bezier(.4,0,.2,1)');
+      // Remove the animation class after it completes to allow for re-triggering
+      setTimeout(() => {
+        if (logoImgRefDesktop.current) {
+          logoImgRefDesktop.current.classList.remove('logo-click-animation');
         }
-      };
+      }, 4000);
+    }
+    
+    // Also apply to mobile logo if it exists
+    if (logoImgRefMobile.current) {
+      logoImgRefMobile.current.classList.remove('animate-pulse', 'logo-click-animation');
+      void logoImgRefMobile.current.offsetWidth;
+      logoImgRefMobile.current.classList.add('logo-click-animation');
       
-      executeGlowStep();
+      setTimeout(() => {
+        if (logoImgRefMobile.current) {
+          logoImgRefMobile.current.classList.remove('logo-click-animation');
+        }
+      }, 4000);
     }
   };
 

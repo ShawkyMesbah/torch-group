@@ -32,22 +32,33 @@ export function AnimatedGridBackground({
   const [logoAnimationActive, setLogoAnimationActive] = useState(false);
   const [logoAnimationProgress, setLogoAnimationProgress] = useState(0);
 
-  // Handle logo click animation trigger
+  // Handle logo click animation trigger with enhanced easing
   useEffect(() => {
     if (logoClickTrigger > 0) {
       setLogoAnimationActive(true);
       setLogoAnimationProgress(0);
 
-      const animationDuration = 3000; // 3 seconds
+      const animationDuration = 4000; // 4 seconds for smoother effect
       const startTime = Date.now();
 
       const animateLogoEffect = () => {
         const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / animationDuration, 1);
+        const linearProgress = Math.min(elapsed / animationDuration, 1);
         
-        setLogoAnimationProgress(progress);
+        // Enhanced easing function: ease-in-out with custom curve
+        // This creates a smooth start, acceleration in middle, then smooth end
+        let easedProgress;
+        if (linearProgress < 0.5) {
+          // Ease in: slow start, accelerating
+          easedProgress = 2 * linearProgress * linearProgress;
+        } else {
+          // Ease out: decelerating to smooth stop
+          easedProgress = 1 - 2 * (1 - linearProgress) * (1 - linearProgress);
+        }
+        
+        setLogoAnimationProgress(easedProgress);
 
-        if (progress < 1) {
+        if (linearProgress < 1) {
           requestAnimationFrame(animateLogoEffect);
         } else {
           setLogoAnimationActive(false);
@@ -111,17 +122,50 @@ export function AnimatedGridBackground({
           let alpha = 1;
           let currentDotColor = dotColor;
 
-          // Logo click animation effect
+          // Logo click animation effect with ripple from logo center
           if (logoAnimationActive) {
-            const logoColor = "rgba(220, 38, 38, 1)"; // Same red as logo
-            // Create wave effect - dots light up and fade out over 3 seconds
-            const waveIntensity = logoAnimationProgress <= 0.5 
-              ? logoAnimationProgress * 2 // Light up phase (0 to 1)
-              : (1 - logoAnimationProgress) * 2; // Fade out phase (1 to 0)
+            // Calculate logo center position (logo is centered horizontally, positioned in upper part)
+            const logoX = canvas.width / 2;
+            const logoY = canvas.height * 0.35; // Approximate logo center position
             
-            currentDotColor = logoColor;
-            alpha = Math.max(0.1, waveIntensity * 0.8); // Keep minimum visibility
-            size = dotSize + (waveIntensity * 2); // Grow dots during animation
+            // Calculate distance from current dot to logo center
+            const dx = dot.baseX - logoX;
+            const dy = dot.baseY - logoY;
+            const distanceFromLogo = Math.sqrt(dx * dx + dy * dy);
+            
+            // Maximum distance for the ripple effect (diagonal of screen)
+            const maxDistance = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+            
+            // Calculate ripple effect based on distance and animation progress
+            const rippleRadius = logoAnimationProgress * maxDistance;
+            const rippleWidth = maxDistance * 0.3; // Width of the ripple wave
+            
+            // Check if this dot is within the current ripple wave
+            const distanceFromRipple = Math.abs(distanceFromLogo - rippleRadius);
+            
+            if (distanceFromRipple < rippleWidth) {
+              const logoColor = "rgba(220, 38, 38, 1)"; // Same red as logo
+              
+              // Calculate intensity based on distance from ripple center
+              const rippleIntensity = 1 - (distanceFromRipple / rippleWidth);
+              
+              // Create fade effect: stronger at beginning and end of animation
+              let fadeMultiplier;
+              if (logoAnimationProgress < 0.3) {
+                // Fade in phase
+                fadeMultiplier = logoAnimationProgress / 0.3;
+              } else if (logoAnimationProgress > 0.7) {
+                // Fade out phase
+                fadeMultiplier = (1 - logoAnimationProgress) / 0.3;
+              } else {
+                // Full intensity phase
+                fadeMultiplier = 1;
+              }
+              
+              currentDotColor = logoColor;
+              alpha = Math.max(0.1, rippleIntensity * fadeMultiplier * 0.9);
+              size = dotSize + (rippleIntensity * fadeMultiplier * 3);
+            }
           } else if (interactive && mousePosition) {
             // Normal interactive behavior
             const dx = mousePosition.x - dot.baseX;
