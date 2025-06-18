@@ -873,8 +873,8 @@ export default function Home() {
                 className="block text-2xl md:text-3xl text-white font-extrabold"
                 animateBy="words"
                 direction="top"
-                delay={60}
-                stepDuration={0.35}
+                delay={200}
+                stepDuration={0.5}
                 shiny={true}
               />
             </div>
