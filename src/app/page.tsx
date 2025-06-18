@@ -882,13 +882,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
               <button
                 onClick={() => scrollToSection('about-torch')}
-                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0"
+                className="hero-button rounded-full bg-red-600 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0 w-full sm:w-auto min-w-[200px]"
               >
                 Explore Torch <ArrowDownIcon className="h-5 w-5 ml-2" />
               </button>
               <a
                 href="/contact"
-                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3"
+                className="hero-button rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-transparent shadow-xl transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[200px]"
               >
                 Contact Us <ArrowRight className="h-5 w-5 ml-2" />
               </a>
