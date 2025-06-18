@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState, useMemo } from 'react';
 
-const buildKeyframes = (from: any, steps: any[]) => {
+const buildKeyframes = (from: Record<string, any>, steps: Record<string, any>[]) => {
   const keys = new Set([
     ...Object.keys(from),
     ...steps.flatMap((s) => Object.keys(s)),
@@ -22,8 +22,8 @@ interface BlurTextProps {
   direction?: 'top' | 'bottom';
   threshold?: number;
   rootMargin?: string;
-  animationFrom?: any;
-  animationTo?: any[];
+  animationFrom?: Record<string, any>;
+  animationTo?: Record<string, any>[];
   easing?: (t: number) => number;
   onAnimationComplete?: () => void;
   stepDuration?: number;
@@ -51,7 +51,7 @@ const BlurText = ({
 
   useEffect(() => {
     if (!ref.current) return;
-    const observer = new window.IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
@@ -112,7 +112,7 @@ const BlurText = ({
 
         return (
           <motion.span
-            className={`inline-block will-change-[transform,filter,opacity]${shiny ? ' shiny-text' : ''}`}
+            className={`inline-block will-change-[transform,filter,opacity]${shiny ? ' bg-gradient-to-r from-white via-red-200 to-white bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]' : ''}`}
             key={index}
             initial={fromSnapshot}
             animate={inView ? animateKeyframes : fromSnapshot}
@@ -120,6 +120,11 @@ const BlurText = ({
             onAnimationComplete={
               index === elements.length - 1 ? onAnimationComplete : undefined
             }
+            style={{
+              backgroundImage: shiny ? 'linear-gradient(90deg, #ffffff 0%, #fecaca 50%, #ffffff 100%)' : undefined,
+              backgroundSize: shiny ? '200% 100%' : undefined,
+              animation: shiny && inView ? 'shimmer 2s ease-in-out infinite' : undefined,
+            }}
           >
             {segment === ' ' ? '\u00A0' : segment}
             {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}

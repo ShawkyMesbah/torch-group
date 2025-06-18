@@ -871,12 +871,17 @@ export default function Home() {
             <div className="mb-14 text-center font-semibold">
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className="block text-2xl md:text-3xl text-white font-extrabold"
+                className="block text-2xl md:text-3xl text-white font-extrabold tracking-wide"
                 animateBy="words"
                 direction="top"
-                delay={60}
-                stepDuration={0.35}
+                delay={150}
+                stepDuration={0.4}
                 shiny={true}
+                onAnimationComplete={() => {
+                  console.log('Slogan animation completed!');
+                }}
+                threshold={0.3}
+                easing={(t) => t * t * (3 - 2 * t)}
               />
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
