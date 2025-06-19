@@ -183,12 +183,21 @@ export default function AboutPage() {
                 key={value.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="bg-transparent p-8 rounded-lg border border-gray-800 hover:torch-border-primary transition-colors"
+                className="group relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg p-8 rounded-2xl border border-gray-800 hover:torch-border-primary hover:shadow-2xl hover:shadow-red-900/30 transition-all duration-500 hover:scale-105 hover:bg-gradient-to-br hover:from-black/80 hover:via-red-950/10 hover:to-black/80 cursor-pointer overflow-hidden"
               >
-                <h3 className="text-xl font-semibold mb-4 text-white">{value.title}</h3>
-                <p className="text-gray-200">
-                  {value.desc}
-                </p>
+                {/* Subtle glow effect on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Content */}
+                <div className="relative z-10">
+                  <h3 className="text-xl font-semibold mb-4 text-white group-hover:torch-text-primary transition-colors duration-300">{value.title}</h3>
+                  <p className="text-gray-200 group-hover:text-gray-100 transition-colors duration-300 leading-relaxed">
+                    {value.desc}
+                  </p>
+                </div>
+                
+                {/* Animated accent line */}
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 torch-bg-primary group-hover:w-full transition-all duration-500 ease-out"></div>
               </AnimatedFadeIn>
             ))}
           </div>
