@@ -1092,60 +1092,100 @@ export default function Home() {
                     We offer everything you need to succeed in the digital landscape.
                   </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mt-16">
-                  <motion.div
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  >
-                    <FeatureCard
-                      title="B2C"
-                      description={
-                        `Enjoy with Our Torch Group\nServices & e commerce will\nhelp your creative products &\nservices that fit your needs`
-                      }
-                      icon={<ShoppingCart className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                    />
-                  </motion.div>
-                  <motion.div
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  >
-                    <FeatureCard
-                      title="B2T"
-                      description={
-                        `Our Talents membership\nservices will help your content\ngrow online/offline engagement\n& attract more audience &\nFollowers`
-                      }
-                      icon={<Star className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                    />
-                  </motion.div>
-                  <motion.div
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  >
-                    <FeatureCard
-                      title="B2B"
-                      description={
-                        `Our entities/brands\nmembership services will help\nyour business grow online/\noffline & attract more audience\n& customers`
-                      }
-                      icon={<Building2 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                    />
-                  </motion.div>
-                  <motion.div
-                    whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  >
-                    <FeatureCard
-                      title="B2A"
-                      description={
-                        `Business to All Allies\nConnect, collaborate, and grow\nwith our network of partners,\nallies, and creative entities.`
-                      }
-                      icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
-                      className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
-                    />
-                  </motion.div>
-                </div>
+                <motion.div 
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mt-16"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  variants={{
+                    hidden: {},
+                    visible: {
+                      transition: {
+                        staggerChildren: 0.12,
+                      },
+                    },
+                  }}
+                >
+                  {[
+                    {
+                      title: "B2C",
+                      description: "Enjoy with Our Torch Group Services & e commerce will help your creative products & services that fit your needs",
+                      icon: <ShoppingCart className="h-16 w-16" />
+                    },
+                    {
+                      title: "B2T", 
+                      description: "Our Talents membership services will help your content grow online/offline engagement & attract more audience & Followers",
+                      icon: <Star className="h-16 w-16" />
+                    },
+                    {
+                      title: "B2B",
+                      description: "Our entities/brands membership services will help your business grow online/offline & attract more audience & customers", 
+                      icon: <Building2 className="h-16 w-16" />
+                    },
+                    {
+                      title: "B2A",
+                      description: "Business to All Allies Connect, collaborate, and grow with our network of partners, allies, and creative entities.",
+                      icon: <Users className="h-16 w-16" />
+                    }
+                  ].map((service, index) => (
+                    <motion.div
+                      key={service.title}
+                      variants={{
+                        hidden: { opacity: 0, y: 40 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+                      }}
+                      whileHover={{ 
+                        scale: 1.05, 
+                        boxShadow: '0 0 40px 8px #dc2626aa'
+                      }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
+                      style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                    >
+                      {/* Subtle grid pattern overlay */}
+                      <div className="absolute inset-0 opacity-5">
+                        <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                      </div>
+
+                                              {/* Content area */}
+                        <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
+                          {/* Icon with glow */}
+                          <div className="mb-6 relative flex items-center justify-center">
+                            <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
+                            <div className="w-20 h-20 flex items-center justify-center relative z-10">
+                              <div className="text-red-600 drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
+                                {service.icon}
+                              </div>
+                            </div>
+                          </div>
+                          <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
+                            {service.title}
+                          </h3>
+                          <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
+                            {service.description}
+                          </p>
+                        </div>
+                        
+                        {/* Button */}
+                        <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
+                          {service.title === "B2C" ? (
+                            <button 
+                              onClick={() => scrollToSection('torch-group')}
+                              className="px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600"
+                            >
+                              Explore Brands
+                            </button>
+                          ) : (
+                            <Link href={`/services#${service.title.toLowerCase()}`}>
+                              <button className="px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600">
+                                Learn More
+                              </button>
+                            </Link>
+                          )}
+                        </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </motion.div>
             </Section>
           )}
@@ -1354,15 +1394,39 @@ export default function Home() {
                   </p>
                 </div>
                 {blogPosts && blogPosts.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-                    {blogPosts.slice(0, 3).map((post) => (
+                  <motion.div 
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={{
+                      hidden: {},
+                      visible: {
+                        transition: {
+                          staggerChildren: 0.12,
+                        },
+                      },
+                    }}
+                  >
+                    {blogPosts.slice(0, 3).map((post, index) => (
                       <motion.div
                         key={post.id}
+                        variants={{
+                          hidden: { opacity: 0, y: 40 },
+                          visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+                        }}
                         whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                        className="group border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/40 hover:border-red-600"
+                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
+                        style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
                       >
-                        <div className="p-6">
+                        {/* Subtle grid pattern overlay */}
+                        <div className="absolute inset-0 opacity-5">
+                          <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                        </div>
+
+                        {/* Content area */}
+                        <div className="p-8 flex flex-col flex-grow relative z-10">
                           <div className="flex items-center justify-between mb-4">
                             <span className="text-red-500 text-sm font-semibold uppercase tracking-wide">
                               {post.category || 'Blog'}
@@ -1371,18 +1435,18 @@ export default function Home() {
                               {new Date(post.created_at).toLocaleDateString()}
                             </span>
                           </div>
-                          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-400 transition-colors duration-300">
+                          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-100 transition-colors duration-300 tracking-tight drop-shadow-lg">
                             {post.title}
                           </h3>
-                          <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+                          <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 group-hover:text-gray-200 transition-colors duration-300 flex-grow">
                             {post.excerpt || post.content?.substring(0, 120) + '...'}
                           </p>
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between mt-auto">
                             <span className="text-gray-400 text-xs">
                               By {post.author || 'Torch Team'}
                             </span>
                             <Link href={`/blog/${post.slug}`}>
-                              <button className="text-red-500 hover:text-red-400 font-semibold text-sm transition-colors duration-300 flex items-center gap-1">
+                              <button className="px-4 py-2 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold text-sm hover:from-red-500 hover:to-red-600 transition-all duration-300 flex items-center gap-1 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105">
                                 Read More <ArrowRight className="h-3 w-3" />
                               </button>
                             </Link>
@@ -1390,7 +1454,7 @@ export default function Home() {
                         </div>
                       </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 ) : (
                   <div className="text-center py-12">
                     <div className="max-w-md mx-auto">
@@ -1450,50 +1514,81 @@ export default function Home() {
 
                 </div>
                 {activeTalents && activeTalents.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+                  <motion.div 
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={{
+                      hidden: {},
+                      visible: {
+                        transition: {
+                          staggerChildren: 0.12,
+                        },
+                      },
+                    }}
+                  >
                     {displayTalents.map((talent, index) => (
                       <motion.div
                         key={talent.id || `placeholder-${index}`}
+                        variants={{
+                          hidden: { opacity: 0, y: 40 },
+                          visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+                        }}
                         whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                        className="group border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/40 hover:border-red-600"
+                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
+                        style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
                       >
-                        <div className="p-6 text-center">
-                          <div className="mb-6 relative">
-                            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-red-600/20 to-red-800/20 flex items-center justify-center border-2 border-red-600/30 group-hover:border-red-500 transition-colors duration-300">
-                              {talent.isPlaceholder ? (
-                                <User className="h-10 w-10 text-red-500" />
-                              ) : (
-                                <span className="text-2xl font-bold text-red-500">
-                                  {talent.name?.charAt(0) || 'T'}
-                                </span>
-                              )}
+                        {/* Subtle grid pattern overlay */}
+                        <div className="absolute inset-0 opacity-5">
+                          <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                        </div>
+
+                        {/* Content area */}
+                        <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
+                          {/* Avatar with glow */}
+                          <div className="mb-6 relative flex items-center justify-center">
+                            <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
+                            <div className="w-20 h-20 flex items-center justify-center relative z-10">
+                              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600/20 to-red-800/20 flex items-center justify-center border-2 border-red-600/30 group-hover:border-red-500 transition-colors duration-300 drop-shadow-2xl group-hover:scale-110">
+                                {talent.isPlaceholder ? (
+                                  <User className="h-10 w-10 text-red-500" />
+                                ) : (
+                                  <span className="text-2xl font-bold text-red-500">
+                                    {talent.name?.charAt(0) || 'T'}
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-300">
+                          <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
                             {talent.name || 'Coming Soon'}
                           </h3>
                           <p className="text-red-500 text-sm font-semibold mb-3 uppercase tracking-wide">
                             {talent.specialty || 'New Talent'}
                           </p>
-                          <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                          <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
                             {talent.bio || 'Exciting new talent joining our team soon. Stay tuned for updates!'}
                           </p>
+                        </div>
+                        
+                        {/* Badge */}
+                        <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
                           {talent.isPlaceholder ? (
-                            <span className="inline-block px-3 py-1 bg-black/70 border border-red-600 text-red-600 text-xs rounded-full font-semibold animate-pulse-slow">
+                            <div className="flex items-center gap-2 px-6 py-3 bg-red-800/50 border border-red-600/40 text-red-400 text-sm rounded-full font-semibold backdrop-blur-sm">
+                              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                               Coming Soon
-                            </span>
+                            </div>
                           ) : (
-                            <div className="flex items-center justify-center">
-                              <span className="inline-block px-3 py-1 bg-red-600/20 border border-red-600 text-red-500 text-xs rounded-full font-semibold">
-                                Active
-                              </span>
+                            <div className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105">
+                              Active Talent
                             </div>
                           )}
                         </div>
                       </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 ) : (
                   <div className="text-center py-12">
                     <div className="max-w-md mx-auto">
@@ -1570,61 +1665,94 @@ export default function Home() {
                       visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
                     }}
                     whileHover={{
-                      scale: 1.05,
-                      boxShadow: '0 0 40px 8px #dc2626aa',
+                      scale: 1.08,
+                      boxShadow: '0 25px 50px -12px rgba(220, 38, 38, 0.4), 0 0 60px 12px rgba(220, 38, 38, 0.25)',
+                      y: -12,
                     }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl group transition-all duration-500 border-2 border-red-600/30 bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 hover:border-red-600/80 backdrop-blur-lg min-h-[200px]"
+                    className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl group transition-all duration-700 border border-white/10 bg-gradient-to-br from-white/5 via-white/[0.02] to-white/5 hover:border-red-500/40 backdrop-blur-2xl hover:backdrop-blur-3xl min-h-[280px] cursor-pointer hover:bg-gradient-to-br hover:from-red-600/10 hover:via-white/[0.03] hover:to-red-600/10"
                   >
-                    {/* Enhanced background with gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 via-transparent to-red-600/15 z-0"></div>
+                    {/* Enhanced multi-layer background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/8 via-transparent to-red-600/12 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
                     
-                    {/* Faint Torch logo background watermark */}
-                    <div className="absolute inset-0 flex items-center justify-center z-5 pointer-events-none">
-                      <Image 
-                        src="/images/logo.png" 
-                        alt="Torch Logo Watermark" 
-                        width={120} 
-                        height={120} 
-                        loading="lazy"
-                        className="opacity-20 object-contain mx-auto group-hover:opacity-30 transition-opacity duration-500" 
-                        style={{aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'opacity'}} 
-                      />
+                    {/* Animated dot pattern overlay */}
+                    <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-700">
+                      <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[size:24px_24px] group-hover:animate-pulse"></div>
                     </div>
                     
-                    {/* Main content area */}
-                    <div className="absolute inset-0 rounded-2xl overflow-hidden flex items-center justify-center z-10">
-                      {/* Placeholder content */}
-                      <div className="text-center p-6">
-                        {/* Placeholder Play Icon */}
-                        <div className="mb-4">
-                          <svg className="w-16 h-16 text-red-500 opacity-80 mx-auto group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
+                    {/* Enhanced Torch logo watermark with glow */}
+                    <div className="absolute inset-0 flex items-center justify-center z-5 pointer-events-none">
+                      <div className="relative">
+                        <Image 
+                          src="/images/logo.png" 
+                          alt="Torch Logo Watermark" 
+                          width={140} 
+                          height={140} 
+                          loading="lazy"
+                          className="opacity-15 object-contain mx-auto group-hover:opacity-25 transition-all duration-700 scale-90 group-hover:scale-100" 
+                          style={{aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'opacity, transform'}} 
+                        />
+                        {/* Subtle glow behind logo */}
+                        <div className="absolute inset-0 bg-red-600/20 blur-3xl rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-700"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Main content area with enhanced layout */}
+                    <div className="absolute inset-0 rounded-3xl overflow-hidden flex flex-col items-center justify-center z-20 p-8">
+                      {/* Professional Play Button */}
+                      <div className="relative mb-6 group-hover:scale-110 transition-all duration-500">
+                        {/* Outer glow ring */}
+                        <div className="absolute inset-0 w-20 h-20 bg-red-600/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                        
+                        {/* Main play button */}
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center shadow-2xl border-2 border-red-400/50 group-hover:border-red-300/80 group-hover:shadow-red-500/50 transition-all duration-500">
+                          {/* Inner play icon */}
+                          <div className="w-0 h-0 border-l-[8px] border-l-white border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent ml-1 drop-shadow-sm"></div>
+                          
+                          {/* Ripple effect */}
+                          <div className="absolute inset-0 rounded-full border-2 border-red-400/30 opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700"></div>
+                          
+                          {/* Pulse ring */}
+                          <div className="absolute inset-0 rounded-full bg-red-500/20 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300 animate-ping"></div>
                         </div>
-                        <div className="text-white text-sm font-semibold">
-                          Partner Video {i}
+                      </div>
+                      
+                      {/* Enhanced typography */}
+                      <div className="text-center space-y-4">
+                        {/* Professional "Coming Soon" badge */}
+                        <div className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-red-900/30 to-red-800/30 backdrop-blur-md border border-red-500/30 rounded-full group-hover:border-red-400/50 group-hover:bg-gradient-to-r group-hover:from-red-800/40 group-hover:to-red-700/40 transition-all duration-500 shadow-lg">
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse group-hover:bg-red-300"></div>
+                          <span className="text-red-300 text-base font-semibold tracking-wide group-hover:text-red-200 transition-colors duration-300">
+                            Coming Soon
+                          </span>
                         </div>
-                        <div className="text-red-400 text-xs mt-2 font-medium">
-                          Coming Soon
-                        </div>
+                        
+                        {/* Subtitle that appears on hover */}
+                        <p className="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100 max-w-[220px] leading-relaxed">
+                          Exclusive content collaboration launching soon
+                        </p>
                       </div>
                     </div>
 
-                    {/* Partner logo (Torch logo image) - Enhanced */}                  
-                    <div className="absolute top-4 left-4 z-20 w-14 h-14 flex items-center justify-center bg-black/70 rounded-full p-2 border-2 border-red-600/60 group-hover:border-red-500 transition-all duration-300 group-hover:scale-110">
-                      <Image 
-                        src="/images/logo.png" 
-                        alt="Torch Logo" 
-                        width={32} 
-                        height={32} 
-                        className="object-contain mx-auto drop-shadow-lg" 
-                        style={{aspectRatio: '1/1'}} 
-                      />
-                    </div>
-
-                    {/* Hover overlay effect */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-red-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-15"></div>
+                                         {/* Enhanced Partner logo with glassy design */}
+                     <div className="absolute top-4 left-4 z-30">
+                       <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex items-center justify-center group-hover:border-red-400/60 group-hover:bg-white/15 transition-all duration-500 group-hover:scale-105 shadow-lg">
+                         <Image 
+                           src="/images/logo.png" 
+                           alt="Torch Logo" 
+                           width={28} 
+                           height={28} 
+                           loading="lazy"
+                           className="object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300" 
+                         />
+                       </div>
+                     </div>
+                    
+                    
+                    
+                    {/* Enhanced gradient overlay for better text contrast */}
+                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-15 opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
                   </motion.div>
                 ))}
               </motion.div>
