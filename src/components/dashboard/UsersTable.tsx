@@ -104,21 +104,21 @@ export function UsersTable({
                   <Label htmlFor="name" className="text-right">Name</Label>
                   <Input id="name" className="col-span-3" placeholder="John Doe" {...createForm.register("name")} />
                   {typeof createForm.formState.errors.name?.message === 'string' && (
-                    <p className="col-start-2 col-span-3 text-sm text-red-500">{createForm.formState.errors.name.message}</p>
+                    <p className="col-start-2 col-span-3 text-sm torch-text-error">{createForm.formState.errors.name.message}</p>
                   )}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="email" className="text-right">Email</Label>
                   <Input id="email" className="col-span-3" placeholder="john@example.com" type="email" {...createForm.register("email")} />
                   {typeof createForm.formState.errors.email?.message === 'string' && (
-                    <p className="col-start-2 col-span-3 text-sm text-red-500">{createForm.formState.errors.email.message}</p>
+                    <p className="col-start-2 col-span-3 text-sm torch-text-error">{createForm.formState.errors.email.message}</p>
                   )}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="password" className="text-right">Password</Label>
                   <Input id="password" className="col-span-3" placeholder="••••••••" type="password" {...createForm.register("password")} />
                   {typeof createForm.formState.errors.password?.message === 'string' && (
-                    <p className="col-start-2 col-span-3 text-sm text-red-500">{createForm.formState.errors.password.message}</p>
+                    <p className="col-start-2 col-span-3 text-sm torch-text-error">{createForm.formState.errors.password.message}</p>
                   )}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -157,7 +157,7 @@ export function UsersTable({
           ))}
         </div>
       ) : error ? (
-        <div className="text-center py-12 text-red-500">
+                    <div className="text-center py-12 torch-text-error">
           <p>Failed to fetch users.</p>
           <Button
             variant="outline"

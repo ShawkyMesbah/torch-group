@@ -222,6 +222,24 @@
 - [P] Expand services page with detailed info for each service
 - [P] Polish homepage content and layout
 
+### Design Consistency Improvements (2025-06-XX) - COMPLETED
+- [X] Created unified design system CSS with color variables and utility classes
+- [X] Created unified loading component system with multiple variants
+- [X] Created standardized section header component
+- [X] Updated homepage sections to use design system classes (Services, About, Torch Group, Blog, Talents, Contact)
+- [X] Updated public pages (Services, About, Contact) with design system classes
+- [X] Updated dashboard loading components to use unified system
+- [X] Updated contact form buttons to use design system classes
+- [X] Updated navigation components (header, dashboard nav) with design system colors
+- [X] Updated form validation error messages to use torch-text-error class
+- [X] Updated dashboard components (UsersTable, AnalyticsDashboard) error states
+- [X] Updated input component focus states and error handling
+- [X] Added background color utilities (torch-bg-accent-10, torch-bg-accent-20)
+- [X] Updated remaining background color hardcoded values (team cards, countdown, loading, date picker)
+- [X] Updated remaining border color hardcoded values (team member cards, focus states)
+- [X] Updated remaining icon colors (feature cards, blog editor, preview buttons)
+- [X] Added torch-divider utility class for consistent section separators
+
 ---
 
 ## Dates

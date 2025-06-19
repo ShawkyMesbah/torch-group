@@ -25,7 +25,7 @@ export function FeatureCard({ icon, title, description, className }: FeatureCard
       >
         {/* Icon */}
         <div className="z-10 mb-6 flex items-center justify-center w-16 h-16 rounded-full bg-red-900/10 group-hover:bg-red-900/30 transition-all duration-400">
-          <span className="text-red-500 group-hover:text-red-400 text-3xl transition-colors duration-300 group-hover:scale-110 transform">{icon}</span>
+                      <span className="torch-text-accent group-hover:torch-text-accent-hover text-3xl transition-colors duration-300 group-hover:scale-110 transform">{icon}</span>
         </div>
         {/* Title */}
         <h3 className="z-10 text-2xl font-bold text-white mb-2 text-center">{title}</h3>

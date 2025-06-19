@@ -1,14 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Users, MessageCircle, Zap, CheckCircle, Send } from 'lucide-react';
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { AnimatedGridBackground } from "@/components/ui/animated-grid-background";
-import { SectionWrapper } from "@/components/ui/section-wrapper"; // Assuming SectionWrapper is a common layout component
+import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { ContactForm } from "@/components/forms/contact-form";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
-
-// Assuming a ContactForm component exists at this path
-// import ContactForm from "@/components/forms/contact-form";
+import { Button } from "@/components/ui/button";
 
 export default function ContactPage() {
   return (
@@ -16,120 +14,224 @@ export default function ContactPage() {
       {/* Animated grid background */}
       <SharedTorchBackground />
 
-      {/* Hero/Header Section */}
+      {/* Enhanced Hero Section */}
       <SectionWrapper animation="fade-in" className="py-20 px-4 md:px-6 lg:px-8 relative bg-transparent">
         <div className="max-w-7xl mx-auto relative z-10 text-center">
+          {/* Animated badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border border-red-600/30 rounded-full mb-6 backdrop-blur-sm">
+            <MessageCircle className="w-4 h-4 torch-text-accent" />
+            <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
+          </div>
+          
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-            Get In <span className="text-red-600">Touch</span>
+            Let's Create Something
+            <span className="block torch-text-accent">
+              Amazing Together
+            </span>
           </h1>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            We'd love to hear from you. Whether you have a question about our services,
-            want to partner, or just want to say hello, feel free to reach out.
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Whether you have a groundbreaking idea, need expert consultation, or want to discuss partnership opportunities – 
+            we're here to transform your vision into extraordinary digital experiences.
           </p>
+          
+          {/* Quick response promise */}
+          <div className="flex items-center justify-center gap-2 mt-8 text-sm text-gray-400">
+            <CheckCircle className="w-4 h-4 torch-text-accent" />
+            <span>We typically respond within 2-4 hours</span>
+          </div>
         </div>
       </SectionWrapper>
 
-      {/* Contact Details and Form Section */}
-      {/* Using a simple grid layout for details and potentially a form */}
-      <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent relative">
-                    {/* Perfectly fitted form glow - matches contact form dimensions exactly */}
-            <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-              <div className="w-full max-w-4xl h-[700px] sm:h-[800px] md:h-[900px] bg-gradient-to-br from-red-600/30 via-red-500/20 to-red-700/25 blur-[100px] rounded-3xl animate-pulse-slow mx-3 sm:mx-6 md:mx-8 lg:mx-12"></div>
-            </div>
+      {/* Enhanced Contact Details and Form Section */}
+      <section className="py-20 px-4 md:px-6 lg:px-8 bg-transparent relative">
+        {/* Improved background glow effect */}
+        <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+          <div className="w-full max-w-6xl h-[800px] bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/15 blur-[120px] rounded-3xl animate-pulse-slow"></div>
+        </div>
         
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
-          {/* Contact Details */}
-          <div className="flex flex-col space-y-6 p-8 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/40 transition-all duration-700 relative group">
-            {/* Subtle inner glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            
-            {/* Cool edge highlight */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-red-500/20 to-transparent opacity-50 blur-sm"></div>
-            
-            <div className="relative z-10">
-              <h2 className="text-2xl font-bold mb-4 text-white">Contact Information</h2>
-              <div className="flex items-center text-white">
-                <Mail className="h-6 w-6 text-red-600 mr-3" />
-                <span>info@torchgroup.com</span> {/* Replace with actual email */}
-              </div>
-              <div className="flex items-center text-white">
-                <Phone className="h-6 w-6 text-red-600 mr-3" />
-                <span>+1 (123) 456-7890</span> {/* Replace with actual phone */}
-              </div>
-              <div className="flex items-start text-white">
-                <MapPin className="h-6 w-6 text-red-600 mr-3 mt-1" />
-                <span>
-                  123 Digital Way<br/>
-                  Innovation City, IC 98765<br/>
-                  Country
-                </span> {/* Replace with actual address */}
-              </div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
+                     {/* Enhanced Contact Details */}
+           <div className="space-y-8">
+            {/* Main Contact Card */}
+            <div className="p-8 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/20 transition-all duration-700 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-full torch-bg-accent/20 flex items-center justify-center">
+                    <MessageCircle className="w-6 h-6 torch-text-accent" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white">Contact Information</h2>
+                </div>
+                
+                                 {/* Company Info */}
+                 <div className="mb-8 p-6 bg-gradient-to-r from-red-600/10 to-transparent rounded-xl border-l-4 torch-border-accent">
+                   <h3 className="text-xl font-bold torch-text-accent mb-2">TORCH Group</h3>
+                   <p className="text-gray-300 mb-3">Creative Digital Solutions</p>
+                   <p className="text-sm text-gray-400 leading-relaxed">
+                     We specialize in transforming ambitious ideas into powerful digital experiences through innovative design, cutting-edge technology, and strategic thinking.
+                   </p>
+                 </div>
 
-              {/* Social Media Links */}
-              <div className="flex space-x-6 pt-4 border-t border-red-600">
-                {[ /* Define social links here */
-                  {
-                    name: "Facebook",
-                    href: "https://facebook.com/torchgroup",
-                    icon: Facebook,
-                  },
-                  {
-                    name: "Instagram",
-                    href: "https://instagram.com/torchgroup",
-                    icon: Instagram,
-                  },
-                  {
-                    name: "Twitter",
-                    href: "https://twitter.com/torchgroup",
-                    icon: Twitter,
-                  },
-                  {
-                    name: "LinkedIn",
-                    href: "https://linkedin.com/company/torchgroup",
-                    icon: Linkedin,
-                  },
-                ].map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-red-600 hover:text-white transition-colors duration-200"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span className="sr-only">{item.name}</span>
-                    <item.icon className="h-6 w-6" aria-hidden="true" />
-                  </Link>
-                ))}
+                {/* Contact Methods */}
+                <div className="space-y-4">
+                  <div className="flex items-center p-4 bg-black/40 rounded-xl hover:bg-black/60 transition-colors group/item">
+                    <div className="w-10 h-10 rounded-lg torch-bg-accent/20 flex items-center justify-center mr-4">
+                      <Mail className="h-5 w-5 torch-text-accent" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">Email</p>
+                      <a href="mailto:ask@torchgroup.co" className="text-white hover:torch-text-accent transition-colors">
+                        ask@torchgroup.co
+                      </a>
+                    </div>
+                  </div>
+                  
+                                     <div className="flex items-center p-4 bg-black/40 rounded-xl hover:bg-black/60 transition-colors group/item">
+                     <div className="w-10 h-10 rounded-lg torch-bg-accent/20 flex items-center justify-center mr-4">
+                       <MapPin className="h-5 w-5 torch-text-accent" />
+                     </div>
+                     <div>
+                       <p className="text-sm text-gray-400">Location</p>
+                       <span className="text-white">Riyadh, Saudi Arabia</span>
+                     </div>
+                   </div>
+                  
+                  
+                </div>
+
+                                 {/* Social Media */}
+                 <div className="mt-8 pt-6 border-t border-red-600/30">
+                   <p className="text-sm text-gray-400 mb-6">Connect with us</p>
+                   <div className="grid grid-cols-2 gap-4">
+                     {[
+                       { name: "Facebook", href: "https://facebook.com/torchgroup", icon: Facebook },
+                       { name: "Instagram", href: "https://instagram.com/torchgroup", icon: Instagram },
+                       { name: "Twitter", href: "https://twitter.com/torchgroup", icon: Twitter },
+                       { name: "LinkedIn", href: "https://linkedin.com/company/torchgroup", icon: Linkedin },
+                     ].map((item) => (
+                       <Link
+                         key={item.name}
+                         href={item.href}
+                         className="flex items-center gap-3 p-3 rounded-lg bg-black/40 hover:torch-bg-accent/20 hover:border-red-500/30 border border-transparent text-gray-400 hover:text-white transition-all duration-300 group"
+                         target="_blank"
+                         rel="noopener noreferrer"
+                       >
+                         <item.icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                         <span className="text-sm font-medium">{item.name}</span>
+                       </Link>
+                     ))}
+                   </div>
+                 </div>
               </div>
             </div>
+
+            
           </div>
 
-          {/* Contact Form - Placeholder or Component */}
-          <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-red-600/30 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/40 transition-all duration-700 relative group">
-            {/* Subtle inner glow effect */}
+          {/* Enhanced Contact Form */}
+          <div className="p-6 md:p-8 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-red-600/20 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/30 transition-all duration-700 relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             
-            {/* Cool edge highlight */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-red-500/20 to-transparent opacity-50 blur-sm"></div>
-            
             <div className="relative z-10">
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-white">Send us a Message</h2>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full torch-bg-accent/20 flex items-center justify-center">
+                  <Send className="w-5 h-5 torch-text-accent" />
+                </div>
+                <h2 className="text-xl md:text-2xl font-bold text-white">Send us a Message</h2>
+              </div>
+              
+                             <p className="text-gray-400 mb-6 text-sm">
+                 Share your project details with us and we'll get back to you within 24 hours. For urgent inquiries, please call us directly.
+               </p>
+              
               <ContactForm />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Optional: Map Section */}
-      {/* <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent"> */}
-        {/* Add map component or iframe here if desired */}
-      {/* </section> */}
+      {/* Why Choose Us Section */}
+      <section className="py-20 px-4 md:px-6 lg:px-8 bg-transparent relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+              Why Work With <span className="torch-text-accent">TORCH</span>?
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              We're not just another digital agency. We're your strategic partner in digital transformation.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+                             {
+                 icon: Zap,
+                 title: "Lightning Fast Response",
+                 description: "We respond to all inquiries within 2-4 hours, ensuring your project maintains momentum from day one."
+               },
+               {
+                 icon: Users,
+                 title: "Expert Team",
+                 description: "Our diverse team of designers, developers, and strategists brings deep expertise and fresh perspectives to every project."
+               },
+              {
+                icon: CheckCircle,
+                title: "Proven Results",
+                                 description: "Our diverse portfolio spans industries and technologies, with a proven track record of turning ambitious visions into successful realities."
+              }
+            ].map((feature, index) => (
+              <div key={index} className="p-6 bg-black/60 backdrop-blur-sm rounded-2xl border border-red-600/20 hover:border-red-500/40 hover:shadow-red-500/20 transition-all duration-500 group">
+                <div className="w-12 h-12 rounded-xl torch-bg-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <feature.icon className="w-6 h-6 torch-text-accent" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Optional: Quick Links/CTA at bottom */}
-      {/* <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent"> */}
-        {/* Add a small CTA or links back to Services/About */} 
-      {/* </section> */}
-
+      {/* CTA Section */}
+      <section className="py-20 px-4 md:px-6 lg:px-8 bg-transparent relative">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="p-8 md:p-12 bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/20 backdrop-blur-xl rounded-3xl border border-red-600/30 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600/5 via-red-500/10 to-red-600/5 animate-pulse-slow"></div>
+            
+            <div className="relative z-10">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+                Ready to Get Started?
+              </h2>
+                             <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+                 Let's discuss your project and explore how we can help you achieve your digital goals. 
+                 No commitment required – just an insightful conversation about your vision and possibilities.
+               </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  asChild
+                  className="torch-btn-primary px-8 py-3 text-lg font-semibold"
+                >
+                  <Link href="#contact-form">
+                    Start Your Project
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </Button>
+                <Button 
+                  asChild
+                  variant="outline"
+                  className="torch-btn-outline px-8 py-3 text-lg font-semibold"
+                >
+                  <Link href="/services">
+                    View Our Services
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 } 

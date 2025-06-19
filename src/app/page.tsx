@@ -919,9 +919,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <div className="h-px w-12 bg-gradient-to-r from-transparent to-red-600/80 mr-3"></div>
-                <span className="text-red-500 text-sm md:text-base font-bold tracking-[0.2em] uppercase">About Us</span>
-                <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-600/80 ml-3"></div>
+                <span className="torch-section-title">About Us</span>
               </motion.div>
 
               {/* Main Title */}
@@ -932,7 +930,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                About <span className="text-red-600">Torch</span>
+                About <span className="torch-text-accent">Torch</span>
               </motion.h2>
 
               {/* Improved Typewriter Section */}
@@ -1074,16 +1072,14 @@ export default function Home() {
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="inline-flex items-center justify-center mb-6">
-                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                    <span className="text-red-500 text-base font-bold tracking-widest">WHAT WE DO</span>
-                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                  <div className="torch-section-header mb-6">
+                    <span className="torch-section-title">WHAT WE DO</span>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Our <span className="text-red-600">Services</span>
+                    Our <span className="torch-text-accent">Services</span>
                   </h2>
                   <div className="flex justify-center mb-4">
-                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                    <div className="torch-divider"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
                     Comprehensive digital solutions to ignite your brand and accelerate growth.
@@ -1173,12 +1169,12 @@ export default function Home() {
                               onClick={() => scrollToSection('torch-group')}
                               className="px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600"
                             >
-                              Explore Brands
+                              Discover More
                             </button>
                           ) : (
-                            <Link href={`/services#${service.title.toLowerCase()}`}>
+                            <Link href="/services">
                               <button className="px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600">
-                                Learn More
+                                {service.title === "B2T" ? "Get your Membership" : service.title === "B2B" ? "Get your Membership" : "Learn More"}
                               </button>
                             </Link>
                           )}
@@ -1204,16 +1200,14 @@ export default function Home() {
                   <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="inline-flex items-center justify-center mb-6">
-                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                    <span className="text-red-500 text-base font-bold tracking-widest">OUR BRANDS</span>
-                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                  <div className="torch-section-header mb-6">
+                    <span className="torch-section-title">OUR BRANDS</span>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Torch Group <span className="text-red-600">Brands</span>
+                    Torch Group <span className="torch-text-accent">Brands</span>
                   </h2>
                   <div className="flex justify-center mb-4">
-                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                    <div className="torch-divider"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
                     Explore our family of brands, each dedicated to excellence in their specialized fields.
@@ -1380,11 +1374,11 @@ export default function Home() {
                 <div className="text-center mb-16">
                   <div className="inline-flex items-center justify-center mb-6">
                     <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                    <span className="text-red-500 text-base font-bold tracking-widest">INSIGHTS</span>
+                    <span className="torch-section-title">INSIGHTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Our <span className="text-red-600">Blog</span>
+                    Our <span className="torch-text-accent">Blog</span>
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1502,11 +1496,11 @@ export default function Home() {
                 <div className="text-center mb-16">
                   <div className="inline-flex items-center justify-center mb-6">
                     <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                    <span className="text-red-500 text-base font-bold tracking-widest">OUR TALENTS</span>
+                    <span className="torch-section-title">OUR TALENTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Top Torch <span className="text-red-600">Talents</span>
+                    Top Torch <span className="torch-text-accent">Talents</span>
                   </h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1627,11 +1621,11 @@ export default function Home() {
               <div className="text-center mb-16">
                 <div className="inline-flex items-center justify-center mb-6">
                   <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                  <span className="text-red-500 text-base font-bold tracking-widest">ALLIES</span>
+                                      <span className="torch-section-title">ALLIES</span>
                   <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                 </div>
                 <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                  Top Torch <span className="text-red-600">Allies</span>
+                  Top Torch <span className="torch-text-accent">Allies</span>
                 </h2>
                 <div className="flex justify-center mb-4">
                   <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
@@ -1775,11 +1769,11 @@ export default function Home() {
                 <div className="text-center mb-8 sm:mb-12 lg:mb-16">
                   <div className="inline-flex items-center justify-center mb-4 sm:mb-6">
                     <div className="h-px w-6 sm:w-8 bg-red-600/80 mr-2"></div>
-                    <span className="text-red-500 text-sm sm:text-base font-bold tracking-widest">CONTACT US</span>
+                    <span className="torch-section-title">CONTACT US</span>
                     <div className="h-px w-6 sm:w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-3 sm:mb-4 text-white drop-shadow-lg leading-tight">
-                    Get in <span className="text-red-600">Touch</span>
+                    Get in <span className="torch-text-accent">Touch</span>
                   </h2>
                   <div className="flex justify-center mb-3 sm:mb-4">
                     <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>

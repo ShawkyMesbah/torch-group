@@ -18,7 +18,7 @@ export default function DashboardHeader() {
     <header className="sticky top-0 z-40 border-b bg-black">
       <div className="container flex h-14 items-center justify-between">
         <Link href="/dashboard" className="flex items-center space-x-2">
-          <span className="text-lg font-bold text-red-600">Torch Admin</span>
+          <span className="text-lg font-bold torch-text-primary">Torch Admin</span>
         </Link>
 
         <DropdownMenu>
@@ -35,7 +35,7 @@ export default function DashboardHeader() {
               <Link href="/dashboard/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="text-red-600"
+              className="torch-text-primary"
               onSelect={(event) => {
                 event.preventDefault();
                 signOut({ callbackUrl: '/login' });

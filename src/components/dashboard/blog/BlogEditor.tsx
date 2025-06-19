@@ -172,16 +172,16 @@ export function BlogEditor({ post, onClose }: { post?: any; onClose?: () => void
           <div className="bg-white rounded-md overflow-hidden">
             {editor && (
               <div className="mb-2 flex flex-wrap gap-2 p-2 bg-zinc-100 rounded-t-md border-b border-zinc-200">
-                <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'font-bold text-red-600' : ''}>B</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'italic text-red-600' : ''}>I</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()} className={editor.isActive('underline') ? 'underline text-red-600' : ''}>U</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'text-red-600' : ''}>H1</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'text-red-600' : ''}>H2</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'text-red-600' : ''}>• List</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'text-red-600' : ''}>1. List</button>
-                <button type="button" onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive({ textAlign: 'left' }) ? 'text-red-600' : ''}>Left</button>
-                <button type="button" onClick={() => editor.chain().focus().setTextAlign('center').run()} className={editor.isActive({ textAlign: 'center' }) ? 'text-red-600' : ''}>Center</button>
-                <button type="button" onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive({ textAlign: 'right' }) ? 'text-red-600' : ''}>Right</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'font-bold torch-text-primary' : ''}>B</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'italic torch-text-primary' : ''}>I</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()} className={editor.isActive('underline') ? 'underline torch-text-primary' : ''}>U</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'torch-text-primary' : ''}>H1</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'torch-text-primary' : ''}>H2</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'torch-text-primary' : ''}>• List</button>
+                <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'torch-text-primary' : ''}>1. List</button>
+                <button type="button" onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive({ textAlign: 'left' }) ? 'torch-text-primary' : ''}>Left</button>
+                <button type="button" onClick={() => editor.chain().focus().setTextAlign('center').run()} className={editor.isActive({ textAlign: 'center' }) ? 'torch-text-primary' : ''}>Center</button>
+                <button type="button" onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive({ textAlign: 'right' }) ? 'torch-text-primary' : ''}>Right</button>
                 <button type="button" onClick={() => {
                   const url = prompt('Enter image URL');
                   if (url) editor.chain().focus().setImage({ src: url }).run();
@@ -259,9 +259,9 @@ export function BlogEditor({ post, onClose }: { post?: any; onClose?: () => void
       {showPreview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <div className="relative bg-zinc-900 rounded-xl shadow-xl max-w-2xl w-full p-8 text-white">
-            <button className="absolute top-4 right-4 text-zinc-400 hover:text-red-400" onClick={() => setShowPreview(false)}><X className="w-6 h-6" /></button>
+                          <button className="absolute top-4 right-4 text-zinc-400 hover:torch-text-accent" onClick={() => setShowPreview(false)}><X className="w-6 h-6" /></button>
             <h2 className="text-3xl font-bold mb-2">{form.title}</h2>
-            {form.category && <div className="mb-2 text-sm text-red-400 font-semibold">{form.category}</div>}
+            {form.category && <div className="mb-2 text-sm torch-text-accent font-semibold">{form.category}</div>}
             {form.tags && form.tags.length > 0 && (
               <div className="mb-4 flex flex-wrap gap-2">
                 {form.tags.map((tag) => (

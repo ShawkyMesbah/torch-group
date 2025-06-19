@@ -117,7 +117,7 @@ function MetricCard({
 
   const getTrendColor = () => {
     if (!change) return "text-gray-500";
-    return change > 0 ? "text-green-600" : "text-red-600";
+    return change > 0 ? "text-green-600" : "torch-text-error";
   };
 
   return (
@@ -125,7 +125,7 @@ function MetricCard({
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-2">
           <div className="p-2 rounded-lg bg-red-50 dark:bg-red-900/20">
-            <Icon className="h-5 w-5 text-red-600 dark:text-red-400" />
+            <Icon className="h-5 w-5 torch-text-primary" />
           </div>
           {change !== undefined && (
             <div className={`flex items-center gap-1 text-sm font-medium ${getTrendColor()}`}>

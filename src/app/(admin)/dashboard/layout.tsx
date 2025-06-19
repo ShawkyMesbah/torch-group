@@ -1,7 +1,7 @@
 import { ReactNode, Suspense } from "react";
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
-import Loading from '@/components/loading/loading';
+import { PageLoading } from '@/components/ui/unified-loading';
 import DashboardNav from '@/components/dashboard/layout/dashboard-nav';
 import DashboardHeader from '@/components/dashboard/layout/dashboard-header';
 
@@ -14,13 +14,10 @@ interface DashboardLayoutProps {
 }
 
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
-  const session = await (async () => {
-    const session = await auth();
-    if (!session?.user) {
-      redirect('/login');
-    }
-    return session;
-  })();
+  const session = await auth();
+  if (!session?.user) {
+    redirect('/login');
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -39,7 +36,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
             <DashboardNav />
           </aside>
           <main className="flex w-full flex-col overflow-hidden">
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<PageLoading />}>
               <div className="max-w-7xl mx-auto">
                 {children}
               </div>

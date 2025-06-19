@@ -71,7 +71,7 @@ export function LoginForm({ adminMode = false }: { adminMode?: boolean }) {
           containerClassName="!mb-0"
         />
         {error && (
-          <p className="text-xs text-red-500 mt-1">{error}</p>
+                          <p className="text-xs torch-text-error mt-1">{error}</p>
         )}
       </div>
       <div className="space-y-2 relative">

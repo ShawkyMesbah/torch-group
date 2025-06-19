@@ -1,0 +1,243 @@
+/* Torch Group Design System
+ * Consistent design tokens and utilities
+ * Use these classes instead of arbitrary red values
+ */
+
+:root {
+  /* Primary Brand Colors */
+  --torch-red-50: rgb(254 242 242);
+  --torch-red-100: rgb(254 226 226);
+  --torch-red-200: rgb(254 202 202);
+  --torch-red-300: rgb(252 165 165);
+  --torch-red-400: rgb(248 113 113);
+  --torch-red-500: rgb(239 68 68);     /* Primary brand red */
+  --torch-red-600: rgb(220 38 38);     /* Primary interactive red */
+  --torch-red-700: rgb(185 28 28);
+  --torch-red-800: rgb(153 27 27);
+  --torch-red-900: rgb(127 29 29);
+  --torch-red-950: rgb(69 10 10);
+
+  /* Semantic Colors */
+  --torch-primary: var(--torch-red-600);
+  --torch-primary-hover: var(--torch-red-700);
+  --torch-accent: var(--torch-red-500);
+  --torch-accent-hover: var(--torch-red-400);
+  --torch-error: var(--torch-red-500);
+  --torch-text-accent: var(--torch-red-500);
+  --torch-success: rgb(34 197 94);
+  --torch-warning: rgb(251 191 36);
+  
+  /* Typography Scale */
+  --torch-text-xs: 0.75rem;
+  --torch-text-sm: 0.875rem;
+  --torch-text-base: 1rem;
+  --torch-text-lg: 1.125rem;
+  --torch-text-xl: 1.25rem;
+  --torch-text-2xl: 1.5rem;
+  --torch-text-3xl: 1.875rem;
+  --torch-text-4xl: 2.25rem;
+  --torch-text-5xl: 3rem;
+  --torch-text-6xl: 3.75rem;
+  --torch-text-7xl: 4.5rem;
+
+  /* Spacing Scale */
+  --torch-space-xs: 0.5rem;
+  --torch-space-sm: 0.75rem;
+  --torch-space-md: 1rem;
+  --torch-space-lg: 1.5rem;
+  --torch-space-xl: 2rem;
+  --torch-space-2xl: 3rem;
+  --torch-space-3xl: 4rem;
+
+  /* Border Radius */
+  --torch-radius-sm: 0.375rem;
+  --torch-radius-md: 0.5rem;
+  --torch-radius-lg: 0.75rem;
+  --torch-radius-xl: 1rem;
+  --torch-radius-2xl: 1.5rem;
+  --torch-radius-3xl: 1.875rem;
+
+  /* Shadows */
+  --torch-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --torch-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --torch-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --torch-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Red Glow Effects */
+  --torch-glow-sm: 0 0 16px 4px rgba(220, 38, 38, 0.15);
+  --torch-glow-md: 0 0 24px 6px rgba(220, 38, 38, 0.25);
+  --torch-glow-lg: 0 0 32px 8px rgba(220, 38, 38, 0.35);
+  --torch-glow-xl: 0 0 40px 10px rgba(220, 38, 38, 0.45);
+}
+
+/* Design System Utility Classes */
+.torch-text-primary { color: var(--torch-primary); }
+.torch-text-accent { color: var(--torch-accent); }
+.torch-text-accent-hover { color: var(--torch-accent-hover); }
+.torch-text-error { color: var(--torch-error); }
+
+.torch-bg-primary { background-color: var(--torch-primary); }
+.torch-bg-primary-hover { background-color: var(--torch-primary-hover); }
+.torch-bg-accent { background-color: var(--torch-accent); }
+.torch-bg-accent-10 { background-color: rgba(239, 68, 68, 0.1); }
+.torch-bg-accent-20 { background-color: rgba(239, 68, 68, 0.2); }
+
+.torch-border-primary { border-color: var(--torch-primary); }
+.torch-border-accent { border-color: var(--torch-accent); }
+
+.torch-glow-sm { box-shadow: var(--torch-glow-sm); }
+.torch-glow-md { box-shadow: var(--torch-glow-md); }
+.torch-glow-lg { box-shadow: var(--torch-glow-lg); }
+.torch-glow-xl { box-shadow: var(--torch-glow-xl); }
+
+/* Interactive States */
+.torch-hover-glow {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.torch-hover-glow:hover {
+  box-shadow: var(--torch-glow-md);
+  transform: translateY(-2px);
+}
+
+/* Section Headers */
+.torch-section-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.torch-section-header::before,
+.torch-section-header::after {
+  content: '';
+  height: 1px;
+  width: 2rem;
+  background: linear-gradient(to right, transparent, var(--torch-accent), transparent);
+}
+.torch-section-header::before { margin-right: 0.5rem; }
+.torch-section-header::after { margin-left: 0.5rem; }
+
+.torch-section-title {
+  font-size: var(--torch-text-base);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--torch-accent);
+}
+
+/* Section Dividers */
+.torch-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--torch-accent) 50%, transparent 100%);
+  margin: 2rem 0;
+  opacity: 0.6;
+}
+
+/* Card Components */
+.torch-card {
+  border-radius: var(--torch-radius-3xl);
+  backdrop-filter: blur(16px);
+  background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(127,29,29,0.2) 100%);
+  border: 2px solid rgba(220,38,38,0.3);
+  transition: all 0.3s ease;
+}
+.torch-card:hover {
+  border-color: var(--torch-primary);
+  box-shadow: var(--torch-glow-lg);
+  transform: translateY(-4px);
+}
+
+/* Button System */
+.torch-btn-primary,
+.torch-button-primary {
+  background: var(--torch-primary);
+  color: white;
+  border-radius: var(--torch-radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+.torch-btn-primary:hover,
+.torch-button-primary:hover {
+  background: var(--torch-primary-hover);
+  box-shadow: var(--torch-glow-sm);
+}
+
+.torch-btn-outline {
+  background: transparent;
+  color: var(--torch-primary);
+  border: 2px solid var(--torch-primary);
+  border-radius: var(--torch-radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.torch-btn-outline:hover {
+  background: var(--torch-primary);
+  color: white;
+  box-shadow: var(--torch-glow-sm);
+}
+
+/* Loading States */
+.torch-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  border-top: 2px solid var(--torch-primary);
+  border-radius: 50%;
+  animation: torch-spin 1s linear infinite;
+}
+
+@keyframes torch-spin {
+  to { transform: rotate(360deg); }
+}
+
+.torch-pulse {
+  animation: torch-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes torch-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Focus States for Accessibility */
+.torch-focus {
+  outline: 2px solid var(--torch-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .torch-section-title {
+    font-size: var(--torch-text-sm);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --torch-primary: rgb(255, 255, 255);
+    --torch-accent: rgb(255, 255, 255);
+    --torch-text-accent: rgb(255, 255, 255);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .torch-hover-glow,
+  .torch-card,
+  .torch-btn-primary,
+  .torch-btn-outline {
+    transition: none;
+  }
+  
+  .torch-spinner,
+  .torch-pulse {
+    animation: none;
+  }
+} 

@@ -61,7 +61,7 @@ export default function Header() {
                   key={item.name}
                   href={item.href}
                   className={`relative px-4 py-2 text-lg font-bold rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
-                    ${pathname === item.href ? "text-red-500" : "text-gray-200 hover:text-white"}
+                    ${pathname === item.href ? "torch-text-accent" : "text-gray-200 hover:text-white"}
                   `}
                 >
                   <span>{item.name}</span>
@@ -98,7 +98,7 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     className={`block w-full text-center rounded-md px-4 py-4 text-xl font-extrabold tracking-wide transition-all duration-200
-                      ${pathname === item.href ? "text-red-500" : "text-gray-200 hover:text-white"}
+                      ${pathname === item.href ? "torch-text-accent" : "text-gray-200 hover:text-white"}
                     `}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

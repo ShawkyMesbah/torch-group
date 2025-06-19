@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { BlogEditor } from "@/components/dashboard/blog/BlogEditor";
 import { Loader2, Edit, Trash2, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SectionLoading } from "@/components/ui/unified-loading";
 
 const PAGE_SIZE = 10;
 
@@ -187,7 +188,7 @@ export default function BlogAdminPage() {
         </div>
       )}
       {loading ? (
-        <div className="flex items-center justify-center py-12"><Loader2 className="animate-spin w-8 h-8 text-zinc-400" /></div>
+        <SectionLoading text="Loading blog posts..." />
       ) : error ? (
         <div className="text-red-500">{error}</div>
       ) : filteredPosts.length === 0 ? (

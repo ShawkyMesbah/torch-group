@@ -45,11 +45,11 @@ export default function Footer() {
         {/* Logo with glow */}
         <div className="relative flex flex-col items-center group">
           <div className="absolute -inset-4 md:-inset-6 rounded-full bg-red-600/40 blur-2xl opacity-80 group-hover:opacity-100 group-hover:blur-3xl transition-all duration-300 z-0" />
-          <Image 
-            src="/images/logo.png" 
-            alt="Torch Logo" 
-            width={96} 
-            height={96} 
+          <Image
+            src="/images/logo.png"
+            alt="Torch Logo"
+            width={96}
+            height={96}
             className="object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300"
             style={{ aspectRatio: '1/1' }}
           />
@@ -83,7 +83,7 @@ export default function Footer() {
         </div>
         {/* Copyright */}
         <p className="text-center text-xs md:text-sm leading-5 text-gray-300 animate-fade-in bg-black/40 px-4 py-2 rounded-full border border-white/10 mt-2 shadow-sm">
-          &copy; {new Date().getFullYear()} Torch Group. All rights reserved.
+          All rights reserved by TORCH - 2025
         </p>
       </div>
     </footer>

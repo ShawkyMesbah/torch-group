@@ -18,7 +18,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-12">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-              About <span className="text-red-500">Torch Group</span>
+              About <span className="torch-text-accent">Torch Group</span>
             </h1>
             <p className="text-lg text-gray-200 max-w-3xl">
               Igniting digital transformation through innovative solutions and strategic allies.
@@ -34,18 +34,21 @@ export default function AboutPage() {
             <div>
               <h2 className="text-3xl font-bold mb-6 text-white">Our Story</h2>
               <p className="text-gray-200 mb-6">
-                Founded in 2015, Torch Group began with a simple vision: to help businesses navigate the 
-                increasingly complex digital landscape. What started as a small team of passionate 
-                professionals has grown into a full-service digital agency with a global client base.
+                Founded in 2020, Torch began with a simple vision: creating a creative environment in the cultural, 
+                scientific, sports and tourism fields and helping companies and creative talents navigate the 
+                increasingly complex digital landscape. What started as a small team of enthusiastic professionals 
+                has grown into a full-service digital system with a global customer base.
               </p>
               <p className="text-gray-200 mb-6">
-                Throughout our journey, we've remained committed to our core values of innovation, 
-                excellence, and client success. We've evolved with the changing technological landscape, 
-                but our mission has remained constant: to illuminate the path to digital success for our clients.
+                Throughout our journey, we have remained committed to our core values of innovation, excellence 
+                and customer success. We have evolved with the changing technological landscape, but our mission 
+                has remained constant: to shed light on the path to the digital success of our customers, achieving 
+                the creative goals in Vision 2030 and Vision After 2030, raising the creative quality of life.
               </p>
               <p className="text-gray-200">
-                Today, we're proud to work with businesses of all sizes, from startups to established 
-                enterprises, helping them harness the power of digital to achieve their goals.
+                Today, we are proud to work with companies, cultural, scientific, sports and tourist entities 
+                and talents of all sizes, from startups to established enterprises & talents, which helps them 
+                harness digital power to achieving their goals.
               </p>
             </div>
             <div className="relative">
@@ -60,6 +63,87 @@ export default function AboutPage() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </SectionWrapper>
+
+      {/* Mission & Goals Section */}
+      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-6 text-white">Our Mission & Goals</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                title: "Attracting Partnerships",
+                desc: "Attracting partnerships and supportive sponsorships to develop and raise the efficiency of the entity."
+              },
+              {
+                title: "Media Highlighting",
+                desc: "Highlighting the media and press on creative content to raise awareness."
+              },
+              {
+                title: "Audience Engagement",
+                desc: "Attracting an audience interested in the entity's content to raise engagement on social media platforms."
+              },
+              {
+                title: "Vision 2030 Support",
+                desc: "Supporting the achievement of Vision 2030 goals in various creative sectors."
+              }
+            ].map((goal, index) => (
+              <AnimatedFadeIn 
+                key={goal.title}
+                animation="slide-up" 
+                delay={0.1 * index}
+                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 p-8 rounded-3xl hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl"
+              >
+                <h3 className="text-xl font-semibold mb-4 text-white">{goal.title}</h3>
+                <p className="text-gray-200">
+                  {goal.desc}
+                </p>
+              </AnimatedFadeIn>
+            ))}
+          </div>
+        </div>
+      </SectionWrapper>
+
+      {/* Areas of Expertise Section */}
+      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-6 text-white">Areas of Expertise</h2>
+            <p className="text-gray-200 max-w-2xl mx-auto">
+              Our specialized knowledge and skills across multiple domains enable us to deliver comprehensive solutions.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Project Management",
+                desc: "Strategic planning and execution of creative projects with precision and efficiency."
+              },
+              {
+                title: "Marketing & Media",
+                desc: "Comprehensive marketing strategies and media management to amplify your brand presence."
+              },
+              {
+                title: "Talent Management",
+                desc: "Nurturing and developing creative talents to achieve their full potential in the digital landscape."
+              }
+            ].map((expertise, index) => (
+              <AnimatedFadeIn 
+                key={expertise.title}
+                animation="fade-in" 
+                delay={0.15 * index}
+                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 p-8 rounded-3xl hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl text-center"
+              >
+                <h3 className="text-xl font-semibold mb-4 text-white">{expertise.title}</h3>
+                <p className="text-gray-200">
+                  {expertise.desc}
+                </p>
+              </AnimatedFadeIn>
+            ))}
           </div>
         </div>
       </SectionWrapper>

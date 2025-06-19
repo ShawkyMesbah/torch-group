@@ -94,7 +94,7 @@ export function CountdownTimer({
             <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
               {formatNumber(value)}
             </div>
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[10px] px-2 py-0.5">
+                            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 torch-bg-primary text-white text-[10px] px-2 py-0.5">
               {label}
             </div>
           </div>
@@ -112,7 +112,7 @@ export function CountdownTimer({
           {/* Animated pulsing red border */}
           <div className="absolute inset-0 border border-red-600/30 animate-pulse-slow"></div>
           {/* Red line at the bottom */}
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-red-600"></div>
+                        <div className="absolute bottom-0 left-0 w-full h-1 torch-bg-primary"></div>
         </div>
         <span className="text-xs text-gray-400 uppercase tracking-wider">{label}</span>
       </div>
@@ -146,7 +146,7 @@ export function CountdownTimer({
       </div>
       
       {isComplete && (
-        <p className="text-red-500 mt-4 text-sm font-medium">
+                    <p className="torch-text-error mt-4 text-sm font-medium">
           The countdown has ended!
         </p>
       )}

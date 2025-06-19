@@ -1,5 +1,6 @@
 @import "tw-animate-css";
 @import "react-phone-number-input/style.css";
+@import "../styles/design-system.css";
 
 @tailwind base;
 @tailwind components;
@@ -37,7 +38,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 72.2% 50.6%;
+    --primary: 0 84% 51%;
     --primary-foreground: 0 85.7% 97.3%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -63,7 +64,7 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 204 100% 40%;
+    --primary: 0 84% 51%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 270 95% 45%;
@@ -260,5 +261,43 @@ a:focus-visible,
   box-shadow: none !important;
   --tw-ring-shadow: none !important;
   --tw-ring-offset-shadow: none !important;
+}
+
+/* Contact form phone input styling */
+.phone-input-custom .PhoneInputInput {
+  @apply bg-black text-white border-gray-800 focus:ring-red-500 focus:border-red-500 px-3 py-2 sm:px-4 sm:py-3 rounded-md text-sm sm:text-base transition-all duration-200;
+}
+
+.phone-input-custom .PhoneInputCountrySelect {
+  @apply bg-black border-gray-800 text-white rounded-l-md;
+  padding: 8px 12px !important;
+  margin: 2px !important;
+}
+
+.phone-input-custom .PhoneInputCountrySelectArrow {
+  @apply text-gray-400;
+  margin-left: 6px !important;
+}
+
+.phone-input-custom .PhoneInputCountryIcon {
+  margin: 0 8px 0 4px !important;
+  border-radius: 2px !important;
+  display: inline-block !important;
+}
+
+/* Enhanced contact form styling */
+.contact-form-glow {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+}
+
+.contact-hover-glow:hover {
+  box-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
+  transform: translateY(-1px);
+  transition: all 0.3s ease;
+}
+
+/* Custom scroll behavior for contact page */
+.contact-scroll-smooth {
+  scroll-behavior: smooth;
 }
 

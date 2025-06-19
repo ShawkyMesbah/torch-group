@@ -185,7 +185,7 @@ export function DateRangePicker({ value, onChange, onApply, className }: DateRan
               size="sm"
                   onClick={handleApply}
                   disabled={!value?.from}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 torch-bg-primary hover:torch-bg-primary-hover text-white"
             >
               Apply
             </Button>

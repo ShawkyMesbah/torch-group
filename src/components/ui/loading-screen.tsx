@@ -39,7 +39,7 @@ export function LoadingScreen({ isLoading = false }: { isLoading?: boolean }) {
           <div className="mb-8 relative flex flex-col items-center animate-fade-in">
             {/* Animated red pulsing glow behind logo */}
           <motion.div
-              className="absolute w-56 h-56 rounded-full bg-red-600/40 blur-[100px] z-0"
+              className="absolute w-56 h-56 rounded-full torch-bg-accent/40 blur-[100px] z-0"
             animate={{
               scale: [1, 1.15, 1],
               opacity: [0.7, 1, 0.7],
@@ -80,7 +80,7 @@ export function LoadingScreen({ isLoading = false }: { isLoading?: boolean }) {
               {[0, 1, 2].map((i) => (
                 <motion.span
                   key={i}
-                  className="inline-block w-2 h-2 bg-red-500 rounded-full"
+                  className="inline-block w-2 h-2 torch-bg-accent rounded-full"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ 
                     opacity: [0, 1, 0], 

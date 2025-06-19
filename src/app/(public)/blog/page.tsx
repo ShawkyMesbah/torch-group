@@ -21,15 +21,15 @@ interface BlogPostWithAuthor extends BlogPost {
   category?: string | null;
 }
 
-// Default categories for filtering
+// Default categories for filtering - Updated with new content structure
 const categories = [
   "All",
-  "Marketing",
-  "Technology",
-  "Branding",
-  "E-commerce",
-  "Social Media",
-  "SEO"
+  "Latest Insights",
+  "Creative Content", 
+  "Top Talents List",
+  "Creative Broken Records",
+  "Talents News",
+  "Creative Entities News"
 ];
 
 // Helper to safely format date
@@ -193,7 +193,7 @@ export default function BlogPage() {
                 </span>
               </h1>
               <p className="text-xl text-gray-300 mb-10 animate-fade-in animation-delay-700">
-                Discover strategies, insights, and expert advice to help your business thrive in the digital world
+                Discover the latest insights, creative content, talent spotlights, and industry news from the creative world
               </p>
               <p className="text-xl text-gray-300 mt-8">No blog posts found matching your criteria.</p>
               {searchQuery && (

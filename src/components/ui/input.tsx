@@ -60,7 +60,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             htmlFor={props.id || id}
             className={cn(
               "text-sm font-medium text-gray-300",
-              error && "text-red-500"
+              error && "torch-text-error"
             )}
           >
             {label}
@@ -77,8 +77,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <div
               className={cn(
                 "absolute left-3 top-1/2 -translate-y-1/2 text-gray-500",
-                focused && "text-red-500",
-                error && "text-red-500"
+                focused && "torch-text-accent",
+                error && "torch-text-error"
               )}
             >
               {leftIcon}
@@ -112,8 +112,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <div
               className={cn(
                 "absolute right-3 top-1/2 -translate-y-1/2 text-gray-500",
-                focused && "text-red-500",
-                error && "text-red-500"
+                focused && "torch-text-accent",
+                error && "torch-text-error"
               )}
             >
               {rightIcon}
@@ -123,7 +123,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {variant === "modern" && (
             <div
               className={cn(
-                "absolute bottom-0 left-0 h-0.5 w-0 bg-red-600 transition-all duration-300",
+                "absolute bottom-0 left-0 h-0.5 w-0 torch-bg-primary transition-all duration-300",
                 focused && "w-full"
               )}
             />
@@ -134,7 +134,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <p
             className={cn(
               "text-xs",
-              error ? "text-red-500" : "text-gray-400"
+              error ? "torch-text-error" : "text-gray-400"
             )}
           >
             {error || description}

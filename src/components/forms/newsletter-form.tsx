@@ -67,7 +67,7 @@ export function NewsletterForm() {
           className="bg-transparent"
         />
         {errors.email && (
-          <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
+                          <p className="text-sm torch-text-error mt-1">{errors.email.message}</p>
         )}
       </div>
       <Button type="submit" variant="default" disabled={isLoading}>

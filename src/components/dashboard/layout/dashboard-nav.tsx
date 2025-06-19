@@ -74,8 +74,8 @@ export default function DashboardNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-red-600/10 hover:text-red-600 transition-colors',
-              pathname === item.href ? 'bg-red-600/10 text-red-600' : 'text-gray-400'
+                      'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:torch-bg-accent-10 hover:torch-text-primary transition-colors',
+        pathname === item.href ? 'torch-bg-accent-10 torch-text-primary' : 'text-gray-400'
             )}
           >
             <Icon className="h-4 w-4" />

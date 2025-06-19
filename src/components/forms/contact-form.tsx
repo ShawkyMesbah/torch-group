@@ -380,7 +380,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
   };
 
   return (
-    <form data-testid="contact-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+    <form id="contact-form" data-testid="contact-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
       <div className="space-y-3 sm:space-y-4">
         <div>
           <label htmlFor="contact-name" className="block text-sm font-medium mb-1 text-gray-200">Name</label>
@@ -392,7 +392,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             placeholder="Your Name"
             autoComplete="name"
           />
-          {errors.name && <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.name.message}</p>}
+                          {errors.name && <p className="mt-1 text-xs sm:text-sm torch-text-error">{errors.name.message}</p>}
         </div>
 
         <div>
@@ -405,7 +405,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             placeholder="your.email@example.com"
             autoComplete="email"
           />
-          {errors.email && <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.email.message}</p>}
+                          {errors.email && <p className="mt-1 text-xs sm:text-sm torch-text-error">{errors.email.message}</p>}
         </div>
 
         <div>
@@ -436,7 +436,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
                  type="button"
                  onClick={sendVerificationCode}
                  disabled={isLoading || !(typeof phoneValue === 'string' && isValidPhoneNumber(phoneValue as string)) || errors.phone?.message !== undefined}
-                 className="bg-red-600 hover:bg-red-700 min-h-[44px] px-3 sm:px-4 text-sm sm:text-base whitespace-nowrap">
+                 className="torch-button-primary min-h-[44px] px-3 sm:px-4 text-sm sm:text-base whitespace-nowrap">
                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </Button>
             )}
@@ -449,7 +449,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
           
           {/* Show verification error only when user tries to submit without verification */}
           {showPhoneVerificationError && phoneValue && phoneValue.trim() !== '' && !phoneVerificationState.isVerified && (
-            <p className="mt-1 text-xs sm:text-sm text-red-500">Please verify your phone number before submitting the form.</p>
+                            <p className="mt-1 text-xs sm:text-sm torch-text-error">Please verify your phone number before submitting the form.</p>
           )}
 
           {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
@@ -467,11 +467,11 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
                   autoComplete="one-time-code"
                   maxLength={6}
                 />
-                <Button type="button" onClick={verifyCode} disabled={isLoading || phoneVerificationState.verificationCode.length !== 6} className="bg-red-600 hover:bg-red-700 min-h-[44px] px-3 sm:px-4 text-sm sm:text-base whitespace-nowrap">
+                <Button type="button" onClick={verifyCode} disabled={isLoading || phoneVerificationState.verificationCode.length !== 6} className="torch-button-primary min-h-[44px] px-3 sm:px-4 text-sm sm:text-base whitespace-nowrap">
                   {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                 </Button>
               </div>
-               {phoneVerificationState.error && <p className="mt-1 text-xs sm:text-sm text-red-500">{phoneVerificationState.error}</p>}
+                               {phoneVerificationState.error && <p className="mt-1 text-xs sm:text-sm torch-text-error">{phoneVerificationState.error}</p>}
             </div>
           )}
         </div>
@@ -492,7 +492,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             placeholder="Subject of your message"
             autoComplete="on"
           />
-          {errors.subject && <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.subject.message}</p>}
+                          {errors.subject && <p className="mt-1 text-xs sm:text-sm torch-text-error">{errors.subject.message}</p>}
         </div>
 
         <div>
@@ -505,7 +505,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             placeholder="Your Message"
             autoComplete="off"
           />
-          {errors.message && <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.message.message}</p>}
+                          {errors.message && <p className="mt-1 text-xs sm:text-sm torch-text-error">{errors.message.message}</p>}
         </div>
 
         <div>
@@ -551,10 +551,10 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             className={`h-5 w-5 mt-0.5 rounded border-gray-600 text-red-600 focus:ring-red-500 focus:ring-offset-0 ${errors.privacy ? 'border-red-500' : ''}`}
           />
           <label htmlFor="privacy-policy" className="block text-sm sm:text-base text-gray-300 leading-relaxed">
-            I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:text-red-400 underline transition-colors duration-200">Privacy Policy</a>
+                          I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer" className="torch-text-accent hover:torch-text-accent-hover underline transition-colors duration-200">Privacy Policy</a>
           </label>
         </div>
-        {errors.privacy && <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.privacy.message}</p>}
+                        {errors.privacy && <p className="mt-1 text-xs sm:text-sm torch-text-error">{errors.privacy.message}</p>}
       </div>
 
       <Button
@@ -563,7 +563,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
         className={`w-full py-3 sm:py-4 text-base sm:text-lg font-semibold min-h-[48px] sm:min-h-[52px] transition-all duration-500 shadow-lg hover:shadow-xl ${
           isSubmitSuccess 
             ? 'bg-green-600 hover:bg-green-600 text-white border-green-500' 
-            : 'bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed'
+                            : 'torch-button-primary disabled:bg-gray-600 disabled:cursor-not-allowed'
         }`}
       >
         {isLoading ? (

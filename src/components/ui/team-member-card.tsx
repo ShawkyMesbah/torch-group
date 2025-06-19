@@ -60,7 +60,7 @@ export function TeamMemberCard({
             alt={name}
             width={80}
             height={80}
-            className="rounded-full object-cover border-2 border-red-600 shadow-md"
+            className="rounded-full object-cover border-2 torch-border-accent shadow-md"
             placeholder="blur"
             sizes="80px"
           />
@@ -81,7 +81,7 @@ export function TeamMemberCard({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-red-500 transition-colors"
+                className="text-gray-500 hover:torch-text-accent transition-colors"
               >
                 {getSocialIcon(link.platform)}
               </a>
@@ -109,7 +109,7 @@ export function TeamMemberCard({
             alt={name}
             width={80}
             height={80}
-            className="rounded-full object-cover border-2 border-red-600 shadow-md"
+            className="rounded-full object-cover border-2 torch-border-accent shadow-md"
             placeholder="blur"
             sizes="80px"
           />
@@ -146,7 +146,7 @@ export function TeamMemberCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "flex-1 flex items-center justify-center py-3 text-gray-400 hover:text-red-500 transition-colors",
+                  "flex-1 flex items-center justify-center py-3 text-gray-400 hover:torch-text-accent transition-colors",
                   index !== socialLinks.length - 1 && "border-r border-gray-800"
                 )}
               >
@@ -177,7 +177,7 @@ export function TeamMemberCard({
           alt={name}
           width={80}
           height={80}
-          className="rounded-full object-cover border-2 border-red-600 shadow-md"
+          className="rounded-full object-cover border-2 torch-border-accent shadow-md"
           placeholder="blur"
           sizes="80px"
         />
@@ -192,7 +192,7 @@ export function TeamMemberCard({
         ></div>
         
         {/* Hire tag */}
-        <div className="absolute top-3 right-3 bg-red-600 text-white text-xs py-1 px-2">
+        <div className="absolute top-3 right-3 torch-bg-primary text-white text-xs py-1 px-2">
           TALENT
         </div>
         
@@ -216,7 +216,7 @@ export function TeamMemberCard({
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-900/80 hover:bg-red-600 text-gray-400 hover:text-white p-2 rounded-full 
+                  className="bg-gray-900/80 hover:torch-bg-primary text-gray-400 hover:text-white p-2 rounded-full 
                              transition-colors flex items-center justify-center"
                 >
                   {getSocialIcon(link.platform)}
@@ -235,7 +235,7 @@ export function TeamMemberCard({
       {/* Bottom border animation */}
       <div 
         className={cn(
-          "absolute bottom-0 left-0 h-0.5 bg-red-600",
+          "absolute bottom-0 left-0 h-0.5 torch-bg-primary",
           "transition-all duration-500 ease-out",
           isHovered ? "w-full" : "w-0"
         )}
