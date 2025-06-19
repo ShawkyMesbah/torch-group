@@ -877,7 +877,7 @@ export default function Home() {
                 shiny={true}
               />
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-2 animate-hero-fadein">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 animate-hero-fadein hero-buttons">
               <button
                 onClick={handleButtonClick(() => scrollToSection('about-torch'))}
                 className="rounded-full bg-red-600/90 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0 w-full sm:w-auto min-w-[200px] backdrop-blur-md"
@@ -1010,7 +1010,7 @@ export default function Home() {
                         <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
                         <span className="text-red-400 font-semibold">driving force</span> in the evolving media landscape.
                       </p>
-                      <div className="grid md:grid-cols-3 gap-6 mt-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8">
                         <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
                           <div className="text-2xl font-bold text-red-500 mb-2">Innovation</div>
                           <div className="text-sm text-gray-300">Cutting-edge solutions</div>
@@ -1092,7 +1092,7 @@ export default function Home() {
                     We offer everything you need to succeed in the digital landscape.
                   </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mt-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mt-16">
                   <motion.div
                     whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -1180,7 +1180,7 @@ export default function Home() {
                   </p>
                 </div>
                 <motion.div
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
@@ -1549,7 +1549,7 @@ export default function Home() {
                 </p>
               </div>
               <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 justify-center items-stretch mb-16"
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 justify-center items-stretch mb-16"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}

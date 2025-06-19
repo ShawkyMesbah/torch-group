@@ -33,7 +33,7 @@ export default function ServicesPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-12">
             <FeatureCard
               title="B2C"
               description={`Enjoy with Our Torch Group\nServices & e commerce will\nhelp your creative products &\nservices that fit your needs`}
@@ -72,7 +72,7 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-transparent p-6 rounded-lg border border-gray-800 hover:border-red-600 transition-colors">
               <BrainCircuit className="h-10 w-10 text-red-600 mb-4" />
               <h3 className="text-lg font-semibold mb-2">AI Integration</h3>
@@ -115,7 +115,7 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="relative">
               <div className="bg-transparent p-6 rounded-lg border border-gray-800 h-full">
                 <div className="absolute -top-4 -left-4 bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>

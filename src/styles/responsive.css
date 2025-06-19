@@ -82,6 +82,23 @@
     padding: 0.625rem 1rem !important;
     font-size: 0.85rem !important;
   }
+  
+  /* Small grid adjustments */
+  .grid {
+    gap: 0.75rem !important;
+  }
+  
+  /* Section padding for very small screens */
+  .py-20 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-24 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-32 { padding-top: 3rem; padding-bottom: 3rem; }
+  .py-40 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  
+  /* Better text scaling for very small screens */
+  .text-lg { font-size: 1rem !important; }
+  .text-xl { font-size: 1.125rem !important; }
+  .text-2xl { font-size: 1.25rem !important; }
+  .text-3xl { font-size: 1.5rem !important; }
 }
 
 /* ==========================================================================
@@ -141,6 +158,19 @@
     padding-bottom: 0.75rem !important;
     font-size: 0.95rem !important;
   }
+  
+  /* Hero button adjustments for mobile */
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .hero-buttons button,
+  .hero-buttons a {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 /* ==========================================================================
@@ -164,6 +194,17 @@
   /* Grid layouts */
   .grid-cols-1.sm\\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  /* Services grid - keep 2 columns for this size */
+  .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  /* Better section spacing */
+  .py-32 { 
+    padding-top: 5rem; 
+    padding-bottom: 5rem; 
   }
 }
 
@@ -191,7 +232,12 @@
   }
   
   .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  /* Services section grid for tablets */
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   
   /* Contact form adjustments */
@@ -200,6 +246,29 @@
     max-width: 600px;
     margin: 0 auto;
   }
+  
+  /* Section padding adjustments for tablets */
+  .py-32 { 
+    padding-top: 6rem; 
+    padding-bottom: 6rem; 
+  }
+  
+  .py-40 { 
+    padding-top: 8rem; 
+    padding-bottom: 8rem; 
+  }
+  
+  /* Better spacing for tablet layouts */
+  .gap-6 { gap: 1.25rem; }
+  .gap-8 { gap: 1.5rem; }
+  .gap-10 { gap: 2rem; }
+  .gap-14 { gap: 2.5rem; }
+  
+  /* Text adjustments for tablets */
+  .text-4xl { font-size: 3rem !important; }
+  .text-5xl { font-size: 3.5rem !important; }
+  .text-6xl { font-size: 4rem !important; }
+  .text-7xl { font-size: 4.5rem !important; }
 }
 
 /* ==========================================================================
@@ -271,6 +340,12 @@
     padding: 4rem !important;
     max-width: 1000px;
   }
+  
+  /* Enhanced grid spacing for 4K */
+  .gap-6 { gap: 2rem; }
+  .gap-8 { gap: 2.5rem; }
+  .gap-10 { gap: 3rem; }
+  .gap-14 { gap: 4rem; }
 }
 
 /* ==========================================================================
