@@ -39,71 +39,52 @@ export default function Header() {
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between relative">
-          
-          {/* Mobile Layout */}
-          <div className="flex md:hidden items-center justify-between w-full mobile-header-container">
-            {/* Mobile Logo - Always visible */}
-            <Link href="/" className="flex items-center group mobile-header-logo">
-              <Image
-                src="/images/logo.png"
-                alt="Torch Logo"
-                width={40}
-                height={40}
-                priority
-                className="object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                style={{aspectRatio: '1/1'}}
-              />
-              <span className="ml-2 text-xl font-black tracking-tight text-white drop-shadow-lg">Torch</span>
-            </Link>
-            
-            {/* Mobile menu button */}
+          {/* Centered content wrapper */}
+          <div className="absolute left-1/2 top-0 transform -translate-x-1/2 h-full flex items-center gap-8">
+            {isScrolled && (
+              <Link href="/" className="flex items-center group">
+                <Image
+                  src="/images/logo.png"
+                  alt="Torch Logo"
+                  width={48}
+                  height={48}
+                  priority
+                  className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                  style={{aspectRatio: '1/1'}}
+                />
+                <span className="ml-3 text-2xl font-black tracking-tight text-white hidden sm:inline-block drop-shadow-lg">Torch</span>
+              </Link>
+            )}
+            <div className="hidden md:flex items-center space-x-6 ml-8">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`relative px-4 py-2 text-lg font-bold rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
+                    ${pathname === item.href ? "text-red-500" : "text-gray-200 hover:text-white"}
+                  `}
+                >
+                  <span>{item.name}</span>
+                  <span
+                    className={`absolute left-1/2 -bottom-1.5 w-2/3 h-0.5 rounded-full transition-all duration-300 -translate-x-1/2
+                      ${pathname === item.href ? "bg-red-500 scale-x-100" : "bg-red-500/60 scale-x-0 group-hover:scale-x-100"}
+                    `}
+                  ></span>
+                </Link>
+              ))}
+            </div>
+          </div>
+          {/* Mobile menu button stays right */}
+          <div className="flex md:hidden ml-auto">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
-              className="text-white mobile-menu-button focus:ring-red-500"
+              className="text-white hover:bg-red-700/20 focus:ring-red-500"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-7 w-7" />
             </Button>
-          </div>
-
-          {/* Desktop Layout - Centered content wrapper */}
-          <div className="hidden md:block absolute left-1/2 top-0 transform -translate-x-1/2 h-full">
-            <div className="flex items-center gap-8 h-full">
-              {isScrolled && (
-                <Link href="/" className="flex items-center group">
-                  <Image
-                    src="/images/logo.png"
-                    alt="Torch Logo"
-                    width={48}
-                    height={48}
-                    priority
-                    className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                    style={{aspectRatio: '1/1'}}
-                  />
-                  <span className="ml-3 text-2xl font-black tracking-tight text-white drop-shadow-lg">Torch</span>
-                </Link>
-              )}
-              <div className="flex items-center space-x-6 ml-8">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`relative px-4 py-2 text-lg font-bold rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
-                      ${pathname === item.href ? "text-red-500" : "text-gray-200 hover:text-white"}
-                    `}
-                  >
-                    <span>{item.name}</span>
-                    <span
-                      className={`absolute left-1/2 -bottom-1.5 w-2/3 h-0.5 rounded-full transition-all duration-300 -translate-x-1/2
-                        ${pathname === item.href ? "bg-red-500 scale-x-100" : "bg-red-500/60 scale-x-0 group-hover:scale-x-100"}
-                      `}
-                    ></span>
-                  </Link>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
@@ -139,13 +120,6 @@ export default function Header() {
         }
         .animate-slide-down {
           animation: slide-down 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-        @keyframes fadeIn {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
         }
       `}</style>
     </header>
