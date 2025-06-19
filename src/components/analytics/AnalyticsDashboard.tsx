@@ -415,7 +415,7 @@ export function AnalyticsDashboard() {
             variant="outline"
             onClick={exportData}
             disabled={isValidating || !dateRange?.from || !dateRange?.to}
-                className="gap-2"
+                className="gap-2 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-white hover:shadow-[0_0_15px_rgba(255,87,34,0.3)] transition-all duration-300"
           >
                 <Download className="h-4 w-4" />
             Export
@@ -426,7 +426,7 @@ export function AnalyticsDashboard() {
                 size="icon"
                 onClick={fetchAnalytics}
                 disabled={isValidating}
-                className={isValidating ? "animate-spin" : ""}
+                className={`border-gray-600 text-gray-300 hover:bg-orange-400 hover:text-white hover:border-orange-400 hover:shadow-[0_0_10px_rgba(255,87,34,0.3)] transition-all duration-300 ${isValidating ? "animate-spin" : ""}`}
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>

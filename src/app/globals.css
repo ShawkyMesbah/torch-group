@@ -143,11 +143,11 @@
     }
     90% {
       transform: scale(1.02) rotate(0deg);
-      filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.5));
+      filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.6));
     }
     100% {
       transform: scale(1) rotate(0deg);
-      filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.3));
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
     }
   }
   

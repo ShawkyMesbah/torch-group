@@ -428,19 +428,19 @@ export default function BlogPage() {
           {filteredPosts.length > 0 && (
             <div className="flex justify-center mt-16">
               <div className="inline-flex rounded-md shadow-sm bg-gray-900/30 border border-gray-800/50 p-1">
-                <Button variant="ghost" className="rounded-l-md border-0 text-gray-400 hover:bg-red-600/20 hover:text-white">
+                <Button variant="ghost" className="rounded-l-md border-0 text-gray-400 hover:bg-orange-500/20 hover:text-white hover:shadow-[0_0_10px_rgba(255,87,34,0.3)] transition-all duration-300">
                   Previous
                 </Button>
-                <Button className="rounded-none border-0 bg-red-600 hover:bg-red-700 text-white">
+                <Button className="rounded-none border-0 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white shadow-[0_0_15px_rgba(255,87,34,0.3)] transition-all duration-300">
                   1
                 </Button>
-                <Button variant="ghost" className="rounded-none border-0 text-gray-400 hover:bg-red-600/20 hover:text-white">
+                <Button variant="ghost" className="rounded-none border-0 text-gray-400 hover:bg-orange-500/20 hover:text-white hover:shadow-[0_0_10px_rgba(255,87,34,0.3)] transition-all duration-300">
                   2
                 </Button>
-                <Button variant="ghost" className="rounded-none border-0 text-gray-400 hover:bg-red-600/20 hover:text-white">
+                <Button variant="ghost" className="rounded-none border-0 text-gray-400 hover:bg-orange-500/20 hover:text-white hover:shadow-[0_0_10px_rgba(255,87,34,0.3)] transition-all duration-300">
                   3
                 </Button>
-                <Button variant="ghost" className="rounded-r-md border-0 text-gray-400 hover:bg-red-600/20 hover:text-white">
+                <Button variant="ghost" className="rounded-r-md border-0 text-gray-400 hover:bg-orange-500/20 hover:text-white hover:shadow-[0_0_10px_rgba(255,87,34,0.3)] transition-all duration-300">
                   Next
                 </Button>
               </div>

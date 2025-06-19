@@ -48,10 +48,10 @@ const SocialShare = ({ url, title }: { url: string, title: string }) => {
   return (
     <div className="flex items-center space-x-3">
       <span className="text-sm text-gray-400">Share:</span>
-      <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-blue-600 hover:text-white transition-colors" aria-label="Share on Twitter"><Twitter size={16} /></a>
-      <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-blue-600 hover:text-white transition-colors" aria-label="Share on Facebook"><Facebook size={16} /></a>
-      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-blue-600 hover:text-white transition-colors" aria-label="Share on LinkedIn"><Linkedin size={16} /></a>
-      <button onClick={handleCopyLink} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-red-600 hover:text-white transition-colors" aria-label="Copy Link">{copied ? <Check size={16} /> : <Copy size={16} />}</button>
+      <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-blue-600 hover:text-white hover:shadow-[0_0_10px_rgba(59,130,246,0.4)] transition-all duration-300 transform hover:scale-110" aria-label="Share on Twitter"><Twitter size={16} /></a>
+      <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-blue-600 hover:text-white hover:shadow-[0_0_10px_rgba(59,130,246,0.4)] transition-all duration-300 transform hover:scale-110" aria-label="Share on Facebook"><Facebook size={16} /></a>
+      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-blue-600 hover:text-white hover:shadow-[0_0_10px_rgba(59,130,246,0.4)] transition-all duration-300 transform hover:scale-110" aria-label="Share on LinkedIn"><Linkedin size={16} /></a>
+      <button onClick={handleCopyLink} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/70 text-gray-300 hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-600 hover:text-white hover:shadow-[0_0_10px_rgba(255,87,34,0.4)] transition-all duration-300 transform hover:scale-110" aria-label="Copy Link">{copied ? <Check size={16} /> : <Copy size={16} />}</button>
     </div>
   );
 };
@@ -182,8 +182,8 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
                 <h3 className="text-xl font-bold text-white mb-3">Subscribe to Our Newsletter</h3>
                 <p className="text-gray-400 text-sm mb-4">Get the latest articles and insights delivered to your inbox.</p>
                 <div className="space-y-3">
-                  <input type="email" placeholder="Your email address" className="w-full bg-gray-800/50 border border-gray-700/50 rounded-md py-2 px-3 text-white placeholder:text-gray-500 focus:border-red-500 focus:ring-red-500/20" />
-                  <button className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md font-medium transition-colors relative overflow-hidden group">
+                  <input type="email" placeholder="Your email address" className="w-full bg-gray-800/50 border border-gray-700/50 rounded-md py-2 px-3 text-white placeholder:text-gray-500 focus:border-orange-400 focus:ring-orange-400/20 focus:shadow-[0_0_10px_rgba(255,87,34,0.2)] transition-all duration-300 hover:border-gray-600" />
+                  <button className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white py-2 rounded-md font-medium transition-all duration-300 relative overflow-hidden group shadow-[0_0_15px_rgba(255,87,34,0.3)] hover:shadow-[0_0_25px_rgba(255,87,34,0.5)]">
                     <span className="relative z-10">Subscribe</span>
                     <span className="absolute inset-0 h-full w-[40%] bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-[250%] transition-transform duration-1000"></span>
                   </button>

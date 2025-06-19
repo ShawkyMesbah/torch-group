@@ -64,13 +64,13 @@ export function NewsletterForm() {
           {...register("email")}
           type="email"
           placeholder="Enter your email"
-          className="bg-transparent"
+          className="bg-transparent border-gray-600 text-white focus:border-orange-400 focus:ring-orange-400/20 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] hover:border-gray-500 transition-all duration-300"
         />
         {errors.email && (
                           <p className="text-sm torch-text-error mt-1">{errors.email.message}</p>
         )}
       </div>
-      <Button type="submit" variant="default" disabled={isLoading}>
+      <Button type="submit" variant="default" disabled={isLoading} className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white hover:shadow-[0_0_20px_rgba(255,87,34,0.4)] transition-all duration-300 border-none">
         {isLoading ? "Subscribing..." : "Subscribe"}
       </Button>
     </form>

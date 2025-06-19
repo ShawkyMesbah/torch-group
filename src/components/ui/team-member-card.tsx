@@ -81,7 +81,7 @@ export function TeamMemberCard({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:torch-text-accent transition-colors"
+                className="text-gray-500 hover:text-orange-400 hover:shadow-[0_0_8px_rgba(255,87,34,0.3)] transition-all duration-300 transform hover:scale-110"
               >
                 {getSocialIcon(link.platform)}
               </a>
@@ -146,7 +146,7 @@ export function TeamMemberCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "flex-1 flex items-center justify-center py-3 text-gray-400 hover:torch-text-accent transition-colors",
+                  "flex-1 flex items-center justify-center py-3 text-gray-400 hover:text-orange-400 hover:bg-orange-500/10 hover:shadow-[0_0_8px_rgba(255,87,34,0.2)] transition-all duration-300",
                   index !== socialLinks.length - 1 && "border-r border-gray-800"
                 )}
               >

@@ -295,8 +295,8 @@ export default function ServicesPage() {
                   onClick={() => setFormData(prev => ({ ...prev, selectedPackage: pkg.name }))}
                   className={`w-full py-3 rounded-full font-bold transition-all duration-300 ${
                     pkg.highlighted
-                      ? 'bg-red-600 hover:bg-red-700 text-white'
-                      : 'border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white'
+                      ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black shadow-[0_0_20px_rgba(255,193,7,0.3)] hover:shadow-[0_0_30px_rgba(255,193,7,0.5)]'
+                      : 'border-2 border-red-600 text-red-600 hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-600 hover:text-white hover:border-orange-500'
                   }`}
                 >
                   Get Started
@@ -470,7 +470,7 @@ export default function ServicesPage() {
                 Contact us today to discuss how our services can help your business reach new heights.
               </p>
               <Link href="/contact">
-                <button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white px-8 py-4 rounded-full inline-flex items-center transition-all duration-300 transform hover:scale-105 font-bold shadow-lg hover:shadow-xl">
+                <button className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white px-8 py-4 rounded-full inline-flex items-center transition-all duration-300 transform hover:scale-105 font-bold shadow-lg hover:shadow-xl hover:shadow-[0_0_30px_rgba(255,87,34,0.4)]">
                   Get in touch
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>

@@ -42,17 +42,23 @@ export default function Footer() {
       {/* Glassmorphism Overlay */}
       <div className="absolute inset-0 bg-black/30 z-10 pointer-events-none" />
       <div className="relative z-20 flex flex-col items-center justify-center px-4 py-10 md:py-14 gap-6 md:gap-8 w-full">
-        {/* Logo with glow */}
+        {/* Logo with service card style glow */}
         <div className="relative flex flex-col items-center group">
-          <div className="absolute -inset-4 md:-inset-6 rounded-full bg-red-600/40 blur-2xl opacity-80 group-hover:opacity-100 group-hover:blur-3xl transition-all duration-300 z-0" />
-          <Image
-            src="/images/logo.png"
-            alt="Torch Logo"
-            width={96}
-            height={96}
-            className="object-contain mx-auto relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300"
-            style={{ aspectRatio: '1/1' }}
-          />
+                      {/* Footer logo container with glow - similar to service cards */}
+            <div className="relative flex items-center justify-center w-[120px] h-[120px] md:w-[140px] md:h-[140px]">
+              {/* Warm gradient glow effect behind logo */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/40 via-red-600/50 to-red-700/40 blur-[60px] rounded-full transition-all duration-500 group-hover:blur-[80px] group-hover:from-orange-400/50 group-hover:via-red-500/60 group-hover:to-red-600/50 animate-pulse-slow"></div>
+            
+            {/* Logo */}
+            <Image
+              src="/images/logo.png"
+              alt="Torch Logo"
+              width={96}
+              height={96}
+              className="object-contain relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300"
+              style={{ aspectRatio: '1/1' }}
+            />
+          </div>
         </div>
         {/* Navigation */}
         <nav className="flex flex-wrap justify-center gap-6 md:gap-10" aria-label="Footer">

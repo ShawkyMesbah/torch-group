@@ -88,7 +88,7 @@ export function UsersTable({
         <h1 className="text-3xl font-bold">User Management</h1>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button aria-label="Add new user" className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary">
+            <Button aria-label="Add new user" className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,87,34,0.4)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange-400">
               <Plus className="mr-2 h-4 w-4" />
               Add User
             </Button>
@@ -163,7 +163,7 @@ export function UsersTable({
             variant="outline"
             size="sm"
             onClick={() => window.location.reload()}
-            className="mt-4"
+            className="mt-4 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-white hover:shadow-[0_0_15px_rgba(255,87,34,0.3)] transition-all duration-300"
             aria-label="Retry fetching users"
           >
             Retry
@@ -172,7 +172,7 @@ export function UsersTable({
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredUsers.map(user => (
-            <Card key={user.id} className="p-6 transition-shadow hover:shadow-lg focus-within:shadow-lg">
+            <Card key={user.id} className="p-6 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10 focus-within:shadow-lg focus-within:shadow-orange-500/10 border-gray-800 hover:border-orange-500/30 bg-black/90 backdrop-blur-sm">
               <div className="flex items-center gap-4 mb-4">
                 <Avatar>
                   <AvatarImage src={user.image} alt={user.name} />
@@ -208,7 +208,7 @@ export function UsersTable({
                   onClick={() => { setSelectedUser(user); setIsEditDialogOpen(true); }}
                   disabled={!isAdmin}
                   aria-label={`Edit user ${user.name}`}
-                  className="transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="border-gray-600 text-gray-300 hover:bg-orange-400 hover:text-white hover:border-orange-400 hover:shadow-[0_0_10px_rgba(255,87,34,0.3)] transition-all duration-300"
                 >
                   <Pencil className="h-4 w-4" />
                 </Button>
@@ -218,7 +218,7 @@ export function UsersTable({
                   onClick={() => { setSelectedUser(user); setIsDeleteDialogOpen(true); }}
                   disabled={!isAdmin || user.id === user.id}
                   aria-label={`Delete user ${user.name}`}
-                  className="transition-colors hover:bg-red-600/80 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white hover:shadow-[0_0_15px_rgba(220,38,38,0.4)] transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-400"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

@@ -43,16 +43,19 @@ export default function Header() {
           <div className="absolute left-1/2 top-0 transform -translate-x-1/2 h-full flex items-center gap-8">
             {isScrolled && (
               <Link href="/" className="flex items-center group">
-                <Image
-                  src="/images/logo.png"
-                  alt="Torch Logo"
-                  width={48}
-                  height={48}
-                  priority
-                  className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                  style={{aspectRatio: '1/1'}}
-                />
-                <span className="ml-3 text-2xl font-black tracking-tight text-white hidden sm:inline-block drop-shadow-lg">Torch</span>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 to-red-600/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Image
+                    src="/images/logo.png"
+                    alt="Torch Logo"
+                    width={48}
+                    height={48}
+                    priority
+                    className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300 relative z-10"
+                    style={{aspectRatio: '1/1'}}
+                  />
+                </div>
+                <span className="ml-3 text-2xl font-black tracking-tight text-white hidden sm:inline-block drop-shadow-lg group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-red-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">Torch</span>
               </Link>
             )}
             <div className="hidden md:flex items-center space-x-6 ml-8">

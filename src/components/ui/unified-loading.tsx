@@ -40,9 +40,9 @@ export function Loading({
 
   const renderSpinner = () => (
     <div className="flex flex-col items-center gap-3">
-      <Loader2 className={cn("animate-spin torch-text-primary", sizeClasses[size])} />
+      <Loader2 className={cn("animate-spin torch-text-primary-warm", sizeClasses[size])} />
       {text && (
-        <p className={cn("torch-text-primary font-medium", textSizeClasses[size])}>
+        <p className={cn("torch-text-primary-warm font-medium", textSizeClasses[size])}>
           {text}
         </p>
       )}
@@ -56,7 +56,7 @@ export function Loading({
           <div
             key={i}
             className={cn(
-              "bg-red-600 rounded-full animate-pulse",
+              "bg-gradient-to-r from-orange-500 to-red-600 rounded-full animate-pulse",
               size === "sm" && "w-1 h-1",
               size === "md" && "w-2 h-2",
               size === "lg" && "w-3 h-3",
@@ -70,7 +70,7 @@ export function Loading({
         ))}
       </div>
       {text && (
-        <p className={cn("torch-text-primary font-medium", textSizeClasses[size])}>
+        <p className={cn("torch-text-primary-warm font-medium", textSizeClasses[size])}>
           {text}
         </p>
       )}
@@ -80,11 +80,11 @@ export function Loading({
   const renderPulse = () => (
     <div className="flex flex-col items-center gap-3">
       <div className={cn(
-        "bg-red-600/20 border-2 border-red-600/40 rounded-full torch-pulse",
+        "bg-gradient-to-r from-orange-500/20 to-red-600/20 border-2 border-orange-400/40 rounded-full torch-pulse shadow-[0_0_20px_rgba(255,87,34,0.2)]",
         sizeClasses[size]
       )} />
       {text && (
-        <p className={cn("torch-text-primary font-medium", textSizeClasses[size])}>
+        <p className={cn("torch-text-primary-warm font-medium", textSizeClasses[size])}>
           {text}
         </p>
       )}

@@ -17,15 +17,26 @@
   --torch-red-900: rgb(127 29 29);
   --torch-red-950: rgb(69 10 10);
 
+  /* Enhanced Color Palette */
+  --torch-flame-orange: rgb(255 87 34);    /* Fiery orange-red for emotional moments */
+  --torch-ember-red: rgb(244 67 54);       /* Warm red for CTAs */
+  --torch-sunset-red: rgb(255 61 0);       /* Orange-red blend */
+  --torch-gold: rgb(255 193 7);            /* Premium gold for highlights */
+  --torch-ember-orange: rgb(255 152 0);    /* Warm orange for energy */
+  --torch-platinum: rgb(224 224 224);      /* Elegant metallic */
+
   /* Semantic Colors */
-  --torch-primary: var(--torch-red-600);
+  --torch-primary: var(--torch-red-600);           /* Cool red for functional */
   --torch-primary-hover: var(--torch-red-700);
+  --torch-primary-warm: var(--torch-red-600);      /* Red-600 for warm primary elements */
   --torch-accent: var(--torch-red-500);
   --torch-accent-hover: var(--torch-red-400);
+  --torch-accent-warm: var(--torch-flame-orange);  /* Warm accent */
   --torch-error: var(--torch-red-500);
-  --torch-text-accent: var(--torch-red-500);
-  --torch-success: rgb(34 197 94);
-  --torch-warning: rgb(251 191 36);
+  --torch-text-accent: var(--torch-red-600);
+  --torch-success: var(--torch-gold);              /* Gold instead of green */
+  --torch-warning: var(--torch-ember-orange);      /* Ember orange for warnings */
+  --torch-premium: var(--torch-gold);              /* Gold for premium features */
   
   /* Typography Scale */
   --torch-text-xs: 0.75rem;
@@ -71,31 +82,31 @@
 }
 
 /* Design System Utility Classes */
-.torch-text-primary { color: var(--torch-primary); }
-.torch-text-accent { color: var(--torch-accent); }
+.torch-text-primary { color: var(--torch-primary) !important; }
+.torch-text-primary-warm { color: var(--torch-primary-warm) !important; }
+.torch-text-accent { color: var(--torch-text-accent) !important; }
 .torch-text-accent-hover { color: var(--torch-accent-hover); }
+.torch-text-accent-warm { color: var(--torch-accent-warm); }
 .torch-text-error { color: var(--torch-error); }
+.torch-text-gold { color: var(--torch-gold); }
+.torch-text-premium { color: var(--torch-premium); }
 
 .torch-bg-primary { background-color: var(--torch-primary); }
 .torch-bg-primary-hover { background-color: var(--torch-primary-hover); }
+.torch-bg-primary-warm { background-color: var(--torch-primary-warm); }
 .torch-bg-accent { background-color: var(--torch-accent); }
+.torch-bg-accent-warm { background-color: var(--torch-accent-warm); }
+.torch-bg-gold { background-color: var(--torch-gold); }
+.torch-bg-premium { background-color: var(--torch-premium); }
 .torch-bg-accent-10 { background-color: rgba(220, 38, 38, 0.1); }
-.torch-bg-accent-15 { background-color: rgba(220, 38, 38, 0.15); }
 .torch-bg-accent-20 { background-color: rgba(220, 38, 38, 0.2); }
 .torch-bg-accent-30 { background-color: rgba(220, 38, 38, 0.3); }
-.torch-bg-accent-40 { background-color: rgba(220, 38, 38, 0.4); }
 .torch-bg-accent-50 { background-color: rgba(220, 38, 38, 0.5); }
-.torch-bg-accent-90 { background-color: rgba(220, 38, 38, 0.9); }
 
 .torch-border-primary { border-color: var(--torch-primary); }
 .torch-border-accent { border-color: var(--torch-accent); }
 .torch-border-accent-30 { border-color: rgba(220, 38, 38, 0.3); }
 .torch-border-accent-40 { border-color: rgba(220, 38, 38, 0.4); }
-.torch-border-accent-50 { border-color: rgba(220, 38, 38, 0.5); }
-
-/* Focus and Ring States */
-.torch-ring-primary { --tw-ring-color: var(--torch-primary); }
-.torch-ring-accent { --tw-ring-color: var(--torch-accent); }
 
 .torch-glow-sm { box-shadow: var(--torch-glow-sm); }
 .torch-glow-md { box-shadow: var(--torch-glow-md); }
@@ -161,18 +172,55 @@
 /* Button System */
 .torch-btn-primary,
 .torch-button-primary {
-  background: var(--torch-primary);
+  background: linear-gradient(135deg, var(--torch-ember-red) 0%, var(--torch-primary) 100%);
   color: white;
   border-radius: var(--torch-radius-lg);
   padding: 0.75rem 1.5rem;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 .torch-btn-primary:hover,
 .torch-button-primary:hover {
-  background: var(--torch-primary-hover);
-  box-shadow: var(--torch-glow-sm);
+  background: linear-gradient(135deg, var(--torch-flame-orange) 0%, var(--torch-ember-red) 100%);
+  box-shadow: var(--torch-glow-md);
+  transform: translateY(-1px);
+}
+
+/* Warm CTA buttons for emotional moments */
+.torch-btn-cta {
+  background: linear-gradient(135deg, var(--torch-flame-orange) 0%, var(--torch-ember-red) 100%);
+  color: white;
+  border-radius: var(--torch-radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+}
+.torch-btn-cta:hover {
+  background: linear-gradient(135deg, var(--torch-sunset-red) 0%, var(--torch-flame-orange) 100%);
+  box-shadow: 0 0 30px rgba(255, 87, 34, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Premium buttons with gold accents */
+.torch-btn-premium {
+  background: linear-gradient(135deg, var(--torch-gold) 0%, var(--torch-ember-orange) 100%);
+  color: black;
+  border-radius: var(--torch-radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  border: 2px solid var(--torch-gold);
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+}
+.torch-btn-premium:hover {
+  background: linear-gradient(135deg, var(--torch-gold) 0%, var(--torch-gold) 100%);
+  box-shadow: 0 0 30px rgba(255, 193, 7, 0.5);
+  transform: translateY(-2px);
 }
 
 .torch-btn-outline {
