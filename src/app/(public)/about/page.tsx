@@ -199,59 +199,16 @@ export default function AboutPage() {
       <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-white">Meet Our Leadership</h2>
+            <h2 className="text-3xl font-bold mb-4 text-white">Meet Our Elite Members</h2>
             <p className="text-gray-200 max-w-3xl mx-auto">
-              Our team of experienced professionals is passionate about driving results and 
+              Our elite team of professionals is passionate about driving results and 
               delivering exceptional service to our clients.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                name: "Robert Chen",
-                position: "Founder & CEO",
-                bio: "With over 15 years of experience in digital innovation, Robert leads our company with a focus on strategic growth and technological excellence.",
-                image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop"
-              },
-              {
-                name: "Sarah Johnson",
-                position: "Chief Operations Officer",
-                bio: "Sarah ensures our operations run smoothly and efficiently, bringing her extensive background in business management to drive operational excellence.",
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop"
-              },
-              {
-                name: "Michael Lee",
-                position: "Chief Technology Officer",
-                bio: "Michael leads our technology strategy, keeping us at the cutting edge of digital innovation and ensuring our solutions are robust and future-proof.",
-                image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop"
-              },
-              {
-                name: "Emily Martinez",
-                position: "Creative Director",
-                bio: "Emily brings her artistic vision and creative expertise to every project, ensuring our solutions are not only functional but beautifully designed.",
-                image: "https://images.unsplash.com/photo-1598550880863-4e8aa3d0edb4?q=80&w=1974&auto=format&fit=crop"
-              }
-            ].map((member, index) => (
-              <AnimatedFadeIn
-                key={member.name}
-                animation="fade-in"
-                delay={0.15 * index}
-                className="bg-transparent p-6 rounded-lg border border-gray-800 hover:border-red-600 transition-colors"
-              >
-                <div className="h-64 rounded-lg overflow-hidden mb-4 relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                  <Image 
-                    src={member.image} 
-                    alt={member.name} 
-                    fill 
-                    className="object-cover transform transition-transform hover:scale-105 duration-700"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold mb-1 text-white">{member.name}</h3>
-                <p className="text-red-500 text-sm mb-3">{member.position}</p>
-                <p className="text-gray-200 text-sm">{member.bio}</p>
-              </AnimatedFadeIn>
-            ))}
+          <div className="text-center py-16">
+            <p className="text-gray-400 text-lg">
+              Elite member profiles coming soon. Stay tuned to meet our exceptional team.
+            </p>
           </div>
         </div>
       </SectionWrapper>
