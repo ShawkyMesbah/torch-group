@@ -18,8 +18,19 @@ interface RateLimitEntry {
   resetAt: number;
 }
 
-const verificationCodes = new Map<string, VerificationEntry>();
-const rateLimits = new Map<string, RateLimitEntry>();
+// Use global to persist across hot reloads in development
+declare global {
+  var __verificationCodes: Map<string, VerificationEntry> | undefined;
+  var __rateLimits: Map<string, RateLimitEntry> | undefined;
+}
+
+const verificationCodes = globalThis.__verificationCodes ?? new Map<string, VerificationEntry>();
+const rateLimits = globalThis.__rateLimits ?? new Map<string, RateLimitEntry>();
+
+if (process.env.NODE_ENV !== 'production') {
+  globalThis.__verificationCodes = verificationCodes;
+  globalThis.__rateLimits = rateLimits;
+}
 
 // Configuration
 const VERIFICATION_TTL = 5 * 60 * 1000; // 5 minutes
@@ -36,6 +47,23 @@ const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_T
 const phoneSchema = z.object({
   phone: z.string().min(5, "Valid phone number required").max(20),
 });
+
+// Clean up expired verification codes
+function cleanupExpiredCodes(): void {
+  const now = Date.now();
+  for (const [phone, entry] of verificationCodes.entries()) {
+    if (now > entry.expiresAt) {
+      verificationCodes.delete(phone);
+    }
+  }
+  
+  // Clean up expired rate limits
+  for (const [ip, limit] of rateLimits.entries()) {
+    if (now > limit.resetAt) {
+      rateLimits.delete(ip);
+    }
+  }
+}
 
 // Generate a random verification code
 function generateVerificationCode(length: number): string {
@@ -110,6 +138,9 @@ export async function POST(request: NextRequest) {
     
     const { phone } = validationResult.data;
     
+    // Clean up expired codes first
+    cleanupExpiredCodes();
+    
     // Get IP for rate limiting
     const ip = request.headers.get("x-forwarded-for") || 
                request.headers.get("x-real-ip") || 
@@ -144,10 +175,16 @@ export async function POST(request: NextRequest) {
       // In development/testing, return the code in the response
       if (process.env.NODE_ENV !== "production") {
         console.log(`[MOCK SMS] To ${phone}: Your verification code is ${code}`);
+        console.log(`[DEBUG] Stored verification codes count: ${verificationCodes.size}`);
         return new NextResponse(
           JSON.stringify({ 
             message: "Verification code sent (mock mode)", 
             mockCode: code,
+            debug: {
+              phone,
+              codeStored: verificationCodes.has(phone),
+              expiresAt: new Date(Date.now() + VERIFICATION_TTL).toISOString()
+            }
           }),
           { status: 200 }
         );

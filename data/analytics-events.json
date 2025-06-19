@@ -97,5 +97,38 @@
       "timestamp": "2025-06-18T08:01:54.505Z"
     },
     "createdAt": "2025-06-18T08:02:00.367Z"
+  },
+  {
+    "id": "local_1750261938741_yewlbh1",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+      "timestamp": "2025-06-18T15:52:08.872Z"
+    },
+    "createdAt": "2025-06-18T15:52:18.741Z"
+  },
+  {
+    "id": "local_1750266213629_8e9eyze",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "http://localhost:3001/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+      "timestamp": "2025-06-18T17:03:28.463Z"
+    },
+    "createdAt": "2025-06-18T17:03:33.629Z"
+  },
+  {
+    "id": "local_1750268759553_xz129op",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "http://localhost:3001/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+      "timestamp": "2025-06-18T17:45:54.344Z"
+    },
+    "createdAt": "2025-06-18T17:45:59.553Z"
   }
 ]

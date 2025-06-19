@@ -43,7 +43,8 @@
     "staging:setup": "node scripts/setup-staging.js",
     "staging:deploy": "node scripts/deploy-staging.js",
     "staging:check": "node scripts/health-check.js --env staging",
-    "staging:db:check": "node scripts/db-check.js --env staging"
+    "staging:db:check": "node scripts/db-check.js --env staging",
+    "validate:github-actions": "node scripts/validate-github-actions.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.1",
@@ -87,6 +88,7 @@
     "next": "15.3.2",
     "next-auth": "^4.24.7",
     "next-axiom": "^1.9.1",
+    "ogl": "^1.0.11",
     "pg": "^8.16.0",
     "postprocessing": "^6.37.4",
     "react": "^19.0.0",

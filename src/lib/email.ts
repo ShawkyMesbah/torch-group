@@ -25,8 +25,8 @@ export async function sendContactFormNotification({
 }: ContactEmailProps) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Torch Group <no-reply@torchgroup.co>',
-      to: ['notifications@torchgroup.co'],
+      from: 'Torch Group <onboarding@resend.dev>',
+      to: [process.env.EMAIL_FROM || 'notifications@torchgroup.co'],
       subject: `New Contact Form: ${subject}`,
       text: `
         New contact form submission:
@@ -73,7 +73,7 @@ export async function sendContactFormConfirmation({
 }: ContactEmailProps) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Torch Group <no-reply@torchgroup.co>',
+      from: 'Torch Group <onboarding@resend.dev>',
       to: [email],
       subject: `We've received your message: ${subject}`,
       text: `
@@ -111,7 +111,7 @@ export async function sendNewsletterConfirmation({
 }: NewsletterSubscriptionEmailProps) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Torch Group <no-reply@torchgroup.co>',
+      from: 'Torch Group <onboarding@resend.dev>',
       to: [email],
       subject: 'Welcome to Torch Group Newsletter',
       text: `
@@ -149,8 +149,8 @@ export async function sendNewsletterSubscriptionNotification({
 }: NewsletterSubscriptionEmailProps) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Torch Group <no-reply@torchgroup.co>',
-      to: ['notifications@torchgroup.co'],
+      from: 'Torch Group <onboarding@resend.dev>',
+      to: [process.env.EMAIL_FROM || 'notifications@torchgroup.co'],
       subject: 'New Newsletter Subscription',
       text: `
         New newsletter subscription:

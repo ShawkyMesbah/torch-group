@@ -168,6 +168,13 @@ The Torch Group website is now in final stages before production launch. All maj
    - ⬜ Create deployment scripts
    - Estimated effort: 1 day
 
+10. **Homepage & Services Finalization**
+    - ⬜ Add "B2A" card to homepage and services page
+    - ⬜ Add Torch brand logos to homepage Torch Group section
+    - ⬜ Expand services page with detailed info for each service
+    - ⬜ Polish homepage content and layout
+    - Estimated effort: 1-2 days
+
 ### Medium Priority
 
 4. **End-to-End Testing**
@@ -454,3 +461,27 @@ High
 
 ## Notes
 This is the last major feature before full production launch. 
+
+# Add "B2A" Card and Torch Brand Logos
+
+## Description
+Add a new "B2A" (Business to All Allies) card to the services section on both the homepage and the services page. Display Torch brand logos in the Torch Group section on the homepage. Expand the services page to show more info about each service.
+
+## Acceptance Criteria
+- "B2A" card is visible and styled consistently on homepage and services page
+- Torch brand logos are displayed in the Torch Group section
+- Services page contains detailed info for each service
+- Homepage content and layout are polished
+
+## Priority
+High
+
+## Estimated Effort
+1-2 days
+
+## Dependencies
+- PNG logo files in `public/images`
+- Existing homepage/services components
+
+## Notes
+Coordinate content and design for consistency across homepage and services page. 

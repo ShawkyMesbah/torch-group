@@ -1,10 +1,4 @@
-// Create OG image by copying and renaming an existing image
-const fs = require('fs');
-const path = require('path');
 
-// Create a simple SVG OG image
-const createOGImage = () => {
-  const svgContent = `
 <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -37,27 +31,4 @@ const createOGImage = () => {
   <text x="600" y="480" text-anchor="middle" fill="#888" font-family="Arial, sans-serif" font-size="24">
     torchgroup.co
   </text>
-</svg>`;
-
-  // Ensure the images directory exists
-  const imagesDir = path.join(__dirname, '..', 'public', 'images');
-  if (!fs.existsSync(imagesDir)) {
-    fs.mkdirSync(imagesDir, { recursive: true });
-  }
-
-  // Write SVG file
-  const svgPath = path.join(imagesDir, 'og-image.svg');
-  fs.writeFileSync(svgPath, svgContent);
-  
-  console.log('✅ OG image created at:', svgPath);
-  console.log('📝 Note: This is an SVG placeholder. For production, consider converting to JPG.');
-  
-  return svgPath;
-};
-
-// Run the script
-if (require.main === module) {
-  createOGImage();
-}
-
-module.exports = { createOGImage }; 
+</svg>

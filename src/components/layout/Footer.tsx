@@ -38,13 +38,13 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer className="relative bg-gradient-to-t from-black/90 via-black/80 to-red-900/20 overflow-hidden">
-      {/* Static thin red line at the top */}
-      <div className="w-full h-px bg-red-600 absolute top-0 left-0" />
-      <div className="mx-auto max-w-7xl px-6 py-16 flex flex-col items-center justify-center gap-10 relative z-10">
-        {/* Logo with glow and hover effect */}
-        <div className="mb-2 relative group flex flex-col items-center animate-fade-in">
-          <div className="absolute -inset-2 md:-inset-4 rounded-full bg-red-600/20 blur-2xl opacity-80 group-hover:opacity-100 group-hover:blur-3xl transition-all duration-300 z-0" />
+    <footer className="relative bg-transparent overflow-hidden">
+      {/* Glassmorphism Overlay */}
+      <div className="absolute inset-0 bg-black/30 z-10 pointer-events-none" />
+      <div className="relative z-20 flex flex-col items-center justify-center px-4 py-10 md:py-14 gap-6 md:gap-8 w-full">
+        {/* Logo with glow */}
+        <div className="relative flex flex-col items-center group">
+          <div className="absolute -inset-4 md:-inset-6 rounded-full bg-red-600/40 blur-2xl opacity-80 group-hover:opacity-100 group-hover:blur-3xl transition-all duration-300 z-0" />
           <Image 
             src="/images/logo.png" 
             alt="Torch Logo" 
@@ -54,37 +54,35 @@ export default function Footer() {
             style={{ aspectRatio: '1/1' }}
           />
         </div>
-        {/* Nav links */}
-        <nav className="flex flex-wrap justify-center gap-10 mb-4 animate-fade-in" aria-label="Footer">
+        {/* Navigation */}
+        <nav className="flex flex-wrap justify-center gap-6 md:gap-10" aria-label="Footer">
           {navigation.main.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-lg font-bold text-white hover:text-red-500 transition-colors duration-200 underline-offset-8 hover:underline px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+              className="text-base md:text-lg font-semibold text-white hover:text-red-400 transition-colors duration-200 underline-offset-8 hover:underline px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
             >
               {item.name}
             </Link>
           ))}
         </nav>
-        {/* Divider */}
-        <div className="w-full max-w-2xl border-t border-red-900/40 my-2 animate-fade-in" />
-        {/* Social icons */}
-        <div className="flex justify-center gap-10 mb-4 animate-fade-in">
+        {/* Social Icons */}
+        <div className="flex justify-center gap-5 md:gap-8 mt-2">
           {navigation.social.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-white hover:text-red-500 transition-colors duration-200"
+              className="text-white hover:text-red-400 transition-colors duration-200 p-2 rounded-full bg-black/30 hover:bg-black/60 shadow-md hover:shadow-red-600/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
               target="_blank"
               rel="noopener noreferrer"
             >
               <span className="sr-only">{item.name}</span>
-              <item.icon className="h-9 w-9 transition-transform duration-200 group-hover:scale-110 hover:scale-110" aria-hidden="true" />
+              <item.icon className="h-7 w-7 md:h-8 md:w-8 transition-transform duration-200 group-hover:scale-110 hover:scale-110" aria-hidden="true" />
             </Link>
           ))}
         </div>
         {/* Copyright */}
-        <p className="text-center text-xs leading-5 text-gray-500 animate-fade-in">
+        <p className="text-center text-xs md:text-sm leading-5 text-gray-300 animate-fade-in bg-black/40 px-4 py-2 rounded-full border border-white/10 mt-2 shadow-sm">
           &copy; {new Date().getFullYear()} Torch Group. All rights reserved.
         </p>
       </div>

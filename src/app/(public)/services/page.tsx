@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Zap, Mail, LineChart, Users, BrainCircuit, Code, Smartphone, BarChart3, Flame } from "lucide-react";
+import { ArrowRight, Zap, Mail, LineChart, Users, BrainCircuit, Code, Smartphone, BarChart3, Flame, ShoppingCart, Star, Building2 } from "lucide-react";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
 import { FeatureCard } from "@/components/ui/feature-card";
 
@@ -33,23 +33,29 @@ export default function ServicesPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <FeatureCard
               title="B2C"
               description={`Enjoy with Our Torch Group\nServices & e commerce will\nhelp your creative products &\nservices that fit your needs`}
-              icon={<BarChart3 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              icon={<ShoppingCart className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
               className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
             />
             <FeatureCard
               title="B2T"
               description={`Our Talents membership\nservices will help your content\ngrow online/offline engagement\n& attract more audience &\nFollowers`}
-              icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              icon={<Star className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
               className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
             />
             <FeatureCard
               title="B2B"
               description={`Our entities/brands\nmembership services will help\nyour business grow online/\noffline & attract more audience\n& customers`}
-              icon={<Flame className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              icon={<Building2 className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
+              className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
+            />
+            <FeatureCard
+              title="B2A"
+              description={`Business to All Allies\nConnect, collaborate, and grow\nwith our network of partners,\nallies, and creative entities.`}
+              icon={<Users className="h-10 w-10 text-red-600 group-hover:text-white transition-colors duration-300" />}
               className="w-full max-w-sm mx-auto border-2 border-black bg-gradient-to-br from-black/80 via-black/60 to-black/80 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-red-700/30 hover:border-red-600 transition-all duration-300 group hover:scale-105"
             />
           </div>

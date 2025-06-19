@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Torch Group',
   description: 'Professional services and solutions for businesses',
   url: 'https://torchgroup.co',
-  ogImage: '/images/og-image.jpg',
+  ogImage: '/images/og-image.svg',
   links: {
     twitter: 'https://twitter.com/torchgroup',
     github: 'https://github.com/torchgroup',

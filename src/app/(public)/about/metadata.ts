@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://torchgroup.co/images/og-image.jpg',
+        url: 'https://torchgroup.co/images/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'About Torch Group'

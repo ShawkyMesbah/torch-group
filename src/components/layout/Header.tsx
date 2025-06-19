@@ -35,12 +35,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full transition-all duration-300 shadow-lg ${
-        isScrolled
-          ? "bg-black/60 backdrop-blur-md shadow-red-900/30 border-b-2 border-red-700/60"
-          : "bg-transparent shadow-none border-b border-transparent"
-      }`}
-      style={{ boxShadow: isScrolled ? '0 4px 32px 0 rgba(220,38,38,0.10)' : undefined }}
+      className={`fixed top-0 z-50 w-full transition-all duration-300 border-b border-transparent bg-black/30 backdrop-blur-md`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between relative">
@@ -96,7 +91,7 @@ export default function Header() {
         {/* Mobile menu with backdrop and slide-down */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex flex-col md:hidden animate-fade-in">
-            <div className="w-full bg-gradient-to-b from-black/95 via-black/90 to-red-950/80 shadow-lg border-b-2 border-red-700/60 animate-slide-down">
+            <div className="w-full bg-gradient-to-b from-black/95 via-black/90 to-red-950/80 shadow-lg border-b border-transparent animate-slide-down">
               <div className="space-y-2 px-6 py-8 flex flex-col items-center">
                 {navigation.map((item) => (
                   <Link

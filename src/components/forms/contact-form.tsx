@@ -20,15 +20,7 @@ type CountryCode = string;
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(1, "Phone number is required").refine(
-    (value) => {
-      if (typeof value !== 'string') return false;
-      return isValidPhoneNumber(value);
-    },
-    {
-      message: "Invalid phone number",
-    }
-  ),
+  phone: z.string().optional(),
   subject: z.string().min(2, "Subject is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
   attachment: z.string().optional(),
@@ -47,6 +39,8 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [attachment, setAttachment] = useState<string | undefined>();
+  const [showPhoneVerificationError, setShowPhoneVerificationError] = useState(false);
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   // Phone verification state
   const [phoneVerificationState, setPhoneVerificationState] = useState({
@@ -236,20 +230,46 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
           sentCode: false,
           error: "",
         }));
+        setShowPhoneVerificationError(false); // Clear any verification error
         toast({
           title: "Phone Verified",
           description: "Your phone number has been successfully verified.",
         });
       } else {
-        setPhoneVerificationState(prev => ({
-          ...prev,
-          error: data.message || "Invalid verification code."
-        }));
-        toast({
-          title: "Verification Failed",
-          description: data.message || "The verification code entered is incorrect.",
-          variant: "destructive",
-        });
+        // Handle specific error cases
+        let errorMessage = data.message || "Invalid verification code.";
+        let shouldResetToSendCode = false;
+        
+        if (data.message?.includes("No verification code found") || data.message?.includes("expired")) {
+          errorMessage = "Verification code expired or not found. Please request a new code.";
+          shouldResetToSendCode = true;
+        }
+        
+        if (shouldResetToSendCode) {
+          // Reset to allow sending new code
+          setPhoneVerificationState(prev => ({
+            ...prev,
+            sentCode: false,
+            verificationCode: "",
+            error: "",
+            code: ""
+          }));
+          toast({
+            title: "Code Expired",
+            description: "Please request a new verification code.",
+            variant: "destructive",
+          });
+        } else {
+          setPhoneVerificationState(prev => ({
+            ...prev,
+            error: errorMessage
+          }));
+          toast({
+            title: "Verification Failed",
+            description: errorMessage,
+            variant: "destructive",
+          });
+        }
       }
     } catch (err) {
       toast({
@@ -280,6 +300,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
       error: "",
       code: "" // Clear demo code
     });
+    setShowPhoneVerificationError(false); // Clear any verification error
      toast({
         title: "Verification Cancelled",
         description: "Phone verification was cancelled.",
@@ -298,7 +319,8 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
 
   const onSubmit = async (data: FormData) => {
     // Check if phone is provided and not verified
-    if (data.phone && !phoneVerificationState.isVerified) {
+    if (data.phone && data.phone.trim() !== '' && !phoneVerificationState.isVerified) {
+        setShowPhoneVerificationError(true);
         toast({
             title: "Verification Required",
             description: "Please verify your phone number before submitting the form.",
@@ -306,6 +328,9 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
         });
         return; // Prevent form submission
     }
+    
+    // Clear phone verification error if we get here
+    setShowPhoneVerificationError(false);
 
     try {
       setIsLoading(true);
@@ -327,16 +352,22 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
         description: "Your message has been sent. We'll get back to you soon.",
       });
 
-      reset();
-      setAttachment(undefined);
-      setPhoneVerificationState({
-        isVerifying: false,
-        sentCode: false,
-        verificationCode: "",
-        isVerified: false,
-        error: "",
-        code: ""
-      });
+      // Set success state and show green button for 3 seconds
+      setIsSubmitSuccess(true);
+      setTimeout(() => {
+        setIsSubmitSuccess(false);
+        reset();
+        setAttachment(undefined);
+        setPhoneVerificationState({
+          isVerifying: false,
+          sentCode: false,
+          verificationCode: "",
+          isVerified: false,
+          error: "",
+          code: ""
+        });
+        setPhoneValue(undefined);
+      }, 3000);
     } catch (error) {
       toast({
         title: "Error",
@@ -391,6 +422,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
                   setPhoneValue(value);
                   setValue('phone', value || '', { shouldValidate: true });
                   trigger('phone');
+                  setShowPhoneVerificationError(false); // Clear error when phone changes
                 }}
                 onCountryChange={(country?: CountryCode) => {
                   if (country) setSelectedCountry(country);
@@ -414,7 +446,11 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
                </Button>
              )}
           </div>
-          {errors.phone && <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.phone.message}</p>}
+          
+          {/* Show verification error only when user tries to submit without verification */}
+          {showPhoneVerificationError && phoneValue && phoneValue.trim() !== '' && !phoneVerificationState.isVerified && (
+            <p className="mt-1 text-xs sm:text-sm text-red-500">Please verify your phone number before submitting the form.</p>
+          )}
 
           {phoneVerificationState.sentCode && !phoneVerificationState.isVerified && (
             <div className="mt-3 sm:mt-4">
@@ -523,15 +559,21 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
 
       <Button
         type="submit"
-        disabled={isLoading || (typeof getValues('phone') === 'string' && getValues('phone') !== '' && !phoneVerificationState.isVerified)}
-        className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed py-3 sm:py-4 text-base sm:text-lg font-semibold min-h-[48px] sm:min-h-[52px] transition-all duration-200 shadow-lg hover:shadow-xl"
+        disabled={isLoading || isSubmitSuccess || (typeof getValues('phone') === 'string' && getValues('phone') !== '' && !phoneVerificationState.isVerified)}
+        className={`w-full py-3 sm:py-4 text-base sm:text-lg font-semibold min-h-[48px] sm:min-h-[52px] transition-all duration-500 shadow-lg hover:shadow-xl ${
+          isSubmitSuccess 
+            ? 'bg-green-600 hover:bg-green-600 text-white border-green-500' 
+            : 'bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed'
+        }`}
       >
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+        ) : isSubmitSuccess ? (
+          <Check className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
         ) : (
           <Send className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
         )}
-        Send Message
+        {isSubmitSuccess ? 'Message Sent!' : 'Send Message'}
       </Button>
     </form>
   );

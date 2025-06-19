@@ -2,20 +2,24 @@ import { Metadata } from "next";
 import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
 
 export const metadata: Metadata = {
-  title: "Analytics | Torch Group Dashboard",
-  description: "View and analyze website traffic and user engagement metrics",
+  title: "Analytics Dashboard | Torch Group",
+  description: "Comprehensive analytics and insights for website performance, user engagement, and business metrics",
 };
 
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto py-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Analytics Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Monitor website traffic and user engagement metrics
-        </p>
+    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950/50">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="mb-8 space-y-2">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent">
+            Analytics Dashboard
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
+            Monitor website traffic, user engagement metrics, and performance insights with comprehensive analytics data.
+          </p>
+        </div>
+        <AnalyticsDashboard />
       </div>
-      <AnalyticsDashboard />
     </div>
   );
 } 

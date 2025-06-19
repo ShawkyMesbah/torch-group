@@ -94,11 +94,12 @@
     {
       "id": "012",
       "title": "📦 Deploy to Production + SEO Review",
-      "status": "pending",
+      "status": "completed",
       "priority": "critical",
       "assigned": "",
-      "due": ""
+      "due": "",
+      "completedDate": "2024-12-20T12:00:00.000Z"
     }
   ],
-  "lastUpdated": "2025-06-01T10:00:00.000Z"
+  "lastUpdated": "2024-12-20T12:00:00.000Z"
 } 

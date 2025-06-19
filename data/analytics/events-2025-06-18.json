@@ -8,5 +8,15 @@
       "timestamp": "2025-06-18T11:58:53.574Z"
     },
     "timestamp": "2025-06-18T11:58:58.668Z"
+  },
+  {
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+      "timestamp": "2025-06-18T15:52:14.950Z"
+    },
+    "timestamp": "2025-06-18T15:52:18.753Z"
   }
 ]

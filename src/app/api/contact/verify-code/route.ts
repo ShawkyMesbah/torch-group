@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { verificationCodes } from "../send-verification/route";
+
+// Import verification codes from global or create new map
+interface VerificationEntry {
+  code: string;
+  expiresAt: number;
+  attempts: number;
+}
+
+declare global {
+  var __verificationCodes: Map<string, VerificationEntry> | undefined;
+}
+
+const verificationCodes = globalThis.__verificationCodes ?? new Map<string, VerificationEntry>();
 
 // Set runtime environment to Node.js
 export const runtime = 'nodejs';
@@ -36,11 +48,26 @@ export async function POST(request: NextRequest) {
     // Check if there's a verification entry for this phone number
     const verificationEntry = verificationCodes.get(phone);
     
+    // Debug logging in development
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[DEBUG] Verifying code for phone: ${phone}`);
+      console.log(`[DEBUG] Stored verification codes count: ${verificationCodes.size}`);
+      console.log(`[DEBUG] Entry found: ${!!verificationEntry}`);
+      if (verificationEntry) {
+        console.log(`[DEBUG] Code: ${verificationEntry.code}, Expires: ${new Date(verificationEntry.expiresAt).toISOString()}`);
+      }
+    }
+    
     if (!verificationEntry) {
       return new NextResponse(
         JSON.stringify({ 
-          message: "No verification code found for this phone number", 
+          message: "No verification code found for this phone number. Please request a new code.", 
           verified: false,
+          debug: process.env.NODE_ENV !== "production" ? {
+            phone,
+            totalCodes: verificationCodes.size,
+            availablePhones: Array.from(verificationCodes.keys())
+          } : undefined
         }),
         { status: 400 }
       );
