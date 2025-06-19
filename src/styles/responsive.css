@@ -53,12 +53,67 @@
 }
 
 /* ==========================================================================
+   MOBILE HEADER IMPROVEMENTS
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Enhanced mobile header styling */
+  header {
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  /* Mobile logo improvements */
+  .mobile-header-logo {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Mobile menu button enhancements */
+  .mobile-menu-button {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    backdrop-filter: blur(4px) !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .mobile-menu-button:hover {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    transform: scale(1.05) !important;
+  }
+  
+  /* Mobile header spacing */
+  .mobile-header-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* ==========================================================================
    EXTRA SMALL DEVICES (< 375px) - Very small phones
    ========================================================================== */
 @media (max-width: 374px) {
   .container {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+  }
+  
+  /* Mobile header for very small screens */
+  .mobile-header-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  /* Smaller mobile logo for very small screens */
+  .mobile-header-logo img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .mobile-header-logo span {
+    font-size: 1.125rem !important;
   }
   
   /* Typography adjustments */

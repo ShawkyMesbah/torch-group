@@ -75,8 +75,8 @@
 - [X][Low] Clean up admin/dev scripts after launch
 - [X][Low] Project cleanup: Remove unused files and scripts (2025-06-03)
 - [X][🔥] Fix animated grid background issue (disappearing after 1 second)
-- [P][🔥] Add "B2A" card to homepage and services page
-- [P][🔥] Add Torch brand logos to homepage Torch Group section
+- [X][🔥] Add "B2A" card to homepage and services page
+- [X][🔥] Add Torch brand logos to homepage Torch Group section
 - [P][Medium] Expand services page with detailed info for each service
 - [P][Medium] Polish homepage content and layout
 
@@ -217,8 +217,8 @@
   - [X] Implement better preview functionality
 
 ### Homepage & Services Finalization (2025-06-XX) - IN PROGRESS
-- [P] Add "B2A" card to homepage and services page
-- [P] Add Torch brand logos to homepage Torch Group section
+- [X] Add "B2A" card to homepage and services page
+- [X] Add Torch brand logos to homepage Torch Group section
 - [P] Expand services page with detailed info for each service
 - [P] Polish homepage content and layout
 
