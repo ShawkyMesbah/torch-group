@@ -52,7 +52,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="relative">
-              <div className="absolute -inset-4 bg-red-600/10 rounded-xl blur-xl"></div>
+              <div className="absolute -inset-4 torch-bg-accent-10 rounded-xl blur-xl"></div>
               <div className="relative rounded-xl overflow-hidden border border-gray-800">
                 <Image 
                   src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop" 
@@ -96,7 +96,7 @@ export default function AboutPage() {
                 key={goal.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 p-8 rounded-3xl hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl"
+                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl"
               >
                 <h3 className="text-xl font-semibold mb-4 text-white">{goal.title}</h3>
                 <p className="text-gray-200">
@@ -136,7 +136,7 @@ export default function AboutPage() {
                 key={expertise.title}
                 animation="fade-in" 
                 delay={0.15 * index}
-                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 p-8 rounded-3xl hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl text-center"
+                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl text-center"
               >
                 <h3 className="text-xl font-semibold mb-4 text-white">{expertise.title}</h3>
                 <p className="text-gray-200">
@@ -183,7 +183,7 @@ export default function AboutPage() {
                 key={value.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="bg-transparent p-8 rounded-lg border border-gray-800 hover:border-red-600 transition-colors"
+                className="bg-transparent p-8 rounded-lg border border-gray-800 hover:torch-border-primary transition-colors"
               >
                 <h3 className="text-xl font-semibold mb-4 text-white">{value.title}</h3>
                 <p className="text-gray-200">
@@ -216,7 +216,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-red-900/50 to-black/0 p-8 md:p-12 rounded-xl border border-red-900">
+                      <div className="bg-gradient-to-r from-red-900/50 to-black/0 p-8 md:p-12 rounded-xl border torch-border-accent-30">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Ready to transform your digital presence?</h2>
               <p className="text-gray-200 mb-8">
@@ -225,7 +225,7 @@ export default function AboutPage() {
               <AnimatedFadeIn animation="slide-up" delay={0.3}>
                 <Link 
                   href="/contact" 
-                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg inline-flex items-center transition-colors"
+                  className="torch-bg-primary hover:torch-bg-primary-hover text-white px-6 py-3 rounded-lg inline-flex items-center transition-colors"
                 >
                   Get in touch with us
                   <ArrowRight className="ml-2 h-4 w-4" />

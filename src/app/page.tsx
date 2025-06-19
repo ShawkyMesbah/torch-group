@@ -56,11 +56,11 @@ interface GlowProps {
 const Glow = ({ className, variant = "top" }: GlowProps) => {
   // Mapping of style variants
   const variantStyles = {
-    top: "top-0 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] bg-red-600/10",
-    left: "top-1/2 left-0 -translate-y-1/2 w-[30rem] h-[30rem] bg-red-600/10",
-    right: "top-1/2 right-0 -translate-y-1/2 w-[30rem] h-[30rem] bg-red-600/10",
-    bottom: "bottom-0 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] bg-red-600/10",
-    center: "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-red-600/10",
+    top: "top-0 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] torch-bg-accent-10",
+    left: "top-1/2 left-0 -translate-y-1/2 w-[30rem] h-[30rem] torch-bg-accent-10",
+    right: "top-1/2 right-0 -translate-y-1/2 w-[30rem] h-[30rem] torch-bg-accent-10",
+    bottom: "bottom-0 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] torch-bg-accent-10",
+    center: "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] torch-bg-accent-10",
   };
 
   return (
@@ -858,7 +858,7 @@ export default function Home() {
               />
             </div>
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-8 text-white tracking-tight hero-heading animate-hero-headline drop-shadow-xl">
-              Welcome to <span className="relative inline-block text-red-600">Torch
+              Welcome to <span className="relative inline-block torch-text-primary">Torch
                 <svg className="absolute left-0 -bottom-2 w-full h-3" viewBox="0 0 160 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 10C40 2 120 2 155 6" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                     <animate attributeName="stroke-dasharray" from="0,160" to="160,0" dur="1.2s" fill="freeze" />
@@ -947,7 +947,7 @@ export default function Home() {
                   </span>
                   <span className="block text-lg md:text-xl font-semibold text-gray-100 leading-relaxed">
                     Through{' '}
-                    <span className="text-red-500 font-bold">
+                    <span className="torch-text-primary font-bold">
                       <span className="inline-block">
                         <span className="typewriter">
                           {typewriterText}
@@ -990,7 +990,7 @@ export default function Home() {
                     <div className="absolute top-4 right-4 w-16 h-16 bg-red-600/10 rounded-full blur-xl"></div>
                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-8 leading-tight relative z-10 text-center">
                       Igniting creativity and empowering talent to shape{' '}
-                      <span className="text-red-500 relative">
+                      <span className="torch-text-primary relative">
                         the future of digital content
                         <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-red-600/0 via-red-600/80 to-red-600/0 rounded-full"></div>
                       </span>
@@ -1004,21 +1004,21 @@ export default function Home() {
                     <div className="max-w-4xl mx-auto text-center relative z-10">
                       <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-medium mb-6">
                         We're more than just a creative agency – we're a{' '}
-                        <span className="text-red-400 font-semibold">catalyst for innovation</span>, a{' '}
-                        <span className="text-red-400 font-semibold">platform for exceptional talent</span>, and a{' '}
-                        <span className="text-red-400 font-semibold">driving force</span> in the evolving media landscape.
+                                        <span className="torch-text-primary font-semibold">catalyst for innovation</span>, a{' '}
+                <span className="torch-text-primary font-semibold">platform for exceptional talent</span>, and a{' '}
+                <span className="torch-text-primary font-semibold">driving force</span> in the evolving media landscape.
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8">
                         <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                          <div className="text-2xl font-bold text-red-500 mb-2">Innovation</div>
+                          <div className="text-2xl font-bold torch-text-primary mb-2">Innovation</div>
                           <div className="text-sm text-gray-300">Cutting-edge solutions</div>
                         </div>
                         <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                          <div className="text-2xl font-bold text-red-500 mb-2">Talent</div>
+                          <div className="text-2xl font-bold torch-text-primary mb-2">Talent</div>
                           <div className="text-sm text-gray-300">Exceptional creativity</div>
                         </div>
                         <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                          <div className="text-2xl font-bold text-red-500 mb-2">Growth</div>
+                          <div className="text-2xl font-bold torch-text-primary mb-2">Growth</div>
                           <div className="text-sm text-gray-300">Strategic partnerships</div>
                         </div>
                       </div>
@@ -1149,7 +1149,7 @@ export default function Home() {
                           <div className="mb-6 relative flex items-center justify-center">
                             <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
                             <div className="w-20 h-20 flex items-center justify-center relative z-10">
-                              <div className="text-red-600 drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
+                              <div className="torch-text-primary drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
                                 {service.icon}
                               </div>
                             </div>
@@ -1422,7 +1422,7 @@ export default function Home() {
                         {/* Content area */}
                         <div className="p-8 flex flex-col flex-grow relative z-10">
                           <div className="flex items-center justify-between mb-4">
-                            <span className="text-red-500 text-sm font-semibold uppercase tracking-wide">
+                            <span className="torch-text-primary text-sm font-semibold uppercase tracking-wide">
                               {post.category || 'Blog'}
                             </span>
                             <span className="text-gray-400 text-sm">
@@ -1454,7 +1454,7 @@ export default function Home() {
                     <div className="max-w-md mx-auto">
                       <div className="mb-6">
                         <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <BookOpen className="h-8 w-8 text-red-500" />
+                          <BookOpen className="h-8 w-8 torch-text-primary" />
                         </div>
                       </div>
                       <h3 className="text-xl font-semibold text-white mb-2">No Blog Posts Yet</h3>
@@ -1547,9 +1547,9 @@ export default function Home() {
                             <div className="w-20 h-20 flex items-center justify-center relative z-10">
                               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600/20 to-red-800/20 flex items-center justify-center border-2 border-red-600/30 group-hover:border-red-500 transition-colors duration-300 drop-shadow-2xl group-hover:scale-110">
                                 {talent.isPlaceholder ? (
-                                  <User className="h-10 w-10 text-red-500" />
+                                  <User className="h-10 w-10 torch-text-primary" />
                                 ) : (
-                                  <span className="text-2xl font-bold text-red-500">
+                                                                      <span className="text-2xl font-bold torch-text-primary">
                                     {talent.name?.charAt(0) || 'T'}
                                   </span>
                                 )}
@@ -1559,7 +1559,7 @@ export default function Home() {
                           <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
                             {talent.name || 'Coming Soon'}
                           </h3>
-                          <p className="text-red-500 text-sm font-semibold mb-3 uppercase tracking-wide">
+                          <p className="torch-text-primary text-sm font-semibold mb-3 uppercase tracking-wide">
                             {talent.specialty || 'New Talent'}
                           </p>
                           <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
@@ -1588,7 +1588,7 @@ export default function Home() {
                     <div className="max-w-md mx-auto">
                       <div className="mb-6">
                         <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Users className="h-8 w-8 text-red-500" />
+                          <Users className="h-8 w-8 torch-text-primary" />
                         </div>
                       </div>
                       <h3 className="text-xl font-semibold text-white mb-2">No Active Talents Yet</h3>

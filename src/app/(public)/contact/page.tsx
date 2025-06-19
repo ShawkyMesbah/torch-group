@@ -18,7 +18,7 @@ export default function ContactPage() {
       <SectionWrapper animation="fade-in" className="py-20 px-4 md:px-6 lg:px-8 relative bg-transparent">
         <div className="max-w-7xl mx-auto relative z-10 text-center">
           {/* Animated badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border border-red-600/30 rounded-full mb-6 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-6 backdrop-blur-sm">
             <MessageCircle className="w-4 h-4 torch-text-accent" />
             <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
           </div>
@@ -53,7 +53,7 @@ export default function ContactPage() {
                      {/* Enhanced Contact Details */}
            <div className="space-y-8">
             {/* Main Contact Card */}
-            <div className="p-8 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/20 transition-all duration-700 relative group">
+            <div className="p-8 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl border torch-border-accent-30 hover:border-red-500/50 hover:shadow-red-500/20 transition-all duration-700 relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               
               <div className="relative z-10">

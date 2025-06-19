@@ -194,7 +194,7 @@ export default function ServicesPage() {
                   <div className="mb-6 relative flex items-center justify-center">
                     <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
                     <div className="w-20 h-20 flex items-center justify-center relative z-10">
-                      <div className="text-red-600 drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
+                      <div className="torch-text-primary drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
                         {service.icon}
                       </div>
                     </div>
@@ -226,7 +226,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Business to <span className="text-red-600">Customers</span>
+                              Business to <span className="torch-text-primary">Customers</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Discover our Torch Group brands and e-commerce solutions designed for your creative products and services.
@@ -247,7 +247,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Business to <span className="text-red-600">Business</span>
+                              Business to <span className="torch-text-primary">Business</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto mb-8">
               Our entities/brands membership services will help your business grow online/offline & attract more audience & customers.
@@ -279,13 +279,13 @@ export default function ServicesPage() {
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
                   <p className="text-gray-400 mb-4">{pkg.description}</p>
-                  <div className="text-red-500 text-xl font-bold">{pkg.price}</div>
+                  <div className="torch-text-primary text-xl font-bold">{pkg.price}</div>
                 </div>
 
                 <ul className="space-y-4 mb-8">
                   {pkg.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start">
-                      <Check className="h-5 w-5 text-red-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <Check className="h-5 w-5 torch-text-primary mr-3 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-300 text-sm">{feature}</span>
                     </li>
                   ))}
@@ -416,9 +416,9 @@ export default function ServicesPage() {
             transition={{ duration: 0.8 }}
             className="text-center bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-12"
           >
-            <Star className="h-20 w-20 text-red-500 mx-auto mb-6" />
+                          <Star className="h-20 w-20 torch-text-primary mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Business to <span className="text-red-600">Talents</span>
+                              Business to <span className="torch-text-primary">Talents</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto mb-8">
               Our Talents membership services will help your content grow online/offline engagement & attract more audience & Followers.
@@ -440,9 +440,9 @@ export default function ServicesPage() {
             transition={{ duration: 0.8 }}
             className="text-center bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-12"
           >
-            <Users className="h-20 w-20 text-red-500 mx-auto mb-6" />
+                          <Users className="h-20 w-20 torch-text-primary mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Business to <span className="text-red-600">All Allies</span>
+                              Business to <span className="torch-text-primary">All Allies</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto mb-8">
               Connect, collaborate, and grow with our network of partners, allies, and creative entities. Join our alliance for mutual growth and success.
