@@ -80,14 +80,22 @@
 .torch-bg-primary-hover { background-color: var(--torch-primary-hover); }
 .torch-bg-accent { background-color: var(--torch-accent); }
 .torch-bg-accent-10 { background-color: rgba(220, 38, 38, 0.1); }
+.torch-bg-accent-15 { background-color: rgba(220, 38, 38, 0.15); }
 .torch-bg-accent-20 { background-color: rgba(220, 38, 38, 0.2); }
 .torch-bg-accent-30 { background-color: rgba(220, 38, 38, 0.3); }
+.torch-bg-accent-40 { background-color: rgba(220, 38, 38, 0.4); }
 .torch-bg-accent-50 { background-color: rgba(220, 38, 38, 0.5); }
+.torch-bg-accent-90 { background-color: rgba(220, 38, 38, 0.9); }
 
 .torch-border-primary { border-color: var(--torch-primary); }
 .torch-border-accent { border-color: var(--torch-accent); }
 .torch-border-accent-30 { border-color: rgba(220, 38, 38, 0.3); }
 .torch-border-accent-40 { border-color: rgba(220, 38, 38, 0.4); }
+.torch-border-accent-50 { border-color: rgba(220, 38, 38, 0.5); }
+
+/* Focus and Ring States */
+.torch-ring-primary { --tw-ring-color: var(--torch-primary); }
+.torch-ring-accent { --tw-ring-color: var(--torch-accent); }
 
 .torch-glow-sm { box-shadow: var(--torch-glow-sm); }
 .torch-glow-md { box-shadow: var(--torch-glow-md); }

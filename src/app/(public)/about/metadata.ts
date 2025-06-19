@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Torch Group | Our Story & Values',
-  description: 'Learn about Torch Group, our mission, core values, and the passionate team driving innovation and growth for our clients.',
+  title: 'About Torch | Our Story & Values',
+  description: 'Learn about Torch, our mission, core values, and the passionate team driving innovation and growth for our clients.',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'About Torch Group | Our Story & Values',
-    description: 'Learn about Torch Group, our mission, core values, and the passionate team driving innovation and growth for our clients.',
+    title: 'About Torch | Our Story & Values',
+    description: 'Learn about Torch, our mission, core values, and the passionate team driving innovation and growth for our clients.',
     url: 'https://torchgroup.co/about',
     type: 'website',
     images: [
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
         url: 'https://torchgroup.co/images/og-image.svg',
         width: 1200,
         height: 630,
-        alt: 'About Torch Group'
+        alt: 'About Torch'
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Torch Group | Our Story & Values',
-    description: 'Learn about Torch Group, our mission, core values, and the passionate team driving innovation and growth for our clients.',
+    title: 'About Torch | Our Story & Values',
+    description: 'Learn about Torch, our mission, core values, and the passionate team driving innovation and growth for our clients.',
   },
 }; 

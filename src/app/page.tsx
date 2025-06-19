@@ -802,7 +802,7 @@ export default function Home() {
 
       {/* Accessibility: Skip Navigation */}
       {showSkipNav && (
-        <div className="fixed top-4 left-4 z-[100] bg-red-600 text-white px-4 py-2 rounded-md shadow-lg focus-within:ring-2 focus-within:ring-white">
+        <div className="fixed top-4 left-4 z-[100] torch-bg-primary text-white px-4 py-2 rounded-md shadow-lg focus-within:ring-2 focus-within:ring-white">
           <a 
             href="#main-content" 
             className="text-sm font-medium focus:outline-none"
@@ -822,7 +822,7 @@ export default function Home() {
       {showScrollTop && (
         <button 
           onClick={handleButtonClick(scrollToTop)}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="fixed bottom-8 right-8 z-50 p-3 torch-bg-primary text-white rounded-full shadow-lg hover:torch-bg-primary-hover transition-all duration-300 animate-fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           aria-label="Scroll to top of page"
         >
           <ArrowUp className="h-5 w-5" />
@@ -839,12 +839,12 @@ export default function Home() {
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
           {/* Animated Red Glow Behind Logo */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] rounded-full bg-red-600/20 blur-[120px] opacity-80 animate-pulse-slow animate-[spin_12s_linear_infinite]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] rounded-full torch-bg-accent-20 blur-[120px] opacity-80 animate-pulse-slow animate-[spin_12s_linear_infinite]" />
           {/* Hero content */}
           <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center z-20">
             {/* Logo with glow and animation */}
             <div className="mb-14 relative group flex flex-col items-center animate-fade-in">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] sm:w-[300px] sm:h-[300px] rounded-full bg-red-600/30 blur-[80px] opacity-70 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] sm:w-[300px] sm:h-[300px] rounded-full torch-bg-accent-30 blur-[80px] opacity-70 group-hover:opacity-100 transition-all duration-300 z-0 animate-pulse-slow" />
               <Image 
                 src="/images/logo.png"
                 alt="Torch Logo"
@@ -880,13 +880,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 animate-hero-fadein hero-buttons">
               <button
                 onClick={handleButtonClick(() => scrollToSection('about-torch'))}
-                className="rounded-full bg-red-600/90 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0 w-full sm:w-auto min-w-[200px] backdrop-blur-md"
+                className="rounded-full torch-bg-accent-90 px-12 py-5 text-lg font-bold text-white shadow-xl transition-all duration-500 hover:scale-105 hover:torch-bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:torch-ring-accent focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 mb-0 w-full sm:w-auto min-w-[200px] backdrop-blur-md"
               >
                 Explore Torch <ArrowDownIcon className="h-5 w-5 ml-2" />
               </button>
               <a
                 href="/contact"
-                className="rounded-full border-2 border-red-600 px-12 py-5 text-lg font-bold text-red-600 bg-black/30 shadow-xl transition-all duration-500 hover:scale-105 hover:bg-red-700/20 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[200px] backdrop-blur-md"
+                className="rounded-full border-2 torch-border-primary px-12 py-5 text-lg font-bold torch-text-primary bg-black/30 shadow-xl transition-all duration-500 hover:scale-105 hover:torch-bg-accent-20 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:torch-ring-accent focus-visible:ring-offset-2 z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[200px] backdrop-blur-md"
               >
                 Contact Us <ArrowRight className="h-5 w-5 ml-2" />
               </a>
@@ -898,9 +898,9 @@ export default function Home() {
         <Section id="about-torch" className="relative overflow-hidden">
           {/* Enhanced background with multiple glow effects */}
           <div className="absolute inset-0 -z-10">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow"></div>
-            <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-red-500/10 blur-[80px] rounded-full"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[200px] bg-red-700/10 blur-[100px] rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] torch-bg-accent-15 blur-[120px] rounded-full animate-pulse-slow"></div>
+            <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] torch-bg-accent-10 blur-[80px] rounded-full"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[200px] torch-bg-accent-10 blur-[100px] rounded-full"></div>
           </div>
           
           <motion.div 
@@ -971,7 +971,7 @@ export default function Home() {
                 <div className="relative">
                   <div className="w-40 h-1 bg-gradient-to-r from-red-600 via-white/80 to-red-600 rounded-full"></div>
                   <div className="absolute inset-0 w-40 h-1 bg-gradient-to-r from-red-600 via-white/80 to-red-600 rounded-full animate-pulse-slow opacity-60"></div>
-                  <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-red-600 rounded-full shadow-lg shadow-red-600/50"></div>
+                  <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 torch-bg-primary rounded-full shadow-lg shadow-red-600/50"></div>
                 </div>
               </motion.div>
               
@@ -985,9 +985,9 @@ export default function Home() {
                   className="relative"
                 >
                   {/* Main Statement Card - Improved */}
-                  <div className="relative bg-gradient-to-br from-black/70 via-black/50 to-black/70 backdrop-blur-xl border border-red-600/30 rounded-3xl p-10 md:p-14 mb-10 shadow-2xl shadow-red-900/30 hover:shadow-red-600/40 transition-all duration-700 group">
+                  <div className="relative bg-gradient-to-br from-black/70 via-black/50 to-black/70 backdrop-blur-xl border torch-border-accent-30 rounded-3xl p-10 md:p-14 mb-10 shadow-2xl shadow-red-900/30 hover:shadow-red-600/40 transition-all duration-700 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/8 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div className="absolute top-4 right-4 w-16 h-16 bg-red-600/10 rounded-full blur-xl"></div>
+                    <div className="absolute top-4 right-4 w-16 h-16 torch-bg-accent-10 rounded-full blur-xl"></div>
                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-8 leading-tight relative z-10 text-center">
                       Igniting creativity and empowering talent to shape{' '}
                       <span className="torch-text-primary relative">
