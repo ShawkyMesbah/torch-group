@@ -1,3 +1,4 @@
+'use client';
 import { useRef, useEffect, MutableRefObject } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import './LiquidChrome.css';

@@ -141,5 +141,16 @@
       "timestamp": "2025-06-19T11:26:05.374Z"
     },
     "createdAt": "2025-06-19T11:26:11.102Z"
+  },
+  {
+    "id": "local_1750718326620_o4nzp29",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+      "timestamp": "2025-06-23T22:38:41.146Z"
+    },
+    "createdAt": "2025-06-23T22:38:46.620Z"
   }
 ]
