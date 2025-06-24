@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Briefcase, Megaphone, Users } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimatedFadeIn } from "@/components/ui/animated-fade-in";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
+import TiltedCard from '@/components/animations/TiltedCard';
 
 export default function AboutPage() {
   return (
@@ -121,28 +122,37 @@ export default function AboutPage() {
             {[
               {
                 title: "Project Management",
-                desc: "Strategic planning and execution of creative projects with precision and efficiency."
+                desc: "Strategic planning and execution of creative projects with precision and efficiency.",
+                icon: <Briefcase className="h-12 w-12 mx-auto mb-4 torch-text-primary" />,
               },
               {
                 title: "Marketing & Media",
-                desc: "Comprehensive marketing strategies and media management to amplify your brand presence."
+                desc: "Comprehensive marketing strategies and media management to amplify your brand presence.",
+                icon: <Megaphone className="h-12 w-12 mx-auto mb-4 torch-text-primary" />,
               },
               {
                 title: "Talent Management",
-                desc: "Nurturing and developing creative talents to achieve their full potential in the digital landscape."
+                desc: "Nurturing and developing creative talents to achieve their full potential in the digital landscape.",
+                icon: <Users className="h-12 w-12 mx-auto mb-4 torch-text-primary" />,
               }
             ].map((expertise, index) => (
-              <AnimatedFadeIn 
+              <TiltedCard
                 key={expertise.title}
-                animation="fade-in" 
-                delay={0.15 * index}
-                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl text-center min-h-10 px-4 py-2"
+                containerHeight="320px"
+                containerWidth="100%"
+                imageHeight="320px"
+                imageWidth="100%"
+                scaleOnHover={1.08}
+                rotateAmplitude={12}
+                showMobileWarning={false}
+                showTooltip={false}
               >
-                <h3 className="text-xl font-semibold mb-4 text-white">{expertise.title}</h3>
-                <p className="text-gray-200">
-                  {expertise.desc}
-                </p>
-              </AnimatedFadeIn>
+                <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl text-center min-h-10 px-4 py-2 flex flex-col items-center justify-center h-full w-full">
+                  {expertise.icon}
+                  <h3 className="text-xl font-semibold mb-2 text-white">{expertise.title}</h3>
+                  <p className="text-gray-200 text-base">{expertise.desc}</p>
+                </div>
+              </TiltedCard>
             ))}
           </div>
         </div>

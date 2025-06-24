@@ -19,6 +19,8 @@ import useSWR from "swr";
 import BlurText from '@/components/animations/BlurText';
 import { GlareHover } from "@/components/animations";
 import { Orbitron, Share_Tech_Mono, Russo_One, Oswald, Merriweather } from "next/font/google";
+import TiltedCard from '@/components/animations/TiltedCard';
+import Particles from '@/components/animations/Particles';
 
 const orbitron = Orbitron({ subsets: ["latin"], weight: ["400", "700"] });
 const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400" });
@@ -1099,73 +1101,62 @@ export default function Home() {
                       >
                         {[
                           {
-                            icon: <Zap className="h-12 w-12" />,
+                            icon: <Zap className="h-12 w-12 torch-text-primary mx-auto mb-4" />,
                             title: "Innovation",
                             subtitle: "Cutting-edge solutions",
                             description: "We push the boundaries of what's possible, creating groundbreaking digital experiences that set new industry standards."
                           },
                           {
-                            icon: <Star className="h-12 w-12" />,
+                            icon: <Star className="h-12 w-12 torch-text-primary mx-auto mb-4" />,
                             title: "Talent",
                             subtitle: "Exceptional creativity",
                             description: "Our diverse network of creative professionals brings unique perspectives and world-class expertise to every project."
                           },
                           {
-                            icon: <TrendingUp className="h-12 w-12" />,
+                            icon: <TrendingUp className="h-12 w-12 torch-text-primary mx-auto mb-4" />,
                             title: "Growth",
                             subtitle: "Strategic partnerships",
                             description: "We forge meaningful alliances that drive sustainable growth and create lasting value for all stakeholders."
                           }
-                        ].map((item, index) => (
-                          <motion.div
-                            key={item.title}
-                            variants={{
-                              hidden: { opacity: 0, y: 40 },
-                              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
-                            }}
-                            whileHover={{ 
-                              scale: 1.05,
-                              y: -10
-                            }}
-                            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                            className="group relative overflow-hidden rounded-3xl backdrop-blur-xl shadow-2xl transition-all duration-700 bg-gradient-to-br from-black/80 via-gray-900/60 to-black/80 border border-white/10 hover:border-red-500/50 hover:shadow-red-900/30 hover:shadow-2xl p-8"
+                        ].map((feature, idx) => (
+                          <TiltedCard
+                            key={feature.title}
+                            containerWidth="100%"
+                            scaleOnHover={1.08}
+                            rotateAmplitude={12}
+                            showMobileWarning={false}
+                            showTooltip={false}
                           >
-                            {/* Background glow effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                            
-                            {/* Subtle grid pattern */}
-                            <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-700">
-                              <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-                            </div>
-
-                            <div className="relative z-10 text-center">
-                              {/* Icon with enhanced glow */}
-                              <div className="mb-6 relative flex items-center justify-center">
-                                <div className="absolute inset-0 w-16 h-16 bg-red-600/40 blur-[30px] rounded-full transition-all duration-500 group-hover:blur-[50px] group-hover:bg-red-500/60"></div>
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500/20 via-orange-500/20 to-red-600/20 flex items-center justify-center relative z-10 border border-red-500/30 group-hover:border-red-400/50 transition-all duration-500 backdrop-blur-sm">
-                                  <div className="torch-text-primary drop-shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:text-orange-400">
-                                    {item.icon}
+                            <motion.div
+                              whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                              className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-center border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl px-4 py-2"
+                            >
+                              {/* Subtle grid pattern overlay */}
+                              <div className="absolute inset-0 opacity-5 pointer-events-none">
+                                <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                              </div>
+                              {/* Content area */}
+                              <div className="flex-1 flex flex-col justify-center items-center text-center w-full pt-10 pb-6 relative z-10 min-h-0">
+                                {/* Icon with glow */}
+                                <div className="mb-6 mt-2 relative flex items-center justify-center">
+                                  <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
+                                  <div className="w-20 h-20 flex items-center justify-center relative z-10">
+                                    <div className="torch-text-primary drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
+                                      {feature.icon}
+                                    </div>
                                   </div>
                                 </div>
+                                <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
+                                  {feature.title}
+                                </h3>
+                                <div className="text-base font-semibold mb-2 torch-text-primary">{feature.subtitle}</div>
+                                <p className="text-gray-200 text-base group-hover:text-gray-200 transition-colors duration-300">
+                                  {feature.description}
+                                </p>
                               </div>
-
-                              {/* Content */}
-                              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-white group-hover:text-red-100 transition-colors duration-500 tracking-tight drop-shadow-lg">
-                                {item.title}
-                              </h3>
-                              <p className="text-lg font-semibold text-red-400 mb-4 group-hover:text-orange-400 transition-colors duration-500">
-                                {item.subtitle}
-                              </p>
-                              <p className="text-gray-300 group-hover:text-gray-200 transition-colors duration-500 leading-relaxed text-sm">
-                                {item.description}
-                              </p>
-
-                              {/* Decorative bottom accent */}
-                              <div className="mt-6 flex justify-center">
-                                <div className="w-12 h-1 bg-gradient-to-r from-red-600 via-orange-500 to-red-600 rounded-full opacity-60 group-hover:opacity-100 group-hover:w-16 transition-all duration-500"></div>
-                              </div>
-                            </div>
-                          </motion.div>
+                            </motion.div>
+                          </TiltedCard>
                         ))}
                       </motion.div>
                     </div>
