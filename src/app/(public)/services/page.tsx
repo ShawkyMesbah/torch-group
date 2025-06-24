@@ -99,21 +99,21 @@ export default function ServicesPage() {
       <SharedTorchBackground />
       
       {/* Hero Section */}
-      <section className="py-20 px-4 md:px-6 lg:px-8 relative bg-transparent">
+      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-transparent">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col items-center text-center mb-12"
+            className="flex flex-col items-center text-center mb-16"
           >
-            <div className="torch-section-header mb-6">
+            <div className="torch-section-header mb-8">
               <span className="torch-section-title">WHAT WE DO</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white drop-shadow-lg">
               Our <span className="torch-text-accent">Services</span>
             </h1>
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-6">
               <div className="torch-divider"></div>
             </div>
             <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
@@ -127,10 +127,10 @@ export default function ServicesPage() {
       </section>
 
       {/* Main Services Section - Same cards as homepage */}
-      <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 justify-center items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -189,7 +189,7 @@ export default function ServicesPage() {
                 </div>
 
                 {/* Content area */}
-                <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
+                <div className="p-8 flex flex-col items-center text-center w-full flex-grow relative z-10">
                   {/* Icon with glow */}
                   <div className="mb-6 relative flex items-center justify-center">
                     <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
@@ -210,7 +210,7 @@ export default function ServicesPage() {
                 {/* Button */}
                 <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
                   <a href={service.link}>
-                    <button className="px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600">
+                    <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
                       {service.title === "B2T" ? "Get your Membership" : service.title === "B2B" ? "Get your Membership" : service.title === "B2A" ? "Join Alliance" : "Discover More"}
                     </button>
                   </a>
@@ -222,7 +222,7 @@ export default function ServicesPage() {
       </section>
 
       {/* B2C Section */}
-      <section id="b2c" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <section id="b2c" className="py-16 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -234,7 +234,7 @@ export default function ServicesPage() {
           </div>
           <div className="text-center">
             <Link href="/#torch-group">
-              <button className="px-8 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600">
+              <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
                 Explore Torch Group Brands
               </button>
             </Link>
@@ -243,7 +243,7 @@ export default function ServicesPage() {
       </section>
 
       {/* B2B Section - Detailed Packages */}
-      <section id="b2b" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <section id="b2b" className="py-16 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">

@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import Loading from '@/components/loading/loading';
 import DashboardNav from '@/components/dashboard/layout/dashboard-nav';
 import DashboardHeader from '@/components/dashboard/layout/dashboard-header';
+import type { Session } from 'next-auth';
 
 export const dynamic = "force-dynamic";
 
@@ -12,13 +13,10 @@ interface DashboardLayoutProps {
 }
 
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
-  const session = await (async () => {
-    const session = await auth();
-    if (!session?.user) {
-      redirect('/login');
-    }
-    return session;
-  })();
+  const session = await auth() as Session | null;
+  if (!session || !session.user) {
+    redirect('/login');
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">

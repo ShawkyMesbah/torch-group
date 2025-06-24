@@ -111,17 +111,17 @@ export default function BlogPage() {
         {/* Animated grid background to match homepage */}
         <SharedTorchBackground />
         {/* Hero Section with loading state */}
-        <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+        <section className="relative py-16 md:py-24 lg:py-24 bg-transparent border-b border-gray-800/50 overflow-hidden">
           {/* Removed conflicting background elements */}
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <div className="text-red-500 font-semibold uppercase tracking-wider mb-4 flex items-center justify-center gap-4">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-4">
                 <span className="h-px bg-red-500 w-8"></span>
                 <span>INSIGHTS AND INSPIRATION</span>
                 <span className="h-px bg-red-500 w-8"></span>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
                 Torch <span className="text-red-500 relative inline-block">
                   Blog
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"></span>
@@ -144,10 +144,10 @@ export default function BlogPage() {
       <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
         {/* Animated grid background to match homepage */}
         <SharedTorchBackground />
-        <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+        <section className="relative py-16 md:py-24 lg:py-24 bg-transparent border-b border-gray-800/50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
                 Torch <span className="text-red-500 relative inline-block">Blog</span>
               </h1>
               <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-8 mt-8">
@@ -174,19 +174,19 @@ export default function BlogPage() {
         {/* Animated grid background to match homepage */}
         <SharedTorchBackground />
         {/* Hero Section */}
-        <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+        <section className="relative py-16 md:py-24 lg:py-24 bg-transparent border-b border-gray-800/50 overflow-hidden">
           {/* Removed conflicting background elements */}
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <div className="text-red-500 font-semibold uppercase tracking-wider mb-4 flex items-center justify-center gap-4 animate-fade-in animation-delay-300">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-4 animate-fade-in animation-delay-300">
                 <span className="h-px bg-red-500 w-8"></span>
                 <span>INSIGHTS AND INSPIRATION</span>
                 <span className="h-px bg-red-500 w-8"></span>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white animate-fade-in animation-delay-500">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white animate-fade-in animation-delay-500">
                 Torch <span className="text-red-500 relative inline-block">
                   Blog
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 animate-[glow_2s_ease-in-out_infinite_alternate]"></span>
@@ -219,19 +219,19 @@ export default function BlogPage() {
       {/* Animated grid background to match homepage */}
       <SharedTorchBackground />
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-20 bg-transparent border-b border-gray-800/50 overflow-hidden">
+      <section className="relative py-16 md:py-24 lg:py-24 bg-transparent border-b border-gray-800/50 overflow-hidden">
         {/* Removed conflicting background elements */}
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <div className="text-red-500 font-semibold uppercase tracking-wider mb-4 flex items-center justify-center gap-4 animate-fade-in animation-delay-300">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-4 animate-fade-in animation-delay-300">
               <span className="h-px bg-red-500 w-8"></span>
               <span>INSIGHTS AND INSPIRATION</span>
               <span className="h-px bg-red-500 w-8"></span>
             </div>
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-white animate-fade-in animation-delay-500">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white animate-fade-in animation-delay-500">
               Torch <span className="text-red-500 relative inline-block">
                 Blog
                 <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 animate-[glow_2s_ease-in-out_infinite_alternate]"></span>
@@ -329,8 +329,8 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Content */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-transparent">
+        <div className="max-w-7xl mx-auto">
           {/* Category Tabs */}
           <Tabs defaultValue="All" value={selectedCategory} onValueChange={setSelectedCategory} className="mb-12">
             <div className="flex justify-center">
@@ -365,7 +365,7 @@ export default function BlogPage() {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
                     {(selectedCategory === "All" && !searchQuery ? restPosts : filteredPosts).map((post, index) => (
                       <Link href={`/blog/${post.slug}`} key={post.id} className="group block transform transition-all duration-500 hover:-translate-y-1">
                         <GlareHover glareColor="#fff" glareOpacity={0.13} glareAngle={-30} glareSize={180} transitionDuration={700} style={{ borderRadius: "1rem", background: "transparent" }}>

@@ -152,5 +152,49 @@
       "timestamp": "2025-06-23T22:38:41.146Z"
     },
     "createdAt": "2025-06-23T22:38:46.620Z"
+  },
+  {
+    "id": "local_1750722902875_vf9bkps",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "http://localhost:3000/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+      "timestamp": "2025-06-23T23:54:57.122Z"
+    },
+    "createdAt": "2025-06-23T23:55:02.875Z"
+  },
+  {
+    "id": "local_1750744743865_ykjphve",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "http://localhost:3000/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+      "timestamp": "2025-06-24T05:58:58.708Z"
+    },
+    "createdAt": "2025-06-24T05:59:03.865Z"
+  },
+  {
+    "id": "local_1750744903716_qafnlym",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+      "timestamp": "2025-06-24T06:01:43.018Z"
+    },
+    "createdAt": "2025-06-24T06:01:43.716Z"
+  },
+  {
+    "id": "local_1750744909519_qyqyxr7",
+    "type": "PAGE_VIEW",
+    "meta": {
+      "path": "/",
+      "referrer": "http://localhost:3000/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+      "timestamp": "2025-06-24T06:01:37.809Z"
+    },
+    "createdAt": "2025-06-24T06:01:49.519Z"
   }
 ]

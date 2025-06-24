@@ -45,20 +45,22 @@ export default function Header() {
               <Link href="/" className="flex items-center group">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 to-red-600/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <Image
-                    src="/images/logo.png"
-                    alt="Torch Logo"
-                    width={48}
-                    height={48}
-                    priority
-                    className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300 relative z-10"
-                    style={{aspectRatio: '1/1'}}
-                  />
+                  <div className="relative w-8 h-8 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center">
+                    <Image
+                      src="/images/logo.png"
+                      alt="Torch Logo"
+                      width={128}
+                      height={128}
+                      priority
+                      className="object-contain mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300 relative z-10 w-full h-full"
+                      style={{ aspectRatio: '1/1' }}
+                    />
+                  </div>
                 </div>
                 <span className="ml-3 text-2xl font-black tracking-tight text-white hidden sm:inline-block drop-shadow-lg group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-red-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">Torch</span>
               </Link>
             )}
-            <div className="hidden md:flex items-center space-x-6 ml-8">
+            <div className="hidden md:flex items-center space-x-8 ml-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -95,7 +97,7 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex flex-col md:hidden animate-fade-in">
             <div className="w-full bg-gradient-to-b from-black/95 via-black/90 to-red-950/80 shadow-lg border-b border-transparent animate-slide-down">
-              <div className="space-y-2 px-6 py-8 flex flex-col items-center">
+              <div className="space-y-2 px-6 py-4 flex flex-col items-center">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}

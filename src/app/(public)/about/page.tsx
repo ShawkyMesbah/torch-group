@@ -14,13 +14,13 @@ export default function AboutPage() {
       {/* Animated grid background to match homepage */}
       <SharedTorchBackground />
       {/* Hero Section */}
-      <SectionWrapper animation="fade-in" className="py-20 px-4 md:px-6 lg:px-8 relative bg-transparent">
+      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-transparent">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-12">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white">
               About <span className="torch-text-accent">Torch Group</span>
             </h1>
-            <p className="text-lg text-gray-200 max-w-3xl">
+            <p className="text-lg md:text-xl text-gray-200 max-w-3xl">
               Igniting digital transformation through innovative solutions and strategic allies.
             </p>
           </div>
@@ -28,11 +28,11 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Our Story Section */}
-      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <SectionWrapper animation="slide-up" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6 text-white">Our Story</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Story</h2>
               <p className="text-gray-200 mb-6">
                 Founded in 2020, Torch began with a simple vision: creating a creative environment in the cultural, 
                 scientific, sports and tourism fields and helping companies and creative talents navigate the 
@@ -52,8 +52,8 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="relative">
-              <div className="absolute -inset-4 torch-bg-accent-10 rounded-xl blur-xl"></div>
-              <div className="relative rounded-xl overflow-hidden border border-gray-800">
+              <div className="absolute -inset-4 torch-bg-accent-10 rounded-3xl blur-xl"></div>
+              <div className="relative rounded-3xl overflow-hidden border border-gray-800">
                 <Image 
                   src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop" 
                   alt="Torch Group Team" 
@@ -68,12 +68,12 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Mission & Goals Section */}
-      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-white">Our Mission & Goals</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Mission & Goals</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {[
               {
                 title: "Attracting Partnerships",
@@ -109,15 +109,15 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Areas of Expertise Section */}
-      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <SectionWrapper animation="slide-up" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-white">Areas of Expertise</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Areas of Expertise</h2>
             <p className="text-gray-200 max-w-2xl mx-auto">
               Our specialized knowledge and skills across multiple domains enable us to deliver comprehensive solutions.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {[
               {
                 title: "Project Management",
@@ -149,10 +149,10 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Core Values Section */}
-      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center text-white">Our Core Values</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-white">Our Core Values</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {[
               {
                 title: "Innovation",
@@ -183,7 +183,7 @@ export default function AboutPage() {
                 key={value.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="group relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg p-8 rounded-2xl border border-gray-800 hover:torch-border-primary hover:shadow-2xl hover:shadow-red-900/30 transition-all duration-500 hover:scale-105 hover:bg-gradient-to-br hover:from-black/80 hover:via-red-950/10 hover:to-black/80 cursor-pointer overflow-hidden"
+                className="group relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg p-8 rounded-3xl border border-gray-800 hover:torch-border-primary hover:shadow-2xl hover:shadow-red-900/30 transition-all duration-500 hover:scale-105 hover:bg-gradient-to-br hover:from-black/80 hover:via-red-950/10 hover:to-black/80 cursor-pointer overflow-hidden"
               >
                 {/* Subtle glow effect on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -205,7 +205,7 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Team Section */}
-      <SectionWrapper animation="slide-up" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <SectionWrapper animation="slide-up" className="py-16 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4 text-white">Meet Our Elite Members</h2>
@@ -223,9 +223,9 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* CTA Section */}
-      <SectionWrapper animation="fade-in" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+      <SectionWrapper animation="fade-in" className="py-16 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
-                      <div className="bg-gradient-to-r from-red-900/50 to-black/0 p-8 md:p-12 rounded-xl border torch-border-accent-30">
+          <div className="bg-gradient-to-r from-red-900/50 to-black/0 p-8 md:p-12 rounded-3xl border torch-border-accent-30">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Ready to transform your digital presence?</h2>
               <p className="text-gray-200 mb-8">
@@ -234,10 +234,10 @@ export default function AboutPage() {
               <AnimatedFadeIn animation="slide-up" delay={0.3}>
                 <Link 
                   href="/contact" 
-                  className="torch-bg-primary hover:torch-bg-primary-hover text-white px-6 py-3 rounded-lg inline-flex items-center transition-colors"
+                  className="torch-bg-primary hover:torch-bg-primary-hover text-white px-8 py-3 text-lg font-bold rounded-full inline-flex items-center transition-colors"
                 >
                   Get in touch with us
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </AnimatedFadeIn>
             </div>

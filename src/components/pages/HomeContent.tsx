@@ -10,14 +10,12 @@ import { AnimatedGridBackground } from "@/components/ui/animated-grid-background
 import { Input } from "@/components/ui/input";
 import { motion, useReducedMotion } from "framer-motion";
 import { Typewriter } from 'react-simple-typewriter';
-import { ContactForm } from "@/components/forms/contact-form";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
 import useSWR from "swr";
 import BlurText from '@/components/animations/BlurText';
 import { GlareHover } from "@/components/animations";
 import { Suspense } from "react";
-import LoadingSpinner from "@/components/loading/loading-spinner";
-import ContactSection from "@/components/homepage/contact-section";
+import { Loading } from "@/components/ui/unified-loading";
 
 // Simple throttle function
 const throttle = (func: Function, delay: number) => {
@@ -126,7 +124,7 @@ export default function HomeContent() {
   if (!mounted) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <LoadingSpinner size="lg" className="text-red-600" />
+        <Loading variant="spinner" size="lg" />
       </div>
     );
   }
@@ -139,10 +137,9 @@ export default function HomeContent() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
-        
-        <div className="relative z-20 max-w-7xl mx-auto px-4 text-center">
+        <div className="relative z-20 flex flex-1 flex-col items-center justify-center w-full h-full px-4 text-center min-h-screen">
           <motion.div 
-            className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto text-center z-20"
+            className="flex flex-col items-center justify-center w-full h-full text-center z-20 flex-1"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: 'easeOut' }}
@@ -228,7 +225,7 @@ export default function HomeContent() {
             >
               <Link
                 href="#services"
-                className="torch-btn torch-btn-cta torch-btn-lg group z-20 w-full sm:w-auto min-w-[220px]"
+                className="torch-btn torch-btn-cta group z-20 w-full sm:w-auto px-12 py-4 text-lg font-bold rounded-full"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   Explore Torch 
@@ -238,7 +235,7 @@ export default function HomeContent() {
               
               <Link
                 href="/contact"
-                className="torch-btn torch-btn-outline torch-btn-lg z-20 w-full sm:w-auto min-w-[220px]"
+                className="torch-btn torch-btn-outline z-20 w-full sm:w-auto px-12 py-4 text-lg font-bold rounded-full"
               >
                 Contact Us
                 <ArrowRight className="h-5 w-5 ml-2" />
@@ -352,7 +349,7 @@ export default function HomeContent() {
 
       {/* Contact Section */}
       <Suspense fallback={<div className="h-screen bg-black" />}>
-        <ContactSection />
+        {/* ContactSection /> */}
       </Suspense>
     </>
   );

@@ -218,5 +218,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   // Find the post by slug (server-side)
   const post = blogPosts.find((p) => p.slug === params.slug) || null;
-  return <BlogPostClient post={post} blogPosts={blogPosts} />;
+  return (
+    <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-transparent">
+      <div className="max-w-4xl mx-auto">
+        <article className="prose prose-invert max-w-none">
+          <BlogPostClient post={post} blogPosts={blogPosts} />
+        </article>
+      </div>
+    </section>
+  );
 }

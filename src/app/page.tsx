@@ -18,6 +18,13 @@ import { NewsletterForm } from "@/components/forms/newsletter-form";
 import useSWR from "swr";
 import BlurText from '@/components/animations/BlurText';
 import { GlareHover } from "@/components/animations";
+import { Orbitron, Share_Tech_Mono, Russo_One, Oswald, Merriweather } from "next/font/google";
+
+const orbitron = Orbitron({ subsets: ["latin"], weight: ["400", "700"] });
+const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400" });
+const russoOne = Russo_One({ subsets: ["latin"], weight: "400" });
+const oswald = Oswald({ subsets: ["latin"], weight: ["400", "700"] });
+const merriweather = Merriweather({ subsets: ["latin"], weight: ["400", "700"] });
 
 // Simple throttle function
 const throttle = (func: Function, delay: number) => {
@@ -83,7 +90,7 @@ interface SectionProps {
 
 // Section component with consistent styling
 const Section = ({ id, children, className }: SectionProps) => (
-  <section id={id} className={cn("py-24 md:py-32 lg:py-40 relative", className)}>
+  <section id={id} className={cn("py-16 md:py-24", className)}>
     {children}
   </section>
 );
@@ -835,7 +842,7 @@ export default function Home() {
         {/* ENHANCED HERO SECTION */}
         <section 
           id="hero" 
-          className="relative flex flex-col items-center justify-center min-h-screen py-32 px-4 sm:px-8 md:px-12 z-10 overflow-hidden"
+          className="relative flex flex-col justify-center items-center min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 z-10 overflow-hidden"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
@@ -859,24 +866,24 @@ export default function Home() {
           >
                          {/* Enhanced Logo Section */}
              <motion.div 
-               className="mb-12 relative group flex flex-col items-center"
+               className="mt-10 mb-2 relative group flex flex-col items-center"
                initial={{ opacity: 0, scale: 0.8 }}
                animate={{ opacity: 1, scale: 1 }}
                transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
              >
                {/* Main logo container with refined glow */}
-               <div className="relative flex items-center justify-center w-[240px] h-[240px] sm:w-[280px] sm:h-[280px]">
+               <div className="relative flex items-center justify-center w-[320px] h-[320px] sm:w-[380px] sm:h-[380px]">
                  {/* Refined single-layer glow */}
-                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-600/40 to-red-700/30 blur-[60px] rounded-full transition-all duration-500 group-hover:blur-[80px] group-hover:from-orange-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
+                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-600/40 to-red-700/30 blur-[80px] rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-orange-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
                  
                  {/* Logo */}
                  <Image 
                    src="/images/logo.png"
                    alt="Torch Logo"
-                   width={240}
-                   height={240}
+                   width={320}
+                   height={320}
                    priority
-                   className="object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 group-hover:drop-shadow-[0_0_50px_#dc2626dd] transition-all duration-500 cursor-pointer w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]"
+                   className="object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 group-hover:drop-shadow-[0_0_70px_#dc2626dd] transition-all duration-500 cursor-pointer w-[260px] h-[260px] sm:w-[320px] sm:h-[320px]"
                    style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
                    onClick={handleLogoClick}
                    ref={logoImgRefDesktop}
@@ -886,12 +893,13 @@ export default function Home() {
 
                          {/* Enhanced Main Heading */}
              <motion.h1 
-               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 text-white tracking-tight leading-tight text-center"
+               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 text-white tracking-tight leading-tight text-center flex flex-col items-center justify-center -mt-8 sm:-mt-10"
+               style={{ position: 'relative', zIndex: 20 }}
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
              >
-               <span className="block mb-2 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent drop-shadow-2xl text-center">
+               <span className="block mb-1 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent drop-shadow-2xl text-center">
                  Welcome to
                </span>
                <span className="relative block torch-text-primary drop-shadow-2xl text-center">
@@ -913,14 +921,14 @@ export default function Home() {
 
             {/* Enhanced Tagline */}
             <motion.div 
-              className="mb-12 text-center"
+              className="mt-2 mb-6 text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.9, ease: 'easeOut' }}
             >
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className="block text-2xl md:text-3xl lg:text-4xl text-gray-100 font-bold drop-shadow-lg tracking-wide"
+                className={cn("block text-lg md:text-xl lg:text-2xl text-gray-100 font-bold drop-shadow-lg tracking-wide", merriweather.className)}
                 animateBy="words"
                 direction="top"
                 delay={1000}
@@ -931,16 +939,16 @@ export default function Home() {
 
             {/* Enhanced Action Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-8"
+              className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mt-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 1.2, ease: 'easeOut' }}
             >
               <button
                 onClick={handleButtonClick(() => scrollToSection('about-torch'))}
-                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-14 py-6 text-lg font-bold text-white shadow-2xl transition-all duration-500 hover:scale-105 hover:from-orange-400 hover:to-red-500 hover:shadow-[0_0_40px_rgba(255,87,34,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[220px] backdrop-blur-md border border-orange-400/20"
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-12 py-4 text-lg font-bold text-white shadow-2xl transition-all duration-500 hover:scale-105 hover:from-orange-400 hover:to-red-500 hover:shadow-[0_0_40px_rgba(255,87,34,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md border border-orange-400/20"
               >
-                <span className="relative z-10 flex items-center gap-3">
+                <span className="relative z-10 flex items-center gap-2">
                   Explore Torch 
                   <ArrowDownIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-y-1" />
                 </span>
@@ -949,9 +957,9 @@ export default function Home() {
               
               <a
                 href="/contact"
-                className="group relative overflow-hidden rounded-full border-2 border-red-500/60 px-14 py-6 text-lg font-bold text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-orange-500/30 hover:text-orange-300 hover:border-orange-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-3 w-full sm:w-auto min-w-[220px] backdrop-blur-md"
+                className="group relative overflow-hidden rounded-full border-2 border-red-500/60 px-12 py-4 text-lg font-bold text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-orange-500/30 hover:text-orange-300 hover:border-orange-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md"
               >
-                <span className="relative z-10 flex items-center gap-3">
+                <span className="relative z-10 flex items-center gap-2">
                   Contact Us 
                   <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
@@ -962,7 +970,7 @@ export default function Home() {
         </section>
 
         {/* About Torch Group block moved here */}
-        <Section id="about-torch" className="relative overflow-hidden">
+        <Section id="about-torch" className="py-16 md:py-24 relative overflow-hidden">
           {/* Enhanced background with multiple glow effects */}
           <div className="absolute inset-0 -z-10">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow"></div>
@@ -1002,7 +1010,7 @@ export default function Home() {
 
               {/* Improved Typewriter Section */}
               <motion.div 
-                className="mb-16 max-w-4xl"
+                className="mb-8 max-w-4xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -1052,7 +1060,7 @@ export default function Home() {
                   className="relative"
                 >
                   {/* Main Statement Card - Improved */}
-                  <div className="relative bg-gradient-to-br from-black/70 via-black/50 to-black/70 backdrop-blur-xl border border-red-600/30 rounded-3xl p-10 md:p-14 mb-10 shadow-2xl shadow-red-900/30 hover:shadow-red-600/40 transition-all duration-700 group">
+                  <div className="relative bg-gradient-to-br from-black/70 via-black/50 to-black/70 backdrop-blur-xl border border-red-600/30 rounded-3xl p-8 md:p-12 mb-8 shadow-2xl shadow-red-900/30 hover:shadow-red-600/40 transition-all duration-700 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/8 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     <div className="absolute top-4 right-4 w-16 h-16 bg-red-600/10 rounded-full blur-xl"></div>
                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-8 leading-tight relative z-10 text-center">
@@ -1076,7 +1084,7 @@ export default function Home() {
                 <span className="torch-text-primary font-semibold">driving force</span> in the evolving media landscape.
                       </p>
                       <motion.div 
-                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-12"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mt-8"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.3 }}
@@ -1185,7 +1193,7 @@ export default function Home() {
           />
 
           {/* Added: Pure black overlay for all pages */}
-          <div className="fixed inset-0 -z-10 bg-black opacity-80"></div>
+          <div className="fixed inset-0 -z-10 bg-black opacity-90"></div>
 
           {/* Added: Cursor following red glow */}
           {mounted && (
@@ -1197,7 +1205,7 @@ export default function Home() {
 
           {/* Conditionally render other sections based on their enabled status and in order */}
           {isSectionEnabled('services') && (
-            <Section id="services" className="py-32 md:py-40">
+            <Section id="services" className="py-16 md:py-24">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1210,7 +1218,7 @@ export default function Home() {
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="torch-section-header mb-6">
+                  <div className="torch-section-header mb-8">
                     <span className="torch-section-title">WHAT WE DO</span>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
@@ -1227,7 +1235,7 @@ export default function Home() {
                   </p>
                 </div>
                 <motion.div 
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mt-16"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 justify-center items-stretch mt-16"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
@@ -1331,7 +1339,7 @@ export default function Home() {
           )}
 
           {isSectionEnabled('torch-group') && (
-            <Section id="torch-group">
+            <Section id="torch-group" className="py-16 md:py-24">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1344,7 +1352,7 @@ export default function Home() {
                   <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="torch-section-header mb-6">
+                  <div className="torch-section-header mb-8">
                     <span className="torch-section-title">OUR BRANDS</span>
                   </div>
                   <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
@@ -1503,7 +1511,7 @@ export default function Home() {
 
           {/* Blog Section */}
           {isSectionEnabled('blog') && (
-            <Section id="blog">
+            <Section id="blog" className="py-16 md:py-24">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1516,7 +1524,7 @@ export default function Home() {
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="inline-flex items-center justify-center mb-6">
+                  <div className="inline-flex items-center justify-center mb-8">
                     <div className="h-px w-8 bg-red-600/80 mr-2"></div>
                     <span className="torch-section-title">INSIGHTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
@@ -1625,7 +1633,7 @@ export default function Home() {
           )}
 
           {isSectionEnabled('torch-talents') && (
-            <Section id="torch-talents">
+            <Section id="torch-talents" className="py-16 md:py-24">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1638,7 +1646,7 @@ export default function Home() {
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="inline-flex items-center justify-center mb-6">
+                  <div className="inline-flex items-center justify-center mb-8">
                     <div className="h-px w-8 bg-red-600/80 mr-2"></div>
                     <span className="torch-section-title">OUR TALENTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
@@ -1756,14 +1764,14 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="max-w-7xl mx-auto px-4 md:px-12 relative"
+              className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
             >
               {/* Enhanced background with glow effects */}
               <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                 <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
               </div>
               <div className="text-center mb-16">
-                <div className="inline-flex items-center justify-center mb-6">
+                <div className="inline-flex items-center justify-center mb-8">
                   <div className="h-px w-8 bg-red-600/80 mr-2"></div>
                                       <span className="torch-section-title">ALLIES</span>
                   <div className="h-px w-8 bg-red-600/80 ml-2"></div>
@@ -1898,20 +1906,20 @@ export default function Home() {
           </Section>
 
           {isSectionEnabled('contact') && (
-            <Section id="contact">
+            <Section id="contact" className="py-16 md:py-24">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-4xl mx-auto px-3 sm:px-6 md:px-8 lg:px-12 relative"
+                className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
               >
                 {/* Perfectly fitted form glow - matches contact form dimensions exactly */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-full max-w-4xl h-[600px] sm:h-[700px] md:h-[800px] bg-gradient-to-br from-red-600/30 via-red-500/20 to-red-700/25 blur-[100px] rounded-3xl animate-pulse-slow mx-3 sm:mx-6 md:mx-8 lg:mx-12"></div>
                 </div>
                 <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-                  <div className="inline-flex items-center justify-center mb-4 sm:mb-6">
+                  <div className="inline-flex items-center justify-center mb-6">
                     <div className="h-px w-6 sm:w-8 bg-red-600/80 mr-2"></div>
                     <span className="torch-section-title">CONTACT US</span>
                     <div className="h-px w-6 sm:w-8 bg-red-600/80 ml-2"></div>
@@ -1934,7 +1942,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-red-600/30 contact-form-card mb-8 sm:mb-12 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/40 transition-all duration-700 group"
+                  className="p-6 md:p-8 lg:p-10 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-red-600/30 contact-form-card mb-8 sm:mb-12 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/40 transition-all duration-700 group"
                 >
                   {/* Subtle inner glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>

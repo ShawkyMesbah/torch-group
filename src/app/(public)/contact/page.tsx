@@ -15,15 +15,15 @@ export default function ContactPage() {
       <SharedTorchBackground />
 
       {/* Enhanced Hero Section */}
-      <SectionWrapper animation="fade-in" className="py-20 px-4 md:px-6 lg:px-8 relative bg-transparent">
+      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 md:px-6 lg:px-8 relative bg-transparent">
         <div className="max-w-7xl mx-auto relative z-10 text-center">
           {/* Animated badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-6 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-8 backdrop-blur-sm">
             <MessageCircle className="w-4 h-4 torch-text-accent" />
             <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
             Let's Create Something
             <span className="block torch-text-accent">
               Amazing Together
@@ -43,13 +43,13 @@ export default function ContactPage() {
       </SectionWrapper>
 
       {/* Enhanced Contact Details and Form Section */}
-      <section className="py-20 px-4 md:px-6 lg:px-8 bg-transparent relative">
+      <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-transparent relative">
         {/* Improved background glow effect */}
         <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
           <div className="w-full max-w-6xl h-[800px] bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/15 blur-[120px] rounded-3xl animate-pulse-slow"></div>
         </div>
         
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 relative z-10">
                      {/* Enhanced Contact Details */}
            <div className="space-y-8">
             {/* Main Contact Card */}
@@ -152,10 +152,10 @@ export default function ContactPage() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 px-4 md:px-6 lg:px-8 bg-transparent relative">
+      <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-transparent relative">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white">
               Why Work With <span className="torch-text-accent">TORCH</span>?
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
@@ -163,7 +163,7 @@ export default function ContactPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {[
                              {
                  icon: Zap,
@@ -194,7 +194,7 @@ export default function ContactPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 md:px-6 lg:px-8 bg-transparent relative">
+      <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-transparent relative">
         <div className="max-w-4xl mx-auto text-center">
           <div className="p-8 md:p-12 bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/20 backdrop-blur-xl rounded-3xl border border-red-600/30 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-red-600/5 via-red-500/10 to-red-600/5 animate-pulse-slow"></div>

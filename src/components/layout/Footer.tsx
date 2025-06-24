@@ -41,7 +41,7 @@ export default function Footer() {
     <footer className="relative bg-transparent overflow-hidden">
       {/* Glassmorphism Overlay */}
       <div className="absolute inset-0 bg-black/30 z-10 pointer-events-none" />
-      <div className="relative z-20 flex flex-col items-center justify-center px-4 py-10 md:py-14 gap-6 md:gap-8 w-full">
+      <div className="relative z-20 flex flex-col items-center justify-center px-4 py-12 md:py-16 gap-8 md:gap-12 w-full">
         {/* Logo with service card style glow */}
         <div className="relative flex flex-col items-center group">
                       {/* Footer logo container with glow - similar to service cards */}
@@ -53,8 +53,8 @@ export default function Footer() {
             <Image
               src="/images/logo.png"
               alt="Torch Logo"
-              width={96}
-              height={96}
+              width={120}
+              height={120}
               className="object-contain relative z-10 drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-[0_0_32px_#dc2626cc] transition-transform duration-300"
               style={{ aspectRatio: '1/1' }}
             />
@@ -73,7 +73,7 @@ export default function Footer() {
           ))}
         </nav>
         {/* Social Icons */}
-        <div className="flex justify-center gap-5 md:gap-8 mt-2">
+        <div className="flex justify-center gap-6 md:gap-10 mt-4">
           {navigation.social.map((item) => (
             <Link
               key={item.name}
@@ -83,7 +83,7 @@ export default function Footer() {
               rel="noopener noreferrer"
             >
               <span className="sr-only">{item.name}</span>
-              <item.icon className="h-7 w-7 md:h-8 md:w-8 transition-transform duration-200 group-hover:scale-110 hover:scale-110" aria-hidden="true" />
+              <item.icon className="h-10 w-10 md:h-10 md:w-10 transition-transform duration-200 group-hover:scale-110 hover:scale-110" aria-hidden="true" />
             </Link>
           ))}
         </div>
