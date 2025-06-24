@@ -130,7 +130,7 @@ export default function ServicesPage() {
       <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 justify-center items-stretch"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12 justify-center items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -180,7 +180,7 @@ export default function ServicesPage() {
                   boxShadow: '0 0 40px 8px #dc2626aa'
                 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
+                className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl min-h-10 px-4 py-2"
                 style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
               >
                 {/* Subtle grid pattern overlay */}

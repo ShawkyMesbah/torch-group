@@ -116,7 +116,7 @@ export default function BlogPage() {
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center mb-16">
-              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-4">
+              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-x-4 gap-y-2 flex-wrap">
                 <span className="h-px bg-red-500 w-8"></span>
                 <span>INSIGHTS AND INSPIRATION</span>
                 <span className="h-px bg-red-500 w-8"></span>
@@ -152,10 +152,10 @@ export default function BlogPage() {
               </h1>
               <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-8 mt-8">
                 <p className="text-red-500 text-lg mb-4">Error loading blog posts</p>
-                <p className="text-gray-300 mb-6">{error}</p>
+                <p className="text-gray-300 mb-6 text-base sm:text-lg md:text-xl">{error}</p>
                 <Button 
                   onClick={() => window.location.reload()} 
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-red-600 hover:bg-red-700 min-h-10 px-4 py-2"
                 >
                   Try Again
                 </Button>
@@ -181,7 +181,7 @@ export default function BlogPage() {
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center mb-16">
-              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-4 animate-fade-in animation-delay-300">
+              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-x-4 gap-y-2 flex-wrap animate-fade-in animation-delay-300 overflow-x-auto">
                 <span className="h-px bg-red-500 w-8"></span>
                 <span>INSIGHTS AND INSPIRATION</span>
                 <span className="h-px bg-red-500 w-8"></span>
@@ -192,16 +192,16 @@ export default function BlogPage() {
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 animate-[glow_2s_ease-in-out_infinite_alternate]"></span>
                 </span>
               </h1>
-              <p className="text-xl text-gray-300 mb-10 animate-fade-in animation-delay-700">
+              <p className="text-xl text-gray-300 mb-10 animate-fade-in animation-delay-700 text-base sm:text-lg md:text-xl">
                 Discover the latest insights, creative content, talent spotlights, and industry news from the creative world
               </p>
-              <p className="text-xl text-gray-300 mt-8">No blog posts found matching your criteria.</p>
+              <p className="text-xl text-gray-300 mt-8 text-base sm:text-lg md:text-xl">No blog posts found matching your criteria.</p>
               {searchQuery && (
                 <Button 
-                  onClick={() => setSearchQuery("")} 
-                  className="mt-4 bg-red-600 hover:bg-red-700"
+                  onClick={() => window.location.reload()} 
+                  className="bg-red-600 hover:bg-red-700 min-h-10 px-4 py-2"
                 >
-                  Clear Search
+                  Try Again
                 </Button>
               )}
             </div>

@@ -30,22 +30,22 @@ export default function AboutPage() {
       {/* Our Story Section */}
       <SectionWrapper animation="slide-up" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-12 md:gap-x-16 md:gap-y-16 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Story</h2>
-              <p className="text-gray-200 mb-6">
+              <p className="text-gray-200 mb-6 text-base sm:text-lg md:text-xl">
                 Founded in 2020, Torch began with a simple vision: creating a creative environment in the cultural, 
                 scientific, sports and tourism fields and helping companies and creative talents navigate the 
                 increasingly complex digital landscape. What started as a small team of enthusiastic professionals 
                 has grown into a full-service digital system with a global customer base.
               </p>
-              <p className="text-gray-200 mb-6">
+              <p className="text-gray-200 mb-6 text-base sm:text-lg md:text-xl">
                 Throughout our journey, we have remained committed to our core values of innovation, excellence 
                 and customer success. We have evolved with the changing technological landscape, but our mission 
                 has remained constant: to shed light on the path to the digital success of our customers, achieving 
                 the creative goals in Vision 2030 and Vision After 2030, raising the creative quality of life.
               </p>
-              <p className="text-gray-200">
+              <p className="text-gray-200 text-base sm:text-lg md:text-xl">
                 Today, we are proud to work with companies, cultural, scientific, sports and tourist entities 
                 and talents of all sizes, from startups to established enterprises & talents, which helps them 
                 harness digital power to achieving their goals.
@@ -73,7 +73,7 @@ export default function AboutPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Mission & Goals</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
             {[
               {
                 title: "Attracting Partnerships",
@@ -96,7 +96,7 @@ export default function AboutPage() {
                 key={goal.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl"
+                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl min-h-10 px-4 py-2"
               >
                 <h3 className="text-xl font-semibold mb-4 text-white">{goal.title}</h3>
                 <p className="text-gray-200">
@@ -117,7 +117,7 @@ export default function AboutPage() {
               Our specialized knowledge and skills across multiple domains enable us to deliver comprehensive solutions.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
             {[
               {
                 title: "Project Management",
@@ -136,7 +136,7 @@ export default function AboutPage() {
                 key={expertise.title}
                 animation="fade-in" 
                 delay={0.15 * index}
-                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl text-center"
+                className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-8 rounded-3xl hover:torch-border-primary transition-all duration-500 hover:shadow-red-900/40 hover:shadow-xl text-center min-h-10 px-4 py-2"
               >
                 <h3 className="text-xl font-semibold mb-4 text-white">{expertise.title}</h3>
                 <p className="text-gray-200">
@@ -152,7 +152,7 @@ export default function AboutPage() {
       <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-white">Our Core Values</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
             {[
               {
                 title: "Innovation",
@@ -183,7 +183,7 @@ export default function AboutPage() {
                 key={value.title}
                 animation="slide-up" 
                 delay={0.1 * index}
-                className="group relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg p-8 rounded-3xl border border-gray-800 hover:torch-border-primary hover:shadow-2xl hover:shadow-red-900/30 transition-all duration-500 hover:scale-105 hover:bg-gradient-to-br hover:from-black/80 hover:via-red-950/10 hover:to-black/80 cursor-pointer overflow-hidden"
+                className="group relative bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg p-8 rounded-3xl border border-gray-800 hover:torch-border-primary hover:shadow-2xl hover:shadow-red-900/30 transition-all duration-500 hover:scale-105 hover:bg-gradient-to-br hover:from-black/80 hover:via-red-950/10 hover:to-black/80 cursor-pointer overflow-hidden min-h-10 px-4 py-2"
               >
                 {/* Subtle glow effect on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

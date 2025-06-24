@@ -49,7 +49,7 @@ export default function ContactPage() {
           <div className="w-full max-w-6xl h-[800px] bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/15 blur-[120px] rounded-3xl animate-pulse-slow"></div>
         </div>
         
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-12 md:gap-x-16 md:gap-y-16 relative z-10">
                      {/* Enhanced Contact Details */}
            <div className="space-y-8">
             {/* Main Contact Card */}
@@ -103,7 +103,7 @@ export default function ContactPage() {
                                  {/* Social Media */}
                  <div className="mt-8 pt-6 border-t border-red-600/30">
                    <p className="text-sm text-gray-400 mb-6">Connect with us</p>
-                   <div className="grid grid-cols-2 gap-4">
+                   <div className="grid grid-cols-2 gap-x-4 gap-y-4">
                      {[
                        { name: "Facebook", href: "https://facebook.com/torchgroup", icon: Facebook },
                        { name: "Instagram", href: "https://instagram.com/torchgroup", icon: Instagram },
@@ -113,7 +113,7 @@ export default function ContactPage() {
                        <Link
                          key={item.name}
                          href={item.href}
-                         className="flex items-center gap-3 p-3 rounded-lg bg-black/40 hover:torch-bg-accent/20 hover:border-red-500/30 border border-transparent text-gray-400 hover:text-white transition-all duration-300 group"
+                         className="flex items-center gap-3 p-3 rounded-lg bg-black/40 hover:torch-bg-accent/20 hover:border-red-500/30 border border-transparent text-gray-400 hover:text-white transition-all duration-300 group min-h-10 px-4 py-2"
                          target="_blank"
                          rel="noopener noreferrer"
                        >
@@ -163,7 +163,7 @@ export default function ContactPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
             {[
                              {
                  icon: Zap,
@@ -181,12 +181,12 @@ export default function ContactPage() {
                                  description: "Our diverse portfolio spans industries and technologies, with a proven track record of turning ambitious visions into successful realities."
               }
             ].map((feature, index) => (
-              <div key={index} className="p-6 bg-black/60 backdrop-blur-sm rounded-2xl border border-red-600/20 hover:border-red-500/40 hover:shadow-red-500/20 transition-all duration-500 group">
+              <div key={index} className="p-6 bg-black/60 backdrop-blur-sm rounded-2xl border border-red-600/20 hover:border-red-500/40 hover:shadow-red-500/20 transition-all duration-500 group min-h-10 px-4 py-2">
                 <div className="w-12 h-12 rounded-xl torch-bg-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <feature.icon className="w-6 h-6 torch-text-accent" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+                <p className="text-gray-400 text-sm leading-relaxed text-base sm:text-lg md:text-xl">{feature.description}</p>
               </div>
             ))}
           </div>

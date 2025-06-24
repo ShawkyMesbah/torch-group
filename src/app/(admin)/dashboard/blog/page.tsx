@@ -129,13 +129,13 @@ export default function BlogAdminPage() {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="px-4 sm:px-8 py-8">
+      <div className="flex items-center justify-between mb-6 gap-x-4 gap-y-4 flex-wrap">
         <h1 className="text-3xl font-bold">Blog Management</h1>
-        <Button onClick={handleCreate} className="flex items-center gap-2"><Plus className="w-4 h-4" /> New Post</Button>
+        <Button onClick={handleCreate} className="flex items-center gap-2 min-h-10 px-4 py-2"><Plus className="w-4 h-4" /> New Post</Button>
       </div>
       {/* Search & Filters */}
-      <div className="flex flex-wrap gap-4 mb-6 items-end">
+      <div className="flex flex-wrap gap-x-4 gap-y-4 mb-6 items-end">
         <div>
           <label className="block text-xs font-semibold mb-1">Search</label>
           <input
@@ -143,7 +143,7 @@ export default function BlogAdminPage() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search by title or slug"
-            className="px-3 py-2 rounded-md border border-zinc-700 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="px-3 py-2 rounded-md border border-zinc-700 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-red-600 min-h-10"
           />
         </div>
         <div>
@@ -151,7 +151,7 @@ export default function BlogAdminPage() {
           <select
             value={status}
             onChange={e => setStatus(e.target.value)}
-            className="px-3 py-2 rounded-md border border-zinc-700 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="px-3 py-2 rounded-md border border-zinc-700 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-red-600 min-h-10"
           >
             <option value="">All</option>
             <option value="published">Published</option>
@@ -163,7 +163,7 @@ export default function BlogAdminPage() {
           <select
             value={author}
             onChange={e => setAuthor(e.target.value)}
-            className="px-3 py-2 rounded-md border border-zinc-700 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="px-3 py-2 rounded-md border border-zinc-700 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-red-600 min-h-10"
           >
             <option value="">All</option>
             {authors.map((a) => (
@@ -179,12 +179,12 @@ export default function BlogAdminPage() {
       )}
       {/* Bulk Actions Bar */}
       {selected.length > 0 && (
-        <div className="mb-4 flex items-center gap-4 bg-zinc-900/80 border border-zinc-800 rounded-lg px-4 py-2">
+        <div className="mb-4 flex items-center gap-x-4 gap-y-2 flex-wrap bg-zinc-900/80 border border-zinc-800 rounded-lg px-4 py-2">
           <span className="text-sm">{selected.length} selected</span>
-          <Button size="sm" variant="destructive" onClick={handleBulkDelete}>Delete</Button>
-          <Button size="sm" variant="outline" onClick={() => handleBulkPublish(true)}>Publish</Button>
-          <Button size="sm" variant="outline" onClick={() => handleBulkPublish(false)}>Unpublish</Button>
-          <Button size="sm" variant="ghost" onClick={clearSelected}>Clear</Button>
+          <Button size="sm" variant="destructive" onClick={handleBulkDelete} className="min-h-10 px-4 py-2">Delete</Button>
+          <Button size="sm" variant="outline" onClick={() => handleBulkPublish(true)} className="min-h-10 px-4 py-2">Publish</Button>
+          <Button size="sm" variant="outline" onClick={() => handleBulkPublish(false)} className="min-h-10 px-4 py-2">Unpublish</Button>
+          <Button size="sm" variant="ghost" onClick={clearSelected} className="min-h-10 px-4 py-2">Clear</Button>
         </div>
       )}
       {loading ? (

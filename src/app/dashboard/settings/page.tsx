@@ -129,11 +129,11 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-8">
+    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-8">
       <h1 className="text-3xl font-bold mb-6">Dashboard Settings</h1>
       
       <Tabs defaultValue="homepage" className="w-full">
-        <TabsList className="mb-6 bg-gray-800 border border-gray-700">
+        <TabsList className="mb-6 bg-gray-800 border border-gray-700 flex flex-wrap gap-x-2 gap-y-2">
           <TabsTrigger value="homepage">Homepage</TabsTrigger>
           <TabsTrigger value="about">About Torch</TabsTrigger>
           <TabsTrigger value="email">Email Templates</TabsTrigger>
@@ -166,13 +166,13 @@ export default function SettingsPage() {
                       .map((section, index) => (
                         <div
                           key={section.id}
-                          className={`flex items-center justify-between p-4 rounded-md bg-gray-900/50 border border-gray-800 ${!section.enabled ? 'opacity-60' : ''}`}
+                          className={`flex items-center justify-between p-4 rounded-md bg-gray-900/50 border border-gray-800 ${!section.enabled ? 'opacity-60' : ''} gap-x-4 gap-y-2 flex-wrap`}
                         >
                           <div className="flex items-center space-x-4">
                             <div className="text-gray-400 cursor-move">
                               <GripVertical size={20} />
                             </div>
-                            <span className="font-medium">{section.title}</span>
+                            <span className="font-medium text-base sm:text-lg md:text-xl">{section.title}</span>
                             {section.id === "hero" && (
                               <span className="text-xs bg-green-700 text-white px-2 py-0.5 rounded shadow-sm">Required</span>
                             )}
@@ -185,7 +185,7 @@ export default function SettingsPage() {
                               onCheckedChange={() => section.id !== "hero" && toggleSectionVisibility(section.id)}
                               disabled={section.id === "hero"}
                               aria-label={`Toggle visibility for ${section.title}`}
-                              className="focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+                              className="focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary min-h-10 px-4 py-2"
                             />
                             <Label htmlFor={`toggle-${section.id}`} className="text-sm">
                               {section.enabled ? "Visible" : "Hidden"}
