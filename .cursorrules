@@ -77,6 +77,7 @@
 - [X][🔥] Fix animated grid background issue (disappearing after 1 second)
 - [X][🔥] Add "B2A" card to homepage and services page
 - [X][🔥] Add Torch brand logos to homepage Torch Group section
+- [X][🔥] Remove scroll-triggered animations from homepage sections (mobile performance fix)
 - [P][Medium] Expand services page with detailed info for each service
 - [P][Medium] Polish homepage content and layout
 - [X][Medium] Complete Torch Group Spacing & Layout System optimization
@@ -261,3 +262,4 @@
 ## Dates
 
 - All dates updated to reflect the current project timeline as of 2025-06-03.
+- Triggered new Vercel deployment on 2025-06-03.
