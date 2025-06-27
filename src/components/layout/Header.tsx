@@ -125,7 +125,7 @@ export default function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 z-50 w-full transition-all duration-300 border-b border-transparent",
+          "fixed top-0 z-50 w-full transition-all duration-300 border-b border-transparent torch-safe-area-top",
           "bg-black/30 backdrop-blur-md"
         )}
       >
@@ -204,7 +204,7 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Mobile menu button stays right */}
+            {/* Mobile menu button - Touch Optimized */}
             <div className="flex md:hidden ml-auto">
               <Button
                 variant="ghost"
@@ -213,7 +213,7 @@ export default function Header() {
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-menu"
-                className="text-white hover:bg-red-700/20 focus:ring-red-500"
+                className="torch-touch-target text-white hover:bg-red-700/20 focus:ring-red-500 torch-mobile-focus p-3"
               >
                 {isMobileMenuOpen ? (
                   <X className="h-7 w-7" />
@@ -254,7 +254,7 @@ export default function Header() {
                         key={item.name}
                         href={item.href}
                         className={cn(
-                          "block w-full text-center rounded-md px-4 py-4 text-xl font-extrabold tracking-wide transition-all duration-200",
+                          "torch-btn-mobile torch-btn-mobile-full text-center rounded-md text-xl font-extrabold tracking-wide transition-all duration-200 torch-mobile-focus",
                           "focus:outline-none focus:ring-2 focus:ring-red-500/50",
                           isActive ? "torch-text-accent" : "text-gray-200 hover:text-white"
                         )}

@@ -38,18 +38,24 @@
   --torch-warning: var(--torch-ember-orange);      /* Ember orange for warnings */
   --torch-premium: var(--torch-gold);              /* Gold for premium features */
   
-  /* Typography Scale */
-  --torch-text-xs: 0.75rem;
-  --torch-text-sm: 0.875rem;
-  --torch-text-base: 1rem;
-  --torch-text-lg: 1.125rem;
-  --torch-text-xl: 1.25rem;
-  --torch-text-2xl: 1.5rem;
-  --torch-text-3xl: 1.875rem;
-  --torch-text-4xl: 2.25rem;
-  --torch-text-5xl: 3rem;
-  --torch-text-6xl: 3.75rem;
-  --torch-text-7xl: 4.5rem;
+  /* Typography Scale - Enhanced for Mobile */
+  --torch-text-xs: 0.75rem;      /* 12px */
+  --torch-text-sm: 0.875rem;     /* 14px */
+  --torch-text-base: 1rem;       /* 16px */
+  --torch-text-lg: 1.125rem;     /* 18px */
+  --torch-text-xl: 1.25rem;      /* 20px */
+  --torch-text-2xl: 1.5rem;      /* 24px */
+  --torch-text-3xl: 1.875rem;    /* 30px */
+  --torch-text-4xl: 2.25rem;     /* 36px */
+  --torch-text-5xl: 3rem;        /* 48px */
+  --torch-text-6xl: 3.75rem;     /* 60px */
+  --torch-text-7xl: 4.5rem;      /* 72px */
+
+  /* Mobile-First Typography Scale */
+  --torch-text-display-sm: 2rem;     /* Mobile display small */
+  --torch-text-display-md: 2.5rem;   /* Mobile display medium */
+  --torch-text-display-lg: 3rem;     /* Mobile display large */
+  --torch-text-display-xl: 3.5rem;   /* Mobile display extra large */
 
   /* Unified Spacing Scale (8px base unit) */
   --torch-space-tight: 0.25rem;        /* 4px - Element borders, fine adjustments */
@@ -61,6 +67,18 @@
   --torch-space-expansive: 3rem;       /* 48px - Major section spacing */
   --torch-space-grand: 4rem;           /* 64px - Hero sections, page sections */
   --torch-space-monumental: 6rem;      /* 96px - Major page divisions */
+
+  /* Mobile-Specific Spacing */
+  --torch-space-mobile-tight: 0.5rem;      /* 8px */
+  --torch-space-mobile-standard: 1rem;     /* 16px */
+  --torch-space-mobile-comfortable: 1.5rem; /* 24px */
+  --torch-space-mobile-spacious: 2rem;     /* 32px */
+  --torch-space-mobile-generous: 2.5rem;   /* 40px */
+
+  /* Touch Target Sizes */
+  --torch-touch-min: 44px;         /* Minimum touch target */
+  --torch-touch-comfortable: 48px; /* Comfortable touch target */
+  --torch-touch-spacious: 56px;    /* Spacious touch target */
 
   /* Border Radius */
   --torch-radius-sm: 0.375rem;
@@ -417,5 +435,338 @@
   .torch-spinner,
   .torch-pulse {
     animation: none;
+  }
+}
+
+/* Mobile-First Responsive Design System */
+
+/* Enhanced Touch Targets for Mobile */
+.torch-touch-target {
+  min-height: var(--torch-touch-comfortable);
+  min-width: var(--torch-touch-comfortable);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.torch-touch-spacious {
+  min-height: var(--torch-touch-spacious);
+  min-width: var(--torch-touch-spacious);
+}
+
+/* Mobile-First Button System */
+.torch-btn-mobile {
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--torch-radius-lg);
+  min-height: var(--torch-touch-comfortable);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.torch-btn-mobile-full {
+  width: 100%;
+}
+
+/* Enhanced Mobile Form Elements */
+.torch-form-mobile {
+  width: 100%;
+}
+
+.torch-input-mobile {
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: var(--torch-radius-md);
+  min-height: var(--torch-touch-comfortable);
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.torch-textarea-mobile {
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: var(--torch-radius-md);
+  min-height: 120px;
+  width: 100%;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+/* Mobile Typography Utilities */
+.torch-text-mobile-xs { font-size: 0.75rem; line-height: 1.5; }
+.torch-text-mobile-sm { font-size: 0.875rem; line-height: 1.5; }
+.torch-text-mobile-base { font-size: 1rem; line-height: 1.6; }
+.torch-text-mobile-lg { font-size: 1.125rem; line-height: 1.6; }
+.torch-text-mobile-xl { font-size: 1.25rem; line-height: 1.5; }
+.torch-text-mobile-2xl { font-size: 1.5rem; line-height: 1.4; }
+.torch-text-mobile-3xl { font-size: 1.875rem; line-height: 1.3; }
+.torch-text-mobile-4xl { font-size: 2.25rem; line-height: 1.2; }
+
+/* Mobile Display Text */
+.torch-display-mobile-sm { 
+  font-size: var(--torch-text-display-sm); 
+  line-height: 1.2; 
+  font-weight: 800;
+}
+.torch-display-mobile-md { 
+  font-size: var(--torch-text-display-md); 
+  line-height: 1.1; 
+  font-weight: 800;
+}
+.torch-display-mobile-lg { 
+  font-size: var(--torch-text-display-lg); 
+  line-height: 1.1; 
+  font-weight: 900;
+}
+.torch-display-mobile-xl { 
+  font-size: var(--torch-text-display-xl); 
+  line-height: 1; 
+  font-weight: 900;
+}
+
+/* Enhanced Mobile Section Padding */
+.torch-section-mobile-compact {
+  padding: var(--torch-space-mobile-standard) var(--torch-space-mobile-tight);
+}
+
+.torch-section-mobile-standard {
+  padding: var(--torch-space-mobile-comfortable) var(--torch-space-mobile-standard);
+}
+
+.torch-section-mobile-spacious {
+  padding: var(--torch-space-mobile-spacious) var(--torch-space-mobile-standard);
+}
+
+.torch-section-mobile-hero {
+  padding: var(--torch-space-mobile-tight) var(--torch-space-mobile-standard) var(--torch-space-mobile-spacious);
+}
+
+/* Mobile-Optimized Grid System */
+.torch-grid-mobile-1 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: var(--torch-space-mobile-standard); 
+}
+
+.torch-grid-mobile-2 { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: var(--torch-space-mobile-tight); 
+}
+
+/* Mobile Card System */
+.torch-card-mobile {
+  padding: var(--torch-space-mobile-standard);
+  border-radius: var(--torch-radius-lg);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  transition: all 0.3s ease;
+}
+
+.torch-card-mobile:hover {
+  border-color: rgba(220, 38, 38, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--torch-glow-sm);
+}
+
+/* Mobile Spacing Utilities */
+.space-mobile-tight { gap: var(--torch-space-mobile-tight); }
+.space-mobile-standard { gap: var(--torch-space-mobile-standard); }
+.space-mobile-comfortable { gap: var(--torch-space-mobile-comfortable); }
+.space-mobile-spacious { gap: var(--torch-space-mobile-spacious); }
+.space-mobile-generous { gap: var(--torch-space-mobile-generous); }
+
+.space-y-mobile-tight > * + * { margin-top: var(--torch-space-mobile-tight); }
+.space-y-mobile-standard > * + * { margin-top: var(--torch-space-mobile-standard); }
+.space-y-mobile-comfortable > * + * { margin-top: var(--torch-space-mobile-comfortable); }
+.space-y-mobile-spacious > * + * { margin-top: var(--torch-space-mobile-spacious); }
+.space-y-mobile-generous > * + * { margin-top: var(--torch-space-mobile-generous); }
+
+/* Mobile Responsive Breakpoint Optimizations */
+@media (max-width: 480px) {
+  /* Small Mobile Phones */
+  .torch-section-standard { 
+    padding: var(--torch-space-mobile-standard) var(--torch-space-compact); 
+  }
+  
+  .torch-section-hero { 
+    padding: var(--torch-space-compact) var(--torch-space-compact) var(--torch-space-mobile-comfortable); 
+  }
+  
+  .torch-display-mobile-lg { font-size: 2.5rem; }
+  .torch-display-mobile-xl { font-size: 3rem; }
+  
+  /* Improved touch targets for small screens */
+  .torch-btn-mobile {
+    padding: 1rem 1.25rem;
+    min-height: 48px;
+  }
+  
+  .torch-input-mobile, .torch-textarea-mobile {
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Large Mobile & Small Tablets */
+  .torch-section-standard { 
+    padding: var(--torch-space-mobile-comfortable) var(--torch-space-mobile-tight); 
+  }
+  
+  .torch-section-hero { 
+    padding: var(--torch-space-mobile-tight) var(--torch-space-mobile-tight) var(--torch-space-mobile-spacious); 
+  }
+  
+  .torch-display-mobile-lg { font-size: 2.75rem; }
+  .torch-display-mobile-xl { font-size: 3.25rem; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablets */
+  .torch-section-standard { 
+    padding: var(--torch-space-mobile-spacious) var(--torch-space-mobile-standard); 
+  }
+  
+  .torch-section-hero { 
+    padding: var(--torch-space-mobile-standard) var(--torch-space-mobile-standard) var(--torch-space-mobile-generous); 
+  }
+  
+  /* Tablet-specific button sizing */
+  .torch-btn-mobile {
+    padding: 1rem 2rem;
+    min-height: 52px;
+  }
+  
+  .torch-grid-tablet-2 { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: var(--torch-space-mobile-comfortable); 
+  }
+  
+  .torch-grid-tablet-3 { 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: var(--torch-space-mobile-comfortable); 
+  }
+}
+
+/* Enhanced Mobile Navigation */
+.torch-nav-mobile {
+  gap: var(--torch-space-mobile-tight);
+  padding: var(--torch-space-mobile-standard);
+}
+
+.torch-nav-mobile a {
+  padding: var(--torch-space-mobile-tight) var(--torch-space-mobile-standard);
+  font-size: var(--torch-text-lg);
+  font-weight: 600;
+  border-radius: var(--torch-radius-md);
+  min-height: var(--torch-touch-comfortable);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  /* Reduce motion for better mobile performance */
+  .torch-reduce-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Optimize blur effects for mobile */
+  .torch-mobile-blur {
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Better mobile focus states */
+  .torch-mobile-focus:focus {
+    outline: 2px solid var(--torch-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* Mobile-First Media Queries for Typography */
+@media (max-width: 640px) {
+  .torch-section-title {
+    font-size: var(--torch-text-display-sm);
+    line-height: 1.2;
+    margin-bottom: var(--torch-space-mobile-standard);
+  }
+  
+  /* Better mobile readability */
+  .torch-mobile-reading {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* Tablet-Specific Optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .torch-tablet-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--torch-space-comfortable);
+  }
+  
+  .torch-tablet-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--torch-space-comfortable);
+  }
+  
+  /* Tablet typography scaling */
+  .torch-tablet-text-scale {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    line-height: 1.5;
+  }
+}
+
+/* Safe Area Handling for Modern Mobile Devices */
+@supports (padding: max(0px)) {
+  .torch-safe-area-top {
+    padding-top: max(var(--torch-space-mobile-standard), env(safe-area-inset-top));
+  }
+  
+  .torch-safe-area-bottom {
+    padding-bottom: max(var(--torch-space-mobile-standard), env(safe-area-inset-bottom));
+  }
+  
+  .torch-safe-area-left {
+    padding-left: max(var(--torch-space-mobile-standard), env(safe-area-inset-left));
+  }
+  
+  .torch-safe-area-right {
+    padding-right: max(var(--torch-space-mobile-standard), env(safe-area-inset-right));
+  }
+}
+
+/* Mobile Accessibility Enhancements */
+@media (max-width: 768px) {
+  /* Larger focus indicators for mobile */
+  .torch-mobile-accessible:focus {
+    outline: 3px solid var(--torch-primary);
+    outline-offset: 3px;
+  }
+  
+  /* Better mobile contrast */
+  .torch-mobile-contrast {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Mobile-optimized animations */
+  @media (prefers-reduced-motion: no-preference) {
+    .torch-mobile-animate {
+      animation-duration: 0.3s;
+      animation-timing-function: ease-out;
+    }
   }
 } 
