@@ -35,21 +35,21 @@ The Torch Group design system uses a **8px base unit** with semantic naming for 
 .torch-section-compact     { padding: 2rem 1rem; }                    /* Mobile: 32px, Desktop: 32px */
 .torch-section-standard    { padding: 3rem 1rem 3rem 1rem; }          /* Mobile: 48px, Desktop: 48px */
 .torch-section-spacious    { padding: 4rem 1rem 4rem 1rem; }          /* Mobile: 64px, Desktop: 64px */
-.torch-section-hero        { padding: 6rem 1rem 6rem 1rem; }          /* Mobile: 96px, Desktop: 96px */
+.torch-section-hero        { padding: 1rem 1rem 3rem 1rem; }          /* Mobile: minimal top, 48px bottom */
 
 /* Responsive variants */
 @media (min-width: 768px) {
   .torch-section-compact   { padding: 4rem 2rem; }                    /* 64px vertical, 32px horizontal */
   .torch-section-standard  { padding: 6rem 2rem; }                    /* 96px vertical, 32px horizontal */
   .torch-section-spacious  { padding: 8rem 2rem; }                    /* 128px vertical, 32px horizontal */
-  .torch-section-hero      { padding: 10rem 2rem; }                   /* 160px vertical, 32px horizontal */
+  .torch-section-hero      { padding: 1rem 2rem 4rem 2rem; }          /* 16px top, 64px bottom, 32px horizontal */
 }
 
 @media (min-width: 1024px) {
   .torch-section-compact   { padding: 5rem 3rem; }                    /* 80px vertical, 48px horizontal */
   .torch-section-standard  { padding: 8rem 3rem; }                    /* 128px vertical, 48px horizontal */
   .torch-section-spacious  { padding: 10rem 3rem; }                   /* 160px vertical, 48px horizontal */
-  .torch-section-hero      { padding: 12rem 3rem; }                   /* 192px vertical, 48px horizontal */
+  .torch-section-hero      { padding: 1rem 3rem 5rem 3rem; }          /* 16px top, 80px bottom, 48px horizontal */
 }
 ```
 
@@ -136,6 +136,7 @@ The Torch Group design system uses a **8px base unit** with semantic naming for 
 - Use the 8px base unit for all custom spacing
 - Maintain vertical rhythm with consistent spacing between elements
 - Use container classes for proper content width constraints
+- Keep hero sections with minimal top padding for immediate content visibility
 
 ### Don't ❌
 - Mix px, rem, and em units arbitrarily
@@ -143,6 +144,7 @@ The Torch Group design system uses a **8px base unit** with semantic naming for 
 - Use hardcoded spacing in components
 - Ignore responsive spacing considerations
 - Override section padding without system classes
+- Add excessive top padding to hero sections that pushes content below the fold
 
 ## Migration Guide
 

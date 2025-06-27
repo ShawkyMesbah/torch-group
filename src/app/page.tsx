@@ -844,7 +844,7 @@ export default function Home() {
         {/* ENHANCED HERO SECTION */}
         <section 
           id="hero" 
-          className="torch-section-hero relative flex flex-col justify-center items-center min-h-screen z-10 overflow-hidden"
+          className="relative flex flex-col justify-center items-center min-h-screen z-10 overflow-hidden pt-comfortable pb-spacious px-comfortable"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >

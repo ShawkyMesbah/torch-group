@@ -163,7 +163,7 @@
 }
 
 .torch-section-hero {
-  padding: 6rem 1rem;
+  padding: 1rem 1rem 3rem 1rem;
 }
 
 /* Responsive Section Padding */
@@ -171,14 +171,14 @@
   .torch-section-compact { padding: 4rem 2rem; }
   .torch-section-standard { padding: 6rem 2rem; }
   .torch-section-spacious { padding: 8rem 2rem; }
-  .torch-section-hero { padding: 10rem 2rem; }
+  .torch-section-hero { padding: 1rem 2rem 4rem 2rem; }
 }
 
 @media (min-width: 1024px) {
   .torch-section-compact { padding: 5rem 3rem; }
   .torch-section-standard { padding: 8rem 3rem; }
   .torch-section-spacious { padding: 10rem 3rem; }
-  .torch-section-hero { padding: 12rem 3rem; }
+  .torch-section-hero { padding: 1rem 3rem 5rem 3rem; }
 }
 
 /* Component Spacing Standards */
