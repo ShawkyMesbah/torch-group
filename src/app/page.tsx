@@ -4,12 +4,12 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowDownIcon, ExternalLink, FileText, Flame, ChevronRight, BarChart3, Users, ArrowUp, Check, X, User, Mail, Phone, MessageSquare, Send, Loader2, Calendar, SkipForward, BookOpen, ShoppingCart, Star, Building2, Zap, TrendingUp } from "lucide-react";
+import { ArrowRight, ArrowDownIcon, ExternalLink, FileText, Flame, ChevronRight, BarChart3, Users, ArrowUp, Check, X, User, Mail, Phone, MessageSquare, Send, Loader2, Calendar, SkipForward, BookOpen, ShoppingCart, Star, Building2, Zap, TrendingUp, Clock, Bookmark, ArrowUpRight, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AnimatedGridBackground } from "@/components/ui/animated-grid-background";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { Input } from "@/components/ui/input";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
@@ -750,6 +750,75 @@ export default function Home() {
     initializeMousePosition();
   }, []);
 
+  // Enhanced engagement states
+  const [readingProgress, setReadingProgress] = useState(0);
+  const [showQuickStart, setShowQuickStart] = useState(false);
+  const [userPreferences, setUserPreferences] = useState({
+    reduceMotion: false,
+    highContrast: false
+  });
+
+  // Performance optimization: Detect older devices
+  const [isOlderDevice, setIsOlderDevice] = useState(false);
+  
+  // Reading time calculation for blog posts
+  const calculateReadingTime = (text: string) => {
+    const wordsPerMinute = 200;
+    const words = text.split(' ').length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return minutes;
+  };
+
+  // Enhanced scroll progress tracking
+  useEffect(() => {
+    const updateReadingProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setReadingProgress(progress);
+      
+      // Show quick start CTA after 30% scroll but before contact section (85%)
+      const shouldShowQuickStart = progress > 30 && progress < 85;
+      setShowQuickStart(shouldShowQuickStart);
+      
+      // Debug logging (remove in production)
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Scroll Progress: ${progress.toFixed(1)}% | Quick Start: ${shouldShowQuickStart} | Scroll Top: ${showScrollTop}`);
+      }
+    };
+
+    const throttledUpdate = throttle(updateReadingProgress, 16); // ~60fps
+    window.addEventListener('scroll', throttledUpdate);
+    return () => window.removeEventListener('scroll', throttledUpdate);
+  }, [showScrollTop]);
+
+  // Performance: Detect device capabilities
+  useEffect(() => {
+    const detectDeviceCapabilities = () => {
+      // Detect older devices based on various factors
+      const connection = (navigator as any).connection;
+      const isSlowConnection = connection && connection.effectiveType && 
+        ['slow-2g', '2g', '3g'].includes(connection.effectiveType);
+      
+      const isOlderDevice = 
+        isSlowConnection ||
+        navigator.hardwareConcurrency < 4 ||
+        window.devicePixelRatio < 2 ||
+        /Android [1-6]|iPhone OS [1-9]/.test(navigator.userAgent);
+      
+      setIsOlderDevice(isOlderDevice);
+    };
+
+    detectDeviceCapabilities();
+  }, []);
+
+  // Accessibility: Enhanced focus management
+  const [lastFocusedElement, setLastFocusedElement] = useState<HTMLElement | null>(null);
+  
+  const handleFocusCapture = useCallback((element: HTMLElement) => {
+    setLastFocusedElement(element);
+  }, []);
+
   return (
     <>
       {/* SEO: Enhanced Head with structured data */}
@@ -810,22 +879,80 @@ export default function Home() {
         </Head>
       )}
 
-      {/* Accessibility: Skip Navigation */}
-      {showSkipNav && (
-        <div className="fixed top-4 left-4 z-[100] bg-red-600 text-white px-4 py-2 rounded-md shadow-lg focus-within:ring-2 focus-within:ring-white">
-          <a 
-            href="#main-content" 
-            className="text-sm font-medium focus:outline-none"
-            onBlur={() => setShowSkipNav(false)}
-          >
-            Skip to main content
-          </a>
-        </div>
-      )}
+      {/* Enhanced Accessibility: Skip Navigation */}
+      <div className="sr-only focus-within:not-sr-only fixed top-4 left-4 z-[200] bg-red-600 text-white px-4 py-2 rounded-md shadow-lg focus-within:ring-2 focus-within:ring-white">
+        <a 
+          href="#main-content" 
+          className="text-sm font-medium focus:outline-none"
+          onFocus={() => setShowSkipNav(true)}
+          onBlur={() => setShowSkipNav(false)}
+        >
+          Skip to main content
+        </a>
+      </div>
 
-      {/* Accessibility: Screen reader announcements */}
+      {/* Reading Progress Indicator */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-900/50 z-[150] backdrop-blur-sm">
+        <motion.div 
+          className="h-full bg-gradient-to-r from-red-600 to-orange-500 origin-left"
+          style={{ scaleX: readingProgress / 100 }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: readingProgress / 100 }}
+          transition={{ duration: 0.1 }}
+        />
+      </div>
+
+      {/* Quick Start Floating CTA */}
+      <AnimatePresence>
+        {showQuickStart && (
+          <motion.div
+            initial={{ opacity: 0, y: 100, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 100, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`fixed right-8 z-[100] ${showScrollTop ? 'bottom-32' : 'bottom-8'}`}
+            style={{ 
+              transition: 'bottom 0.3s ease-out',
+            }}
+          >
+            <Link href="/contact">
+              <button 
+                className="group relative flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-full shadow-2xl hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black backdrop-blur-md border border-red-500/20 animate-pulse"
+                onFocus={(e) => handleFocusCapture(e.target as HTMLElement)}
+                aria-label="Quick start - Get in touch"
+              >
+                {/* Subtle ring animation */}
+                <div className="absolute inset-0 rounded-full bg-red-500/30 animate-ping"></div>
+                <div className="relative z-10 flex items-center gap-3">
+                  <span className="font-semibold">Quick Start</span>
+                  <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+              </button>
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Enhanced Accessibility: Screen reader announcements */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">
-        {activeSection && `Now viewing ${activeSection} section`}
+        {activeSection && `Now viewing ${sections.find((s: HomepageSection) => s.id === activeSection)?.title || activeSection} section`}
+      </div>
+
+      {/* Accessibility: Focus trap for modals/overlays */}
+      <div id="modal-root" role="dialog" aria-hidden="true" />
+
+      {/* Accessibility: Landmark regions */}
+      <div className="sr-only">
+        <h1>Torch Group - Igniting Creativity & Empowering Digital Talent</h1>
+        <nav aria-label="Page sections">
+          <ul>
+            {sections.filter((s: HomepageSection) => s.enabled).map((section: HomepageSection) => (
+              <li key={section.id}>
+                <a href={`#${section.id}`}>{section.title}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       {/* Smooth scroll button */}
@@ -848,13 +975,19 @@ export default function Home() {
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
-          {/* Enhanced Background Effects */}
+          {/* Enhanced Background Effects - Refined for Better Symmetry */}
           <div className="absolute inset-0 -z-10">
-            {/* Primary central glow */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-gradient-to-br from-orange-500/20 via-red-600/30 to-red-700/20 blur-[150px] rounded-full animate-pulse-slow"></div>
-            {/* Secondary accent glows */}
-            <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-red-500/15 blur-[100px] rounded-full"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[300px] bg-orange-600/15 blur-[120px] rounded-full"></div>
+            {/* Primary central glow - Enhanced intensity and better centering */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[700px] bg-gradient-to-br from-orange-500/25 via-red-600/40 to-red-700/30 blur-[160px] rounded-full animate-pulse-slow"></div>
+            
+            {/* Symmetrical accent glows - Balanced positioning and intensity */}
+            <div className="absolute top-[20%] left-[15%] w-[450px] h-[450px] bg-gradient-to-br from-red-500/20 to-orange-500/15 blur-[110px] rounded-full animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
+            <div className="absolute bottom-[20%] right-[15%] w-[450px] h-[450px] bg-gradient-to-br from-red-600/20 to-orange-600/15 blur-[110px] rounded-full animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+            
+            {/* Additional symmetrical corner glows for depth */}
+            <div className="absolute top-[30%] right-[25%] w-[300px] h-[300px] bg-red-400/10 blur-[80px] rounded-full animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+            <div className="absolute bottom-[30%] left-[25%] w-[300px] h-[300px] bg-orange-500/10 blur-[80px] rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+            
             {/* Subtle grid overlay */}
             <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
           </div>
@@ -987,10 +1120,29 @@ export default function Home() {
                 <span className="torch-section-title">About Us</span>
               </div>
 
-              {/* Main Title */}
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight">
-                About <span className="torch-text-accent">Torch</span>
-              </h2>
+              {/* Enhanced Main Title with Hover Effects */}
+              <motion.h2 
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight group cursor-default"
+                whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                  scale: 1.02,
+                  transition: { duration: 0.3, ease: "easeOut" }
+                } : {}}
+              >
+                <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                  About
+                </span>{" "}
+                <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                  Torch
+                  <motion.div 
+                    className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                    initial={{ width: "0%" }}
+                    whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                      width: "100%",
+                      transition: { duration: 0.5, ease: "easeOut" }
+                    } : {}}
+                  />
+                </span>
+              </motion.h2>
 
               {/* Improved Typewriter Section */}
               <motion.div 
@@ -1195,9 +1347,28 @@ export default function Home() {
                   <div className="torch-section-header mb-8">
                     <span className="torch-section-title">WHAT WE DO</span>
                   </div>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Our <span className="torch-text-accent">Services</span>
-                  </h2>
+                  <motion.h2 
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                    whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                      scale: 1.02,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    } : {}}
+                  >
+                    <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                      Our
+                    </span>{" "}
+                    <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                      Services
+                      <motion.div 
+                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                        initial={{ width: "0%" }}
+                        whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                          width: "100%",
+                          transition: { duration: 0.5, ease: "easeOut" }
+                        } : {}}
+                      />
+                    </span>
+                  </motion.h2>
                   <div className="flex justify-center mb-4">
                     <div className="torch-divider"></div>
                   </div>
@@ -1457,9 +1628,28 @@ export default function Home() {
                     <span className="torch-section-title">INSIGHTS</span>
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Our <span className="torch-text-accent">Blog</span>
-                  </h2>
+                                  <motion.h2 
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                  whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                    scale: 1.02,
+                    transition: { duration: 0.3, ease: "easeOut" }
+                  } : {}}
+                >
+                  <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                    Our
+                  </span>{" "}
+                  <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                    Blog
+                    <motion.div 
+                      className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                      initial={{ width: "0%" }}
+                      whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                        width: "100%",
+                        transition: { duration: 0.5, ease: "easeOut" }
+                      } : {}}
+                    />
+                  </span>
+                </motion.h2>
                   <div className="flex justify-center mb-4">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
@@ -1472,10 +1662,16 @@ export default function Home() {
                     {blogPosts.slice(0, 3).map((post, index) => (
                       <motion.div
                         key={post.id}
-                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
-                        style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                        whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                          scale: 1.05, 
+                          boxShadow: '0 0 40px 8px #dc2626aa',
+                          transition: { type: 'spring', stiffness: 300, damping: 20 }
+                        } : {}}
+                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl focus-within:ring-2 focus-within:ring-red-500/50"
+                        style={{ 
+                          animationDelay: isOlderDevice ? '0s' : `${index * 0.08 + 0.1}s`,
+                          animationDuration: isOlderDevice ? '0s' : '0.6s'
+                        }}
                       >
                         {/* Subtle grid pattern overlay */}
                         <div className="absolute inset-0 opacity-5">
@@ -1488,9 +1684,14 @@ export default function Home() {
                             <span className="torch-text-primary text-sm font-semibold uppercase tracking-wide">
                               {post.category || 'Blog'}
                             </span>
-                            <span className="text-gray-400 text-sm">
-                              {new Date(post.created_at).toLocaleDateString()}
-                            </span>
+                            <div className="flex items-center gap-2 text-gray-400 text-sm">
+                              <Clock className="w-3 h-3" />
+                              <span>{calculateReadingTime(post.excerpt || post.content || '')} min</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between mb-3 text-xs text-gray-500">
+                            <span>By {post.author || 'Torch Team'}</span>
+                            <span>{new Date(post.created_at).toLocaleDateString()}</span>
                           </div>
                           <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-100 transition-colors duration-300 tracking-tight drop-shadow-lg">
                             {post.title}
@@ -1499,12 +1700,20 @@ export default function Home() {
                             {post.excerpt || post.content?.substring(0, 120) + '...'}
                           </p>
                           <div className="flex items-center justify-between mt-auto">
-                            <span className="text-gray-400 text-xs">
-                              By {post.author || 'Torch Team'}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <Bookmark className="w-3 h-3 text-gray-500" />
+                              <span className="text-gray-400 text-xs">
+                                {post.tags || 'Article'}
+                              </span>
+                            </div>
                             <Link href={`/blog/${post.slug}`}>
-                              <button className="px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold text-sm hover:from-orange-400 hover:to-red-500 transition-all duration-300 flex items-center gap-1 shadow-lg hover:shadow-xl hover:shadow-[0_0_20px_rgba(255,87,34,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 border border-orange-500/20 backdrop-blur-sm transform hover:scale-105">
-                                Read More <ArrowRight className="h-3 w-3" />
+                              <button 
+                                className="px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold text-sm hover:from-orange-400 hover:to-red-500 transition-all duration-300 flex items-center gap-1 shadow-lg hover:shadow-xl hover:shadow-[0_0_20px_rgba(255,87,34,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black border border-orange-500/20 backdrop-blur-sm transform hover:scale-105 group-hover:translate-x-1"
+                                aria-label={`Read more about ${post.title}`}
+                                onFocus={(e) => handleFocusCapture(e.target as HTMLElement)}
+                              >
+                                <span>Read More</span>
+                                <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" />
                               </button>
                             </Link>
                           </div>
@@ -1783,9 +1992,28 @@ export default function Home() {
                     <span className="torch-section-title">CONTACT US</span>
                     <div className="h-px w-6 sm:w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-3 sm:mb-4 text-white drop-shadow-lg leading-tight">
-                    Get in <span className="torch-text-accent">Touch</span>
-                  </h2>
+                  <motion.h2 
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-3 sm:mb-4 text-white drop-shadow-lg leading-tight group cursor-default"
+                    whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                      scale: 1.02,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    } : {}}
+                  >
+                    <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                      Get in
+                    </span>{" "}
+                    <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                      Touch
+                      <motion.div 
+                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                        initial={{ width: "0%" }}
+                        whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                          width: "100%",
+                          transition: { duration: 0.5, ease: "easeOut" }
+                        } : {}}
+                      />
+                    </span>
+                  </motion.h2>
                   <div className="flex justify-center mb-3 sm:mb-4">
                     <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>

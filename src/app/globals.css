@@ -97,7 +97,7 @@
   }
 
   .animate-pulse-slow {
-    animation: enhanced-pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: enhanced-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
   @keyframes enhanced-pulse {
@@ -245,6 +245,10 @@
 
 * {
   @apply border-border;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html, body {
