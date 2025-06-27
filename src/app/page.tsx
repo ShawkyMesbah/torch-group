@@ -881,15 +881,15 @@ export default function Home() {
 
       {/* Enhanced Accessibility: Skip Navigation */}
       <div className="sr-only focus-within:not-sr-only fixed top-4 left-4 z-[200] bg-red-600 text-white px-4 py-2 rounded-md shadow-lg focus-within:ring-2 focus-within:ring-white">
-        <a 
-          href="#main-content" 
-          className="text-sm font-medium focus:outline-none"
+          <a 
+            href="#main-content" 
+            className="text-sm font-medium focus:outline-none"
           onFocus={() => setShowSkipNav(true)}
-          onBlur={() => setShowSkipNav(false)}
-        >
-          Skip to main content
-        </a>
-      </div>
+            onBlur={() => setShowSkipNav(false)}
+          >
+            Skip to main content
+          </a>
+        </div>
 
       {/* Reading Progress Indicator */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-900/50 z-[150] backdrop-blur-sm">
@@ -1702,9 +1702,9 @@ export default function Home() {
                           <div className="flex items-center justify-between mt-auto">
                             <div className="flex items-center gap-2">
                               <Bookmark className="w-3 h-3 text-gray-500" />
-                              <span className="text-gray-400 text-xs">
+                            <span className="text-gray-400 text-xs">
                                 {post.tags || 'Article'}
-                              </span>
+                            </span>
                             </div>
                             <Link href={`/blog/${post.slug}`}>
                               <button 

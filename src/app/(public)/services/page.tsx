@@ -455,6 +455,184 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* Our Process Section */}
+      <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+              Our <span className="torch-text-primary">Process</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              We follow a proven methodology to ensure your project's success from concept to completion.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                step: "01",
+                title: "Discovery",
+                description: "We analyze your business needs, goals, and target audience to create a tailored strategy.",
+                icon: <Target className="h-12 w-12" />
+              },
+              {
+                step: "02",
+                title: "Strategy",
+                description: "Our experts develop a comprehensive plan with clear milestones and deliverables.",
+                icon: <BrainCircuit className="h-12 w-12" />
+              },
+              {
+                step: "03",
+                title: "Execution",
+                description: "We implement the strategy with precision, keeping you informed every step of the way.",
+                icon: <Code className="h-12 w-12" />
+              },
+              {
+                step: "04",
+                title: "Growth",
+                description: "We monitor performance, optimize results, and scale your success continuously.",
+                icon: <TrendingUp className="h-12 w-12" />
+              }
+            ].map((process, index) => (
+              <motion.div
+                key={process.step}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="relative group"
+              >
+                <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 h-full hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-2xl">
+                  {/* Step Number */}
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                    {process.step}
+                  </div>
+                  
+                  {/* Icon */}
+                  <div className="mb-6 relative">
+                    <div className="absolute inset-0 w-16 h-16 bg-red-600/30 blur-[20px] rounded-full"></div>
+                    <div className="torch-text-primary relative z-10 group-hover:scale-110 transition-transform duration-300">
+                      {process.icon}
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-4">{process.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{process.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Services Section */}
+      <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+              Additional <span className="torch-text-primary">Services</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Comprehensive solutions to support your digital transformation journey.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Digital Analytics",
+                description: "Advanced analytics and reporting to track your digital performance and ROI.",
+                icon: <BarChart3 className="h-12 w-12" />,
+                features: ["Real-time dashboards", "Custom reporting", "Performance insights", "Data visualization"]
+              },
+              {
+                title: "Technical Support",
+                description: "24/7 technical support and maintenance for all your digital assets.",
+                icon: <Headphones className="h-12 w-12" />,
+                features: ["24/7 availability", "Expert technicians", "Proactive monitoring", "Quick resolution"]
+              },
+              {
+                title: "Training & Consulting",
+                description: "Expert guidance and training to help your team maximize digital tools.",
+                icon: <Award className="h-12 w-12" />,
+                features: ["Team training", "Best practices", "Strategic consulting", "Ongoing support"]
+              },
+              {
+                title: "Security Solutions",
+                description: "Comprehensive security measures to protect your digital presence.",
+                icon: <Shield className="h-12 w-12" />,
+                features: ["Security audits", "Data protection", "Compliance support", "Risk assessment"]
+              },
+              {
+                title: "Mobile Solutions",
+                description: "Native and web-based mobile applications for enhanced user experience.",
+                icon: <Smartphone className="h-12 w-12" />,
+                features: ["iOS & Android apps", "Progressive web apps", "Mobile optimization", "App store deployment"]
+              },
+              {
+                title: "Global Reach",
+                description: "International expansion support and multi-language solutions.",
+                icon: <Globe className="h-12 w-12" />,
+                features: ["Multi-language support", "Global SEO", "Cultural adaptation", "International marketing"]
+              }
+            ].map((service, index) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 h-full hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-2xl">
+                  {/* Icon */}
+                  <div className="mb-6 relative">
+                    <div className="absolute inset-0 w-16 h-16 bg-red-600/30 blur-[20px] rounded-full"></div>
+                    <div className="torch-text-primary relative z-10 group-hover:scale-110 transition-transform duration-300">
+                      {service.icon}
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-4">{service.title}</h3>
+                  <p className="text-gray-400 mb-6 leading-relaxed">{service.description}</p>
+                  
+                  {/* Features List */}
+                  <ul className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-sm text-gray-300">
+                        <Check className="h-4 w-4 torch-text-primary mr-3 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Additional Services CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mt-16"
+          >
+            <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 md:p-12">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Need Something Specific?
+              </h3>
+              <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+                Don't see exactly what you're looking for? We offer custom solutions tailored to your unique requirements.
+              </p>
+              <Link href="/contact">
+                <button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white px-8 py-4 rounded-full inline-flex items-center transition-all duration-300 transform hover:scale-105 font-bold shadow-lg hover:shadow-xl">
+                  Discuss Custom Solutions
+                  <MessageSquare className="ml-2 h-5 w-5" />
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
