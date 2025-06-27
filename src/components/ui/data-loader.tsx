@@ -32,7 +32,7 @@ export function DataLoader<T>({
     }
     
     return (
-      <div className="w-full space-y-3 py-4">
+      <div className="w-full space-y-cozy torch-section-compact">
         <div className="flex justify-center items-center py-2">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
         </div>

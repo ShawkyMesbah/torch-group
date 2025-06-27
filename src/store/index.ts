@@ -1,7 +1,8 @@
 export { useAuth } from './use-auth'
-export { useSettings } from './use-settings'
 export { useAnalytics } from './use-analytics'
-export { useCart } from './use-cart'
+export { useNotifications } from './use-notifications'
+export { useUserSettings } from './use-user-settings'
+export { useSettings } from './use-settings'
 
 // Types
 export type { User } from './use-auth'

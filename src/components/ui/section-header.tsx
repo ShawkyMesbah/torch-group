@@ -74,7 +74,7 @@ export function SectionHeader({
   };
 
   const content = (
-    <div className={cn("space-y-4 md:space-y-6", alignClasses[align], className)}>
+    <div className={cn("space-y-comfortable md:space-y-spacious", alignClasses[align], className)}>
       {subtitle && (
         <div className="torch-section-header">
           <span className={cn("torch-section-title", subtitleSizeClasses[size])}>
@@ -97,7 +97,7 @@ export function SectionHeader({
       )}
       
       {description && (
-        <div className="space-y-2">
+        <div className="space-y-compact">
           <p className={cn(
             "font-bold text-gray-200 max-w-2xl leading-relaxed",
             align === "center" && "mx-auto",

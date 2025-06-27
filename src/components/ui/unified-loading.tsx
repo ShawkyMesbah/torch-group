@@ -92,7 +92,7 @@ export function Loading({
   );
 
   const renderSkeleton = () => (
-    <div className="w-full space-y-3">
+            <div className="w-full space-y-cozy">
       <div className="animate-pulse">
         <div className="h-4 bg-gray-700/40 rounded w-3/4 mb-2"></div>
         <div className="h-4 bg-gray-700/40 rounded w-1/2 mb-4"></div>

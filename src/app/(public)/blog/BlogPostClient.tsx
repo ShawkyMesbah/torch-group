@@ -89,8 +89,8 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
         </div>
-        <div className="relative pt-16 sm:pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="max-w-3xl">
+        <div className="relative pt-grand sm:pt-monumental torch-container-wide mx-auto z-10">
+          <div className="torch-container-content">
             <Link href="/blog" className="inline-flex items-center text-gray-400 hover:text-white mb-8 group transition-colors border border-gray-800/50 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full">
               <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />Back to Blog
             </Link>
@@ -123,8 +123,8 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
         </div>
       </header>
       {/* Article Content */}
-      <article className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <article className="relative torch-container-wide mx-auto z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-spacious lg:gap-grand">
           {/* Main Content */}
           <div className="lg:col-span-8 animate-fade-in animation-delay-500">
             <div className="prose prose-lg prose-invert max-w-none">
@@ -164,7 +164,7 @@ export default function BlogPostClient({ post, blogPosts }: { post: any, blogPos
           </div>
           {/* Sidebar */}
           <div className="lg:col-span-4 animate-fade-in animation-delay-700">
-            <div className="lg:sticky lg:top-32 space-y-8">
+            <div className="lg:sticky lg:top-generous space-y-generous">
               {/* Table of Contents */}
               <div className="bg-gray-900/30 border border-gray-800/50 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-white mb-4">Table of Contents</h3>

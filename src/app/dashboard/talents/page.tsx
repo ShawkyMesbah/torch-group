@@ -219,7 +219,7 @@ export default function TalentsPage() {
 
   return (
     <ErrorBoundary>
-      <div className="container mx-auto space-y-6">
+      <div className="torch-container-wide mx-auto space-y-spacious">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Talent Management</h1>
           

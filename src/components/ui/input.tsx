@@ -54,7 +54,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className={cn("w-full space-y-2", containerClassName)}>
+      <div className={cn("w-full space-y-compact", containerClassName)}>
         {label && (
           <label
             htmlFor={props.id || id}

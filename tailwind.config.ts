@@ -6,21 +6,17 @@ const config: Config = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    // Enhanced breakpoints for better device targeting
+    // Simplified, semantic breakpoints
     screens: {
-      'xs': '375px',      // Small phones
-      'sm': '640px',      // Large phones / small tablets
+      'sm': '640px',      // Large phones
       'md': '768px',      // Tablets
-      'lg': '1024px',     // Small laptops
-      'xl': '1280px',     // Large laptops / desktops
-      '2xl': '1536px',    // Large desktops
-      '3xl': '1920px',    // Ultra-wide screens
-      '4xl': '2560px',    // 4K displays
-      // Device-specific breakpoints
+      'lg': '1024px',     // Desktop
+      'xl': '1280px',     // Wide screens
+      '2xl': '1536px',    // Ultra-wide
+      // Semantic device targeting
       'mobile': {'max': '767px'},
       'tablet': {'min': '768px', 'max': '1023px'},
       'desktop': {'min': '1024px'},
-      'ultrawide': {'min': '1920px'},
     },
     extend: {
       colors: {
@@ -92,26 +88,22 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      // Enhanced spacing for better device control
+      // Semantic spacing extensions (8px base unit)
       spacing: {
-        '1': '0.25rem', // 4px
-        '2': '0.5rem',  // 8px
-        '3': '0.75rem', // 12px
-        '4': '1rem',    // 16px
-        '5': '1.25rem', // 20px
-        '6': '1.5rem',  // 24px
-        '8': '2rem',    // 32px
-        '10': '2.5rem', // 40px
-        '12': '3rem',   // 48px
-        '16': '4rem',   // 64px
-        '20': '5rem',   // 80px
-        '24': '6rem',   // 96px
-        '32': '8rem',   // 128px
-        '18': '4.5rem',
+        'tight': '0.25rem',      // 4px
+        'compact': '0.5rem',     // 8px
+        'cozy': '0.75rem',       // 12px
+        'comfortable': '1rem',   // 16px
+        'spacious': '1.5rem',    // 24px
+        'generous': '2rem',      // 32px
+        'expansive': '3rem',     // 48px
+        'grand': '4rem',         // 64px
+        'monumental': '6rem',    // 96px
+        '18': '4.5rem',          // Keep existing project-specific values
         '88': '22rem',
         '144': '36rem',
       },
-      // Device-specific font sizes
+      // Optimized font sizes with proper line heights
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1.25rem' }],
         'sm': ['0.875rem', { lineHeight: '1.5rem' }],
@@ -121,24 +113,11 @@ const config: Config = {
         '2xl': ['1.5rem', { lineHeight: '2.5rem' }],
         '3xl': ['1.875rem', { lineHeight: '2.75rem' }],
         '4xl': ['2.25rem', { lineHeight: '3rem' }],
-        '5xl': ['3rem', { lineHeight: '1' }],
-        '6xl': ['3.75rem', { lineHeight: '1' }],
-        '7xl': ['4.5rem', { lineHeight: '1' }],
-        '8xl': ['6rem', { lineHeight: '1' }],
-        '9xl': ['8rem', { lineHeight: '1' }],
-        'xs-mobile': ['0.75rem', { lineHeight: '1rem' }],
-        'sm-mobile': ['0.875rem', { lineHeight: '1.25rem' }],
-        'base-mobile': ['1rem', { lineHeight: '1.5rem' }],
-        'lg-mobile': ['1.125rem', { lineHeight: '1.75rem' }],
-        'xl-mobile': ['1.25rem', { lineHeight: '1.75rem' }],
-        '2xl-mobile': ['1.5rem', { lineHeight: '2rem' }],
-        '3xl-mobile': ['1.875rem', { lineHeight: '2.25rem' }],
-        '4xl-mobile': ['2.25rem', { lineHeight: '2.5rem' }],
-        '5xl-mobile': ['3rem', { lineHeight: '1' }],
-        '6xl-mobile': ['3.75rem', { lineHeight: '1' }],
-        '7xl-mobile': ['4.5rem', { lineHeight: '1' }],
-        '8xl-mobile': ['6rem', { lineHeight: '1' }],
-        '9xl-mobile': ['8rem', { lineHeight: '1' }],
+        '5xl': ['3rem', { lineHeight: '1.1' }],
+        '6xl': ['3.75rem', { lineHeight: '1.1' }],
+        '7xl': ['4.5rem', { lineHeight: '1.1' }],
+        '8xl': ['6rem', { lineHeight: '1.1' }],
+        '9xl': ['8rem', { lineHeight: '1.1' }],
       },
       animation: {
         'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -152,10 +131,6 @@ const config: Config = {
         'appear': 'appear 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
         'appear-zoom': 'appearZoom 1s cubic-bezier(0.16, 1, 0.3, 1)',
         'glow': 'glow 2s ease-in-out infinite alternate',
-        // Device-specific animations
-        'mobile-bounce': 'bounce 2s infinite',
-        'tablet-fade': 'fadeIn 0.8s ease-in-out',
-        'desktop-slide': 'slideUp 0.6s ease-out',
       },
       keyframes: {
         pulse: {
@@ -246,54 +221,25 @@ const config: Config = {
       
       addUtilities(textShadowUtilities);
     }),
-    // Device-specific utilities plugin
+    // Essential device utilities plugin
     plugin(({ addUtilities }) => {
       const deviceUtilities = {
-        // Mobile-specific utilities
+        // Essential responsive utilities
         '.mobile-only': {
           '@media (min-width: 768px)': {
             display: 'none !important',
           },
         },
-        '.mobile-hidden': {
-          '@media (max-width: 767px)': {
-            display: 'none !important',
-          },
-        },
-        // Tablet-specific utilities
-        '.tablet-only': {
-          '@media (max-width: 767px), (min-width: 1024px)': {
-            display: 'none !important',
-          },
-        },
-        '.tablet-hidden': {
-          '@media (min-width: 768px) and (max-width: 1023px)': {
-            display: 'none !important',
-          },
-        },
-        // Desktop-specific utilities
         '.desktop-only': {
           '@media (max-width: 1023px)': {
             display: 'none !important',
           },
         },
-        '.desktop-hidden': {
-          '@media (min-width: 1024px)': {
-            display: 'none !important',
-          },
-        },
-        // Touch device optimizations
+        // Touch-friendly interactions
         '.touch-friendly': {
           minHeight: '44px',
           minWidth: '44px',
           padding: '12px',
-        },
-        // High DPI display optimizations
-        '.retina-ready': {
-          '@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)': {
-            transform: 'scale(0.5)',
-            transformOrigin: 'top left',
-          },
         },
       };
       

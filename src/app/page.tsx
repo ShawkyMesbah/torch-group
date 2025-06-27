@@ -92,9 +92,9 @@ interface SectionProps {
 
 // Section component with consistent styling
 const Section = ({ id, children, className }: SectionProps) => (
-  <section id={id} className={cn("py-16 md:py-24", className)}>
-    {children}
-  </section>
+      <section id={id} className={cn("torch-section-standard", className)}>
+      {children}
+    </section>
 );
 
 // MediaPreview component for hero section
@@ -844,7 +844,7 @@ export default function Home() {
         {/* ENHANCED HERO SECTION */}
         <section 
           id="hero" 
-          className="relative flex flex-col justify-center items-center min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 z-10 overflow-hidden"
+          className="torch-section-hero relative flex flex-col justify-center items-center min-h-screen z-10 overflow-hidden"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
@@ -861,7 +861,7 @@ export default function Home() {
 
           {/* Hero content */}
           <motion.div 
-            className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto text-center z-20 px-4 sm:px-6 md:px-8 lg:px-12"
+            className="torch-container-content flex flex-col items-center justify-center w-full mx-auto text-center z-20"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: 'easeOut' }}
@@ -941,7 +941,7 @@ export default function Home() {
 
             {/* Enhanced Action Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mt-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-compact sm:gap-comfortable mt-comfortable"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 1.2, ease: 'easeOut' }}
@@ -981,7 +981,7 @@ export default function Home() {
           </div>
           
           <motion.div 
-            className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative z-10"
+            className="torch-container-wide mx-auto relative z-10"
             initial={prefersReducedMotion ? {} : { opacity: 0, y: 60 }}
             whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -1018,7 +1018,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <div className="text-center space-y-4">
+                <div className="text-center space-y-comfortable">
                   <span className="block text-xl md:text-2xl lg:text-3xl font-bold text-white leading-relaxed">
                     Empowering Creative Entities & Talents
                   </span>
@@ -1053,7 +1053,7 @@ export default function Home() {
               </motion.div>
               
               {/* Enhanced Content Cards */}
-              <div className="max-w-6xl mx-auto space-y-8">
+                              <div className="torch-container-wide mx-auto space-y-generous">
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1086,7 +1086,7 @@ export default function Home() {
                 <span className="torch-text-primary font-semibold">driving force</span> in the evolving media landscape.
                       </p>
                       <motion.div 
-                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mt-8"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-generous md:gap-expansive mt-generous"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.3 }}
@@ -1196,13 +1196,13 @@ export default function Home() {
 
           {/* Conditionally render other sections based on their enabled status and in order */}
           {isSectionEnabled('services') && (
-            <Section id="services" className="py-16 md:py-24">
+            <Section id="services">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
+                className="torch-container-wide mx-auto relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1226,7 +1226,7 @@ export default function Home() {
                   </p>
                 </div>
                 <motion.div 
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 justify-center items-stretch mt-16"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous md:gap-expansive justify-center items-stretch mt-grand"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
@@ -1330,13 +1330,13 @@ export default function Home() {
           )}
 
           {isSectionEnabled('torch-group') && (
-            <Section id="torch-group" className="py-16 md:py-24">
+            <Section id="torch-group">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative z-10"
+                className="torch-container-wide mx-auto relative z-10"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1502,13 +1502,13 @@ export default function Home() {
 
           {/* Blog Section */}
           {isSectionEnabled('blog') && (
-            <Section id="blog" className="py-16 md:py-24">
+            <Section id="blog">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
+                className="torch-container-wide mx-auto relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1532,7 +1532,7 @@ export default function Home() {
                 </div>
                 {blogPosts && blogPosts.length > 0 ? (
                   <motion.div 
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
@@ -1624,13 +1624,13 @@ export default function Home() {
           )}
 
           {isSectionEnabled('torch-talents') && (
-            <Section id="torch-talents" className="py-16 md:py-24">
+            <Section id="torch-talents">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
+                className="torch-container-wide mx-auto relative"
               >
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1652,7 +1652,7 @@ export default function Home() {
                 </div>
                 {activeTalents && activeTalents.length > 0 ? (
                   <motion.div 
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
@@ -1755,7 +1755,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
+              className="torch-container-wide mx-auto relative"
             >
               {/* Enhanced background with glow effects */}
               <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
@@ -1897,13 +1897,13 @@ export default function Home() {
           </Section>
 
           {isSectionEnabled('contact') && (
-            <Section id="contact" className="py-16 md:py-24">
+            <Section id="contact">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative"
+                className="torch-container-content mx-auto relative"
               >
                 {/* Perfectly fitted form glow - matches contact form dimensions exactly */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">

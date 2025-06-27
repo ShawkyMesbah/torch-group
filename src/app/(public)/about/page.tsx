@@ -15,8 +15,8 @@ export default function AboutPage() {
       {/* Animated grid background to match homepage */}
       <SharedTorchBackground />
       {/* Hero Section */}
-      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-transparent">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent">
+        <div className="torch-container-wide mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-12">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white">
               About <span className="torch-text-accent">Torch Group</span>
@@ -29,9 +29,9 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Our Story Section */}
-      <SectionWrapper animation="slide-up" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-12 md:gap-x-16 md:gap-y-16 items-center">
+      <SectionWrapper animation="slide-up" className="torch-section-standard bg-transparent">
+        <div className="torch-container-wide mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-spacious lg:gap-grand items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Story</h2>
               <p className="text-gray-200 mb-6 text-base sm:text-lg md:text-xl">
@@ -69,12 +69,12 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Mission & Goals Section */}
-      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Mission & Goals</h2>
+      <SectionWrapper animation="fade-in" className="torch-section-standard bg-transparent">
+        <div className="torch-container-wide mx-auto">
+          <div className="text-center mb-grand">
+            <h2 className="text-3xl md:text-4xl font-bold mb-spacious text-white">Our Mission & Goals</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-generous lg:gap-grand">
             {[
               {
                 title: "Attracting Partnerships",
@@ -110,15 +110,15 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Areas of Expertise Section */}
-      <SectionWrapper animation="slide-up" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Areas of Expertise</h2>
-            <p className="text-gray-200 max-w-2xl mx-auto">
+      <SectionWrapper animation="slide-up" className="torch-section-standard bg-transparent">
+        <div className="torch-container-wide mx-auto">
+          <div className="text-center mb-grand">
+            <h2 className="text-3xl md:text-4xl font-bold mb-spacious text-white">Areas of Expertise</h2>
+            <p className="text-gray-200 torch-container-content mx-auto">
               Our specialized knowledge and skills across multiple domains enable us to deliver comprehensive solutions.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-generous lg:gap-grand">
             {[
               {
                 title: "Project Management",
@@ -159,10 +159,10 @@ export default function AboutPage() {
       </SectionWrapper>
 
       {/* Core Values Section */}
-      <SectionWrapper animation="fade-in" className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-white">Our Core Values</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12">
+      <SectionWrapper animation="fade-in" className="torch-section-standard bg-transparent">
+        <div className="torch-container-wide mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-spacious text-center text-white">Our Core Values</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-generous lg:gap-grand">
             {[
               {
                 title: "Innovation",

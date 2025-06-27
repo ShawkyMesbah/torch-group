@@ -99,8 +99,8 @@ export default function ServicesPage() {
       <SharedTorchBackground />
       
       {/* Hero Section */}
-      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-transparent">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="torch-section-standard relative bg-transparent">
+        <div className="torch-container-wide mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,10 +127,10 @@ export default function ServicesPage() {
       </section>
 
       {/* Main Services Section - Same cards as homepage */}
-      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
+              <section className="torch-section-standard bg-transparent">
+          <div className="torch-container-wide mx-auto">
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8 md:gap-x-12 md:gap-y-12 justify-center items-stretch"
+                          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous lg:gap-grand justify-center items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -282,7 +282,7 @@ export default function ServicesPage() {
                   <div className="torch-text-primary text-xl font-bold">{pkg.price}</div>
                 </div>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-comfortable mb-generous">
                   {pkg.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start">
                       <Check className="h-5 w-5 torch-text-primary mr-3 mt-0.5 flex-shrink-0" />
@@ -317,7 +317,7 @@ export default function ServicesPage() {
               <p className="text-gray-400">Fill out the form below and we'll get back to you with a customized solution.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-spacious">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-white font-semibold mb-2">Company Name *</label>
