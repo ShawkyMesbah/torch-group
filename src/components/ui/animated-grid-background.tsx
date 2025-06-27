@@ -38,7 +38,7 @@ export function AnimatedGridBackground({
       setLogoAnimationActive(true);
       setLogoAnimationProgress(0);
 
-      const animationDuration = 4000; // 4 seconds for smoother effect
+      const animationDuration = 3000; // 3 seconds for sync with background
       const startTime = Date.now();
 
       const animateLogoEffect = () => {

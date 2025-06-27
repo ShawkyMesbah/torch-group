@@ -36,8 +36,8 @@ export function LoadingScreen({ isLoading = false }: { isLoading?: boolean }) {
           {/* Liquid Chrome animated background */}
           <LiquidChrome baseColor={[0.1, 0, 0]} speed={0.3} amplitude={0.1} interactive={true} />
           
-          {/* Black overlay with 30% opacity and increased blur */}
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-md pointer-events-none z-10" />
+          {/* Black overlay with 50% opacity and increased blur */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-xl pointer-events-none z-10" />
           
           {/* Logo with glow, matching footer style */}
           <div className="mb-8 relative flex flex-col items-center animate-fade-in z-20">

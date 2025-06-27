@@ -980,35 +980,17 @@ export default function Home() {
             <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[200px] bg-red-700/10 blur-[100px] rounded-full"></div>
           </div>
           
-          <motion.div 
-            className="torch-container-wide mx-auto relative z-10"
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 60 }}
-            whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={prefersReducedMotion ? {} : { duration: 1, ease: 'easeOut' }}
-          >
+          <div className="torch-container-wide mx-auto relative z-10">
             <div className="flex flex-col items-center text-center">
               {/* Section Label */}
-              <motion.div 
-                className="inline-flex items-center justify-center mb-8"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
+              <div className="inline-flex items-center justify-center mb-8">
                 <span className="torch-section-title">About Us</span>
-              </motion.div>
+              </div>
 
               {/* Main Title */}
-              <motion.h2 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight">
                 About <span className="torch-text-accent">Torch</span>
-              </motion.h2>
+              </h2>
 
               {/* Improved Typewriter Section */}
               <motion.div 
@@ -1101,62 +1083,69 @@ export default function Home() {
                       >
                         {[
                           {
-                            icon: <Zap className="h-12 w-12 torch-text-primary mx-auto mb-4" />,
+                            icon: <Zap className="h-12 w-12" />,
                             title: "Innovation",
                             subtitle: "Cutting-edge solutions",
                             description: "We push the boundaries of what's possible, creating groundbreaking digital experiences that set new industry standards."
                           },
                           {
-                            icon: <Star className="h-12 w-12 torch-text-primary mx-auto mb-4" />,
+                            icon: <Star className="h-12 w-12" />,
                             title: "Talent",
                             subtitle: "Exceptional creativity",
                             description: "Our diverse network of creative professionals brings unique perspectives and world-class expertise to every project."
                           },
                           {
-                            icon: <TrendingUp className="h-12 w-12 torch-text-primary mx-auto mb-4" />,
+                            icon: <TrendingUp className="h-12 w-12" />,
                             title: "Growth",
                             subtitle: "Strategic partnerships",
                             description: "We forge meaningful alliances that drive sustainable growth and create lasting value for all stakeholders."
                           }
                         ].map((feature, idx) => (
-                          <TiltedCard
+                          <motion.div
                             key={feature.title}
-                            containerWidth="100%"
-                            scaleOnHover={1.08}
-                            rotateAmplitude={12}
-                            showMobileWarning={false}
-                            showTooltip={false}
+                            variants={{
+                              hidden: { opacity: 0, y: 40 },
+                              visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut', delay: idx * 0.2 } },
+                            }}
+                            className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-700 ease-out bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 border-2 border-red-900/30 hover:border-red-600/60 hover:shadow-red-900/40 hover:shadow-2xl p-8 min-h-[320px] flex flex-col items-center justify-center text-center
+                                       hover:scale-[1.02] hover:-translate-y-1
+                                       active:scale-[0.98] active:translate-y-0
+                                       md:hover:scale-105 md:hover:-translate-y-2"
                           >
-                            <motion.div
-                              whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                              className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-center border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl px-4 py-2"
-                            >
-                              {/* Subtle grid pattern overlay */}
-                              <div className="absolute inset-0 opacity-5 pointer-events-none">
-                                <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-                              </div>
-                              {/* Content area */}
-                              <div className="flex-1 flex flex-col justify-center items-center text-center w-full pt-10 pb-6 relative z-10 min-h-0">
-                                {/* Icon with glow */}
-                                <div className="mb-6 mt-2 relative flex items-center justify-center">
-                                  <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
-                                  <div className="w-20 h-20 flex items-center justify-center relative z-10">
-                                    <div className="torch-text-primary drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
-                                      {feature.icon}
-                                    </div>
-                                  </div>
+                            {/* Subtle background pattern - static to avoid flickering */}
+                            <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+                              <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[size:20px_20px]"></div>
+                            </div>
+                            
+                            {/* Gentle glow overlay on hover - CSS only */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-red-600/0 via-red-600/0 to-red-600/0 rounded-3xl opacity-0 group-hover:from-red-600/5 group-hover:via-red-600/10 group-hover:to-red-600/5 group-hover:opacity-100 transition-all duration-700 pointer-events-none"></div>
+                            
+                            {/* Content wrapper */}
+                            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+                              {/* Icon container */}
+                              <div className="mb-6 relative flex items-center justify-center">
+                                <div className="absolute inset-0 w-20 h-20 bg-red-600/30 blur-[30px] rounded-full group-hover:bg-red-500/40 group-hover:blur-[40px] transition-all duration-700"></div>
+                                <div className="w-20 h-20 flex items-center justify-center relative z-10 torch-text-primary group-hover:torch-text-accent transition-colors duration-500">
+                                  {feature.icon}
                                 </div>
-                                <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
-                                  {feature.title}
-                                </h3>
-                                <div className="text-base font-semibold mb-2 torch-text-primary">{feature.subtitle}</div>
-                                <p className="text-gray-200 text-base group-hover:text-gray-200 transition-colors duration-300">
-                                  {feature.description}
-                                </p>
                               </div>
-                            </motion.div>
-                          </TiltedCard>
+                              
+                              {/* Title */}
+                              <h3 className="text-2xl font-bold mb-3 tracking-tight text-white group-hover:text-red-100 transition-colors duration-500">
+                                {feature.title}
+                              </h3>
+                              
+                              {/* Subtitle */}
+                              <div className="text-base font-semibold mb-4 torch-text-primary group-hover:torch-text-accent transition-colors duration-500">
+                                {feature.subtitle}
+                              </div>
+                              
+                              {/* Description */}
+                              <p className="text-gray-300 text-base leading-relaxed group-hover:text-gray-200 transition-colors duration-500">
+                                {feature.description}
+                              </p>
+                            </div>
+                          </motion.div>
                         ))}
                       </motion.div>
                     </div>
@@ -1164,7 +1153,7 @@ export default function Home() {
                 </motion.div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </Section>
 
         {/* Page content starts here */}
@@ -1197,13 +1186,7 @@ export default function Home() {
           {/* Conditionally render other sections based on their enabled status and in order */}
           {isSectionEnabled('services') && (
             <Section id="services">
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="torch-container-wide mx-auto relative"
-              >
+              <div className="torch-container-wide mx-auto relative">
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
@@ -1225,20 +1208,7 @@ export default function Home() {
                     We offer everything you need to succeed in the digital landscape.
                   </p>
                 </div>
-                <motion.div 
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous md:gap-expansive justify-center items-stretch mt-grand"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  variants={{
-                    hidden: {},
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.12,
-                      },
-                    },
-                  }}
-                >
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous md:gap-expansive justify-center items-stretch mt-grand">
                   {[
                     {
                       title: "B2C",
@@ -1263,10 +1233,6 @@ export default function Home() {
                   ].map((service, index) => (
                     <motion.div
                       key={service.title}
-                      variants={{
-                        hidden: { opacity: 0, y: 40 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                      }}
                       whileHover={{ 
                         scale: 1.05, 
                         boxShadow: '0 0 40px 8px #dc2626aa'
@@ -1324,20 +1290,14 @@ export default function Home() {
                         </div>
                     </motion.div>
                   ))}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </Section>
           )}
 
           {isSectionEnabled('torch-group') && (
             <Section id="torch-group">
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="torch-container-wide mx-auto relative z-10"
-              >
+              <div className="torch-container-wide mx-auto relative z-10">
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
@@ -1356,27 +1316,10 @@ export default function Home() {
                     Explore our family of brands, each dedicated to excellence in their specialized fields.
                   </p>
                 </div>
-                <motion.div
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  variants={{
-                    hidden: {},
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.12,
-                      },
-                    },
-                  }}
-                >
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16">
                   {torchBrands.map((brand, index) => (
                     <motion.div
                       key={index}
-                      variants={{
-                        hidden: { opacity: 0, y: 40 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                      }}
                       whileHover={{ 
                         scale: 1.05, 
                         boxShadow: brand.isComingSoon 
@@ -1495,21 +1438,15 @@ export default function Home() {
                       </div>
                     </motion.div>
                   ))}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </Section>
           )}
 
           {/* Blog Section */}
           {isSectionEnabled('blog') && (
             <Section id="blog">
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="torch-container-wide mx-auto relative"
-              >
+              <div className="torch-container-wide mx-auto relative">
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
@@ -1531,27 +1468,10 @@ export default function Home() {
                   </p>
                 </div>
                 {blogPosts && blogPosts.length > 0 ? (
-                  <motion.div 
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{
-                      hidden: {},
-                      visible: {
-                        transition: {
-                          staggerChildren: 0.12,
-                        },
-                      },
-                    }}
-                  >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive">
                     {blogPosts.slice(0, 3).map((post, index) => (
                       <motion.div
                         key={post.id}
-                        variants={{
-                          hidden: { opacity: 0, y: 40 },
-                          visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                        }}
                         whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                         className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
@@ -1591,7 +1511,7 @@ export default function Home() {
                         </div>
                       </motion.div>
                     ))}
-                  </motion.div>
+                  </div>
                 ) : (
                   <div className="text-center py-12">
                     <div className="max-w-md mx-auto">
@@ -1619,19 +1539,13 @@ export default function Home() {
                     </Link>
                   </div>
                 )}
-              </motion.div>
+              </div>
             </Section>
           )}
 
           {isSectionEnabled('torch-talents') && (
             <Section id="torch-talents">
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="torch-container-wide mx-auto relative"
-              >
+              <div className="torch-container-wide mx-auto relative">
                 {/* Animated red glow background */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
@@ -1651,27 +1565,10 @@ export default function Home() {
 
                 </div>
                 {activeTalents && activeTalents.length > 0 ? (
-                  <motion.div 
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{
-                      hidden: {},
-                      visible: {
-                        transition: {
-                          staggerChildren: 0.12,
-                        },
-                      },
-                    }}
-                  >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive">
                     {displayTalents.map((talent, index) => (
                       <motion.div
                         key={talent.id || `placeholder-${index}`}
-                        variants={{
-                          hidden: { opacity: 0, y: 40 },
-                          visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-                        }}
                         whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
                         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                         className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
@@ -1725,7 +1622,7 @@ export default function Home() {
                         </div>
                       </motion.div>
                     ))}
-                  </motion.div>
+                  </div>
                 ) : (
                   <div className="text-center py-12">
                     <div className="max-w-md mx-auto">
@@ -1744,19 +1641,13 @@ export default function Home() {
                     </div>
                   </div>
                 )}
-              </motion.div>
+              </div>
             </Section>
           )}
 
           {/* TOP TORCH ALLIES SECTION */}
           <Section id="top-partners">
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              className="torch-container-wide mx-auto relative"
-            >
+            <div className="torch-container-wide mx-auto relative">
               {/* Enhanced background with glow effects */}
               <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                 <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
@@ -1780,27 +1671,10 @@ export default function Home() {
                   Discover our strategic allies and collaborations.
                 </p>
               </div>
-              <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 justify-center items-stretch mb-16"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={{
-                  hidden: {},
-                  visible: {
-                    transition: {
-                      staggerChildren: 0.14,
-                    },
-                  },
-                }}
-              >
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 justify-center items-stretch mb-16">
                 {[1,2,3].map((i) => (
                   <motion.div
                     key={i}
-                    variants={{
-                      hidden: { opacity: 0, y: 40 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
-                    }}
                     whileHover={{
                       scale: 1.08,
                       boxShadow: '0 25px 50px -12px rgba(220, 38, 38, 0.4), 0 0 60px 12px rgba(220, 38, 38, 0.25)',
@@ -1892,19 +1766,13 @@ export default function Home() {
                     <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-15 opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
                   </motion.div>
                 ))}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </Section>
 
           {isSectionEnabled('contact') && (
             <Section id="contact">
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1, ease: 'easeOut' }}
-                className="torch-container-content mx-auto relative"
-              >
+              <div className="torch-container-content mx-auto relative">
                 {/* Perfectly fitted form glow - matches contact form dimensions exactly */}
                 <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
                   <div className="w-full max-w-4xl h-[600px] sm:h-[700px] md:h-[800px] bg-gradient-to-br from-red-600/30 via-red-500/20 to-red-700/25 blur-[100px] rounded-3xl animate-pulse-slow mx-3 sm:mx-6 md:mx-8 lg:mx-12"></div>
@@ -1928,13 +1796,7 @@ export default function Home() {
                     Fill out the form and our team will get back to you as soon as possible.
                   </p>
                 </div>
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="p-6 md:p-8 lg:p-10 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-red-600/30 contact-form-card mb-8 sm:mb-12 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/40 transition-all duration-700 group"
-                >
+                <div className="p-6 md:p-8 lg:p-10 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-red-600/30 contact-form-card mb-8 sm:mb-12 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/40 transition-all duration-700 group">
                   {/* Subtle inner glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 via-transparent to-red-500/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   
@@ -1944,16 +1806,10 @@ export default function Home() {
                   <div className="relative z-10">
                     <ContactForm />
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Newsletter Subscription Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 1, ease: 'easeInOut', delay: 0.2 }}
-                  className="p-6 sm:p-8 md:p-10 bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-orange-600/20 border border-orange-600/30 hover:border-orange-500/50 hover:shadow-orange-500/30 transition-all duration-700 group"
-                >
+                <div className="p-6 sm:p-8 md:p-10 bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-orange-600/20 border border-orange-600/30 hover:border-orange-500/50 hover:shadow-orange-500/30 transition-all duration-700 group">
                   {/* Subtle inner glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-orange-400/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   
@@ -1975,8 +1831,8 @@ export default function Home() {
                     </div>
                     <p className="text-gray-500 text-xs mt-3">No spam, unsubscribe at any time</p>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </Section>
           )}
         </div>
