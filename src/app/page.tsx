@@ -1006,19 +1006,19 @@ export default function Home() {
                animate={{ opacity: 1, scale: 1 }}
                transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
              >
-               {/* Main logo container with refined glow - Mobile Optimized */}
-               <div className="relative flex items-center justify-center w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px]">
-                 {/* Mobile-optimized glow */}
-                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-600/40 to-red-700/30 torch-mobile-blur rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-orange-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
+               {/* Main logo container with refined glow */}
+               <div className="relative flex items-center justify-center w-[320px] h-[320px] sm:w-[380px] sm:h-[380px]">
+                 {/* Refined single-layer glow */}
+                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-600/40 to-red-700/30 blur-[80px] rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-orange-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
                  
-                 {/* Logo - Mobile Touch Optimized */}
+                 {/* Logo */}
                  <Image 
                    src="/images/logo.png"
                    alt="Torch Logo"
                    width={320}
                    height={320}
                    priority
-                   className="object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 group-hover:drop-shadow-[0_0_70px_#dc2626dd] transition-all duration-500 cursor-pointer torch-touch-target w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px]"
+                   className="object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 group-hover:drop-shadow-[0_0_70px_#dc2626dd] transition-all duration-500 cursor-pointer w-[260px] h-[260px] sm:w-[320px] sm:h-[320px]"
                    style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
                    onClick={handleLogoClick}
                    ref={logoImgRefDesktop}
@@ -1026,9 +1026,9 @@ export default function Home() {
                </div>
              </motion.div>
 
-                         {/* Enhanced Main Heading - Mobile Optimized */}
+                         {/* Enhanced Main Heading */}
              <motion.h1 
-               className="torch-display-mobile-lg sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 text-white tracking-tight leading-tight text-center flex flex-col items-center justify-center -mt-6 sm:-mt-8 torch-mobile-contrast"
+               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 text-white tracking-tight leading-tight text-center flex flex-col items-center justify-center -mt-8 sm:-mt-10"
                style={{ position: 'relative', zIndex: 20 }}
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
@@ -1054,16 +1054,16 @@ export default function Home() {
                </span>
              </motion.h1>
 
-            {/* Enhanced Tagline - Mobile Optimized */}
+            {/* Enhanced Tagline */}
             <motion.div 
-              className="mt-2 mb-6 text-center px-4"
+              className="mt-2 mb-6 text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.9, ease: 'easeOut' }}
             >
               <BlurText
                 text="Every Idea Starts With A Torch"
-                className={cn("block torch-mobile-reading md:text-xl lg:text-2xl text-gray-100 font-bold drop-shadow-lg tracking-wide torch-mobile-contrast", merriweather.className)}
+                className={cn("block text-lg md:text-xl lg:text-2xl text-gray-100 font-bold drop-shadow-lg tracking-wide", merriweather.className)}
                 animateBy="words"
                 direction="top"
                 delay={1000}
@@ -1072,16 +1072,16 @@ export default function Home() {
               />
             </motion.div>
 
-            {/* Enhanced Action Buttons - Mobile Optimized */}
+            {/* Enhanced Action Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row items-center justify-center space-y-mobile-standard sm:space-y-0 sm:gap-comfortable mt-comfortable px-4 w-full max-w-md sm:max-w-none mx-auto"
+              className="flex flex-col sm:flex-row items-center justify-center gap-compact sm:gap-comfortable mt-comfortable"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 1.2, ease: 'easeOut' }}
             >
               <button
                 onClick={handleButtonClick(() => scrollToSection('about-torch'))}
-                className="torch-btn-mobile torch-btn-mobile-full sm:w-auto group relative overflow-hidden bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl transition-all duration-500 hover:scale-105 hover:from-orange-400 hover:to-red-500 hover:shadow-[0_0_40px_rgba(255,87,34,0.6)] torch-mobile-focus z-20 backdrop-blur-md border border-orange-400/20 min-w-[200px]"
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-12 py-4 text-lg font-bold text-white shadow-2xl transition-all duration-500 hover:scale-105 hover:from-orange-400 hover:to-red-500 hover:shadow-[0_0_40px_rgba(255,87,34,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md border border-orange-400/20"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Explore Torch 
@@ -1092,7 +1092,7 @@ export default function Home() {
               
               <a
                 href="/contact"
-                className="torch-btn-mobile torch-btn-mobile-full sm:w-auto group relative overflow-hidden border-2 border-red-500/60 text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-orange-500/30 hover:text-orange-300 hover:border-orange-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] torch-mobile-focus z-20 backdrop-blur-md min-w-[200px]"
+                className="group relative overflow-hidden rounded-full border-2 border-red-500/60 px-12 py-4 text-lg font-bold text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-orange-500/30 hover:text-orange-300 hover:border-orange-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Contact Us 
@@ -1120,9 +1120,9 @@ export default function Home() {
                 <span className="torch-section-title">About Us</span>
               </div>
 
-              {/* Enhanced Main Title with Hover Effects - Mobile Optimized */}
+              {/* Enhanced Main Title with Hover Effects */}
               <motion.h2 
-                className="torch-display-mobile-md sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 sm:mb-12 text-white tracking-tight group cursor-default torch-mobile-contrast px-4"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight group cursor-default"
                 whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                   scale: 1.02,
                   transition: { duration: 0.3, ease: "easeOut" }
@@ -1348,7 +1348,7 @@ export default function Home() {
                     <span className="torch-section-title">WHAT WE DO</span>
                   </div>
                   <motion.h2 
-                    className="torch-display-mobile-md sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default torch-mobile-contrast px-4 sm:px-0"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       scale: 1.02,
                       transition: { duration: 0.3, ease: "easeOut" }
@@ -1379,35 +1379,35 @@ export default function Home() {
                     We offer everything you need to succeed in the digital landscape.
                   </p>
                 </div>
-                <div className="torch-grid-mobile-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-center items-stretch mt-8 sm:mt-12 lg:mt-16 px-4 sm:px-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous md:gap-expansive justify-center items-stretch mt-grand">
                   {[
                     {
                       title: "B2C",
                       description: "Enjoy with Our Torch Group Services & e commerce will help your creative products & services that fit your needs",
-                      icon: <ShoppingCart className="h-12 sm:h-16 w-12 sm:w-16" />
+                      icon: <ShoppingCart className="h-16 w-16" />
                     },
                     {
                       title: "B2T", 
                       description: "Our Talents membership services will help your content grow online/offline engagement & attract more audience & Followers",
-                      icon: <Star className="h-12 sm:h-16 w-12 sm:w-16" />
+                      icon: <Star className="h-16 w-16" />
                     },
                     {
                       title: "B2B",
                       description: "Our entities/brands membership services will help your business grow online/offline & attract more audience & customers", 
-                      icon: <Building2 className="h-12 sm:h-16 w-12 sm:w-16" />
+                      icon: <Building2 className="h-16 w-16" />
                     },
                     {
                       title: "B2A",
                       description: "Business to All Allies Connect, collaborate, and grow with our network of partners, allies, and creative entities.",
-                      icon: <Users className="h-12 sm:h-16 w-12 sm:w-16" />
+                      icon: <Users className="h-16 w-16" />
                     }
                   ].map((service, index) => (
                     <motion.div
                       key={service.title}
-                      whileHover={!isOlderDevice ? { 
+                      whileHover={{ 
                         scale: 1.05, 
                         boxShadow: '0 0 40px 8px #dc2626aa'
-                      } : {}}
+                      }}
                       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                       className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
                       style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
