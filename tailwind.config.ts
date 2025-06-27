@@ -120,7 +120,7 @@ const config: Config = {
         '9xl': ['8rem', { lineHeight: '1.1' }],
       },
       animation: {
-        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'bounce-slow': 'bounce 3s infinite',
         'spin-slow': 'spin 8s linear infinite',
         'fade-in': 'fadeIn 0.5s ease-in-out',
