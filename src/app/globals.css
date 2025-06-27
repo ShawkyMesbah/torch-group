@@ -317,3 +317,78 @@ a:focus-visible,
   scroll-behavior: smooth;
 }
 
+/* Mobile animation optimizations to prevent flickering */
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+  /* Disable heavy animations on mobile/touch devices */
+  .animate-pulse-slow {
+    animation: none !important;
+  }
+  
+  /* Simplify blur effects that cause flickering */
+  [class*="blur-"] {
+    filter: blur(2px) !important;
+  }
+  
+  /* Reduce complex transitions */
+  .transition-all {
+    transition: opacity 0.2s ease !important;
+  }
+  
+  /* Disable complex shadows that cause performance issues */
+  [class*="shadow-"] {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Simplify backdrop blur effects */
+  .backdrop-blur-lg,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    backdrop-filter: blur(2px) !important;
+  }
+  
+  /* Reduce animation durations */
+  [class*="duration-500"],
+  [class*="duration-700"] {
+    transition-duration: 0.15s !important;
+  }
+  
+  /* Disable complex gradients on mobile for better performance */
+  .animate-fade-in {
+    animation-duration: 0.2s !important;
+  }
+  
+  /* Reduce glow effects that cause flickering */
+  [class*="glow"],
+  .torch-glow,
+  .logo-click-animation {
+    filter: none !important;
+    animation: none !important;
+  }
+  
+  /* Disable scale transforms that cause flickering */
+  * {
+    transform: none !important;
+  }
+  
+  .group:hover * {
+    transform: none !important;
+  }
+}
+
+/* Reduced motion preferences - respect user settings */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-pulse,
+  .animate-pulse-slow,
+  .animate-ping,
+  .animate-spin {
+    animation: none !important;
+  }
+}
+

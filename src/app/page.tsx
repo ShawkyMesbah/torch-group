@@ -130,6 +130,9 @@ export default function Home() {
   // Performance: Reduced motion preference
   const prefersReducedMotion = useReducedMotion();
   
+  // Mobile optimization states
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
   // Performance: Intersection Observer for animations
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const sections = swrSections || [
@@ -792,7 +795,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', throttledUpdate);
   }, [showScrollTop]);
 
-  // Performance: Detect device capabilities
+  // Performance: Detect device capabilities and touch support
   useEffect(() => {
     const detectDeviceCapabilities = () => {
       // Detect older devices based on various factors
@@ -806,7 +809,15 @@ export default function Home() {
         window.devicePixelRatio < 2 ||
         /Android [1-6]|iPhone OS [1-9]/.test(navigator.userAgent);
       
+      // Detect touch devices
+      const isTouchDevice = 
+        'ontouchstart' in window || 
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(hover: none)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
       setIsOlderDevice(isOlderDevice);
+      setIsTouchDevice(isTouchDevice);
     };
 
     detectDeviceCapabilities();
@@ -818,6 +829,22 @@ export default function Home() {
   const handleFocusCapture = useCallback((element: HTMLElement) => {
     setLastFocusedElement(element);
   }, []);
+
+  // Mobile animation optimization helpers
+  const shouldSimplifyAnimations = useCallback(() => {
+    return prefersReducedMotion || isOlderDevice || isTouchDevice;
+  }, [prefersReducedMotion, isOlderDevice, isTouchDevice]);
+
+  const getOptimizedDuration = useCallback((defaultDuration: number) => {
+    return shouldSimplifyAnimations() ? Math.min(defaultDuration / 2, 200) : defaultDuration;
+  }, [shouldSimplifyAnimations]);
+
+  const getOptimizedHoverProps = useCallback((hoverProps: any) => {
+    if (shouldSimplifyAnimations()) {
+      return {};
+    }
+    return hoverProps;
+  }, [shouldSimplifyAnimations]);
 
   return (
     <>
@@ -891,33 +918,44 @@ export default function Home() {
         </a>
       </div>
 
-      {/* Reading Progress Indicator */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-gray-900/50 z-[150] backdrop-blur-sm">
+      {/* Reading Progress Indicator - Mobile Optimized */}
+      <div className={cn(
+        "fixed top-0 left-0 w-full h-1 z-[150]",
+        !shouldSimplifyAnimations() && "bg-gray-900/50 backdrop-blur-sm",
+        shouldSimplifyAnimations() && "bg-gray-900/70"
+      )}>
         <motion.div 
           className="h-full bg-gradient-to-r from-red-600 to-orange-500 origin-left"
           style={{ scaleX: readingProgress / 100 }}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: readingProgress / 100 }}
-          transition={{ duration: 0.1 }}
+          transition={{ duration: shouldSimplifyAnimations() ? 0.05 : 0.1 }}
         />
       </div>
 
-      {/* Quick Start Floating CTA */}
+      {/* Quick Start Floating CTA - Mobile Optimized */}
       <AnimatePresence>
         {showQuickStart && (
           <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 100, scale: 0.8 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            initial={shouldSimplifyAnimations() ? { opacity: 0 } : { opacity: 0, y: 100, scale: 0.8 }}
+            animate={shouldSimplifyAnimations() ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={shouldSimplifyAnimations() ? { opacity: 0 } : { opacity: 0, y: 100, scale: 0.8 }}
+            transition={shouldSimplifyAnimations() ? 
+              { duration: 0.2 } : 
+              { type: "spring", stiffness: 300, damping: 30 }
+            }
             className={`fixed right-8 z-[100] ${showScrollTop ? 'bottom-32' : 'bottom-8'}`}
             style={{ 
-              transition: 'bottom 0.3s ease-out',
+              transition: shouldSimplifyAnimations() ? 'bottom 0.2s ease-out' : 'bottom 0.3s ease-out',
             }}
           >
             <Link href="/contact">
               <button 
-                className="group relative flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-full shadow-2xl hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black backdrop-blur-md border border-red-500/20 animate-pulse"
+                className={cn(
+                  "group relative flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black backdrop-blur-md border border-red-500/20",
+                  !shouldSimplifyAnimations() && "shadow-2xl hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 animate-pulse",
+                  shouldSimplifyAnimations() && "shadow-lg transition-opacity duration-200"
+                )}
                 onFocus={(e) => handleFocusCapture(e.target as HTMLElement)}
                 aria-label="Quick start - Get in touch"
               >
@@ -955,11 +993,15 @@ export default function Home() {
         </nav>
       </div>
 
-      {/* Smooth scroll button */}
+      {/* Smooth scroll button - Mobile Optimized */}
       {showScrollTop && (
         <button 
           onClick={handleButtonClick(scrollToTop)}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className={cn(
+            "fixed bottom-8 right-8 z-50 p-3 bg-red-600 text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+            !shouldSimplifyAnimations() && "shadow-lg hover:bg-red-800 transition-all duration-300 animate-fade-in",
+            shouldSimplifyAnimations() && "shadow-md transition-colors duration-200"
+          )}
           aria-label="Scroll to top of page"
         >
           <ArrowUp className="h-5 w-5" />
@@ -1662,15 +1704,24 @@ export default function Home() {
                     {blogPosts.slice(0, 3).map((post, index) => (
                       <motion.div
                         key={post.id}
-                        whileHover={!isOlderDevice && !prefersReducedMotion ? { 
-                          scale: 1.05, 
-                          boxShadow: '0 0 40px 8px #dc2626aa',
-                          transition: { type: 'spring', stiffness: 300, damping: 20 }
-                        } : {}}
-                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl focus-within:ring-2 focus-within:ring-red-500/50"
+                        whileHover={getOptimizedHoverProps({ 
+                          scale: 1.02, 
+                          boxShadow: '0 0 20px 4px #dc262680'
+                        })}
+                        transition={{ 
+                          type: shouldSimplifyAnimations() ? 'tween' : 'spring', 
+                          stiffness: shouldSimplifyAnimations() ? undefined : 300, 
+                          damping: shouldSimplifyAnimations() ? undefined : 20,
+                          duration: getOptimizedDuration(300)
+                        }}
+                        className={cn(
+                          "group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 focus-within:ring-2 focus-within:ring-red-500/50",
+                          !shouldSimplifyAnimations() && "transition-all duration-500 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl",
+                          shouldSimplifyAnimations() && "transition-colors duration-200"
+                        )}
                         style={{ 
-                          animationDelay: isOlderDevice ? '0s' : `${index * 0.08 + 0.1}s`,
-                          animationDuration: isOlderDevice ? '0s' : '0.6s'
+                          animationDelay: shouldSimplifyAnimations() ? '0s' : `${index * 0.08 + 0.1}s`,
+                          animationDuration: shouldSimplifyAnimations() ? '0s' : '0.6s'
                         }}
                       >
                         {/* Subtle grid pattern overlay */}
@@ -1778,10 +1829,22 @@ export default function Home() {
                     {displayTalents.map((talent, index) => (
                       <motion.div
                         key={talent.id || `placeholder-${index}`}
-                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
-                        style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                        whileHover={getOptimizedHoverProps({ 
+                          scale: 1.02, 
+                          boxShadow: '0 0 20px 4px #dc262680' 
+                        })}
+                        transition={{ 
+                          type: shouldSimplifyAnimations() ? 'tween' : 'spring', 
+                          stiffness: shouldSimplifyAnimations() ? undefined : 300, 
+                          damping: shouldSimplifyAnimations() ? undefined : 20,
+                          duration: getOptimizedDuration(300)
+                        }}
+                        className={cn(
+                          "group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90",
+                          !shouldSimplifyAnimations() && "transition-all duration-500 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl",
+                          shouldSimplifyAnimations() && "transition-colors duration-200"
+                        )}
+                        style={{ animationDelay: shouldSimplifyAnimations() ? '0s' : `${index * 0.08 + 0.1}s` }}
                       >
                         {/* Subtle grid pattern overlay */}
                         <div className="absolute inset-0 opacity-5">
@@ -1884,13 +1947,22 @@ export default function Home() {
                 {[1,2,3].map((i) => (
                   <motion.div
                     key={i}
-                    whileHover={{
-                      scale: 1.08,
-                      boxShadow: '0 25px 50px -12px rgba(220, 38, 38, 0.4), 0 0 60px 12px rgba(220, 38, 38, 0.25)',
-                      y: -12,
+                    whileHover={getOptimizedHoverProps({
+                      scale: 1.02,
+                      boxShadow: '0 10px 25px -6px rgba(220, 38, 38, 0.2), 0 0 30px 6px rgba(220, 38, 38, 0.15)',
+                      y: -4,
+                    })}
+                    transition={{ 
+                      type: shouldSimplifyAnimations() ? 'tween' : 'spring', 
+                      stiffness: shouldSimplifyAnimations() ? undefined : 300, 
+                      damping: shouldSimplifyAnimations() ? undefined : 20,
+                      duration: getOptimizedDuration(400)
                     }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl group transition-all duration-700 border border-white/10 bg-gradient-to-br from-white/5 via-white/[0.02] to-white/5 hover:border-red-500/40 backdrop-blur-2xl hover:backdrop-blur-3xl min-h-[280px] cursor-pointer hover:bg-gradient-to-br hover:from-red-600/10 hover:via-white/[0.03] hover:to-red-600/10"
+                    className={cn(
+                      "relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl group border border-white/10 bg-gradient-to-br from-white/5 via-white/[0.02] to-white/5 backdrop-blur-2xl min-h-[280px] cursor-pointer",
+                      !shouldSimplifyAnimations() && "transition-all duration-700 hover:border-red-500/40 hover:backdrop-blur-3xl hover:bg-gradient-to-br hover:from-red-600/10 hover:via-white/[0.03] hover:to-red-600/10",
+                      shouldSimplifyAnimations() && "transition-all duration-200"
+                    )}
                   >
                     {/* Enhanced multi-layer background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-red-600/8 via-transparent to-red-600/12 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"></div>
