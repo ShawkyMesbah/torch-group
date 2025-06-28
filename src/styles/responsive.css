@@ -31,6 +31,17 @@
   padding-right: 1rem;
 }
 
+/* Add padding-top for pages to prevent header overlap */
+main {
+  padding-top: 5rem; /* Default padding for desktop */
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 6rem; /* Increased padding for mobile to prevent overlap */
+  }
+}
+
 @media (min-width: 640px) {
   .container {
     padding-left: 1.5rem;

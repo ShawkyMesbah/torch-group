@@ -173,12 +173,12 @@ export default function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 z-50 w-full transition-all duration-300 border-b border-transparent",
+          "fixed top-0 z-[100] w-full transition-all duration-300 border-b border-transparent",
           "bg-black/30 backdrop-blur-md"
         )}
       >
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between relative">
+          <div className="flex h-16 sm:h-20 items-center justify-between relative">
             {/* Centered content wrapper - restored original design */}
             <div className="absolute left-1/2 top-0 transform -translate-x-1/2 h-full flex items-center gap-8">
               {isScrolled && (
@@ -353,7 +353,8 @@ export default function Header() {
           {/* Mobile menu - improved version but keeping original style */}
           {isMobileMenuOpen && (
             <div 
-              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex flex-col md:hidden animate-fade-in"
+              className="fixed inset-0 z-[110] bg-black/70 backdrop-blur-sm flex flex-col md:hidden animate-fade-in"
+              style={{ top: '4rem' }}
               aria-hidden={!isMobileMenuOpen}
             >
               <div 
