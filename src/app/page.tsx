@@ -1478,7 +1478,7 @@ export default function Home() {
                     <span className="torch-section-title">OUR BRANDS</span>
                   </div>
                   <motion.h2 
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg tracking-tight group cursor-default"
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       scale: 1.02,
                       transition: { duration: 0.3, ease: "easeOut" }
@@ -1505,6 +1505,129 @@ export default function Home() {
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
                     Explore our family of brands, each dedicated to excellence in their specialized fields.
                   </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16">
+                  {torchBrands.map((brand, index) => (
+                    <motion.div
+                      key={index}
+                      whileHover={{ 
+                        scale: 1.05, 
+                        boxShadow: brand.isComingSoon 
+                          ? '0 0 40px 8px #6b7280aa'
+                          : brand.name === "Torch Shop"
+                          ? '0 0 40px 8px #a855f7aa'
+                          : brand.name === "Torch Loop"
+                          ? '0 0 40px 8px #14b8a6aa'
+                          : '0 0 40px 8px #dc2626aa'
+                      }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className={`group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] ${
+                        brand.isComingSoon 
+                          ? "border-2 border-gray-700/50 bg-gradient-to-br from-gray-900/60 via-black/80 to-gray-900/60 hover:border-gray-600/70 hover:shadow-gray-900/30" 
+                          : brand.name === "Torch Shop" 
+                            ? "border-2 border-purple-900/30 bg-gradient-to-br from-black/90 via-purple-950/20 to-black/90 hover:border-purple-600 hover:shadow-purple-900/40 hover:shadow-2xl"
+                            : brand.name === "Torch Loop"
+                            ? "border-2 border-teal-900/30 bg-gradient-to-br from-black/90 via-teal-950/20 to-black/90 hover:border-teal-600 hover:shadow-teal-900/40 hover:shadow-2xl"
+                            : "border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
+                      }`}
+                      style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                    >
+                      {/* Status Badge */}
+                      {!brand.isComingSoon && (
+                        <div className="absolute top-4 right-4 z-10">
+                          <div className="flex items-center gap-1 px-3 py-1 bg-green-600/20 border border-green-500/40 rounded-full">
+                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span className="text-green-400 text-xs font-semibold">LIVE</span>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Subtle grid pattern overlay */}
+                      <div className="absolute inset-0 opacity-5">
+                        <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                      </div>
+
+                      {/* Content area (flex-grow to push button down) */}
+                      <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
+                        {/* Icon with glow */}
+                        <div className="mb-6 relative flex items-center justify-center">
+                          <div className={`absolute inset-0 w-20 h-20 blur-[40px] rounded-full transition-all duration-500 ${
+                            brand.isComingSoon 
+                              ? "bg-gray-600/30 group-hover:blur-[50px]" 
+                              : brand.name === "Torch Shop"
+                                ? "bg-purple-600/50 group-hover:blur-[60px] group-hover:bg-purple-500/60"
+                                : brand.name === "Torch Loop"
+                                ? "bg-teal-600/50 group-hover:blur-[60px] group-hover:bg-teal-500/60"
+                                : "bg-red-600/50 group-hover:blur-[60px] group-hover:bg-red-500/60"
+                          }`}></div>
+                          {/* Logo container with consistent sizing */}
+                          <div className="w-20 h-20 flex items-center justify-center relative z-10">
+                          {brand.name === "Torch Shop" ? (
+                            <Image 
+                              src="/images/torch-shop.PNG" 
+                              alt="Torch Shop Logo" 
+                              width={80} 
+                              height={80} 
+                              className="object-contain drop-shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-[0_0_32px_#a855f7cc]" 
+                            />
+                          ) : brand.name === "Torch Loop" ? (
+                            <Image 
+                              src="/images/torch-loop.PNG" 
+                              alt="Torch Loop Logo" 
+                              width={120} 
+                              height={120} 
+                              className="object-contain drop-shadow-2xl transition-all duration-500 group-hover:scale-[1.485] group-hover:drop-shadow-[0_0_32px_#14b8a6cc] scale-[1.35]" 
+                            />
+                          ) : (
+                            <Flame className={`h-16 w-16 drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10 ${
+                              brand.isComingSoon ? "text-gray-500" : "text-red-600"
+                            }`} />
+                          )}
+                          </div>
+                        </div>
+                        <h3 className={`text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 ${
+                          brand.isComingSoon 
+                            ? "text-gray-300" 
+                            : brand.name === "Torch Shop"
+                            ? "text-white group-hover:text-purple-100"
+                            : brand.name === "Torch Loop"
+                            ? "text-white group-hover:text-teal-100"
+                            : "text-white group-hover:text-red-100"
+                        }`}>{brand.name}</h3>
+                        <p className={`text-base leading-relaxed min-h-[60px] transition-colors duration-300 ${
+                          brand.isComingSoon 
+                            ? "text-gray-500" 
+                            : brand.name === "Torch Shop"
+                            ? "text-gray-300 group-hover:text-purple-200"
+                            : brand.name === "Torch Loop"
+                            ? "text-gray-300 group-hover:text-teal-200"
+                            : "text-gray-300 group-hover:text-gray-200"
+                        }`}>{brand.description}</p>
+                      </div>
+                      
+                      {/* Button or Coming Soon */}
+                      <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
+                        {brand.isComingSoon ? (
+                          <div className="flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-600/40 text-gray-400 text-sm rounded-full font-semibold backdrop-blur-sm">
+                            <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></div>
+                            Coming Soon
+                          </div>
+                        ) : (
+                          <Link href={brand.link} target="_blank" rel="noopener noreferrer">
+                            <button className={`px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 transform hover:scale-105 backdrop-blur-sm ${
+                              brand.name === "Torch Shop"
+                                ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-500 hover:to-purple-600 focus-visible:ring-purple-400 border border-purple-500/20"
+                                : brand.name === "Torch Loop"
+                                ? "bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-500 hover:to-teal-600 focus-visible:ring-teal-400 border border-teal-500/20"
+                                : "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-500 hover:to-red-600 focus-visible:ring-red-400 border border-red-500/20"
+                            }`}>
+                              Visit Website
+                            </button>
+                          </Link>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </Section>
@@ -1656,11 +1779,13 @@ export default function Home() {
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="torch-section-header mb-8">
+                  <div className="inline-flex items-center justify-center mb-8">
+                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
                     <span className="torch-section-title">OUR TALENTS</span>
+                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <motion.h2 
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg tracking-tight group cursor-default"
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       scale: 1.02,
                       transition: { duration: 0.3, ease: "easeOut" }
@@ -1682,9 +1807,87 @@ export default function Home() {
                     </span>
                   </motion.h2>
                   <div className="flex justify-center mb-4">
-                    <div className="torch-divider"></div>
+                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
+
                 </div>
+                {activeTalents && activeTalents.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive">
+                    {displayTalents.map((talent, index) => (
+                      <motion.div
+                        key={talent.id || `placeholder-${index}`}
+                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
+                        style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                      >
+                        {/* Subtle grid pattern overlay */}
+                        <div className="absolute inset-0 opacity-5">
+                          <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                        </div>
+
+                        {/* Content area */}
+                        <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
+                          {/* Avatar with glow */}
+                          <div className="mb-6 relative flex items-center justify-center">
+                            <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
+                            <div className="w-20 h-20 flex items-center justify-center relative z-10">
+                              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600/20 to-red-800/20 flex items-center justify-center border-2 border-red-600/30 group-hover:border-red-500 transition-colors duration-300 drop-shadow-2xl group-hover:scale-110">
+                                {talent.isPlaceholder ? (
+                                  <User className="h-10 w-10 torch-text-primary" />
+                                ) : (
+                                                                      <span className="text-2xl font-bold torch-text-primary">
+                                    {talent.name?.charAt(0) || 'T'}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
+                            {talent.name || 'Coming Soon'}
+                          </h3>
+                          <p className="torch-text-primary text-sm font-semibold mb-3 uppercase tracking-wide">
+                            {talent.specialty || 'New Talent'}
+                          </p>
+                          <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
+                            {talent.bio || 'Exciting new talent joining our team soon. Stay tuned for updates!'}
+                          </p>
+                        </div>
+                        
+                        {/* Badge */}
+                        <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
+                          {talent.isPlaceholder ? (
+                            <div className="flex items-center gap-2 px-6 py-3 bg-red-800/50 border border-red-600/40 text-red-400 text-sm rounded-full font-semibold backdrop-blur-sm">
+                              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                              Coming Soon
+                            </div>
+                          ) : (
+                            <div className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105">
+                              Active Talent
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="max-w-md mx-auto">
+                      <div className="mb-6">
+                        <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Users className="h-8 w-8 torch-text-primary" />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-2">No Active Talents Yet</h3>
+                      <p className="text-gray-400 mb-6">
+                        We're building an amazing team of talents. Check back soon to meet them!
+                      </p>
+                      <div className="flex justify-center">
+                        <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </Section>
           )}
@@ -1697,11 +1900,13 @@ export default function Home() {
                 <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
               </div>
               <div className="text-center mb-16">
-                <div className="torch-section-header mb-8">
-                  <span className="torch-section-title">ALLIES</span>
+                <div className="inline-flex items-center justify-center mb-8">
+                  <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                                      <span className="torch-section-title">ALLIES</span>
+                  <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                 </div>
                 <motion.h2 
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg tracking-tight group cursor-default"
                   whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                     scale: 1.02,
                     transition: { duration: 0.3, ease: "easeOut" }
