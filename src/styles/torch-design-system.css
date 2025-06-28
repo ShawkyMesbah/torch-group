@@ -1,0 +1,519 @@
+/*
+==============================================================================
+TORCH GROUP - DESIGN SYSTEM v2.0
+==============================================================================
+A comprehensive design system capturing the sophisticated visual language
+of the Torch Group homepage with enhanced consistency and scalability.
+==============================================================================
+*/
+
+/* ==============================================================================
+   DESIGN TOKENS - Foundation Layer
+============================================================================== */
+
+:root {
+  /* Brand Color Palette - Enhanced Red/Orange Gradient System */
+  --torch-flame-50: #fef7ee;
+  --torch-flame-100: #fdead7;
+  --torch-flame-200: #fbd5ae;
+  --torch-flame-300: #f8b47a;
+  --torch-flame-400: #f48845;
+  --torch-flame-500: #f1601f;
+  --torch-flame-600: #e24c15;
+  --torch-flame-700: #bb3a13;
+  --torch-flame-800: #932f17;
+  --torch-flame-900: #772a16;
+  
+  --torch-crimson-50: #fef2f2;
+  --torch-crimson-100: #fee2e2;
+  --torch-crimson-200: #fecaca;
+  --torch-crimson-300: #fca5a5;
+  --torch-crimson-400: #f87171;
+  --torch-crimson-500: #ef4444;
+  --torch-crimson-600: #dc2626; /* Primary Brand Color */
+  --torch-crimson-700: #b91c1c;
+  --torch-crimson-800: #991b1b;
+  --torch-crimson-900: #7f1d1d;
+
+  /* Semantic Color System */
+  --torch-primary: var(--torch-crimson-600);
+  --torch-primary-hover: var(--torch-crimson-700);
+  --torch-primary-light: var(--torch-crimson-500);
+  
+  --torch-secondary: var(--torch-crimson-500);
+  --torch-secondary-hover: var(--torch-crimson-600);
+  --torch-secondary-light: var(--torch-crimson-400);
+  
+  --torch-accent: var(--torch-crimson-500);
+  --torch-accent-hover: var(--torch-crimson-600);
+  
+  /* Button-only gradient colors using orange */
+  --torch-gradient-button-primary: linear-gradient(135deg, var(--torch-crimson-600), var(--torch-flame-600));
+  --torch-gradient-button-secondary: linear-gradient(135deg, var(--torch-flame-500), var(--torch-crimson-500));
+  --torch-gradient-button-cta: linear-gradient(135deg, var(--torch-crimson-500), var(--torch-flame-500));
+  
+  /* Non-button gradients - red only */
+  --torch-gradient-primary: linear-gradient(135deg, var(--torch-crimson-600), var(--torch-crimson-700));
+  --torch-gradient-secondary: linear-gradient(135deg, var(--torch-crimson-500), var(--torch-crimson-600));
+  --torch-gradient-subtle: linear-gradient(135deg, var(--torch-crimson-600), var(--torch-crimson-700));
+
+  /* Dark Theme Foundation */
+  --torch-background-primary: #000000;
+  --torch-background-secondary: #0a0a0a;
+  --torch-background-tertiary: #111111;
+  --torch-background-glass: rgba(0, 0, 0, 0.4);
+  --torch-background-glass-hover: rgba(0, 0, 0, 0.6);
+  
+  /* Typography Scale */
+  --torch-text-xs: 0.75rem;    /* 12px */
+  --torch-text-sm: 0.875rem;   /* 14px */
+  --torch-text-base: 1rem;     /* 16px */
+  --torch-text-lg: 1.125rem;   /* 18px */
+  --torch-text-xl: 1.25rem;    /* 20px */
+  --torch-text-2xl: 1.5rem;    /* 24px */
+  --torch-text-3xl: 1.875rem;  /* 30px */
+  --torch-text-4xl: 2.25rem;   /* 36px */
+  --torch-text-5xl: 3rem;      /* 48px */
+  --torch-text-6xl: 3.75rem;   /* 60px */
+  --torch-text-7xl: 4.5rem;    /* 72px */
+  --torch-text-8xl: 6rem;      /* 96px */
+  --torch-text-9xl: 8rem;      /* 128px */
+
+  /* Semantic Spacing System (8px base unit) */
+  --torch-space-xxs: 0.125rem;    /* 2px - Micro adjustments */
+  --torch-space-xs: 0.25rem;      /* 4px - Element borders */
+  --torch-space-sm: 0.5rem;       /* 8px - Small gaps */
+  --torch-space-md: 0.75rem;      /* 12px - Form elements */
+  --torch-space-lg: 1rem;         /* 16px - Standard spacing */
+  --torch-space-xl: 1.5rem;       /* 24px - Section elements */
+  --torch-space-2xl: 2rem;        /* 32px - Component separation */
+  --torch-space-3xl: 3rem;        /* 48px - Major sections */
+  --torch-space-4xl: 4rem;        /* 64px - Hero sections */
+  --torch-space-5xl: 6rem;        /* 96px - Page divisions */
+  --torch-space-6xl: 8rem;        /* 128px - Monumental spacing */
+
+  /* Border Radius System */
+  --torch-radius-sm: 0.375rem;    /* 6px */
+  --torch-radius-md: 0.5rem;      /* 8px */
+  --torch-radius-lg: 0.75rem;     /* 12px */
+  --torch-radius-xl: 1rem;        /* 16px */
+  --torch-radius-2xl: 1.5rem;     /* 24px */
+  --torch-radius-3xl: 1.875rem;   /* 30px */
+  --torch-radius-full: 9999px;
+
+  /* Shadow System */
+  --torch-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --torch-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --torch-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --torch-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --torch-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Glow Effects System - Red only for non-button elements */
+  --torch-glow-sm: 0 0 16px 4px rgba(220, 38, 38, 0.15);
+  --torch-glow-md: 0 0 24px 6px rgba(220, 38, 38, 0.25);
+  --torch-glow-lg: 0 0 32px 8px rgba(220, 38, 38, 0.35);
+  --torch-glow-xl: 0 0 40px 10px rgba(220, 38, 38, 0.45);
+  --torch-glow-2xl: 0 0 60px 15px rgba(220, 38, 38, 0.5);
+  
+  /* Button-only orange glow effects */
+  --torch-glow-button-orange-sm: 0 0 16px 4px rgba(241, 96, 31, 0.2);
+  --torch-glow-button-orange-md: 0 0 24px 6px rgba(241, 96, 31, 0.3);
+  --torch-glow-button-orange-lg: 0 0 32px 8px rgba(241, 96, 31, 0.4);
+  
+  /* Button-only mixed red-orange glow effects */
+  --torch-glow-button-mixed-sm: 0 0 16px 4px rgba(220, 38, 38, 0.2), 0 0 24px 8px rgba(241, 96, 31, 0.1);
+  --torch-glow-button-mixed-md: 0 0 24px 6px rgba(220, 38, 38, 0.3), 0 0 32px 12px rgba(241, 96, 31, 0.15);
+  --torch-glow-button-mixed-lg: 0 0 32px 8px rgba(220, 38, 38, 0.4), 0 0 40px 16px rgba(241, 96, 31, 0.2);
+
+  /* Animation Variables */
+  --torch-duration-fast: 150ms;
+  --torch-duration-normal: 300ms;
+  --torch-duration-slow: 500ms;
+  --torch-duration-slower: 700ms;
+  
+  --torch-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --torch-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==============================================================================
+   COLOR UTILITY CLASSES
+============================================================================== */
+
+/* Text Colors */
+.torch-text-primary { color: var(--torch-primary) !important; }
+.torch-text-secondary { color: var(--torch-secondary) !important; }
+.torch-text-accent { color: var(--torch-accent) !important; }
+.torch-text-accent-hover { color: var(--torch-accent-hover) !important; }
+.torch-text-white { color: #ffffff !important; }
+.torch-text-gray-100 { color: #f3f4f6 !important; }
+.torch-text-gray-200 { color: #e5e7eb !important; }
+.torch-text-gray-300 { color: #d1d5db !important; }
+.torch-text-gray-400 { color: #9ca3af !important; }
+
+/* Hover Text Colors */
+.hover\:torch-text-primary:hover { color: var(--torch-primary) !important; }
+.hover\:torch-text-accent:hover { color: var(--torch-accent) !important; }
+.hover\:torch-text-accent-hover:hover { color: var(--torch-accent-hover) !important; }
+
+/* Group Hover Text Colors */
+.group:hover .group-hover\:torch-text-primary { color: var(--torch-primary) !important; }
+.group:hover .group-hover\:torch-text-accent { color: var(--torch-accent) !important; }
+.group:hover .group-hover\:torch-text-accent-hover { color: var(--torch-accent-hover) !important; }
+
+/* Background Colors */
+.torch-bg-primary { background-color: var(--torch-primary); }
+.torch-bg-secondary { background-color: var(--torch-secondary); }
+.torch-bg-accent { background-color: var(--torch-accent); }
+.torch-bg-accent-10 { background-color: rgba(220, 38, 38, 0.1); }
+.torch-bg-accent-20 { background-color: rgba(220, 38, 38, 0.2); }
+.torch-bg-accent-30 { background-color: rgba(220, 38, 38, 0.3); }
+.torch-bg-gradient-primary { background: var(--torch-gradient-primary); }
+.torch-bg-gradient-secondary { background: var(--torch-gradient-secondary); }
+.torch-bg-glass { background-color: var(--torch-background-glass); }
+
+/* Button-specific gradient backgrounds */
+.torch-bg-gradient-button-primary { background: var(--torch-gradient-button-primary); }
+.torch-bg-gradient-button-secondary { background: var(--torch-gradient-button-secondary); }
+.torch-bg-gradient-button-cta { background: var(--torch-gradient-button-cta); }
+
+/* Border Colors */
+.torch-border-primary { border-color: var(--torch-primary); }
+.torch-border-secondary { border-color: var(--torch-secondary); }
+.torch-border-glass { border-color: rgba(255, 255, 255, 0.2); }
+
+/* ==============================================================================
+   LAYOUT SYSTEM
+============================================================================== */
+
+/* Container System */
+.torch-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--torch-space-lg);
+  padding-right: var(--torch-space-lg);
+}
+
+.torch-container-sm { max-width: 640px; }
+.torch-container-md { max-width: 768px; }
+.torch-container-lg { max-width: 1024px; }
+.torch-container-xl { max-width: 1280px; }
+.torch-container-2xl { max-width: 1536px; }
+
+/* Content Width Containers */
+.torch-container-text {
+  max-width: 65ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.torch-container-content {
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.torch-container-wide {
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Section System */
+.torch-section {
+  position: relative;
+  padding: var(--torch-space-3xl) var(--torch-space-lg);
+}
+
+.torch-section-compact { padding: var(--torch-space-2xl) var(--torch-space-lg); }
+.torch-section-standard { padding: var(--torch-space-3xl) var(--torch-space-lg); }
+.torch-section-spacious { padding: var(--torch-space-4xl) var(--torch-space-lg); }
+.torch-section-hero { padding: var(--torch-space-lg) var(--torch-space-lg) var(--torch-space-3xl) var(--torch-space-lg); }
+
+/* Responsive Section Adjustments */
+@media (min-width: 768px) {
+  .torch-section { padding: var(--torch-space-4xl) var(--torch-space-2xl); }
+  .torch-section-compact { padding: var(--torch-space-3xl) var(--torch-space-2xl); }
+  .torch-section-standard { padding: var(--torch-space-4xl) var(--torch-space-2xl); }
+  .torch-section-spacious { padding: var(--torch-space-5xl) var(--torch-space-2xl); }
+  .torch-section-hero { padding: var(--torch-space-lg) var(--torch-space-2xl) var(--torch-space-4xl) var(--torch-space-2xl); }
+}
+
+@media (min-width: 1024px) {
+  .torch-section { padding: var(--torch-space-5xl) var(--torch-space-3xl); }
+  .torch-section-compact { padding: var(--torch-space-4xl) var(--torch-space-3xl); }
+  .torch-section-standard { padding: var(--torch-space-5xl) var(--torch-space-3xl); }
+  .torch-section-spacious { padding: var(--torch-space-6xl) var(--torch-space-3xl); }
+  .torch-section-hero { padding: var(--torch-space-lg) var(--torch-space-3xl) var(--torch-space-5xl) var(--torch-space-3xl); }
+}
+
+/* ==============================================================================
+   COMPONENT SYSTEM
+============================================================================== */
+
+/* Glass Card Component */
+.torch-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8));
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--torch-radius-3xl);
+  padding: var(--torch-space-2xl);
+  box-shadow: var(--torch-shadow-xl);
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+}
+
+.torch-card:hover {
+  border-color: var(--torch-primary);
+  box-shadow: var(--torch-glow-md);
+  transform: translateY(-2px);
+}
+
+/* Button System */
+.torch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--torch-space-md) var(--torch-space-xl);
+  border-radius: var(--torch-radius-full);
+  font-weight: 600;
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.torch-btn-primary {
+  background: var(--torch-gradient-button-primary);
+  color: white;
+  box-shadow: var(--torch-shadow-md);
+}
+
+.torch-btn-primary:hover {
+  background: var(--torch-gradient-button-cta);
+  box-shadow: var(--torch-glow-button-mixed-md);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.torch-btn-secondary {
+  background: var(--torch-gradient-button-secondary);
+  color: white;
+  box-shadow: var(--torch-shadow-md);
+}
+
+.torch-btn-secondary:hover {
+  background: var(--torch-gradient-button-primary);
+  box-shadow: var(--torch-glow-button-mixed-md);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.torch-btn-cta {
+  background: var(--torch-gradient-button-cta);
+  color: white;
+  box-shadow: var(--torch-shadow-lg);
+}
+
+.torch-btn-cta:hover {
+  background: var(--torch-gradient-button-primary);
+  box-shadow: var(--torch-glow-button-mixed-lg);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.torch-btn-outline {
+  background: transparent;
+  color: var(--torch-primary);
+  border: 2px solid var(--torch-primary);
+}
+
+.torch-btn-outline:hover {
+  background: var(--torch-primary);
+  color: white;
+  box-shadow: var(--torch-glow-sm);
+}
+
+/* Effects System */
+.torch-glow-sm { box-shadow: var(--torch-glow-sm); }
+.torch-glow-md { box-shadow: var(--torch-glow-md); }
+.torch-glow-lg { box-shadow: var(--torch-glow-lg); }
+.torch-glow-xl { box-shadow: var(--torch-glow-xl); }
+
+/* Button-only glow effects */
+.torch-glow-button-orange-sm { box-shadow: var(--torch-glow-button-orange-sm); }
+.torch-glow-button-orange-md { box-shadow: var(--torch-glow-button-orange-md); }
+.torch-glow-button-orange-lg { box-shadow: var(--torch-glow-button-orange-lg); }
+.torch-glow-button-mixed-sm { box-shadow: var(--torch-glow-button-mixed-sm); }
+.torch-glow-button-mixed-md { box-shadow: var(--torch-glow-button-mixed-md); }
+.torch-glow-button-mixed-lg { box-shadow: var(--torch-glow-button-mixed-lg); }
+
+.torch-blur-sm { backdrop-filter: blur(8px); }
+.torch-blur-md { backdrop-filter: blur(16px); }
+.torch-blur-lg { backdrop-filter: blur(24px); }
+.torch-blur-xl { backdrop-filter: blur(32px); }
+
+/* Animation System */
+.torch-animate-pulse-slow {
+  animation: torch-pulse-slow 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.torch-animate-glow {
+  animation: torch-glow 3s ease-in-out infinite alternate;
+}
+
+.torch-animate-float {
+  animation: torch-float 6s ease-in-out infinite;
+}
+
+@keyframes torch-pulse-slow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.05); }
+}
+
+@keyframes torch-glow {
+  0% { box-shadow: var(--torch-glow-sm); }
+  100% { box-shadow: var(--torch-glow-lg); }
+}
+
+@keyframes torch-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ==============================================================================
+   SPACING UTILITIES
+============================================================================== */
+
+/* Gap utilities */
+.torch-gap-xs { gap: var(--torch-space-xs); }
+.torch-gap-sm { gap: var(--torch-space-sm); }
+.torch-gap-md { gap: var(--torch-space-md); }
+.torch-gap-lg { gap: var(--torch-space-lg); }
+.torch-gap-xl { gap: var(--torch-space-xl); }
+.torch-gap-2xl { gap: var(--torch-space-2xl); }
+.torch-gap-3xl { gap: var(--torch-space-3xl); }
+
+/* Margin utilities */
+.torch-m-xs { margin: var(--torch-space-xs); }
+.torch-m-sm { margin: var(--torch-space-sm); }
+.torch-m-md { margin: var(--torch-space-md); }
+.torch-m-lg { margin: var(--torch-space-lg); }
+.torch-m-xl { margin: var(--torch-space-xl); }
+
+.torch-mt-xs { margin-top: var(--torch-space-xs); }
+.torch-mt-sm { margin-top: var(--torch-space-sm); }
+.torch-mt-md { margin-top: var(--torch-space-md); }
+.torch-mt-lg { margin-top: var(--torch-space-lg); }
+.torch-mt-xl { margin-top: var(--torch-space-xl); }
+.torch-mt-2xl { margin-top: var(--torch-space-2xl); }
+.torch-mt-3xl { margin-top: var(--torch-space-3xl); }
+
+.torch-mb-xs { margin-bottom: var(--torch-space-xs); }
+.torch-mb-sm { margin-bottom: var(--torch-space-sm); }
+.torch-mb-md { margin-bottom: var(--torch-space-md); }
+.torch-mb-lg { margin-bottom: var(--torch-space-lg); }
+.torch-mb-xl { margin-bottom: var(--torch-space-xl); }
+.torch-mb-2xl { margin-bottom: var(--torch-space-2xl); }
+.torch-mb-3xl { margin-bottom: var(--torch-space-3xl); }
+
+/* Padding utilities */
+.torch-p-xs { padding: var(--torch-space-xs); }
+.torch-p-sm { padding: var(--torch-space-sm); }
+.torch-p-md { padding: var(--torch-space-md); }
+.torch-p-lg { padding: var(--torch-space-lg); }
+.torch-p-xl { padding: var(--torch-space-xl); }
+.torch-p-2xl { padding: var(--torch-space-2xl); }
+.torch-p-3xl { padding: var(--torch-space-3xl); }
+
+/* ==============================================================================
+   TYPOGRAPHY SYSTEM
+============================================================================== */
+
+.torch-heading-hero {
+  font-size: var(--torch-text-8xl);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.torch-heading-1 {
+  font-size: var(--torch-text-6xl);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.torch-heading-2 {
+  font-size: var(--torch-text-4xl);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.torch-heading-3 {
+  font-size: var(--torch-text-2xl);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.torch-body-lg {
+  font-size: var(--torch-text-lg);
+  line-height: 1.7;
+}
+
+.torch-body {
+  font-size: var(--torch-text-base);
+  line-height: 1.7;
+}
+
+.torch-body-sm {
+  font-size: var(--torch-text-sm);
+  line-height: 1.6;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .torch-heading-hero { font-size: var(--torch-text-6xl); }
+  .torch-heading-1 { font-size: var(--torch-text-5xl); }
+  .torch-heading-2 { font-size: var(--torch-text-3xl); }
+}
+
+/* ==============================================================================
+   ACCESSIBILITY & INTERACTION STATES
+============================================================================== */
+
+.torch-focus-ring {
+  outline: 2px solid var(--torch-primary);
+  outline-offset: 2px;
+}
+
+.torch-interactive:hover {
+  transform: translateY(-1px);
+  transition: transform var(--torch-duration-fast) var(--torch-ease-out);
+}
+
+.torch-interactive:active {
+  transform: translateY(0);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .torch-animate-pulse-slow,
+  .torch-animate-glow,
+  .torch-animate-float {
+    animation: none;
+  }
+  
+  .torch-interactive:hover {
+    transform: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .torch-card {
+    border: 2px solid var(--torch-primary);
+  }
+  
+  .torch-text-primary {
+    color: #ff6b6b !important;
+  }
+} 

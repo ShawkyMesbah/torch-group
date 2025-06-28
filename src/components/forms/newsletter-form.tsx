@@ -64,7 +64,7 @@ export function NewsletterForm() {
           {...register("email")}
           type="email"
           placeholder="Enter your email"
-          className="bg-transparent border-gray-600 text-white focus:border-orange-400 focus:ring-orange-400/20 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] hover:border-gray-500 transition-all duration-300"
+                        className="bg-transparent border-gray-600 text-white focus:border-red-400 focus:ring-red-400/20 focus:shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:border-gray-500 transition-all duration-300"
         />
         {errors.email && (
                           <p className="text-sm torch-text-error mt-1">{errors.email.message}</p>

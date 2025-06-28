@@ -1,27 +1,57 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown, ShoppingCart, Star, Building2, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  { name: "Services", href: "/services" },
+  { name: "Services", href: "/services", hasDropdown: true },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
+];
+
+const serviceDropdownItems = [
+  {
+    name: "B2C",
+    href: "/#torch-group",
+    description: "Consumer services & e-commerce solutions",
+    icon: <ShoppingCart className="h-5 w-5" />
+  },
+  {
+    name: "B2T",
+    href: "/services/b2t",
+    description: "Talent membership & growth services",
+    icon: <Star className="h-5 w-5" />
+  },
+  {
+    name: "B2B",
+    href: "/services/b2b",
+    description: "Business membership & marketing solutions",
+    icon: <Building2 className="h-5 w-5" />
+  },
+  {
+    name: "B2A",
+    href: "/services/b2a",
+    description: "Alliance partnerships & collaborations",
+    icon: <Users className="h-5 w-5" />
+  }
 ];
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+  const [isMobileServicesDropdownOpen, setIsMobileServicesDropdownOpen] = useState(false);
   const [isLogoClicked, setIsLogoClicked] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Enhanced logo click handler for smooth scrolling
   const handleLogoClick = useCallback((e: React.MouseEvent) => {
@@ -79,6 +109,20 @@ export default function Header() {
     setIsScrolled(scrollY > 0);
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsServicesDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     let ticking = false;
     const throttledHandleScroll = () => {
@@ -98,6 +142,8 @@ export default function Header() {
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsServicesDropdownOpen(false);
+    setIsMobileServicesDropdownOpen(false);
   }, [pathname]);
 
   // Handle escape key and prevent body scroll when mobile menu is open
@@ -105,6 +151,8 @@ export default function Header() {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsMobileMenuOpen(false);
+        setIsServicesDropdownOpen(false);
+        setIsMobileServicesDropdownOpen(false);
       }
     };
 
@@ -173,8 +221,86 @@ export default function Header() {
               )}
               <div className="hidden md:flex items-center space-x-8 ml-8">
                 {navigation.map((item) => {
-                  const isActive = pathname === item.href;
+                  const isActive = pathname === item.href || (item.name === "Services" && pathname.startsWith("/services"));
                   const isHomeLink = item.href === '/';
+                  
+                  if (item.hasDropdown) {
+                    return (
+                      <div key={item.name} className="relative" ref={dropdownRef}>
+                        <div className="flex items-center">
+                          {/* Services Link - clickable to navigate */}
+                          <Link
+                            href={item.href}
+                            className={cn(
+                              "relative px-4 py-2 text-lg font-bold rounded-md transition-all duration-200",
+                              "focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2",
+                              isActive ? "torch-text-accent" : "text-gray-200 hover:text-white"
+                            )}
+                            aria-current={isActive ? "page" : undefined}
+                          >
+                            <span>{item.name}</span>
+                            <span
+                              className={cn(
+                                "absolute left-1/2 -bottom-1.5 w-2/3 h-0.5 rounded-full transition-all duration-300 -translate-x-1/2",
+                                isActive 
+                                  ? "bg-red-500 scale-x-100" 
+                                  : "bg-red-500/60 scale-x-0 group-hover:scale-x-100"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </Link>
+                          
+                          {/* Dropdown Arrow - clickable to toggle dropdown */}
+                          <button
+                            onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
+                            onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                            className={cn(
+                              "p-1 ml-1 rounded transition-all duration-200",
+                              "focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2",
+                              isActive ? "torch-text-accent" : "text-gray-200 hover:text-white"
+                            )}
+                            aria-expanded={isServicesDropdownOpen}
+                            aria-haspopup="true"
+                            aria-label="Services menu"
+                          >
+                            <ChevronDown className={cn(
+                              "h-4 w-4 transition-transform duration-200",
+                              isServicesDropdownOpen && "rotate-180"
+                            )} />
+                          </button>
+                        </div>
+                        
+                        {/* Desktop Dropdown Menu */}
+                        {isServicesDropdownOpen && (
+                          <div 
+                            className="absolute top-full left-0 mt-2 w-80 bg-black/95 backdrop-blur-lg border-2 border-red-900/30 rounded-xl shadow-2xl z-50"
+                            onMouseLeave={() => setIsServicesDropdownOpen(false)}
+                          >
+                            <div className="p-4 space-y-2">
+                              {serviceDropdownItems.map((service) => (
+                                <Link
+                                  key={service.name}
+                                  href={service.href}
+                                  className="block p-3 rounded-lg hover:bg-red-950/30 transition-all duration-200 group"
+                                  onClick={() => setIsServicesDropdownOpen(false)}
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="torch-text-primary group-hover:scale-110 transition-transform duration-200">
+                                      {service.icon}
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="text-white font-bold text-sm">{service.name}</div>
+                                      <div className="text-gray-400 text-xs">{service.description}</div>
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
                   
                   return (
                     <Link
@@ -239,15 +365,81 @@ export default function Header() {
               >
                 <div className="space-y-2 px-6 py-4 flex flex-col items-center">
                   {navigation.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive = pathname === item.href || (item.name === "Services" && pathname.startsWith("/services"));
                     const isHomeLink = item.href === '/';
                     
                     const handleMobileClick = (e: React.MouseEvent) => {
+                      if (!item.hasDropdown) {
                       setIsMobileMenuOpen(false);
                       if (isHomeLink) {
                         handleHomeNavigation(e);
                       }
+                      }
                     };
+                    
+                    if (item.hasDropdown) {
+                      return (
+                        <div key={item.name} className="w-full">
+                          <div className="flex items-center justify-between w-full">
+                            {/* Services Link - clickable to navigate */}
+                            <Link
+                              href={item.href}
+                              className={cn(
+                                "flex-1 text-center rounded-md px-4 py-4 text-xl font-extrabold tracking-wide transition-all duration-200",
+                                "focus:outline-none focus:ring-2 focus:ring-red-500/50",
+                                isActive ? "torch-text-accent" : "text-gray-200 hover:text-white"
+                              )}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              aria-current={isActive ? "page" : undefined}
+                            >
+                              {item.name}
+                            </Link>
+                            
+                            {/* Dropdown Toggle Button */}
+                            <button
+                              onClick={() => setIsMobileServicesDropdownOpen(!isMobileServicesDropdownOpen)}
+                              className={cn(
+                                "p-2 rounded transition-all duration-200",
+                                "focus:outline-none focus:ring-2 focus:ring-red-500/50",
+                                isActive ? "torch-text-accent" : "text-gray-200 hover:text-white"
+                              )}
+                              aria-expanded={isMobileServicesDropdownOpen}
+                              aria-label="Toggle services menu"
+                            >
+                              <ChevronDown className={cn(
+                                "h-5 w-5 transition-transform duration-200",
+                                isMobileServicesDropdownOpen && "rotate-180"
+                              )} />
+                            </button>
+                          </div>
+                          
+                          {/* Mobile Services Dropdown */}
+                          {isMobileServicesDropdownOpen && (
+                            <div className="mt-2 space-y-2 pl-4">
+                              {serviceDropdownItems.map((service) => (
+                                <Link
+                                  key={service.name}
+                                  href={service.href}
+                                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-red-950/30 transition-all duration-200"
+                                  onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setIsMobileServicesDropdownOpen(false);
+                                  }}
+                                >
+                                  <div className="torch-text-primary">
+                                    {service.icon}
+                                  </div>
+                                  <div className="text-left">
+                                    <div className="text-white font-bold text-lg">{service.name}</div>
+                                    <div className="text-gray-400 text-sm">{service.description}</div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
                     
                     return (
                       <Link

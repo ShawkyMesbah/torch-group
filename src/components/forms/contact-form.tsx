@@ -388,7 +388,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             id="contact-name"
             type="text"
             {...register("name")}
-            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-orange-400 focus:border-orange-400 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.name ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
+            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-red-400 focus:border-red-400 focus:shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.name ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
             placeholder="Your Name"
             autoComplete="name"
           />
@@ -401,7 +401,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             id="contact-email"
             type="email"
             {...register("email")}
-            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-orange-400 focus:border-orange-400 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.email ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
+            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-red-400 focus:border-red-400 focus:shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.email ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
             placeholder="your.email@example.com"
             autoComplete="email"
           />
@@ -427,7 +427,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
                 onCountryChange={(country?: CountryCode) => {
                   if (country) setSelectedCountry(country);
                 }}
-                className={`w-full border rounded-md bg-black text-white border-gray-800 focus-within:ring-orange-400 focus-within:border-orange-400 focus-within:shadow-[0_0_15px_rgba(255,87,34,0.2)] phone-input-custom text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.phone ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
+                className={`w-full border rounded-md bg-black text-white border-gray-800 focus-within:ring-red-400 focus-within:border-red-400 focus-within:shadow-[0_0_15px_rgba(220,38,38,0.2)] phone-input-custom text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.phone ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
               />
             </div>
             
@@ -462,7 +462,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
                   value={phoneVerificationState.verificationCode}
                   onChange={handleVerificationCodeChange}
                   placeholder="Enter 6-digit code"
-                  className={`flex-1 px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-orange-400 focus:border-orange-400 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${phoneVerificationState.error ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
+                  className={`flex-1 px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-red-400 focus:border-red-400 focus:shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${phoneVerificationState.error ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
                   disabled={isLoading}
                   autoComplete="one-time-code"
                   maxLength={6}
@@ -488,7 +488,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             id="contact-subject"
             type="text"
             {...register("subject")}
-            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-orange-400 focus:border-orange-400 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.subject ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
+            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-red-400 focus:border-red-400 focus:shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 ${errors.subject ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
             placeholder="Subject of your message"
             autoComplete="on"
           />
@@ -501,7 +501,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             id="contact-message"
             {...register("message")}
             rows={4}
-            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-orange-400 focus:border-orange-400 focus:shadow-[0_0_15px_rgba(255,87,34,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 resize-y min-h-[100px] sm:min-h-[120px] ${errors.message ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
+            className={`w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-md bg-black text-white border-gray-800 focus:ring-red-400 focus:border-red-400 focus:shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm sm:text-base transition-all duration-300 hover:border-gray-600 resize-y min-h-[100px] sm:min-h-[120px] ${errors.message ? 'border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]' : ''}`}
             placeholder="Your Message"
             autoComplete="off"
           />
@@ -548,7 +548,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
             type="checkbox"
             id="privacy-policy"
             {...register("privacy")}
-            className={`h-5 w-5 mt-0.5 rounded border-gray-600 text-orange-400 focus:ring-orange-400 focus:ring-offset-0 focus:shadow-[0_0_10px_rgba(255,87,34,0.3)] hover:border-gray-500 transition-all duration-300 ${errors.privacy ? 'border-red-500' : ''}`}
+            className={`h-5 w-5 mt-0.5 rounded border-gray-600 text-red-400 focus:ring-red-400 focus:ring-offset-0 focus:shadow-[0_0_10px_rgba(220,38,38,0.3)] hover:border-gray-500 transition-all duration-300 ${errors.privacy ? 'border-red-500' : ''}`}
           />
           <label htmlFor="privacy-policy" className="block text-sm sm:text-base text-gray-300 leading-relaxed">
                           I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer" className="torch-text-accent hover:torch-text-accent-hover underline transition-colors duration-200">Privacy Policy</a>
@@ -562,7 +562,7 @@ export function ContactForm({ testMode = false }: ContactFormProps) {
         disabled={isLoading || isSubmitSuccess || (typeof getValues('phone') === 'string' && getValues('phone') !== '' && !phoneVerificationState.isVerified)}
         className={`w-full py-3 sm:py-4 text-base sm:text-lg font-semibold min-h-[48px] sm:min-h-[52px] transition-all duration-500 shadow-lg hover:shadow-xl ${
           isSubmitSuccess 
-            ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black border-yellow-500 shadow-[0_0_20px_rgba(255,193,7,0.4)]' 
+            ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)]' 
                             : 'torch-button-primary disabled:bg-gray-600 disabled:cursor-not-allowed'
         }`}
       >

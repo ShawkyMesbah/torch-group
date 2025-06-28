@@ -127,10 +127,10 @@ export default function ServicesPage() {
       </section>
 
       {/* Main Services Section - Same cards as homepage */}
-              <section className="torch-section-standard bg-transparent">
-          <div className="torch-container-wide mx-auto">
+      <section className="torch-section-standard bg-transparent">
+        <div className="torch-container-wide mx-auto">
           <motion.div 
-                          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous lg:gap-grand justify-center items-stretch"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-generous lg:gap-grand justify-center items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -209,248 +209,22 @@ export default function ServicesPage() {
                 
                 {/* Button */}
                 <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
-                  <a href={service.link}>
-                    <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
-                      {service.title === "B2T" ? "Get your Membership" : service.title === "B2B" ? "Get your Membership" : service.title === "B2A" ? "Join Alliance" : "Discover More"}
-                    </button>
-                  </a>
+                  {service.title === "B2C" ? (
+                    <Link href="/#torch-group">
+                      <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
+                        Discover More
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link href={`/services/${service.title.toLowerCase()}`}>
+                      <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
+                        {service.title === "B2T" ? "Get your Membership" : service.title === "B2B" ? "Get your Membership" : service.title === "B2A" ? "Join Alliance" : "Learn More"}
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* B2C Section */}
-      <section id="b2c" className="py-16 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                              Business to <span className="torch-text-primary">Customers</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Discover our Torch Group brands and e-commerce solutions designed for your creative products and services.
-            </p>
-          </div>
-          <div className="text-center">
-            <Link href="/#torch-group">
-              <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
-                Explore Torch Group Brands
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* B2B Section - Detailed Packages */}
-      <section id="b2b" className="py-16 px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                              Business to <span className="torch-text-primary">Business</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto mb-8">
-              Our entities/brands membership services will help your business grow online/offline & attract more audience & customers.
-            </p>
-          </div>
-
-          {/* Service Packages */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {packages.map((pkg, index) => (
-              <motion.div
-                key={pkg.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className={`relative rounded-3xl p-8 ${
-                  pkg.highlighted 
-                    ? 'border-2 border-red-500 bg-gradient-to-br from-red-950/30 via-black/90 to-red-950/30' 
-                    : 'border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90'
-                } backdrop-blur-lg shadow-2xl hover:shadow-red-900/40 transition-all duration-500`}
-              >
-                {pkg.highlighted && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
-                  <p className="text-gray-400 mb-4">{pkg.description}</p>
-                  <div className="torch-text-primary text-xl font-bold">{pkg.price}</div>
-                </div>
-
-                <ul className="space-y-comfortable mb-generous">
-                  {pkg.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <Check className="h-5 w-5 torch-text-primary mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-300 text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button 
-                  onClick={() => setFormData(prev => ({ ...prev, selectedPackage: pkg.name }))}
-                  className={`w-full py-3 rounded-full font-bold transition-all duration-300 ${
-                    pkg.highlighted
-                      ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black shadow-[0_0_20px_rgba(255,193,7,0.3)] hover:shadow-[0_0_30px_rgba(255,193,7,0.5)]'
-                      : 'border-2 border-red-600 text-red-600 hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-600 hover:text-white hover:border-orange-500'
-                  }`}
-                >
-                  Get Started
-                </button>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* B2B Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 md:p-12"
-          >
-            <div className="text-center mb-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Get Your Business Membership</h3>
-              <p className="text-gray-400">Fill out the form below and we'll get back to you with a customized solution.</p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-spacious">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white font-semibold mb-2">Company Name *</label>
-                  <Input
-                    name="companyName"
-                    value={formData.companyName}
-                    onChange={handleFormChange}
-                    className="bg-black/50 border-red-900/30 text-white focus:border-red-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-white font-semibold mb-2">Contact Name *</label>
-                  <Input
-                    name="contactName"
-                    value={formData.contactName}
-                    onChange={handleFormChange}
-                    className="bg-black/50 border-red-900/30 text-white focus:border-red-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white font-semibold mb-2">Email *</label>
-                  <Input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleFormChange}
-                    className="bg-black/50 border-red-900/30 text-white focus:border-red-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-white font-semibold mb-2">Phone *</label>
-                  <Input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleFormChange}
-                    className="bg-black/50 border-red-900/30 text-white focus:border-red-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-white font-semibold mb-2">Package Interest</label>
-                <select
-                  name="selectedPackage"
-                  value={formData.selectedPackage}
-                  onChange={handleFormChange}
-                  className="w-full bg-black/50 border border-red-900/30 text-white rounded-lg px-4 py-3 focus:border-red-500 focus:outline-none"
-                >
-                  <option value="">Select a package</option>
-                  <option value="Bronze Package">Bronze Package</option>
-                  <option value="Silver Package">Silver Package</option>
-                  <option value="Gold Package">Gold Package</option>
-                  <option value="Custom Solution">Custom Solution</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-white font-semibold mb-2">Message</label>
-                <Textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleFormChange}
-                  rows={4}
-                  className="bg-black/50 border-red-900/30 text-white focus:border-red-500"
-                  placeholder="Tell us about your business needs..."
-                />
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-4 rounded-full transition-all duration-300 transform hover:scale-105"
-              >
-                {isSubmitting ? "Submitting..." : "Get Started"}
-                {!isSubmitting && <Send className="ml-2 h-5 w-5" />}
-              </Button>
-            </form>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* B2T Section - Coming Soon */}
-      <section id="b2t" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-12"
-          >
-                          <Star className="h-20 w-20 torch-text-primary mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                              Business to <span className="torch-text-primary">Talents</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto mb-8">
-              Our Talents membership services will help your content grow online/offline engagement & attract more audience & Followers.
-            </p>
-            <div className="flex items-center justify-center gap-2 px-6 py-3 bg-red-800/50 border border-red-600/40 text-red-400 text-lg rounded-full font-semibold backdrop-blur-sm max-w-fit mx-auto">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              Coming Soon
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* B2A Section - Coming Soon */}
-      <section id="b2a" className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-12"
-          >
-                          <Users className="h-20 w-20 torch-text-primary mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                              Business to <span className="torch-text-primary">All Allies</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto mb-8">
-              Connect, collaborate, and grow with our network of partners, allies, and creative entities. Join our alliance for mutual growth and success.
-            </p>
-            <div className="flex items-center justify-center gap-2 px-6 py-3 bg-red-800/50 border border-red-600/40 text-red-400 text-lg rounded-full font-semibold backdrop-blur-sm max-w-fit mx-auto">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              Coming Soon
-            </div>
           </motion.div>
         </div>
       </section>

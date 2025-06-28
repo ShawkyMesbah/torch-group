@@ -1,0 +1,539 @@
+/*
+==============================================================================
+TORCH GROUP - COMPONENT LIBRARY
+==============================================================================
+Enhanced component styles that build upon the core design system
+==============================================================================
+*/
+
+/* ==============================================================================
+   SECTION HEADERS & NAVIGATION
+============================================================================== */
+
+/* Section Header Component */
+.torch-section-header {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--torch-space-sm);
+  margin-bottom: var(--torch-space-xl);
+  position: relative;
+}
+
+.torch-section-header::before,
+.torch-section-header::after {
+  content: '';
+  height: 1px;
+  width: 2rem;
+  background: linear-gradient(90deg, transparent, var(--torch-primary), transparent);
+  opacity: 0.8;
+}
+
+.torch-section-title {
+  font-size: var(--torch-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--torch-primary);
+  white-space: nowrap;
+  padding: 0 var(--torch-space-sm);
+}
+
+/* Decorative Divider */
+.torch-divider {
+  width: 6rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--torch-primary), var(--torch-secondary), var(--torch-primary));
+  border-radius: var(--torch-radius-full);
+  margin: 0 auto;
+  opacity: 0.8;
+}
+
+/* Enhanced Navigation Styles */
+.torch-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--torch-space-xl);
+  padding: var(--torch-space-lg);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.torch-nav-link {
+  position: relative;
+  padding: var(--torch-space-sm) var(--torch-space-md);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+  border-radius: var(--torch-radius-md);
+}
+
+.torch-nav-link:hover {
+  color: var(--torch-primary);
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.torch-nav-link.active {
+  color: var(--torch-primary);
+  background: rgba(220, 38, 38, 0.15);
+}
+
+.torch-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--torch-gradient-primary);
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+  transform: translateX(-50%);
+}
+
+.torch-nav-link:hover::after,
+.torch-nav-link.active::after {
+  width: 100%;
+}
+
+/* Logo Container */
+.torch-logo-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+}
+
+.torch-logo-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, var(--torch-primary) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--torch-duration-normal) var(--torch-ease-out);
+  border-radius: 50%;
+  filter: blur(20px);
+}
+
+.torch-logo-container:hover .torch-logo-glow {
+  opacity: 0.6;
+}
+
+/* ==============================================================================
+   ADVANCED CARD COMPONENTS
+============================================================================== */
+
+/* Service Card */
+.torch-service-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.8) 100%);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  border-radius: var(--torch-radius-3xl);
+  padding: var(--torch-space-2xl);
+  min-height: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  transition: all var(--torch-duration-slower) var(--torch-ease-out);
+  overflow: hidden;
+}
+
+.torch-service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.05) 0%, transparent 50%, rgba(241, 96, 31, 0.05) 100%);
+  opacity: 0;
+  transition: opacity var(--torch-duration-slower) var(--torch-ease-out);
+  border-radius: inherit;
+}
+
+.torch-service-card:hover::before {
+  opacity: 1;
+}
+
+.torch-service-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--torch-primary);
+  box-shadow: var(--torch-glow-lg);
+}
+
+/* Service Card Icon */
+.torch-service-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  margin-bottom: var(--torch-space-lg);
+  color: var(--torch-primary);
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+}
+
+.torch-service-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, var(--torch-primary) 0%, transparent 70%);
+  opacity: 0.3;
+  border-radius: 50%;
+  filter: blur(15px);
+  animation: torch-pulse-slow 3s ease-in-out infinite;
+}
+
+.torch-service-card:hover .torch-service-icon {
+  transform: scale(1.1);
+  color: var(--torch-primary);
+}
+
+/* Talent Card */
+.torch-talent-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--torch-radius-3xl);
+  padding: var(--torch-space-2xl);
+  text-align: center;
+  transition: all var(--torch-duration-slower) var(--torch-ease-out);
+  overflow: hidden;
+  min-height: 24rem;
+}
+
+.torch-talent-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--torch-primary), transparent);
+  opacity: 0;
+  transition: opacity var(--torch-duration-slower) var(--torch-ease-out);
+}
+
+.torch-talent-card:hover::before {
+  opacity: 1;
+}
+
+.torch-talent-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(220, 38, 38, 0.4);
+  box-shadow: var(--torch-glow-md);
+}
+
+/* ==============================================================================
+   FORM COMPONENTS
+============================================================================== */
+
+/* Enhanced Form Container */
+.torch-form-container {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 10, 0.9) 100%);
+  backdrop-filter: blur(24px);
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  border-radius: var(--torch-radius-3xl);
+  padding: var(--torch-space-3xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.torch-form-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--torch-duration-slower) var(--torch-ease-out);
+}
+
+.torch-form-container:hover::before {
+  opacity: 1;
+}
+
+.torch-form-container:hover {
+  border-color: var(--torch-primary);
+  box-shadow: var(--torch-glow-md);
+}
+
+/* Form Fields */
+.torch-form-field {
+  position: relative;
+  margin-bottom: var(--torch-space-xl);
+}
+
+.torch-form-label {
+  display: block;
+  font-size: var(--torch-text-sm);
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: var(--torch-space-sm);
+  transition: color var(--torch-duration-normal) var(--torch-ease-out);
+}
+
+.torch-form-input {
+  width: 100%;
+  padding: var(--torch-space-md);
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--torch-radius-lg);
+  color: #ffffff;
+  font-size: var(--torch-text-base);
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+  backdrop-filter: blur(8px);
+}
+
+.torch-form-input:focus {
+  outline: none;
+  border-color: var(--torch-primary);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.torch-form-input::placeholder {
+  color: #9ca3af;
+}
+
+/* ==============================================================================
+   BLOG & CONTENT COMPONENTS
+============================================================================== */
+
+/* Blog Card */
+.torch-blog-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(15, 15, 15, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--torch-radius-2xl);
+  overflow: hidden;
+  transition: all var(--torch-duration-slower) var(--torch-ease-out);
+  cursor: pointer;
+}
+
+.torch-blog-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(220, 38, 38, 0.3);
+  box-shadow: var(--torch-shadow-xl), var(--torch-glow-sm);
+}
+
+.torch-blog-image {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.torch-blog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--torch-duration-slower) var(--torch-ease-out);
+}
+
+.torch-blog-card:hover .torch-blog-image img {
+  transform: scale(1.05);
+}
+
+.torch-blog-content {
+  padding: var(--torch-space-xl);
+}
+
+.torch-blog-title {
+  font-size: var(--torch-text-xl);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: var(--torch-space-md);
+  line-height: 1.4;
+}
+
+.torch-blog-excerpt {
+  font-size: var(--torch-text-base);
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: var(--torch-space-lg);
+}
+
+.torch-blog-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--torch-space-md);
+  font-size: var(--torch-text-sm);
+  color: #9ca3af;
+}
+
+/* ==============================================================================
+   LOADING & STATE COMPONENTS
+============================================================================== */
+
+/* Loading Spinner */
+.torch-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid rgba(220, 38, 38, 0.2);
+  border-top: 3px solid var(--torch-primary);
+  border-radius: 50%;
+  animation: torch-spin 1s linear infinite;
+}
+
+@keyframes torch-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status Badges */
+.torch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--torch-space-xs);
+  padding: var(--torch-space-xs) var(--torch-space-md);
+  border-radius: var(--torch-radius-full);
+  font-size: var(--torch-text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.torch-badge-success {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(21, 128, 61, 0.2));
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.torch-badge-warning {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(217, 119, 6, 0.2));
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.torch-badge-error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.2));
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.torch-badge-primary {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(185, 28, 28, 0.2));
+  color: var(--torch-primary);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* ==============================================================================
+   FOOTER COMPONENTS
+============================================================================== */
+
+.torch-footer {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 10, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--torch-space-4xl) var(--torch-space-lg);
+}
+
+.torch-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--torch-primary), transparent);
+  opacity: 0.5;
+}
+
+.torch-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--torch-radius-lg);
+  color: #ffffff;
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+  backdrop-filter: blur(8px);
+}
+
+.torch-social-link:hover {
+  background: rgba(220, 38, 38, 0.2);
+  border-color: var(--torch-primary);
+  color: var(--torch-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--torch-glow-sm);
+}
+
+/* ==============================================================================
+   ENHANCEMENT CLASSES FOR HOMEPAGE
+============================================================================== */
+
+/* Pulse animation for homepage elements */
+.torch-pulse {
+  animation: torch-pulse-slow 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Enhanced hover states */
+.torch-interactive-hover {
+  transition: all var(--torch-duration-normal) var(--torch-ease-out);
+}
+
+.torch-interactive-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--torch-glow-sm);
+}
+
+/* Grid pattern overlay for cards */
+.torch-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.5;
+}
+
+/* ==============================================================================
+   RESPONSIVE DESIGN
+============================================================================== */
+
+@media (max-width: 768px) {
+  .torch-section-header {
+    flex-direction: column;
+    gap: var(--torch-space-sm);
+  }
+  
+  .torch-section-header::before,
+  .torch-section-header::after {
+    width: 1rem;
+  }
+  
+  .torch-nav {
+    flex-direction: column;
+    gap: var(--torch-space-md);
+  }
+  
+  .torch-service-card,
+  .torch-talent-card {
+    min-height: 18rem;
+  }
+  
+  .torch-form-container {
+    padding: var(--torch-space-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .torch-section-title {
+    font-size: var(--torch-text-xs);
+  }
+  
+  .torch-service-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .torch-form-container {
+    padding: var(--torch-space-xl);
+  }
+} 

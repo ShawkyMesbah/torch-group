@@ -88,18 +88,30 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      // Semantic spacing extensions (8px base unit)
+      // Enhanced semantic spacing (8px base unit) - aligned with CSS custom properties
       spacing: {
-        'tight': '0.25rem',      // 4px
-        'compact': '0.5rem',     // 8px
-        'cozy': '0.75rem',       // 12px
-        'comfortable': '1rem',   // 16px
-        'spacious': '1.5rem',    // 24px
-        'generous': '2rem',      // 32px
-        'expansive': '3rem',     // 48px
-        'grand': '4rem',         // 64px
-        'monumental': '6rem',    // 96px
-        '18': '4.5rem',          // Keep existing project-specific values
+        'xxs': '0.125rem',       // 2px - Micro adjustments
+        'xs': '0.25rem',         // 4px - Element borders
+        'sm': '0.5rem',          // 8px - Small gaps
+        'md': '0.75rem',         // 12px - Form elements
+        'lg': '1rem',            // 16px - Standard spacing
+        'xl': '1.5rem',          // 24px - Section elements
+        '2xl': '2rem',           // 32px - Component separation
+        '3xl': '3rem',           // 48px - Major sections
+        '4xl': '4rem',           // 64px - Hero sections
+        '5xl': '6rem',           // 96px - Page divisions
+        '6xl': '8rem',           // 128px - Monumental spacing
+        // Legacy support
+        'tight': '0.25rem',
+        'compact': '0.5rem',
+        'cozy': '0.75rem',
+        'comfortable': '1rem',
+        'spacious': '1.5rem',
+        'generous': '2rem',
+        'expansive': '3rem',
+        'grand': '4rem',
+        'monumental': '6rem',
+        '18': '4.5rem',
         '88': '22rem',
         '144': '36rem',
       },

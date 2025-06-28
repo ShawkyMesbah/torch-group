@@ -894,7 +894,7 @@ export default function Home() {
       {/* Reading Progress Indicator */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-900/50 z-[150] backdrop-blur-sm">
         <motion.div 
-          className="h-full bg-gradient-to-r from-red-600 to-orange-500 origin-left"
+                        className="h-full bg-gradient-to-r from-red-600 to-red-500 origin-left"
           style={{ scaleX: readingProgress / 100 }}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: readingProgress / 100 }}
@@ -978,15 +978,15 @@ export default function Home() {
           {/* Enhanced Background Effects - Refined for Better Symmetry */}
           <div className="absolute inset-0 -z-10">
             {/* Primary central glow - Enhanced intensity and better centering */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[700px] bg-gradient-to-br from-orange-500/25 via-red-600/40 to-red-700/30 blur-[160px] rounded-full animate-pulse-slow"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[700px] bg-gradient-to-br from-red-500/25 via-red-600/40 to-red-700/30 blur-[160px] rounded-full animate-pulse-slow"></div>
             
             {/* Symmetrical accent glows - Balanced positioning and intensity */}
-            <div className="absolute top-[20%] left-[15%] w-[450px] h-[450px] bg-gradient-to-br from-red-500/20 to-orange-500/15 blur-[110px] rounded-full animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
-            <div className="absolute bottom-[20%] right-[15%] w-[450px] h-[450px] bg-gradient-to-br from-red-600/20 to-orange-600/15 blur-[110px] rounded-full animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-[20%] left-[15%] w-[450px] h-[450px] bg-gradient-to-br from-red-500/20 to-red-500/15 blur-[110px] rounded-full animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
+            <div className="absolute bottom-[20%] right-[15%] w-[450px] h-[450px] bg-gradient-to-br from-red-600/20 to-red-600/15 blur-[110px] rounded-full animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
             
             {/* Additional symmetrical corner glows for depth */}
             <div className="absolute top-[30%] right-[25%] w-[300px] h-[300px] bg-red-400/10 blur-[80px] rounded-full animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
-            <div className="absolute bottom-[30%] left-[25%] w-[300px] h-[300px] bg-orange-500/10 blur-[80px] rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute bottom-[30%] left-[25%] w-[300px] h-[300px] bg-red-500/10 blur-[80px] rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
             
             {/* Subtle grid overlay */}
             <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -1009,7 +1009,7 @@ export default function Home() {
                {/* Main logo container with refined glow */}
                <div className="relative flex items-center justify-center w-[320px] h-[320px] sm:w-[380px] sm:h-[380px]">
                  {/* Refined single-layer glow */}
-                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-600/40 to-red-700/30 blur-[80px] rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-orange-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
+                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 via-red-600/40 to-red-700/30 blur-[80px] rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-red-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
                  
                  {/* Logo */}
                  <Image 
@@ -1092,13 +1092,13 @@ export default function Home() {
               
               <a
                 href="/contact"
-                className="group relative overflow-hidden rounded-full border-2 border-red-500/60 px-12 py-4 text-lg font-bold text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-orange-500/30 hover:text-orange-300 hover:border-orange-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md"
+                className="group relative overflow-hidden rounded-full border-2 border-red-500/60 px-12 py-4 text-lg font-bold text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-red-500/30 hover:text-red-300 hover:border-red-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Contact Us 
                   <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-red-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </a>
                          </motion.div>
            </motion.div>
@@ -1134,7 +1134,7 @@ export default function Home() {
                 <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
                   Torch
                   <motion.div 
-                    className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                    className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
                     initial={{ width: "0%" }}
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       width: "100%",
@@ -1360,7 +1360,7 @@ export default function Home() {
                     <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
                       Services
                       <motion.div 
-                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
                         initial={{ width: "0%" }}
                         whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                           width: "100%",
@@ -1477,138 +1477,34 @@ export default function Home() {
                   <div className="torch-section-header mb-8">
                     <span className="torch-section-title">OUR BRANDS</span>
                   </div>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Torch Group <span className="torch-text-accent">Brands</span>
-                  </h2>
+                  <motion.h2 
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                    whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                      scale: 1.02,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    } : {}}
+                  >
+                    <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                      Torch
+                    </span>{" "}
+                    <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                      Group
+                      <motion.div 
+                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                        initial={{ width: "0%" }}
+                        whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                          width: "100%",
+                          transition: { duration: 0.5, ease: "easeOut" }
+                        } : {}}
+                      />
+                    </span>
+                  </motion.h2>
                   <div className="flex justify-center mb-4">
                     <div className="torch-divider"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
                     Explore our family of brands, each dedicated to excellence in their specialized fields.
                   </p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-14 justify-center items-stretch mb-16">
-                  {torchBrands.map((brand, index) => (
-                    <motion.div
-                      key={index}
-                      whileHover={{ 
-                        scale: 1.05, 
-                        boxShadow: brand.isComingSoon 
-                          ? '0 0 40px 8px #6b7280aa'
-                          : brand.name === "Torch Shop"
-                          ? '0 0 40px 8px #a855f7aa'
-                          : brand.name === "Torch Loop"
-                          ? '0 0 40px 8px #14b8a6aa'
-                          : '0 0 40px 8px #dc2626aa'
-                      }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                      className={`group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] ${
-                        brand.isComingSoon 
-                          ? "border-2 border-gray-700/50 bg-gradient-to-br from-gray-900/60 via-black/80 to-gray-900/60 hover:border-gray-600/70 hover:shadow-gray-900/30" 
-                          : brand.name === "Torch Shop" 
-                            ? "border-2 border-purple-900/30 bg-gradient-to-br from-black/90 via-purple-950/20 to-black/90 hover:border-purple-600 hover:shadow-purple-900/40 hover:shadow-2xl"
-                            : brand.name === "Torch Loop"
-                            ? "border-2 border-teal-900/30 bg-gradient-to-br from-black/90 via-teal-950/20 to-black/90 hover:border-teal-600 hover:shadow-teal-900/40 hover:shadow-2xl"
-                            : "border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
-                      }`}
-                      style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
-                    >
-                      {/* Status Badge */}
-                      {!brand.isComingSoon && (
-                        <div className="absolute top-4 right-4 z-10">
-                          <div className="flex items-center gap-1 px-3 py-1 bg-green-600/20 border border-green-500/40 rounded-full">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                            <span className="text-green-400 text-xs font-semibold">LIVE</span>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Subtle grid pattern overlay */}
-                      <div className="absolute inset-0 opacity-5">
-                        <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-                      </div>
-
-                      {/* Content area (flex-grow to push button down) */}
-                      <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
-                        {/* Icon with glow */}
-                        <div className="mb-6 relative flex items-center justify-center">
-                          <div className={`absolute inset-0 w-20 h-20 blur-[40px] rounded-full transition-all duration-500 ${
-                            brand.isComingSoon 
-                              ? "bg-gray-600/30 group-hover:blur-[50px]" 
-                              : brand.name === "Torch Shop"
-                                ? "bg-purple-600/50 group-hover:blur-[60px] group-hover:bg-purple-500/60"
-                                : brand.name === "Torch Loop"
-                                ? "bg-teal-600/50 group-hover:blur-[60px] group-hover:bg-teal-500/60"
-                                : "bg-red-600/50 group-hover:blur-[60px] group-hover:bg-red-500/60"
-                          }`}></div>
-                          {/* Logo container with consistent sizing */}
-                          <div className="w-20 h-20 flex items-center justify-center relative z-10">
-                          {brand.name === "Torch Shop" ? (
-                            <Image 
-                              src="/images/torch-shop.PNG" 
-                              alt="Torch Shop Logo" 
-                              width={80} 
-                              height={80} 
-                              className="object-contain drop-shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-[0_0_32px_#a855f7cc]" 
-                            />
-                          ) : brand.name === "Torch Loop" ? (
-                            <Image 
-                              src="/images/torch-loop.PNG" 
-                              alt="Torch Loop Logo" 
-                              width={120} 
-                              height={120} 
-                              className="object-contain drop-shadow-2xl transition-all duration-500 group-hover:scale-[1.485] group-hover:drop-shadow-[0_0_32px_#14b8a6cc] scale-[1.35]" 
-                            />
-                          ) : (
-                            <Flame className={`h-16 w-16 drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10 ${
-                              brand.isComingSoon ? "text-gray-500" : "text-red-600"
-                            }`} />
-                          )}
-                          </div>
-                        </div>
-                        <h3 className={`text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 ${
-                          brand.isComingSoon 
-                            ? "text-gray-300" 
-                            : brand.name === "Torch Shop"
-                            ? "text-white group-hover:text-purple-100"
-                            : brand.name === "Torch Loop"
-                            ? "text-white group-hover:text-teal-100"
-                            : "text-white group-hover:text-red-100"
-                        }`}>{brand.name}</h3>
-                        <p className={`text-base leading-relaxed min-h-[60px] transition-colors duration-300 ${
-                          brand.isComingSoon 
-                            ? "text-gray-500" 
-                            : brand.name === "Torch Shop"
-                            ? "text-gray-300 group-hover:text-purple-200"
-                            : brand.name === "Torch Loop"
-                            ? "text-gray-300 group-hover:text-teal-200"
-                            : "text-gray-300 group-hover:text-gray-200"
-                        }`}>{brand.description}</p>
-                      </div>
-                      
-                      {/* Button or Coming Soon */}
-                      <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
-                        {brand.isComingSoon ? (
-                          <div className="flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-600/40 text-gray-400 text-sm rounded-full font-semibold backdrop-blur-sm">
-                            <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></div>
-                            Coming Soon
-                          </div>
-                        ) : (
-                          <Link href={brand.link} target="_blank" rel="noopener noreferrer">
-                            <button className={`px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 transform hover:scale-105 backdrop-blur-sm ${
-                              brand.name === "Torch Shop"
-                                ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-500 hover:to-purple-600 focus-visible:ring-purple-400 border border-purple-500/20"
-                                : brand.name === "Torch Loop"
-                                ? "bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-500 hover:to-teal-600 focus-visible:ring-teal-400 border border-teal-500/20"
-                                : "bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-500 hover:to-red-600 focus-visible:ring-red-400 border border-red-500/20"
-                            }`}>
-                              Visit Website
-                            </button>
-                          </Link>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
                 </div>
               </div>
             </Section>
@@ -1641,7 +1537,7 @@ export default function Home() {
                   <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
                     Blog
                     <motion.div 
-                      className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                      className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
                       initial={{ width: "0%" }}
                       whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                         width: "100%",
@@ -1760,96 +1656,35 @@ export default function Home() {
                   <div className="w-[600px] h-[300px] bg-red-600/20 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
                 </div>
                 <div className="text-center mb-16">
-                  <div className="inline-flex items-center justify-center mb-8">
-                    <div className="h-px w-8 bg-red-600/80 mr-2"></div>
+                  <div className="torch-section-header mb-8">
                     <span className="torch-section-title">OUR TALENTS</span>
-                    <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                    Top Torch <span className="torch-text-accent">Talents</span>
-                  </h2>
+                  <motion.h2 
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                    whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                      scale: 1.02,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    } : {}}
+                  >
+                    <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                      Top Torch
+                    </span>{" "}
+                    <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                      Talents
+                      <motion.div 
+                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                        initial={{ width: "0%" }}
+                        whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                          width: "100%",
+                          transition: { duration: 0.5, ease: "easeOut" }
+                        } : {}}
+                      />
+                    </span>
+                  </motion.h2>
                   <div className="flex justify-center mb-4">
-                    <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
+                    <div className="torch-divider"></div>
                   </div>
-
                 </div>
-                {activeTalents && activeTalents.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-spacious sm:gap-generous lg:gap-expansive">
-                    {displayTalents.map((talent, index) => (
-                      <motion.div
-                        key={talent.id || `placeholder-${index}`}
-                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px 8px #dc2626aa' }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                        className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl"
-                        style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
-                      >
-                        {/* Subtle grid pattern overlay */}
-                        <div className="absolute inset-0 opacity-5">
-                          <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-                        </div>
-
-                        {/* Content area */}
-                        <div className="p-8 pt-12 flex flex-col items-center text-center w-full flex-grow relative z-10">
-                          {/* Avatar with glow */}
-                          <div className="mb-6 relative flex items-center justify-center">
-                            <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
-                            <div className="w-20 h-20 flex items-center justify-center relative z-10">
-                              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600/20 to-red-800/20 flex items-center justify-center border-2 border-red-600/30 group-hover:border-red-500 transition-colors duration-300 drop-shadow-2xl group-hover:scale-110">
-                                {talent.isPlaceholder ? (
-                                  <User className="h-10 w-10 torch-text-primary" />
-                                ) : (
-                                                                      <span className="text-2xl font-bold torch-text-primary">
-                                    {talent.name?.charAt(0) || 'T'}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
-                            {talent.name || 'Coming Soon'}
-                          </h3>
-                          <p className="torch-text-primary text-sm font-semibold mb-3 uppercase tracking-wide">
-                            {talent.specialty || 'New Talent'}
-                          </p>
-                          <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
-                            {talent.bio || 'Exciting new talent joining our team soon. Stay tuned for updates!'}
-                          </p>
-                        </div>
-                        
-                        {/* Badge */}
-                        <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
-                          {talent.isPlaceholder ? (
-                            <div className="flex items-center gap-2 px-6 py-3 bg-red-800/50 border border-red-600/40 text-red-400 text-sm rounded-full font-semibold backdrop-blur-sm">
-                              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                              Coming Soon
-                            </div>
-                          ) : (
-                            <div className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105">
-                              Active Talent
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <div className="max-w-md mx-auto">
-                      <div className="mb-6">
-                        <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Users className="h-8 w-8 torch-text-primary" />
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-semibold text-white mb-2">No Active Talents Yet</h3>
-                      <p className="text-gray-400 mb-6">
-                        We're building an amazing team of talents. Check back soon to meet them!
-                      </p>
-                      <div className="flex justify-center">
-                        <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </Section>
           )}
@@ -1862,14 +1697,31 @@ export default function Home() {
                 <div className="w-[700px] h-[320px] md:w-[900px] md:h-[400px] bg-red-600/15 blur-[120px] rounded-full animate-pulse-slow mx-auto"></div>
               </div>
               <div className="text-center mb-16">
-                <div className="inline-flex items-center justify-center mb-8">
-                  <div className="h-px w-8 bg-red-600/80 mr-2"></div>
-                                      <span className="torch-section-title">ALLIES</span>
-                  <div className="h-px w-8 bg-red-600/80 ml-2"></div>
+                <div className="torch-section-header mb-8">
+                  <span className="torch-section-title">ALLIES</span>
                 </div>
-                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg">
-                  Top Torch <span className="torch-text-accent">Allies</span>
-                </h2>
+                <motion.h2 
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                  whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                    scale: 1.02,
+                    transition: { duration: 0.3, ease: "easeOut" }
+                  } : {}}
+                >
+                  <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                    Top Torch
+                  </span>{" "}
+                  <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
+                    Allies
+                    <motion.div 
+                      className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                      initial={{ width: "0%" }}
+                      whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                        width: "100%",
+                        transition: { duration: 0.5, ease: "easeOut" }
+                      } : {}}
+                    />
+                  </span>
+                </motion.h2>
                 <div className="flex justify-center mb-4">
                   <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                 </div>
@@ -2005,7 +1857,7 @@ export default function Home() {
                     <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)] transition-all duration-300">
                       Touch
                       <motion.div 
-                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"
+                        className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"
                         initial={{ width: "0%" }}
                         whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                           width: "100%",
@@ -2037,17 +1889,17 @@ export default function Home() {
                 </div>
 
                 {/* Newsletter Subscription Section */}
-                <div className="p-6 sm:p-8 md:p-10 bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-orange-600/20 border border-orange-600/30 hover:border-orange-500/50 hover:shadow-orange-500/30 transition-all duration-700 group">
+                <div className="p-6 sm:p-8 md:p-10 bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95 backdrop-blur-2xl rounded-3xl relative z-20 shadow-2xl shadow-red-600/20 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/30 transition-all duration-700 group">
                   {/* Subtle inner glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-orange-400/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-red-400/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   
                   {/* Cool edge highlight */}
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-orange-500/20 to-transparent opacity-50 blur-sm"></div>
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-red-500/20 to-transparent opacity-50 blur-sm"></div>
                   
                   <div className="relative z-10 text-center">
                     <div className="flex items-center justify-center mb-4">
-                      <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center mr-3">
-                        <Mail className="w-4 h-4 text-orange-400" />
+                      <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center mr-3">
+                        <Mail className="w-4 h-4 text-red-400" />
                       </div>
                       <h3 className="text-xl md:text-2xl font-bold text-white">Stay Updated</h3>
                     </div>

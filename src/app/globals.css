@@ -1,6 +1,7 @@
 @import "tw-animate-css";
 @import "react-phone-number-input/style.css";
-@import "../styles/design-system.css";
+@import "../styles/torch-design-system.css";
+@import "../styles/torch-components.css";
 
 @tailwind base;
 @tailwind components;
