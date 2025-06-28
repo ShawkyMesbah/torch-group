@@ -1,4 +1,4 @@
-import React, { useRef, useState, MouseEvent, ReactNode, useEffect } from "react";
+import React, { useRef, useState, MouseEvent, ReactNode } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import "./TiltedCard.css";
 
@@ -17,7 +17,6 @@ interface TiltedCardProps {
   showTooltip?: boolean;
   overlayContent?: React.ReactNode;
   displayOverlayContent?: boolean;
-  disableTiltOnMobile?: boolean;
 }
 
 const springValues = {
@@ -37,15 +36,12 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
   imageWidth = "100%",
   scaleOnHover = 1.1,
   rotateAmplitude = 14,
-  showMobileWarning = false,
+  showMobileWarning = true,
   showTooltip = true,
   overlayContent = null,
   displayOverlayContent = false,
-  disableTiltOnMobile = true,
 }) => {
   const ref = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isOlderDevice, setIsOlderDevice] = useState(false);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -61,29 +57,15 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
 
   const [lastY, setLastY] = useState(0);
 
-  useEffect(() => {
-    // Check for mobile/tablet devices
-    const checkDevice = () => {
-      const ua = navigator.userAgent.toLowerCase();
-      const isMobileDevice = /mobile|tablet|android|ipad|iphone|ipod/i.test(ua);
-      const isOlder = /android [1-4]|iphone os [1-9]_|cpu os [1-9]_/.test(ua);
-      setIsMobile(isMobileDevice);
-      setIsOlderDevice(isOlder);
-    };
-
-    checkDevice();
-  }, []);
-
   function handleMouse(e: MouseEvent<HTMLElement>) {
-    if (!ref.current || (disableTiltOnMobile && isMobile)) return;
+    if (!ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
     const offsetX = e.clientX - rect.left - rect.width / 2;
     const offsetY = e.clientY - rect.top - rect.height / 2;
 
-    // Adjust tilt values for mobile/tablet
-    const mobileMultiplier = isMobile ? 0.5 : 1;
-    const maxRotation = Math.min(rotateAmplitude * mobileMultiplier, 15);
+    // Clamp rotation values to prevent excessive tilting
+    const maxRotation = Math.min(rotateAmplitude, 15);
     const rotationX = Math.max(-maxRotation, Math.min(maxRotation, (offsetY / (rect.height / 2)) * -rotateAmplitude));
     const rotationY = Math.max(-maxRotation, Math.min(maxRotation, (offsetX / (rect.width / 2)) * rotateAmplitude));
 
@@ -98,29 +80,8 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
     setLastY(offsetY);
   }
 
-  function handleTouchMove(e: TouchEvent) {
-    if (!ref.current || (disableTiltOnMobile && isMobile)) return;
-
-    const touch = e.touches[0];
-    if (!touch) return;
-
-    const rect = ref.current.getBoundingClientRect();
-    const offsetX = touch.clientX - rect.left - rect.width / 2;
-    const offsetY = touch.clientY - rect.top - rect.height / 2;
-
-    // Reduced tilt for touch interactions
-    const touchMultiplier = 0.3;
-    const maxRotation = Math.min(rotateAmplitude * touchMultiplier, 10);
-    const rotationX = Math.max(-maxRotation, Math.min(maxRotation, (offsetY / (rect.height / 2)) * -rotateAmplitude));
-    const rotationY = Math.max(-maxRotation, Math.min(maxRotation, (offsetX / (rect.width / 2)) * rotateAmplitude));
-
-    rotateX.set(rotationX);
-    rotateY.set(rotationY);
-  }
-
   function handleMouseEnter() {
-    if (disableTiltOnMobile && isMobile) return;
-    scale.set(isOlderDevice ? 1.02 : scaleOnHover);
+    scale.set(scaleOnHover);
     opacity.set(1);
   }
 
@@ -135,7 +96,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
   return (
     <figure
       ref={ref}
-      className={`tilted-card-figure ${isMobile ? 'touch-device' : ''}`}
+      className="tilted-card-figure"
       style={{
         width: containerWidth,
         ...(containerHeight ? { height: containerHeight } : {}),
@@ -143,12 +104,10 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchMove={handleTouchMove as any}
-      onTouchEnd={handleMouseLeave}
     >
-      {showMobileWarning && isMobile && (
+      {showMobileWarning && (
         <div className="tilted-card-mobile-alert">
-          Tilt effect is simplified for mobile devices.
+          This effect is not optimized for mobile. Check on desktop.
         </div>
       )}
 
@@ -162,6 +121,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
           scale,
         }}
       >
+        {/* Only render image if imageSrc is provided */}
         {imageSrc ? (
           <motion.img
             src={imageSrc}
@@ -173,19 +133,21 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
             }}
           />
         ) : (
-          <div className="tilted-card-content-wrapper">
+          <div className="tilted-card-content-wrapper" style={{ width: '100%', height: '100%', minHeight: 0, flex: 1 }}>
             {children}
           </div>
         )}
 
         {displayOverlayContent && overlayContent && (
-          <motion.div className="tilted-card-overlay">
+          <motion.div
+            className="tilted-card-overlay"
+          >
             {overlayContent}
           </motion.div>
         )}
       </motion.div>
 
-      {showTooltip && !isMobile && (
+      {showTooltip && (
         <motion.figcaption
           className="tilted-card-caption"
           style={{

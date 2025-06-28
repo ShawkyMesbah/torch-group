@@ -62,37 +62,38 @@
   }
   
   /* Typography adjustments */
-  .text-4xl { font-size: 1.5rem !important; }
-  .text-5xl { font-size: 1.875rem !important; }
+  .text-4xl { font-size: 1.75rem !important; }
+  .text-5xl { font-size: 2rem !important; }
   .text-6xl { font-size: 2.25rem !important; }
   .text-7xl { font-size: 2.5rem !important; }
   
   /* Hero section */
   .hero-logo {
-    width: 80px !important;
-    height: 80px !important;
+    width: 100px !important;
+    height: 100px !important;
   }
   
   .hero-heading {
-    font-size: 1.5rem !important;
+    font-size: 1.75rem !important;
     line-height: 1.2 !important;
   }
   
+  .hero-description {
+    font-size: 0.95rem !important;
+  }
+  
   .hero-button {
-    padding: 0.625rem 1rem !important;
-    font-size: 0.85rem !important;
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.9rem !important;
   }
   
   /* Small grid adjustments */
-  .grid {
-    gap: 0.75rem !important;
-  }
+  .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
   
   /* Section padding for very small screens */
-  .py-20 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .py-24 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
-  .py-32 { padding-top: 3rem; padding-bottom: 3rem; }
-  .py-40 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  .py-28 { padding-top: 3rem; padding-bottom: 3rem; }
+  .py-32 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
   
   /* Better text scaling for very small screens */
   .text-lg { font-size: 1rem !important; }
