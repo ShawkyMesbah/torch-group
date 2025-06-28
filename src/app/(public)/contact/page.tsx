@@ -95,11 +95,11 @@ export default function ContactPage() {
           </nav>
         </div>
 
-      {/* Animated grid background to match homepage */}
+      {/* Animated grid background */}
       <SharedTorchBackground />
 
       {/* Enhanced Hero Section */}
-        <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent" id="hero">
+      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10 text-center">
           {/* Animated badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-8 backdrop-blur-sm">
@@ -133,10 +133,10 @@ export default function ContactPage() {
             <span>We typically respond within 2-4 hours</span>
           </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Enhanced Contact Details and Form Section */}
-        <section className="torch-section-standard bg-transparent relative pt-8 md:pt-12" id="contact-details">
+        <section className="torch-section-standard bg-transparent relative" id="contact-details">
         {/* Improved background glow effect */}
         <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
           <div className="w-full max-w-6xl h-[800px] bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/15 blur-[120px] rounded-3xl animate-pulse-slow"></div>

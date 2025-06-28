@@ -255,7 +255,6 @@ export default function BlogPage() {
                 <p className="text-xl text-gray-300 mb-10 animate-fade-in animation-delay-700 text-base sm:text-lg md:text-xl">
                   Discover the latest insights, creative content, talent spotlights, and industry news from the creative world
                 </p>
-                <p className="text-xl text-gray-300 mt-8 text-base sm:text-lg md:text-xl">No blog posts found matching your criteria.</p>
                 {searchQuery && (
                   <Button 
                     onClick={() => setSearchQuery("")}
@@ -332,7 +331,7 @@ export default function BlogPage() {
         <SharedTorchBackground />
         
         {/* Hero Section */}
-        <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12 border-b border-gray-800/50 overflow-hidden" id="hero">
+        <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden pt-8 md:pt-12" id="hero">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
           
