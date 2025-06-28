@@ -102,30 +102,35 @@ export default function AboutPage() {
       <SharedTorchBackground />
         
       {/* Hero Section */}
-      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12" id="hero">
-        <div className="torch-container-wide mx-auto relative z-10">
-          <div className="flex flex-col items-center text-center mb-12">
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white tracking-tight group cursor-default"
-                whileHover={!isOlderDevice && !prefersReducedMotion ? { 
-                  scale: 1.02,
-                  transition: { duration: 0.3, ease: "easeOut" }
-                } : {}}
-              >
-                <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-                  About
-                </span>{" "}
-                <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)]">
-                  Torch Group
-                  <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-500 ease-out"></span>
-                </span>
-              </motion.h1>
+      <section className="relative min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] flex items-center justify-center overflow-hidden">
+        <div className="relative z-20 flex flex-1 flex-col items-center justify-center w-full h-full px-4 text-center">
+          <motion.div 
+            className="flex flex-col items-center justify-center w-full h-full text-center z-20 flex-1"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+          >
+            <motion.h1 
+              className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white tracking-tight group cursor-default"
+              whileHover={!isOlderDevice && !prefersReducedMotion ? { 
+                scale: 1.02,
+                transition: { duration: 0.3, ease: "easeOut" }
+              } : {}}
+            >
+              <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                About
+              </span>{" "}
+              <span className="torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)]">
+                Torch Group
+                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+              </span>
+            </motion.h1>
             <p className="text-lg md:text-xl text-gray-200 max-w-3xl">
               Igniting digital transformation through innovative solutions and strategic allies.
             </p>
-          </div>
+          </motion.div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Our Story Section */}
         <SectionWrapper animation="slide-up" className="torch-section-standard bg-transparent" id="story">

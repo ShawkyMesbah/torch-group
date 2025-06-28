@@ -99,14 +99,20 @@ export default function ContactPage() {
       <SharedTorchBackground />
 
       {/* Enhanced Hero Section */}
-      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12" id="hero">
-        <div className="torch-container-wide mx-auto relative z-10 text-center">
-          {/* Animated badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-8 backdrop-blur-sm">
-            <MessageCircle className="w-4 h-4 torch-text-accent" />
-            <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
-          </div>
-          
+      <section className="relative min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] flex items-center justify-center overflow-hidden">
+        <div className="relative z-20 flex flex-1 flex-col items-center justify-center w-full h-full px-4 text-center">
+          <motion.div 
+            className="flex flex-col items-center justify-center w-full h-full text-center z-20 flex-1"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+          >
+            {/* Animated badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-8 backdrop-blur-sm">
+              <MessageCircle className="w-4 h-4 torch-text-accent" />
+              <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
+            </div>
+            
             <motion.h1 
               className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white tracking-tight group cursor-default"
               whileHover={!isOlderDevice && !prefersReducedMotion ? { 
@@ -122,18 +128,19 @@ export default function ContactPage() {
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-500 ease-out"></span>
             </span>
             </motion.h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Whether you have a groundbreaking idea, need expert consultation, or want to discuss partnership opportunities – 
-            we're here to transform your vision into extraordinary digital experiences.
-          </p>
-          
-          {/* Quick response promise */}
-          <div className="flex items-center justify-center gap-2 mt-8 text-sm text-gray-400">
-            <CheckCircle className="w-4 h-4 torch-text-accent" />
-            <span>We typically respond within 2-4 hours</span>
-          </div>
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Whether you have a groundbreaking idea, need expert consultation, or want to discuss partnership opportunities – 
+              we're here to transform your vision into extraordinary digital experiences.
+            </p>
+            
+            {/* Quick response promise */}
+            <div className="flex items-center justify-center gap-2 mt-8 text-sm text-gray-400">
+              <CheckCircle className="w-4 h-4 torch-text-accent" />
+              <span>We typically respond within 2-4 hours</span>
+            </div>
+          </motion.div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Enhanced Contact Details and Form Section */}
         <section className="torch-section-standard bg-transparent relative" id="contact-details">

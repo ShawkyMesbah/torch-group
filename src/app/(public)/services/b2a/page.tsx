@@ -46,13 +46,13 @@ export default function B2AServicesPage() {
       <SharedTorchBackground />
       
       {/* Hero Section */}
-      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
-        <div className="torch-container-wide mx-auto relative z-10">
+      <section className="relative min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] flex items-center justify-center overflow-hidden">
+        <div className="relative z-20 flex flex-1 flex-col items-center justify-center w-full h-full px-4 text-center">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            className="flex flex-col items-center justify-center w-full h-full text-center z-20 flex-1"
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col items-center text-center mb-16"
+            transition={{ duration: 1.2, ease: 'easeOut' }}
           >
             <div className="torch-section-header mb-8">
               <span className="torch-section-title">B2A SERVICES</span>
@@ -71,7 +71,7 @@ export default function B2AServicesPage() {
             </p>
           </motion.div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Coming Soon Section */}
       <section className="torch-section-standard bg-transparent">

@@ -332,17 +332,16 @@ export default function BlogPage() {
         <SharedTorchBackground />
         
         {/* Hero Section */}
-        <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden pt-8 md:pt-12" id="hero">
+        <section className="relative min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] flex items-center justify-center overflow-hidden border-b border-gray-800/50">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
-          
-          <div className="torch-container-wide mx-auto relative z-10">
-            <div className="torch-container-content mx-auto text-center mb-grand">
-              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-x-4 gap-y-2 flex-wrap animate-fade-in animation-delay-300 overflow-x-auto">
-                <span className="h-px bg-red-500 w-8"></span>
-                <span>INSIGHTS AND INSPIRATION</span>
-                <span className="h-px bg-red-500 w-8"></span>
-              </div>
+          <div className="relative z-20 flex flex-1 flex-col items-center justify-center w-full h-full px-4 text-center">
+            <motion.div 
+              className="flex flex-col items-center justify-center w-full h-full text-center z-20 flex-1"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: 'easeOut' }}
+            >
               <motion.h1 
                 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white animate-fade-in animation-delay-500 tracking-tight group cursor-default"
                 whileHover={!isOlderDevice && !prefersReducedMotion ? { 
@@ -361,9 +360,9 @@ export default function BlogPage() {
               <p className="text-xl text-gray-300 mb-10 animate-fade-in animation-delay-700 text-base sm:text-lg md:text-xl">
                 Discover the latest insights, creative content, talent spotlights, and industry news from the creative world
               </p>
-            </div>
+            </motion.div>
           </div>
-        </SectionWrapper>
+        </section>
 
         {/* Search and Filter Section */}
         <section className="torch-section-comfortable bg-transparent relative" id="search-filters">
