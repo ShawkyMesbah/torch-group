@@ -102,7 +102,7 @@ export default function AboutPage() {
       <SharedTorchBackground />
         
       {/* Hero Section */}
-      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
+      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12" id="hero">
         <div className="torch-container-wide mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-12">
               <motion.h1 
@@ -125,7 +125,7 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Our Story Section */}
         <SectionWrapper animation="slide-up" className="torch-section-standard bg-transparent" id="story">

@@ -99,7 +99,7 @@ export default function ContactPage() {
       <SharedTorchBackground />
 
       {/* Enhanced Hero Section */}
-      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
+      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12" id="hero">
         <div className="torch-container-wide mx-auto relative z-10 text-center">
           {/* Animated badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-8 backdrop-blur-sm">
@@ -133,7 +133,7 @@ export default function ContactPage() {
             <span>We typically respond within 2-4 hours</span>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Enhanced Contact Details and Form Section */}
         <section className="torch-section-standard bg-transparent relative" id="contact-details">

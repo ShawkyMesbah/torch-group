@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useTiltEffect } from "@/hooks/useTiltEffect";
+import { SectionWrapper } from "@/components/ui/section-wrapper";
 
 export default function B2BServicesPage() {
   const [formData, setFormData] = useState({
@@ -130,7 +131,7 @@ export default function B2BServicesPage() {
       <SharedTorchBackground />
       
       {/* Hero Section */}
-      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
+      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -155,7 +156,7 @@ export default function B2BServicesPage() {
             </p>
           </motion.div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Benefits Section */}
       <section className="torch-section-standard bg-transparent">

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Users, Clock, Bell, Globe, Handshake, Award, Network } from "lucide-react";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
 import { Button } from "@/components/ui/button";
+import { SectionWrapper } from "@/components/ui/section-wrapper";
 
 export default function B2AServicesPage() {
   const features = [
@@ -45,7 +46,7 @@ export default function B2AServicesPage() {
       <SharedTorchBackground />
       
       {/* Hero Section */}
-      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
+      <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -70,7 +71,7 @@ export default function B2AServicesPage() {
             </p>
           </motion.div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Coming Soon Section */}
       <section className="torch-section-standard bg-transparent">

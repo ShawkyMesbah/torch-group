@@ -14,6 +14,7 @@ import { SharedTorchBackground } from "@/components/ui/animated-grid-background"
 import { GlareHover } from "@/components/animations";
 import { useTiltEffect } from "@/hooks/useTiltEffect";
 import Head from "next/head";
+import { SectionWrapper } from "@/components/ui/section-wrapper";
 
 // Interface for blog posts with author information
 interface BlogPostWithAuthor extends BlogPost {
@@ -331,7 +332,7 @@ export default function BlogPage() {
         <SharedTorchBackground />
         
         {/* Hero Section */}
-        <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden pt-8 md:pt-12" id="hero">
+        <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden pt-8 md:pt-12" id="hero">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
           
@@ -362,7 +363,7 @@ export default function BlogPage() {
               </p>
             </div>
           </div>
-        </section>
+        </SectionWrapper>
 
         {/* Search and Filter Section */}
         <section className="torch-section-comfortable bg-transparent relative" id="search-filters">
