@@ -827,14 +827,6 @@ export default function Home() {
     setLastFocusedElement(element);
   }, []);
 
-  const handleExploreClick = () => {
-    scrollToSection('about-torch');
-  };
-
-  const handleContactClick = () => {
-    scrollToSection('contact');
-  };
-
   return (
     <>
       {/* SEO: Enhanced Head with structured data */}
@@ -1008,7 +1000,7 @@ export default function Home() {
         {/* ENHANCED HERO SECTION */}
         <section 
           id="hero" 
-          className="relative min-h-screen flex items-center justify-center overflow-hidden"
+          className="relative flex flex-col justify-center items-center min-h-screen z-10 overflow-hidden pt-comfortable pb-spacious px-comfortable"
           aria-label="Hero section - Welcome to Torch Group"
           style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
         >
@@ -1030,107 +1022,115 @@ export default function Home() {
           </div>
 
           {/* Hero content */}
-          <div className="relative z-20 flex flex-1 flex-col items-center justify-center w-full h-full px-4 text-center">
+          <motion.div 
+            className="torch-container-content flex flex-col items-center justify-center w-full mx-auto text-center z-20"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+          >
+                         {/* Enhanced Logo Section */}
+             <motion.div 
+               className="mt-10 mb-2 relative group flex flex-col items-center"
+               initial={{ opacity: 0, scale: 0.8 }}
+               animate={{ opacity: 1, scale: 1 }}
+               transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
+             >
+               {/* Main logo container with refined glow */}
+               <div className="relative flex items-center justify-center w-[320px] h-[320px] sm:w-[380px] sm:h-[380px]">
+                 {/* Refined single-layer glow */}
+                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 via-red-600/40 to-red-700/30 blur-[80px] rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-red-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
+                 
+                 {/* Logo */}
+                 <Image 
+                   src="/images/logo.png"
+                   alt="Torch Logo"
+                   width={320}
+                   height={320}
+                   priority
+                   className="object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 group-hover:drop-shadow-[0_0_70px_#dc2626dd] transition-all duration-500 cursor-pointer w-[260px] h-[260px] sm:w-[320px] sm:h-[320px]"
+                   style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
+                   onClick={handleLogoClick}
+                   ref={logoImgRefDesktop}
+                 />
+               </div>
+             </motion.div>
+
+                         {/* Enhanced Main Heading */}
+             <motion.h1 
+               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 text-white tracking-tight leading-tight text-center flex flex-col items-center justify-center -mt-8 sm:-mt-10"
+               style={{ position: 'relative', zIndex: 20 }}
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
+             >
+               <span className="block mb-1 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent drop-shadow-2xl text-center">
+                 Welcome to
+               </span>
+               <span className="relative block torch-text-primary drop-shadow-2xl text-center">
+                 Torch
+                 <svg className="absolute left-1/2 transform -translate-x-1/2 -bottom-3 w-full h-4 max-w-[200px]" viewBox="0 0 200 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                   <path d="M8 12C50 3 150 3 192 8" stroke="url(#gradient)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+                     <animate attributeName="stroke-dasharray" from="0,200" to="200,0" dur="1.5s" fill="freeze" begin="0.8s" />
+                   </path>
+                   <defs>
+                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                       <stop offset="0%" stopColor="#f97316" />
+                       <stop offset="50%" stopColor="#dc2626" />
+                       <stop offset="100%" stopColor="#b91c1c" />
+                     </linearGradient>
+                   </defs>
+                 </svg>
+               </span>
+             </motion.h1>
+
+            {/* Enhanced Tagline */}
             <motion.div 
-              className="flex flex-col items-center justify-center w-full h-full text-center z-20 flex-1"
-              initial={{ opacity: 0, y: 40 }}
+              className="mt-2 mb-6 text-center"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
+              transition={{ duration: 1, delay: 0.9, ease: 'easeOut' }}
             >
-              {/* Enhanced Logo Section */}
-              <motion.div 
-                className="mb-8 mt-0 relative group flex flex-col items-center"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-              >
-                {/* Main logo container with refined glow */}
-                <div className="relative flex items-center justify-center w-[320px] h-[320px] sm:w-[380px] sm:h-[380px]">
-                  {/* Refined single-layer glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 via-red-600/40 to-red-700/30 blur-[80px] rounded-full transition-all duration-500 group-hover:blur-[100px] group-hover:from-red-400/40 group-hover:via-red-500/50 group-hover:to-red-600/40 animate-pulse-slow"></div>
-                  
-                  {/* Logo */}
-                  <Image 
-                    src="/images/logo.png"
-                    alt="Torch Logo"
-                    width={320}
-                    height={320}
-                    priority
-                    className="object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 group-hover:drop-shadow-[0_0_70px_#dc2626dd] transition-all duration-500 cursor-pointer w-[260px] h-[260px] sm:w-[320px] sm:h-[320px]"
-                    style={{ aspectRatio: '1/1', willChange: prefersReducedMotion ? 'auto' : 'transform' }}
-                    onClick={handleLogoClick}
-                    ref={logoImgRefDesktop}
-                  />
-                </div>
-              </motion.div>
-
-              {/* Enhanced Main Heading */}
-              <motion.h1 
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 text-white tracking-tight leading-tight text-center flex flex-col items-center justify-center -mt-8 sm:-mt-10"
-                style={{ position: 'relative', zIndex: 20 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
-              >
-                <span className="block mb-1 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent drop-shadow-2xl text-center">
-                  Welcome to
-                </span>
-                <span className="relative block torch-text-primary drop-shadow-2xl text-center">
-                  Torch
-                  <svg className="absolute left-1/2 transform -translate-x-1/2 -bottom-3 w-full h-4 max-w-[200px]" viewBox="0 0 200 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 12C50 3 150 3 192 8" stroke="url(#gradient)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
-                      <animate attributeName="stroke-dasharray" from="0,200" to="200,0" dur="1.5s" fill="freeze" begin="0.8s" />
-                    </path>
-                    <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#f97316" />
-                        <stop offset="50%" stopColor="#dc2626" />
-                        <stop offset="100%" stopColor="#b91c1c" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </span>
-              </motion.h1>
-
-              {/* Enhanced Tagline */}
-              <motion.p 
-                className="text-xl sm:text-2xl md:text-3xl text-gray-300 max-w-3xl mx-auto leading-relaxed mt-4 mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.9, ease: 'easeOut' }}
-              >
-                Every Idea Starts With A Torch
-              </motion.p>
-
-              {/* Enhanced CTA Buttons */}
-              <motion.div 
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1.2, ease: 'easeOut' }}
-              >
-                <Button 
-                  variant="default"
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[200px] group relative overflow-hidden"
-                  onClick={handleExploreClick}
-                >
-                  <span className="relative z-10">Explore Torch</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-600"></div>
-                </Button>
-                <Button 
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto min-w-[200px] group relative overflow-hidden"
-                  onClick={handleContactClick}
-                >
-                  <span className="relative z-10">Contact Us</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 via-red-500/10 to-red-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </Button>
-              </motion.div>
+              <BlurText
+                text="Every Idea Starts With A Torch"
+                className={cn("block text-lg md:text-xl lg:text-2xl text-gray-100 font-bold drop-shadow-lg tracking-wide", merriweather.className)}
+                animateBy="words"
+                direction="top"
+                delay={1000}
+                stepDuration={0.4}
+                shiny={true}
+              />
             </motion.div>
-          </div>
+
+            {/* Enhanced Action Buttons */}
+            <motion.div 
+              className="flex flex-col sm:flex-row items-center justify-center gap-compact sm:gap-comfortable mt-comfortable"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.2, ease: 'easeOut' }}
+            >
+              <button
+                onClick={handleButtonClick(() => scrollToSection('about-torch'))}
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-12 py-4 text-lg font-bold text-white shadow-2xl transition-all duration-500 hover:scale-105 hover:from-orange-400 hover:to-red-500 hover:shadow-[0_0_40px_rgba(255,87,34,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md border border-orange-400/20"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Explore Torch 
+                  <ArrowDownIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-y-1" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </button>
+              
+              <a
+                href="/contact"
+                className="group relative overflow-hidden rounded-full border-2 border-red-500/60 px-12 py-4 text-lg font-bold text-red-400 bg-black/40 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-red-600/30 hover:to-red-500/30 hover:text-red-300 hover:border-red-400/80 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black z-20 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px] backdrop-blur-md"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Contact Us 
+                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-red-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </a>
+                         </motion.div>
+           </motion.div>
         </section>
 
         {/* About Torch Group block moved here */}
