@@ -288,21 +288,33 @@ export default function AboutPage() {
                 icon: <Users className="h-12 w-12 mx-auto mb-4 torch-text-primary" />,
               }
             ].map((expertise, index) => (
-              <TiltedCard
+              <motion.div
                 key={expertise.title}
-                containerHeight="320px"
-                containerWidth="100%"
-                imageHeight="320px"
-                imageWidth="100%"
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1,
+                  transition: {
+                    type: "spring",
+                    duration: 0.8,
+                    delay: index * 0.2,
+                    bounce: 0.3
+                  }
+                }}
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                <TiltedCard
+                  containerHeight="320px"
+                  containerWidth="100%"
+                  imageHeight="320px"
+                  imageWidth="100%"
                   scaleOnHover={1.03}
                   rotateAmplitude={6}
-                showMobileWarning={false}
-                showTooltip={false}
-              >
+                  showMobileWarning={false}
+                  showTooltip={false}
+                >
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
                     className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 torch-border-accent-30 p-generous rounded-3xl text-center h-full w-full flex flex-col items-center justify-center"
                     style={{ 
                       transformStyle: 'preserve-3d',
@@ -311,12 +323,13 @@ export default function AboutPage() {
                     }}
                   >
                     <div className="relative z-10">
-                  {expertise.icon}
+                      {expertise.icon}
                       <h3 className="text-xl font-semibold mb-cozy text-white">{expertise.title}</h3>
                       <p className="text-gray-200 text-base leading-relaxed">{expertise.desc}</p>
-                </div>
+                    </div>
                   </motion.div>
-              </TiltedCard>
+                </TiltedCard>
+              </motion.div>
             ))}
           </div>
         </div>
