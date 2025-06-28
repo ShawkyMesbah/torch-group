@@ -353,7 +353,7 @@ export default function Header() {
           {/* Mobile menu - improved version but keeping original style */}
           {isMobileMenuOpen && (
             <div 
-              className="fixed inset-0 z-[110] bg-black/70 backdrop-blur-sm flex flex-col md:hidden animate-fade-in"
+              className="fixed inset-0 z-[150] bg-black/90 backdrop-blur-lg flex flex-col md:hidden animate-fade-in"
               style={{ top: '4rem' }}
               aria-hidden={!isMobileMenuOpen}
             >
@@ -364,7 +364,7 @@ export default function Header() {
                 aria-modal="true"
                 aria-label="Mobile navigation menu"
               >
-                <div className="space-y-2 px-6 py-4 flex flex-col items-center">
+                <div className="space-y-4 px-6 py-8 flex flex-col items-center">
                   {navigation.map((item) => {
                     const isActive = pathname === item.href || (item.name === "Services" && pathname.startsWith("/services"));
                     const isHomeLink = item.href === '/';
