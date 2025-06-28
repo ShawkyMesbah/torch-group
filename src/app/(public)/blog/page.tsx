@@ -315,7 +315,7 @@ export default function BlogPage() {
         />
       </Head>
 
-      <main className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+      <main className="min-h-screen pt-20 md:pt-24 pb-20 relative overflow-x-hidden">
         {/* Accessibility: Landmark regions */}
         <div className="sr-only">
           <h1>Torch Group Blog - Creative Insights & Digital Innovation Stories</h1>
@@ -332,7 +332,7 @@ export default function BlogPage() {
         <SharedTorchBackground />
         
         {/* Hero Section */}
-        <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden" id="hero">
+        <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12 border-b border-gray-800/50 overflow-hidden" id="hero">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-red-600/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-red-600/5 blur-3xl animate-pulse-slow animation-delay-1000"></div>
           

@@ -81,7 +81,7 @@ export default function AboutPage() {
         />
       </Head>
 
-    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden">
+    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden pt-20 md:pt-24">
         {/* Accessibility: Landmark regions */}
         <div className="sr-only">
           <h1>About Torch Group - Leading Creative Digital Agency</h1>
@@ -102,7 +102,7 @@ export default function AboutPage() {
       <SharedTorchBackground />
         
       {/* Hero Section */}
-        <SectionWrapper animation="fade-in" className="torch-section-standard relative bg-transparent" id="hero">
+      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-12">
               <motion.h1 
@@ -125,7 +125,7 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Our Story Section */}
         <SectionWrapper animation="slide-up" className="torch-section-standard bg-transparent" id="story">

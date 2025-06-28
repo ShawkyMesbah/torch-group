@@ -80,7 +80,7 @@ export default function ContactPage() {
         />
       </Head>
 
-    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden">
+    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden pt-20 md:pt-24">
         {/* Accessibility: Landmark regions */}
         <div className="sr-only">
           <h1>Contact Torch Group - Get in Touch with Creative Digital Experts</h1>
@@ -95,7 +95,7 @@ export default function ContactPage() {
           </nav>
         </div>
 
-      {/* Animated grid background */}
+      {/* Animated grid background to match homepage */}
       <SharedTorchBackground />
 
       {/* Enhanced Hero Section */}
@@ -136,7 +136,7 @@ export default function ContactPage() {
       </SectionWrapper>
 
       {/* Enhanced Contact Details and Form Section */}
-        <section className="torch-section-standard bg-transparent relative" id="contact-details">
+        <section className="torch-section-standard bg-transparent relative pt-8 md:pt-12" id="contact-details">
         {/* Improved background glow effect */}
         <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
           <div className="w-full max-w-6xl h-[800px] bg-gradient-to-br from-red-600/20 via-red-500/10 to-red-700/15 blur-[120px] rounded-3xl animate-pulse-slow"></div>

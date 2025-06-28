@@ -40,12 +40,12 @@ export default function B2AServicesPage() {
   ];
 
   return (
-    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden">
+    <main className="flex flex-col min-h-screen text-white relative overflow-x-hidden pt-20 md:pt-24">
       {/* Animated grid background to match homepage */}
       <SharedTorchBackground />
       
       {/* Hero Section */}
-      <section className="torch-section-standard relative bg-transparent">
+      <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
