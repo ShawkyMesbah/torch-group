@@ -9,6 +9,7 @@ import { SharedTorchBackground } from "@/components/ui/animated-grid-background"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useTiltEffect } from "@/hooks/useTiltEffect";
 
 export default function ServicesPage() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,22 @@ export default function ServicesPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Tilt effect refs for service cards
+  const serviceTiltRefs = [
+    useTiltEffect({ max: 8, scale: 1.02 }),
+    useTiltEffect({ max: 8, scale: 1.02 }),
+    useTiltEffect({ max: 8, scale: 1.02 }),
+    useTiltEffect({ max: 8, scale: 1.02 })
+  ];
+
+  // Tilt effect refs for process cards
+  const processTiltRefs = [
+    useTiltEffect({ max: 6, scale: 1.01 }),
+    useTiltEffect({ max: 6, scale: 1.01 }),
+    useTiltEffect({ max: 6, scale: 1.01 }),
+    useTiltEffect({ max: 6, scale: 1.01 })
+  ];
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -171,6 +188,7 @@ export default function ServicesPage() {
             ].map((service, index) => (
               <motion.div
                 key={service.title}
+                ref={serviceTiltRefs[index]}
                 variants={{
                   hidden: { opacity: 0, y: 40 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
@@ -181,7 +199,7 @@ export default function ServicesPage() {
                 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl min-h-10 px-4 py-2"
-                style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+                style={{ animationDelay: `${index * 0.08 + 0.1}s`, transformStyle: 'preserve-3d' }}
               >
                 {/* Subtle grid pattern overlay */}
                 <div className="absolute inset-0 opacity-5">
@@ -270,10 +288,12 @@ export default function ServicesPage() {
             ].map((process, index) => (
               <motion.div
                 key={process.step}
+                ref={processTiltRefs[index]}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="relative group"
+                style={{ transformStyle: 'preserve-3d' }}
               >
                 <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 h-full hover:border-red-600 transition-all duration-500 hover:shadow-red-900/40 hover:shadow-2xl">
                   {/* Step Number */}

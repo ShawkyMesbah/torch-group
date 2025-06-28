@@ -21,6 +21,7 @@ import { GlareHover } from "@/components/animations";
 import { Orbitron, Share_Tech_Mono, Russo_One, Oswald, Merriweather } from "next/font/google";
 import TiltedCard from '@/components/animations/TiltedCard';
 import Particles from '@/components/animations/Particles';
+import { useTiltEffect } from "@/hooks/useTiltEffect";
 
 const orbitron = Orbitron({ subsets: ["latin"], weight: ["400", "700"] });
 const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400" });
@@ -198,6 +199,13 @@ export default function Home() {
     typeSpeed: 90,
     deleteSpeed: 60,
   });
+
+  // Tilt effect refs for blog cards
+  const blogTiltRefs = [
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 })
+  ];
 
   // Performance: Optimized event handlers with useCallback
   const handleScroll = useCallback(() => {
@@ -824,25 +832,25 @@ export default function Home() {
       {/* SEO: Enhanced Head with structured data */}
       {mounted && (
         <Head>
-          <title>Torch Group - Igniting Creativity & Empowering Digital Talent</title>
-          <meta name="description" content="Torch Group empowers creative entities and talents through innovative digital solutions, strategic allies, and comprehensive media services. Discover our B2C, B2T, and B2B offerings." />
-          <meta name="keywords" content="creative agency, digital content, talent management, media services, branding, technology solutions, creative allies" />
+          <title>Torch Group - Premier Creative Agency & Digital Talent Platform | B2B, B2T, B2C Solutions</title>
+          <meta name="description" content="Transform your creative vision with Torch Group's comprehensive digital solutions. We empower talents, brands, and businesses through innovative content creation, strategic partnerships, and cutting-edge technology. Join 100+ successful clients worldwide." />
+          <meta name="keywords" content="creative agency, digital talent platform, content creation, brand development, creative services, talent management, digital marketing, creative partnerships, B2B solutions, B2T platform, creative technology, media production, brand strategy, creative consulting" />
           <meta name="author" content="Torch Group" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://torchgroup.com/" />
-          <meta property="og:title" content="Torch Group - Igniting Creativity & Empowering Digital Talent" />
-          <meta property="og:description" content="Empowering creative entities and talents through innovative digital solutions and strategic allies." />
+          <meta property="og:title" content="Torch Group - Premier Creative Agency & Digital Talent Platform" />
+          <meta property="og:description" content="Transform your creative vision with comprehensive digital solutions. We empower talents, brands, and businesses through innovative content creation and strategic partnerships." />
           <meta property="og:image" content="https://torchgroup.com/images/logo.png" />
           <meta property="og:site_name" content="Torch Group" />
           
           {/* Twitter */}
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://torchgroup.com/" />
-          <meta property="twitter:title" content="Torch Group - Igniting Creativity & Empowering Digital Talent" />
-          <meta property="twitter:description" content="Empowering creative entities and talents through innovative digital solutions and strategic allies." />
+          <meta property="twitter:title" content="Torch Group - Premier Creative Agency & Digital Talent Platform" />
+          <meta property="twitter:description" content="Transform your creative vision with comprehensive digital solutions. We empower talents, brands, and businesses through innovative content creation and strategic partnerships." />
           <meta property="twitter:image" content="https://torchgroup.com/images/logo.png" />
           
           {/* Structured Data */}
@@ -853,9 +861,12 @@ export default function Home() {
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 "name": "Torch Group",
-                "description": "Creative agency empowering talents through innovative digital solutions",
+                "description": "Premier creative agency and digital talent platform empowering brands, talents, and businesses through innovative content creation, strategic partnerships, and cutting-edge technology solutions.",
                 "url": "https://torchgroup.com",
                 "logo": "https://torchgroup.com/images/logo.png",
+                "foundingDate": "2024",
+                "industry": "Creative Services",
+                "keywords": "creative agency, digital talent platform, content creation, brand development, creative services",
                 "sameAs": [
                   "https://twitter.com/torchgroup",
                   "https://linkedin.com/company/torchgroup"
@@ -863,8 +874,26 @@ export default function Home() {
                 "contactPoint": {
                   "@type": "ContactPoint",
                   "contactType": "customer service",
-                  "url": "https://torchgroup.com/contact"
-                }
+                  "url": "https://torchgroup.com/contact",
+                  "availableLanguage": "English"
+                },
+                "offers": [
+                  {
+                    "@type": "Service",
+                    "name": "B2B Creative Solutions",
+                    "description": "Comprehensive membership services for businesses to grow online and offline presence"
+                  },
+                  {
+                    "@type": "Service", 
+                    "name": "B2T Talent Platform",
+                    "description": "Talent membership services to grow content engagement and attract audiences"
+                  },
+                  {
+                    "@type": "Service",
+                    "name": "B2C Creative Services",
+                    "description": "Creative products and services tailored to individual needs"
+                  }
+                ]
               })
             }}
           />
@@ -943,7 +972,7 @@ export default function Home() {
 
       {/* Accessibility: Landmark regions */}
       <div className="sr-only">
-        <h1>Torch Group - Igniting Creativity & Empowering Digital Talent</h1>
+        <h1>Torch Group - Premier Creative Agency & Digital Talent Platform</h1>
         <nav aria-label="Page sections">
           <ul>
             {sections.filter((s: HomepageSection) => s.enabled).map((section: HomepageSection) => (
@@ -1681,6 +1710,7 @@ export default function Home() {
                     {blogPosts.slice(0, 3).map((post, index) => (
                       <motion.div
                         key={post.id}
+                        ref={blogTiltRefs[index]}
                         whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                           scale: 1.05, 
                           boxShadow: '0 0 40px 8px #dc2626aa',
@@ -1689,7 +1719,8 @@ export default function Home() {
                         className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl focus-within:ring-2 focus-within:ring-red-500/50"
                         style={{ 
                           animationDelay: isOlderDevice ? '0s' : `${index * 0.08 + 0.1}s`,
-                          animationDuration: isOlderDevice ? '0s' : '0.6s'
+                          animationDuration: isOlderDevice ? '0s' : '0.6s',
+                          transformStyle: 'preserve-3d'
                         }}
                       >
                         {/* Subtle grid pattern overlay */}
