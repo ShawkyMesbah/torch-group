@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Star, Clock, Bell, Users, TrendingUp, Award, Play } from "lucide-react";
+import { ArrowRight, Star, Clock, Bell, Users, TrendingUp, Award, Play, ArrowLeft } from "lucide-react";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
 import { Button } from "@/components/ui/button";
 
@@ -38,6 +38,17 @@ export default function B2TServicesPage() {
       {/* Hero Section */}
       <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10">
+          {/* Back to Services Button */}
+          <div className="absolute top-0 left-0">
+            <Link 
+              href="/services"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Services
+            </Link>
+          </div>
+
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
