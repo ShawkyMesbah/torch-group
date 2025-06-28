@@ -13,6 +13,7 @@ import { BlogPost } from "@/generated/prisma";
 import { SharedTorchBackground } from "@/components/ui/animated-grid-background";
 import { GlareHover } from "@/components/animations";
 import { useTiltEffect } from "@/hooks/useTiltEffect";
+import Head from "next/head";
 
 // Interface for blog posts with author information
 interface BlogPostWithAuthor extends BlogPost {
@@ -133,7 +134,7 @@ export default function BlogPage() {
     return (
       <>
         {/* Enhanced SEO Meta Tags */}
-        <head>
+        <Head>
           <title>Torch Group Blog - Creative Insights & Digital Innovation Stories | Latest Updates</title>
           <meta name="description" content="Discover the latest insights, creative content, talent spotlights, and industry news from Torch Group. Stay updated with digital innovation trends and creative industry developments." />
           <meta name="keywords" content="torch group blog, creative insights, digital innovation, talent news, creative industry, digital marketing blog, creative content, industry trends" />
@@ -142,34 +143,34 @@ export default function BlogPage() {
           <meta property="og:type" content="blog" />
           <meta property="twitter:title" content="Torch Group Blog - Creative Insights & Digital Innovation Stories" />
           <meta property="twitter:description" content="Discover the latest insights, creative content, talent spotlights, and industry news from Torch Group." />
-        </head>
+        </Head>
 
-        <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
-          {/* Animated grid background to match homepage */}
-          <SharedTorchBackground />
-          {/* Hero Section with loading state */}
-          <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden">
-            <div className="torch-container-wide mx-auto relative z-10">
-              <div className="torch-container-content mx-auto text-center mb-grand">
-                <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-x-4 gap-y-2 flex-wrap">
-                  <span className="h-px bg-red-500 w-8"></span>
-                  <span>INSIGHTS AND INSPIRATION</span>
-                  <span className="h-px bg-red-500 w-8"></span>
-                </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
-                  Torch <span className="text-red-500 relative inline-block">
-                    Blog
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"></span>
-                  </span>
-                </h1>
-                <div className="flex justify-center items-center mt-12">
-                  <Loader2 className="h-8 w-8 text-red-500 animate-spin mr-3" />
-                  <p className="text-xl text-gray-300">Loading blog posts...</p>
-                </div>
+      <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+        {/* Animated grid background to match homepage */}
+        <SharedTorchBackground />
+        {/* Hero Section with loading state */}
+        <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden">
+          <div className="torch-container-wide mx-auto relative z-10">
+            <div className="torch-container-content mx-auto text-center mb-grand">
+              <div className="text-red-500 font-semibold uppercase tracking-wider mb-8 flex items-center justify-center gap-x-4 gap-y-2 flex-wrap">
+                <span className="h-px bg-red-500 w-8"></span>
+                <span>INSIGHTS AND INSPIRATION</span>
+                <span className="h-px bg-red-500 w-8"></span>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
+                Torch <span className="text-red-500 relative inline-block">
+                  Blog
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"></span>
+                </span>
+              </h1>
+              <div className="flex justify-center items-center mt-12">
+                <Loader2 className="h-8 w-8 text-red-500 animate-spin mr-3" />
+                <p className="text-xl text-gray-300">Loading blog posts...</p>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+      </div>
       </>
     );
   }
@@ -179,34 +180,34 @@ export default function BlogPage() {
     return (
       <>
         {/* Enhanced SEO Meta Tags */}
-        <head>
+        <Head>
           <title>Torch Group Blog - Error Loading Content</title>
           <meta name="description" content="There was an error loading the Torch Group blog content. Please try again later." />
-        </head>
+        </Head>
 
-        <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
-          {/* Animated grid background to match homepage */}
-          <SharedTorchBackground />
-          <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden">
-            <div className="torch-container-wide mx-auto relative z-10">
-              <div className="torch-container-content mx-auto text-center">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
-                  Torch <span className="text-red-500 relative inline-block">Blog</span>
-                </h1>
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-8 mt-8">
-                  <p className="text-red-500 text-lg mb-4">Error loading blog posts</p>
-                  <p className="text-gray-300 mb-6 text-base sm:text-lg md:text-xl">{error}</p>
-                  <Button 
-                    onClick={() => window.location.reload()} 
-                    className="bg-red-600 hover:bg-red-700 min-h-10 px-4 py-2"
-                  >
-                    Try Again
-                  </Button>
-                </div>
+      <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+        {/* Animated grid background to match homepage */}
+        <SharedTorchBackground />
+        <section className="torch-section-standard relative bg-transparent border-b border-gray-800/50 overflow-hidden">
+          <div className="torch-container-wide mx-auto relative z-10">
+            <div className="torch-container-content mx-auto text-center">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white">
+                Torch <span className="text-red-500 relative inline-block">Blog</span>
+              </h1>
+              <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-8 mt-8">
+                <p className="text-red-500 text-lg mb-4">Error loading blog posts</p>
+                <p className="text-gray-300 mb-6 text-base sm:text-lg md:text-xl">{error}</p>
+                <Button 
+                  onClick={() => window.location.reload()} 
+                  className="bg-red-600 hover:bg-red-700 min-h-10 px-4 py-2"
+                >
+                  Try Again
+                </Button>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+      </div>
       </>
     );
   }
@@ -216,12 +217,12 @@ export default function BlogPage() {
     return (
       <>
         {/* Enhanced SEO Meta Tags */}
-        <head>
+        <Head>
           <title>Torch Group Blog - No Posts Found | Creative Insights & Digital Innovation</title>
           <meta name="description" content="No blog posts found matching your search criteria. Explore Torch Group's insights on creative content, digital innovation, and industry trends." />
-        </head>
+        </Head>
 
-        <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+      <div className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
           {/* Animated grid background to match homepage */}
           <SharedTorchBackground />
           {/* Hero Section */}
@@ -274,7 +275,7 @@ export default function BlogPage() {
   return (
     <>
       {/* Enhanced SEO Meta Tags */}
-      <head>
+      <Head>
         <title>Torch Group Blog - Creative Insights & Digital Innovation Stories | Latest Updates</title>
         <meta name="description" content="Discover the latest insights, creative content, talent spotlights, and industry news from Torch Group. Stay updated with digital innovation trends and creative industry developments." />
         <meta name="keywords" content="torch group blog, creative insights, digital innovation, talent news, creative industry, digital marketing blog, creative content, industry trends" />
@@ -312,7 +313,7 @@ export default function BlogPage() {
             })
           }}
         />
-      </head>
+      </Head>
 
       <main className="min-h-screen pt-0 pb-20 relative overflow-x-hidden">
         {/* Accessibility: Landmark regions */}
@@ -369,14 +370,14 @@ export default function BlogPage() {
           <div className="torch-container-wide mx-auto">
             <div className="bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-lg p-6 md:p-8 rounded-3xl border border-gray-800">
               <div className="flex flex-col lg:flex-row gap-6 items-center">
-                {/* Search Bar */}
+            {/* Search Bar */}
                 <div className="relative flex-1 w-full">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                  <Input
-                    type="text"
+              <Input
+                type="text"
                     placeholder="Search articles, topics, or authors..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 bg-black/40 border-gray-700 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500/20"
                     aria-label="Search blog posts"
                   />
@@ -438,7 +439,7 @@ export default function BlogPage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    </div>
+                      </div>
                   )}
                   
                   {/* Content */}
@@ -464,7 +465,7 @@ export default function BlogPage() {
                     </h2>
                     
                     {/* Excerpt */}
-                    <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
+                    <p className="text-gray-300 text-sm leading-relaxed mb-comfortable line-clamp-3 flex-1">
                       {post.excerpt}
                     </p>
                     
@@ -502,8 +503,8 @@ export default function BlogPage() {
                 </motion.article>
               ))}
             </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
         {/* Newsletter CTA */}
         <section className="torch-section-standard bg-transparent relative">
@@ -513,7 +514,7 @@ export default function BlogPage() {
               
               <div className="relative z-10">
                 <motion.h2 
-                  className="text-2xl md:text-3xl font-bold mb-4 text-white tracking-tight group cursor-default"
+                  className="text-2xl md:text-3xl font-bold mb-comfortable text-white tracking-tight group cursor-default"
                   whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                     scale: 1.02,
                     transition: { duration: 0.3, ease: "easeOut" }
@@ -527,7 +528,7 @@ export default function BlogPage() {
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-500 ease-out"></span>
                   </span>
                 </motion.h2>
-                <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+                <p className="text-gray-300 mb-generous max-w-2xl mx-auto">
                   Get the latest insights, creative content, and industry news delivered directly to your inbox. 
                   Join our community of creative professionals and digital innovators.
                 </p>
@@ -551,8 +552,8 @@ export default function BlogPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+        </div>
+      </section>
       </main>
     </>
   );

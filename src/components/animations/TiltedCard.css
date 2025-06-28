@@ -56,6 +56,11 @@
   justify-content: center;
   border-radius: 1.5rem;
   /* Inherit glassy look */
+  /* Prevent text shifting during transforms */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: auto;
 }
 
 .tilted-card-img {

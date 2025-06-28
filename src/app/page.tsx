@@ -1151,7 +1151,7 @@ export default function Home() {
 
               {/* Enhanced Main Title with Hover Effects */}
               <motion.h2 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-12 text-white tracking-tight group cursor-default"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-comfortable text-white drop-shadow-lg group cursor-default"
                 whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                   scale: 1.02,
                   transition: { duration: 0.3, ease: "easeOut" }
@@ -1377,7 +1377,7 @@ export default function Home() {
                     <span className="torch-section-title">WHAT WE DO</span>
                   </div>
                   <motion.h2 
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-comfortable text-white drop-shadow-lg group cursor-default"
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       scale: 1.02,
                       transition: { duration: 0.3, ease: "easeOut" }
@@ -1398,7 +1398,7 @@ export default function Home() {
                       />
                     </span>
                   </motion.h2>
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center mb-comfortable">
                     <div className="torch-divider"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
@@ -1507,7 +1507,7 @@ export default function Home() {
                     <span className="torch-section-title">OUR BRANDS</span>
                   </div>
                   <motion.h2 
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg tracking-tight group cursor-default"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-comfortable text-white drop-shadow-lg tracking-tight group cursor-default"
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       scale: 1.02,
                       transition: { duration: 0.3, ease: "easeOut" }
@@ -1528,7 +1528,7 @@ export default function Home() {
                       />
                     </span>
                   </motion.h2>
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center mb-comfortable">
                     <div className="torch-divider"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
@@ -1677,7 +1677,7 @@ export default function Home() {
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                                   <motion.h2 
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg group cursor-default"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-comfortable text-white drop-shadow-lg group cursor-default"
                   whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                     scale: 1.02,
                     transition: { duration: 0.3, ease: "easeOut" }
@@ -1698,7 +1698,7 @@ export default function Home() {
                     />
                   </span>
                 </motion.h2>
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center mb-comfortable">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
                   <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">
@@ -1746,7 +1746,7 @@ export default function Home() {
                           <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-100 transition-colors duration-300 tracking-tight drop-shadow-lg">
                             {post.title}
                           </h3>
-                          <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 group-hover:text-gray-200 transition-colors duration-300 flex-grow">
+                          <p className="text-gray-300 text-sm leading-relaxed mb-comfortable line-clamp-3 group-hover:text-gray-200 transition-colors duration-300 flex-grow">
                             {post.excerpt || post.content?.substring(0, 120) + '...'}
                           </p>
                           <div className="flex items-center justify-between mt-auto">
@@ -1816,7 +1816,7 @@ export default function Home() {
                     <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                   </div>
                   <motion.h2 
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg tracking-tight group cursor-default"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-comfortable text-white drop-shadow-lg tracking-tight group cursor-default"
                     whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                       scale: 1.02,
                       transition: { duration: 0.3, ease: "easeOut" }
@@ -1837,7 +1837,7 @@ export default function Home() {
                       />
                     </span>
                   </motion.h2>
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center mb-comfortable">
                     <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                   </div>
 
@@ -1937,7 +1937,7 @@ export default function Home() {
                   <div className="h-px w-8 bg-red-600/80 ml-2"></div>
                 </div>
                 <motion.h2 
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 text-white drop-shadow-lg tracking-tight group cursor-default"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-comfortable text-white drop-shadow-lg tracking-tight group cursor-default"
                   whileHover={!isOlderDevice && !prefersReducedMotion ? { 
                     scale: 1.02,
                     transition: { duration: 0.3, ease: "easeOut" }
@@ -1958,7 +1958,7 @@ export default function Home() {
                     />
                   </span>
                 </motion.h2>
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-comfortable">
                   <div className="w-24 h-1 bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full animate-pulse-slow"></div>
                 </div>
                 <p className="text-lg md:text-xl font-bold text-gray-200 max-w-2xl mx-auto leading-relaxed mb-2">

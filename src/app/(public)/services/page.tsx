@@ -23,20 +23,19 @@ export default function ServicesPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Tilt effect refs for service cards
+  // Tilt effects for interactive cards
   const serviceTiltRefs = [
-    useTiltEffect({ max: 8, scale: 1.02 }),
-    useTiltEffect({ max: 8, scale: 1.02 }),
-    useTiltEffect({ max: 8, scale: 1.02 }),
-    useTiltEffect({ max: 8, scale: 1.02 })
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
   ];
 
-  // Tilt effect refs for process cards
   const processTiltRefs = [
-    useTiltEffect({ max: 6, scale: 1.01 }),
-    useTiltEffect({ max: 6, scale: 1.01 }),
-    useTiltEffect({ max: 6, scale: 1.01 }),
-    useTiltEffect({ max: 6, scale: 1.01 })
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
+    useTiltEffect({ max: 8, scale: 1.03 }),
   ];
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -217,7 +216,7 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold mb-3 tracking-tight drop-shadow-lg transition-colors duration-300 text-white group-hover:text-red-100">
+                  <h3 className="text-2xl font-bold mb-comfortable text-white group-hover:text-red-100">
                     {service.title}
                   </h3>
                   <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
@@ -251,7 +250,7 @@ export default function ServicesPage() {
       <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-comfortable text-white">
               Our <span className="torch-text-primary">Process</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
@@ -309,7 +308,7 @@ export default function ServicesPage() {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-white mb-4">{process.title}</h3>
+                  <h3 className="text-xl font-bold text-white mb-comfortable">{process.title}</h3>
                   <p className="text-gray-400 leading-relaxed">{process.description}</p>
                 </div>
               </motion.div>
@@ -322,7 +321,7 @@ export default function ServicesPage() {
       <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-comfortable text-white">
               Additional <span className="torch-text-primary">Services</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
@@ -385,7 +384,7 @@ export default function ServicesPage() {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-white mb-4">{service.title}</h3>
+                  <h3 className="text-xl font-bold text-white mb-comfortable">{service.title}</h3>
                   <p className="text-gray-400 mb-6 leading-relaxed">{service.description}</p>
                   
                   {/* Features List */}
@@ -410,7 +409,7 @@ export default function ServicesPage() {
             className="text-center mt-16"
           >
             <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 md:p-12">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-comfortable">
                 Need Something Specific?
               </h3>
               <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
@@ -437,7 +436,7 @@ export default function ServicesPage() {
             className="bg-gradient-to-br from-red-950/30 via-black/90 to-red-950/30 backdrop-blur-lg border-2 border-red-900/30 p-8 md:p-12 rounded-3xl"
           >
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Ready to elevate your digital presence?</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-comfortable text-white">Ready to elevate your digital presence?</h2>
               <p className="text-gray-400 mb-8">
                 Contact us today to discuss how our services can help your business reach new heights.
               </p>
