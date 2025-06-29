@@ -232,20 +232,6 @@ export default function ServicesPage() {
               </button>
             </Link>
           </div>
-
-          {/* Ready to elevate Section */}
-          <div className="mt-grand text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to elevate your digital presence?</h2>
-            <p className="text-gray-400 mb-8">
-              Contact us today to discuss how our services can help your business reach new heights.
-            </p>
-            <Link href="/contact">
-              <button className="inline-flex items-center px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-all duration-300">
-                Get in touch
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </Link>
-          </div>
         </div>
       </section>
 
