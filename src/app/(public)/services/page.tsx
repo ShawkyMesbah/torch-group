@@ -162,23 +162,31 @@ export default function ServicesPage() {
             {[
               {
                 title: "B2C",
-                description: "Enjoy with Our Torch Group Services & e commerce will help your creative products & services that fit your needs",
-                icon: <ShoppingCart className="h-16 w-16" />
+                description: "Discover our consumer-focused services and e-commerce solutions designed to showcase your creative products and services.",
+                icon: <ShoppingCart className="h-16 w-16" />,
+                buttonText: "Explore B2C",
+                href: "/services/b2c"
               },
               {
                 title: "B2T", 
-                description: "Our Talents membership services will help your content grow online/offline engagement & attract more audience & Followers",
-                icon: <Star className="h-16 w-16" />
+                description: "Join our talent network to amplify your online presence, engage with your audience, and grow your professional following.",
+                icon: <Star className="h-16 w-16" />,
+                buttonText: "Join as Talent",
+                href: "/services/b2t"
               },
               {
                 title: "B2B",
-                description: "Our entities/brands membership services will help your business grow online/offline & attract more audience & customers", 
-                icon: <Building2 className="h-16 w-16" />
+                description: "Transform your business with our comprehensive membership services designed to expand your market reach and customer base.", 
+                icon: <Building2 className="h-16 w-16" />,
+                buttonText: "Partner with Us",
+                href: "/services/b2b"
               },
               {
                 title: "B2A",
-                description: "Business to All Allies Connect, collaborate, and grow with our network of partners, allies, and creative entities.",
-                icon: <Users className="h-16 w-16" />
+                description: "Join our alliance network to collaborate with partners, allies, and creative entities in building innovative digital solutions.",
+                icon: <Users className="h-16 w-16" />,
+                buttonText: "Join Alliance",
+                href: "/services/b2a"
               }
             ].map((service, index) => (
               <motion.div
@@ -210,9 +218,10 @@ export default function ServicesPage() {
                 </p>
 
                 {/* Button */}
-                <Link href="/contact" className="w-full">
-                  <button className="w-full bg-red-600/10 hover:bg-red-600/20 border border-red-600/40 hover:border-red-500 text-red-500 hover:text-red-400 py-2 px-6 rounded-xl transition-all duration-300 font-medium">
-                    Get in touch
+                <Link href={service.href} className="w-full">
+                  <button className="w-full bg-red-600/10 hover:bg-red-600/20 border border-red-600/40 hover:border-red-500 text-red-500 hover:text-red-400 py-3 px-6 rounded-xl transition-all duration-300 font-medium flex items-center justify-center gap-2">
+                    {service.buttonText}
+                    <ArrowRight className="h-4 w-4" />
                   </button>
                 </Link>
               </motion.div>

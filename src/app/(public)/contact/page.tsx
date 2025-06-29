@@ -107,28 +107,14 @@ export default function ContactPage() {
             <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
           </div>
           
-            <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white tracking-tight group cursor-default"
-              whileHover={!isOlderDevice && !prefersReducedMotion ? { 
-                scale: 1.02,
-                transition: { duration: 0.3, ease: "easeOut" }
-              } : {}}
-            >
-              <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-                Let's Create Something
-              </span>
-              <span className="block torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2">
+              Let's Create Something
+              <br />
+              <span className="relative inline-block text-red-500">
                 Amazing Together
-                <motion.div 
-                  className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full"
-                  initial={{ width: "100%" }}
-                  whileHover={{ 
-                    width: "100%",
-                    transition: { duration: 0.5, ease: "easeOut" }
-                  }}
-                />
+                <span className="absolute bottom-0 left-1/2 w-full h-0.5 bg-red-500 transform -translate-x-1/2 transition-all duration-300 hover:w-[120%]"></span>
               </span>
-            </motion.h1>
+            </h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Whether you have a groundbreaking idea, need expert consultation, or want to discuss partnership opportunities – 
             we're here to transform your vision into extraordinary digital experiences.
