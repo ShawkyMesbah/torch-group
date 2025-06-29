@@ -163,26 +163,22 @@ export default function ServicesPage() {
               {
                 title: "B2C",
                 description: "Enjoy with Our Torch Group Services & e commerce will help your creative products & services that fit your needs",
-                icon: <ShoppingCart className="h-16 w-16" />,
-                link: "#b2c"
+                icon: <ShoppingCart className="h-16 w-16" />
               },
               {
                 title: "B2T", 
                 description: "Our Talents membership services will help your content grow online/offline engagement & attract more audience & Followers",
-                icon: <Star className="h-16 w-16" />,
-                link: "#b2t"
+                icon: <Star className="h-16 w-16" />
               },
               {
                 title: "B2B",
                 description: "Our entities/brands membership services will help your business grow online/offline & attract more audience & customers", 
-                icon: <Building2 className="h-16 w-16" />,
-                link: "#b2b"
+                icon: <Building2 className="h-16 w-16" />
               },
               {
                 title: "B2A",
                 description: "Business to All Allies Connect, collaborate, and grow with our network of partners, allies, and creative entities.",
-                icon: <Users className="h-16 w-16" />,
-                link: "#b2a"
+                icon: <Users className="h-16 w-16" />
               }
             ].map((service, index) => (
               <motion.div
@@ -214,14 +210,42 @@ export default function ServicesPage() {
                 </p>
 
                 {/* Button */}
-                <Link href={`/services/${service.title.toLowerCase()}`} className="w-full">
+                <Link href="/contact" className="w-full">
                   <button className="w-full bg-red-600/10 hover:bg-red-600/20 border border-red-600/40 hover:border-red-500 text-red-500 hover:text-red-400 py-2 px-6 rounded-xl transition-all duration-300 font-medium">
-                    Learn More
+                    Get in touch
                   </button>
                 </Link>
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Need Something Specific Section */}
+          <div className="mt-grand text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Need Something Specific?</h2>
+            <p className="text-gray-400 mb-8">
+              Don't see exactly what you're looking for? We offer custom solutions tailored to your unique requirements.
+            </p>
+            <Link href="/contact">
+              <button className="inline-flex items-center px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300">
+                Discuss Custom Solutions
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </button>
+            </Link>
+          </div>
+
+          {/* Ready to elevate Section */}
+          <div className="mt-grand text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to elevate your digital presence?</h2>
+            <p className="text-gray-400 mb-8">
+              Contact us today to discuss how our services can help your business reach new heights.
+            </p>
+            <Link href="/contact">
+              <button className="inline-flex items-center px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl transition-all duration-300">
+                Get in touch
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -379,54 +403,6 @@ export default function ServicesPage() {
               </motion.div>
             ))}
           </div>
-
-          {/* Additional Services CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mt-16"
-          >
-            <div className="bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 backdrop-blur-lg border-2 border-red-900/30 rounded-3xl p-8 md:p-12">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-comfortable">
-                Need Something Specific?
-              </h3>
-              <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-                Don't see exactly what you're looking for? We offer custom solutions tailored to your unique requirements.
-              </p>
-              <Link href="/contact">
-                <button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white px-8 py-4 rounded-full inline-flex items-center transition-all duration-300 transform hover:scale-105 font-bold shadow-lg hover:shadow-xl">
-                  Discuss Custom Solutions
-                  <MessageSquare className="ml-2 h-5 w-5" />
-                </button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-16 px-4 md:px-6 lg:px-8 bg-transparent">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="bg-gradient-to-br from-red-950/30 via-black/90 to-red-950/30 backdrop-blur-lg border-2 border-red-900/30 p-8 md:p-12 rounded-3xl"
-          >
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-comfortable text-white">Ready to elevate your digital presence?</h2>
-              <p className="text-gray-400 mb-8">
-                Contact us today to discuss how our services can help your business reach new heights.
-              </p>
-              <Link href="/contact">
-                <button className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white px-8 py-4 rounded-full inline-flex items-center transition-all duration-300 transform hover:scale-105 font-bold shadow-lg hover:shadow-xl hover:shadow-[0_0_30px_rgba(255,87,34,0.4)]">
-                  Get in touch
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </button>
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </section>
     </main>
