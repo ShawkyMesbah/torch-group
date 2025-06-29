@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import DashboardOverview from '@/components/dashboard/DashboardOverview';
-import { UnifiedLoading } from '@/components/loading/UnifiedLoading';
+import { Loading } from '@/components/ui/unified-loading';
 
 export default function DashboardPage() {
   return (
@@ -12,7 +12,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <Suspense fallback={<UnifiedLoading />}>
+      <Suspense fallback={<Loading variant="skeleton" size="lg" text="Loading dashboard..." />}>
         <DashboardOverview />
       </Suspense>
     </div>

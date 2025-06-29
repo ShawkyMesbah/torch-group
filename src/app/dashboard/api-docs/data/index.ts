@@ -1,9 +1,0 @@
-export { userEndpoints } from './user-endpoints';
-export { blogEndpoints } from './blog-endpoints';
-export { projectEndpoints } from './project-endpoints';
-export { teamEndpoints } from './team-endpoints';
-export { talentEndpoints } from './talent-endpoints';
-export { contactEndpoints } from './contact-endpoints';
-export { settingsEndpoints } from './settings-endpoints';
-export { newsletterEndpoints } from './newsletter-endpoints';
-export { uploadEndpoints } from './upload-endpoints'; 
