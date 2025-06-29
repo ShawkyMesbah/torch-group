@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Mail, MapPin, Users, MessageCircle, Zap, CheckCircle, Send } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Users, MessageCircle, Zap, CheckCircle, Send, CircleDot, Clock } from 'lucide-react';
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { motion } from "framer-motion";
 import { AnimatedGridBackground } from "@/components/ui/animated-grid-background";
@@ -102,35 +102,27 @@ export default function ContactPage() {
         <section className="torch-section-standard relative bg-transparent pt-8 md:pt-12">
         <div className="torch-container-wide mx-auto relative z-10 text-center">
           {/* Animated badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border torch-border-accent-30 rounded-full mb-8 backdrop-blur-sm">
-            <MessageCircle className="w-4 h-4 torch-text-accent" />
-            <span className="text-sm font-medium text-gray-300">Ready to start your project?</span>
-          </div>
-          
-            <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white tracking-tight group cursor-default"
-              whileHover={!isOlderDevice && !prefersReducedMotion ? { 
-                scale: 1.02,
-                transition: { duration: 0.3, ease: "easeOut" }
-              } : {}}
-            >
-              <span className="transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-            Let's Create Something
-              </span>
-              <span className="block torch-text-accent relative group-hover:drop-shadow-[0_0_25px_rgba(220,38,38,0.8)]">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 mb-8">
+              <CircleDot className="w-4 h-4 text-red-500" />
+              <span className="text-red-100">Ready to start your project?</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
+              Let's Create Something
+            </h1>
+            <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-red-500">
               Amazing Together
-                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-500 ease-out"></span>
-            </span>
-            </motion.h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Whether you have a groundbreaking idea, need expert consultation, or want to discuss partnership opportunities – 
-            we're here to transform your vision into extraordinary digital experiences.
-          </p>
-          
-          {/* Quick response promise */}
-          <div className="flex items-center justify-center gap-2 mt-8 text-sm text-gray-400">
-            <CheckCircle className="w-4 h-4 torch-text-accent" />
-            <span>We typically respond within 2-4 hours</span>
+            </div>
+
+            <p className="mt-6 text-gray-400 max-w-2xl mx-auto">
+              Whether you have a groundbreaking idea, need expert consultation, or want to discuss partnership opportunities – we're here to transform your vision into extraordinary digital experiences.
+            </p>
+
+            <div className="inline-flex items-center gap-2 mt-6 text-gray-400">
+              <Clock className="w-4 h-4 text-red-500" />
+              <span>We typically respond within 2-4 hours</span>
+            </div>
           </div>
         </div>
       </section>
