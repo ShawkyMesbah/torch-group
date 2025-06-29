@@ -193,53 +193,32 @@ export default function ServicesPage() {
                   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
                 }}
                 whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: '0 0 40px 8px #dc2626aa'
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
                 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="group relative overflow-hidden rounded-3xl backdrop-blur-lg shadow-2xl transition-all duration-500 animate-fade-in flex flex-col items-center justify-between min-h-[320px] border-2 border-red-900/30 bg-gradient-to-br from-black/90 via-red-950/20 to-black/90 hover:border-red-600 hover:shadow-red-900/40 hover:shadow-2xl min-h-10 px-4 py-2"
-                style={{ animationDelay: `${index * 0.08 + 0.1}s`, transformStyle: 'preserve-3d' }}
+                className="group relative overflow-hidden rounded-2xl bg-black/40 border border-red-900/20 hover:border-red-600/40 transition-all duration-300 flex flex-col items-center justify-between p-8 text-center"
               >
-                {/* Subtle grid pattern overlay */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                {/* Icon */}
+                <div className="mb-6 text-red-500 group-hover:text-red-400 transition-colors duration-300">
+                  {service.icon}
                 </div>
 
-                {/* Content area */}
-                <div className="p-8 flex flex-col items-center text-center w-full flex-grow relative z-10">
-                  {/* Icon with glow */}
-                  <div className="mb-6 relative flex items-center justify-center">
-                    <div className="absolute inset-0 w-20 h-20 bg-red-600/50 blur-[40px] rounded-full transition-all duration-500 group-hover:blur-[60px] group-hover:bg-red-500/60"></div>
-                    <div className="w-20 h-20 flex items-center justify-center relative z-10">
-                      <div className="torch-text-primary drop-shadow-2xl transition-all duration-500 group-hover:scale-110 relative z-10">
-                        {service.icon}
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-comfortable text-white group-hover:text-red-100">
-                    {service.title}
-                  </h3>
-                  <p className="text-base leading-relaxed min-h-[60px] transition-colors duration-300 text-gray-300 group-hover:text-gray-200">
-                    {service.description}
-                  </p>
-                </div>
-                
+                {/* Title */}
+                <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-red-50 transition-colors duration-300">
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 mb-6">
+                  {service.description}
+                </p>
+
                 {/* Button */}
-                <div className="p-8 pt-0 flex items-center justify-center w-full relative z-10">
-                  {service.title === "B2C" ? (
-                    <Link href="/#torch-group">
-                      <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
-                        Discover More
-                      </button>
-                    </Link>
-                  ) : (
-                    <Link href={`/services/${service.title.toLowerCase()}`}>
-                      <button className="px-12 py-4 rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 border border-red-500/20 backdrop-blur-sm transform hover:scale-105 hover:from-red-500 hover:to-red-600 min-w-[180px]">
-                        {service.title === "B2T" ? "Get your Membership" : service.title === "B2B" ? "Get your Membership" : service.title === "B2A" ? "Join Alliance" : "Learn More"}
-                      </button>
-                    </Link>
-                  )}
-                </div>
+                <Link href={`/services/${service.title.toLowerCase()}`} className="w-full">
+                  <button className="w-full bg-red-600/10 hover:bg-red-600/20 border border-red-600/40 hover:border-red-500 text-red-500 hover:text-red-400 py-2 px-6 rounded-xl transition-all duration-300 font-medium">
+                    Learn More
+                  </button>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
