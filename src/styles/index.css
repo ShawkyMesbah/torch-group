@@ -1,0 +1,115 @@
+/* Torch Group Design System
+ * A modern, modular approach to design consistency
+ */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Base Styles */
+@import './base/tokens.css';
+@import './base/typography.css';
+@import './base/layout.css';
+@import './base/components.css';
+@import './base/utilities.css';
+
+/* Base Element Styles */
+html {
+  font-family: var(--torch-font-sans);
+  line-height: var(--torch-leading-normal);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--torch-black);
+  color: var(--torch-white);
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--torch-primary);
+  outline-offset: 2px;
+}
+
+/* Selection Styles */
+::selection {
+  background-color: var(--torch-primary);
+  color: var(--torch-white);
+}
+
+/* Smooth Scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Container Query Support */
+@supports (container-type: inline-size) {
+  .container {
+    container-type: inline-size;
+  }
+}
+
+/* Fallbacks for older browsers */
+@supports not (container-type: inline-size) {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--torch-space-md);
+    padding-right: var(--torch-space-md);
+  }
+  
+  @media (min-width: 640px) {
+    .container { max-width: var(--torch-container-sm); }
+  }
+  
+  @media (min-width: 768px) {
+    .container { max-width: var(--torch-container-md); }
+  }
+  
+  @media (min-width: 1024px) {
+    .container { max-width: var(--torch-container-lg); }
+  }
+  
+  @media (min-width: 1280px) {
+    .container { max-width: var(--torch-container-xl); }
+  }
+  
+  @media (min-width: 1536px) {
+    .container { max-width: var(--torch-container-2xl); }
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --torch-primary: #ff0000;
+    --torch-primary-dark: #cc0000;
+    --torch-primary-light: #ff3333;
+    --torch-border-primary: rgba(255, 0, 0, 0.8);
+    --torch-border-hover: rgba(255, 0, 0, 1);
+  }
+}
+
+/* Print Styles */
+@media print {
+  :root {
+    --torch-primary: var(--torch-black);
+    --torch-shadow-sm: none;
+    --torch-shadow-md: none;
+    --torch-shadow-lg: none;
+    --torch-shadow-xl: none;
+    --torch-shadow-inner: none;
+  }
+  
+  body {
+    background-color: var(--torch-white);
+    color: var(--torch-black);
+  }
+} 
