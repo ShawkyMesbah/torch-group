@@ -179,3 +179,89 @@ model Analytics {
   @@index([path])
   @@index([event])
 }
+
+// Homepage Section model
+model HomepageSection {
+  id       String  @id @default(cuid())
+  name     String  @unique
+  title    String
+  order    Int     @unique
+  enabled  Boolean @default(true)
+  showInNav Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+// Service model
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  content     String?  @db.Text
+  icon        String?
+  category    ServiceCategory
+  features    String[]
+  price       String?
+  isPublished Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  order       Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([isPublished])
+  @@index([order])
+}
+
+enum ServiceCategory {
+  B2C
+  B2B
+  B2T
+  B2A
+}
+
+// Brand model
+model Brand {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  logoUrl     String?
+  websiteUrl  String?
+  isActive    Boolean  @default(true)
+  isComingSoon Boolean @default(false)
+  order       Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+  @@index([isActive])
+}
+
+// Site Configuration model
+model SiteConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  category    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+}
+
+// Newsletter subscription model
+model Newsletter {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  isActive    Boolean  @default(true)
+  subscribedAt DateTime @default(now())
+  unsubscribedAt DateTime?
+
+  @@index([isActive])
+  @@index([subscribedAt])
+}
