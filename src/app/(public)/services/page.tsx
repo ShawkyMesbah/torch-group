@@ -229,17 +229,42 @@ export default function ServicesPage() {
           </motion.div>
 
           {/* Need Something Specific Section */}
-          <div className="mt-grand text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Need Something Specific?</h2>
-            <p className="text-gray-400 mb-8">
-              Don't see exactly what you're looking for? We offer custom solutions tailored to your unique requirements.
-            </p>
-            <Link href="/contact">
-              <button className="inline-flex items-center px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300">
-                Discuss Custom Solutions
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </Link>
+          <div className="mt-grand relative overflow-hidden rounded-3xl bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 border border-red-900/30 p-12">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),transparent_70%)]" />
+            
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="w-full h-full bg-[linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+            </div>
+
+            <div className="relative z-10 text-center max-w-3xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  Need Something Specific?
+                </h2>
+                <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+                  Don't see exactly what you're looking for? Let's discuss your unique requirements and create a custom solution that perfectly fits your needs.
+                </p>
+                <Link href="/contact">
+                  <button className="group relative inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white rounded-xl transition-all duration-300 overflow-hidden">
+                    <span className="relative z-10 flex items-center gap-2 font-medium">
+                      Discuss Custom Solutions
+                      <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  </button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Decorative elements */}
+            <div className="absolute -left-4 -bottom-4 w-24 h-24 bg-red-600/20 rounded-full blur-3xl" />
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-red-600/20 rounded-full blur-3xl" />
           </div>
         </div>
       </section>
