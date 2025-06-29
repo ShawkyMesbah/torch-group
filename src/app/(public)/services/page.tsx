@@ -164,8 +164,8 @@ export default function ServicesPage() {
                 title: "B2C",
                 description: "Discover our consumer-focused services and e-commerce solutions designed to showcase your creative products and services.",
                 icon: <ShoppingCart className="h-16 w-16" />,
-                buttonText: "Explore B2C",
-                href: "/services/b2c"
+                buttonText: "Discover Products",
+                href: "/#torch-group"
               },
               {
                 title: "B2T", 
